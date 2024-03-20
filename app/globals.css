@@ -10,10 +10,24 @@
     .bg-custom {
         background-color: rgba(255, 255, 255, 0.8);
     }
+
     .bg-custom-scroll {
         background-color: rgb(0, 0, 0);
     }
+
+    .bg-custom-scroll-opacity {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .bg-custom-scroll-opacity a {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .bg-custom-scroll-opacity a:hover{
+        color: rgba(255, 255, 255, 1);
+    }
 }
+
 
 body {
     background-color: var(--background-color);
