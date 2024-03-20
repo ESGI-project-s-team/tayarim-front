@@ -5,8 +5,10 @@ import LanguageDropdown from "@/app/components/LanguageDropdown";
 
 const pages: string[] = ["Home", "Properties"];
 
-
-const Navbar: React.FC = () => {
+interface NavbarProps {
+    lang: string;
+}
+const Navbar: React.FC<NavbarProps> = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [theLanguage, setTheLanguage] = useState("en")
     const onLanguageSelected = (option: React.SetStateAction<string>) => {
@@ -24,20 +26,20 @@ const Navbar: React.FC = () => {
                     <img className="h-6 w-auto" src="/white-logo-short.jpg" alt="logo"/>
                 </div>
                 <nav className={isOpen ? "flex" : "hidden lg:flex"}>
-                    <ul className={isOpen ? "flex bg-white absolute lg:relative flex-col lg:flex-row w-full shadow lg:shadow-none text-center left-0  top-4" : "flex bg-white absolute lg:relative flex-col lg:flex-row w-full shadow lg:shadow-none text-center mr-10"}>
+                    <ul className={isOpen ? "flex bg-white absolute lg:relative flex-col lg:flex-row w-full shadow lg:shadow-none text-center left-0  top-28" : "flex bg-white absolute lg:relative flex-col lg:flex-row w-full shadow lg:shadow-none text-center mr-10"}>
                         {pages.map((person, index) => (
                             <li key={index}
                                 className="px-8 py-8 mt-5 cursor-pointer rounded font-semibold transform transition duration-500 hover:scale-110">
                                 <a className="p-2 rounded">{person}</a>
                             </li>
                         ))}
-                        <div className="mt-11 ml-10">
+                        <div className={isOpen ? "mt-11" : "mt-11  ml-10"}>
                             <LanguageDropdown
                                 onSelect={onLanguageSelected}
                                 currentLanguage={theLanguage}
                             />
                         </div>
-                        <div className="ml-20 w-full">
+                        <div className={isOpen ? "w-full" : "ml-20 w-full"}>
                             <button
                                 className="bg-transparent font-semibold border border-black rounded h-10 mt-11 px-6 my-2">
                                 <div className="flex">
@@ -47,7 +49,6 @@ const Navbar: React.FC = () => {
                                         <path strokeLinecap="round" strokeLinejoin="round"
                                               d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"/>
                                     </svg>
-
                                 </div>
                             </button>
                         </div>
@@ -88,7 +89,6 @@ const Navbar: React.FC = () => {
                 </div>
             </div>
         </div>
-
     );
 };
 

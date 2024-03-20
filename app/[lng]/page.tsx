@@ -3,16 +3,18 @@ import Navbar from "@/app/components/NavBar";
 import HomeBody from "@/app/components/HomeBody";
 import NavbarScroll from "@/app/components/NavBarScroll";
 
-export default function Home() {
+export default function Page({ params: { lng } } : { params: { lng: string } }) {
     return (
         <body>
         <header className="relative">
-            <Navbar/>
+            <Navbar lang={lng}/>
         </header>
-        <NavbarScroll/>
+        <NavbarScroll lang={lng}/>
         <main>
-            <HomeBody/>
+            <HomeBody lang={lng} />
         </main>
         </body>
     );
-}
+};
+
+
