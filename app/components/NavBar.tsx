@@ -1,16 +1,32 @@
 "use client";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import LanguageDropdown from "@/app/components/LanguageDropdown";
+import {useTranslation} from "@/app/il8n";
 
-
-const pages: string[] = ["Home", "Properties"];
 
 interface NavbarProps {
     lang: string;
 }
-const Navbar: React.FC<NavbarProps> = () => {
+
+const Navbar: React.FC<NavbarProps> = (props) => {
+
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [theLanguage, setTheLanguage] = useState("en")
+    const [translation, setTranslation] = useState<{ t: any, i18n: any } | null>(null);
+
+    useEffect(() => {
+        async function fetchTranslation() {
+            return await useTranslation(props.lang);
+        }
+
+        fetchTranslation().then((t) => {
+            setTranslation(t);
+        });
+    }, [props]);
+
+    console.log(translation);
+    const pages: string[] = [translation?.t('nav_home'), translation?.t('nav_properties')];
+
     const onLanguageSelected = (option: React.SetStateAction<string>) => {
         setTheLanguage(option)
     }
@@ -43,7 +59,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                             <button
                                 className="bg-transparent font-semibold border border-black rounded h-10 mt-11 px-6 my-2">
                                 <div className="flex">
-                                    <span>I am an owner</span>
+                                    <span>{translation?.t('btn_owner')}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          strokeWidth={1.5} stroke="currentColor" className="w-5 h-6 ml-2 mt-0.5">
                                         <path strokeLinecap="round" strokeLinejoin="round"

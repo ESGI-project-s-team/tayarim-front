@@ -1,12 +1,25 @@
-import React from "react";
+"use client";
+import React, {useEffect, useState} from "react";
 import "../globals.css";
+import {useTranslation} from "@/app/il8n";
 
 interface NavbarScrollProps {
     lang: string;
 }
 
-const NavbarScroll: React.FC<NavbarScrollProps> = () => {
-    const items: string[] = ["Home", "Our Services", "About us", "FAQ"];
+const NavbarScroll: React.FC<NavbarScrollProps> = (props) => {
+    const [translation, setTranslation] = useState<{ t: any, i18n: any } | null>(null);
+
+    useEffect(() => {
+        async function fetchTranslation() {
+            return await useTranslation(props.lang);
+        }
+
+        fetchTranslation().then((t) => {
+            setTranslation(t);
+        });
+    }, [props]);
+    const items: string[] = [translation?.t('nav_services'), translation?.t('nav_about'), translation?.t('nav_faq')];
     return (
         <div className="w-full bg-custom-scroll z-10 fixed top-32 bg-custom-scroll-opacity">
             <ul className="flex justify-around whitespace-nowrap">

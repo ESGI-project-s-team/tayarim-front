@@ -1,14 +1,24 @@
-import React from "react";
-import {useTranslation} from '../il8n'
+"use client";
+import React, {useEffect, useState} from "react";
+import {useTranslation} from "@/app/il8n";
+
 
 interface HomeBodyProps {
     lang: string;
 }
 
-const HomeBody: React.FC<HomeBodyProps> = async ({lang}) => {
-    console.log(lang)
-    const {t} = await useTranslation(lang)
-    console.log(t)
+const HomeBody: React.FC<HomeBodyProps> = (props) => {
+    const [translation, setTranslation] = useState<{ t: any, i18n: any } | null>(null);
+
+    useEffect(() => {
+        async function fetchTranslation() {
+            return await useTranslation(props.lang);
+        }
+
+        fetchTranslation().then((t) => {
+            setTranslation(t);
+        });
+    }, [props]);
     return (
         <>
             <div className="fixed inset-0 z-0 top-20">
@@ -20,8 +30,8 @@ const HomeBody: React.FC<HomeBodyProps> = async ({lang}) => {
                 </div>
                 <div className="absolute inset-0 flex justify-center items-center">
                     <div className="text-white text-center">
-                        <h1 className="text-7xl font-bold">{t('title_body')}</h1>
-                        <p className="mt-5 text-lg">We are a company that offers you the best services</p>
+                        <h1 className="text-7xl font-bold">{translation?.t('title_body')}</h1>
+                        <p className="mt-5 text-lg">{translation?.t('second_title_body')}</p>
                     </div>
                 </div>
             </div>
