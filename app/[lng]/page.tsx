@@ -1,21 +1,14 @@
-import React from "react";
-import Navbar from "@/app/components/Navbar";
+"use client";
 import HomeBody from "@/app/components/HomeBody";
 import NavbarScroll from "@/app/components/NavbarScroll";
-import {useTranslation} from "@/app/il8n";
+import Loader from "@/app/components/Loader";
+import React from "react";
 
-export default function Page({params: {lng}}: { params: { lng: string } }) {
+export default function Page() {
     return (
-        <body>
-        <header className="relative">
-            <Navbar lang={lng}/>
-        </header>
-        <main>
-            <NavbarScroll lang={lng}/>
-            <HomeBody lang={lng}/>
-        </main>
-        </body>
+        <div>
+            <NavbarScroll/>
+            <HomeBody/>
+        </div>
     );
 };
-
-

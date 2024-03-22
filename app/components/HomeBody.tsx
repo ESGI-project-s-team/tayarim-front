@@ -1,24 +1,10 @@
-"use client";
-import React, {useEffect, useState} from "react";
-import {useTranslation} from "@/app/il8n";
+
+import React from "react";
+import {useTranslationContext} from "@/app/[lng]/hooks";
 
 
-interface HomeBodyProps {
-    lang: string;
-}
-
-const HomeBody: React.FC<HomeBodyProps> = (props) => {
-    const [translation, setTranslation] = useState<{ t: any, i18n: any } | null>(null);
-
-    useEffect(() => {
-        async function fetchTranslation() {
-            return await useTranslation(props.lang);
-        }
-
-        fetchTranslation().then((t) => {
-            setTranslation(t);
-        });
-    }, [props]);
+const HomeBody: React.FC = () => {
+    const {translation} = useTranslationContext();
     return (
         <>
             <div className="fixed inset-0 z-0 top-20">

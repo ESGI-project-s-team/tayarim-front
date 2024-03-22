@@ -1,34 +1,27 @@
-"use client";
-import React, {useEffect, useState} from "react";
 import LanguageDropdown from "@/app/components/LanguageDropdown";
-import {useTranslation} from "@/app/il8n";
+import {usePathname} from 'next/navigation'
+import React from "react";
+import {useIsOpenContext, useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
 
 
-interface NavbarProps {
-    lang: string;
-}
+const Navbar: React.FC = () => {
 
-const Navbar: React.FC<NavbarProps> = (props) => {
+    const pathname = usePathname()
+    const {theLanguage, setTheLanguage} = useNavbarContext();
+    const {translation} = useTranslationContext();
+    const {isOpen, setIsOpen} = useIsOpenContext();
+    const pages: string[] = [translation?.t('nav_home')];
 
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [theLanguage, setTheLanguage] = useState("en")
-    const [translation, setTranslation] = useState<{ t: any, i18n: any } | null>(null);
+    function switchLocale(locale: React.SetStateAction<string>) {
+        // e.g. '/en/about' or '/fr/contact'
+        const newPathname = pathname.replace(/^\/[a-z]{2}/, `/${locale}`)
+        const newPath = `${newPathname}${window.location.search}${window.location.hash}`
+        window.history.replaceState(null, '', newPath)
+    }
 
-    useEffect(() => {
-        async function fetchTranslation() {
-            return await useTranslation(props.lang);
-        }
-
-        fetchTranslation().then((t) => {
-            setTranslation(t);
-        });
-    }, [props]);
-
-    console.log(translation);
-    const pages: string[] = [translation?.t('nav_home'), translation?.t('nav_properties')];
-
-    const onLanguageSelected = (option: React.SetStateAction<string>) => {
-        setTheLanguage(option)
+    const onLanguageSelected = (option: string) => {
+        setTheLanguage(option);
+        switchLocale(option)
     }
 
     const toggleNavbar = (): void => {
@@ -42,7 +35,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
                     <img className="h-6 w-auto" src="/white-logo-short.jpg" alt="logo"/>
                 </div>
                 <nav className={isOpen ? "flex" : "hidden lg:flex"}>
-                    <ul className={isOpen ? "flex bg-white absolute lg:relative flex-col lg:flex-row w-full shadow lg:shadow-none text-center left-0  top-28" : "flex bg-white absolute lg:relative flex-col lg:flex-row w-full shadow lg:shadow-none text-center mr-10"}>
+                    <ul className={isOpen ? "flex bg-white absolute lg:relative flex-col lg:flex-row w-full shadow lg:shadow-none text-center left-0  top-28 " : "flex bg-white absolute lg:relative flex-col lg:flex-row w-full shadow lg:shadow-none text-center mr-10"}>
                         {pages.map((person, index) => (
                             <li key={index}
                                 className="px-8 py-8 mt-5 cursor-pointer rounded font-semibold transform transition duration-500 hover:scale-110">
