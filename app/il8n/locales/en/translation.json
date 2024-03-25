@@ -10,6 +10,9 @@
   "btn_location": "Choose your location",
   "btn_date": "Check-in - check-out",
   "btn_guest": "How many guests ?",
+  "location": "Location",
+  "check": "Check in - Check out",
+  "guest": "Guests",
   "months": [
     "Jan",
     "Feb",

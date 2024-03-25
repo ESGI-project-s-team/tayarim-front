@@ -2,6 +2,7 @@ import React, {Fragment, useState} from "react";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronUpDownIcon} from "@heroicons/react/16/solid";
 
+
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
@@ -24,14 +25,15 @@ const SelectMenusCustom: React.FC<SelectMenusCustomProps> = ({
         <Listbox value={selected} onChange={setSelected}>
             {({open}) => (
                 <>
-                    <div className="relative">
+
+                    <div className="relative rounded border border-gray-400">
                         <Listbox.Button
                             className="cursor-pointer rounded bg-white py-1.5 pl-3 pr-10 text-left
                             text-black focus:outline-none text-sm w-60">
                              <span className="flex items-center">
                                 {icon}
                                  <span
-                                     className = {selected.name ? "ml-3 truncate":"ml-3 truncate text-gray-400" }>{selected.name ? selected.name : placeholder}</span>
+                                     className={selected.name ? "ml-3 truncate" : "ml-3 truncate text-gray-400"}>{selected.name ? selected.name : placeholder}</span>
                              </span>
                             <span
                                 className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">

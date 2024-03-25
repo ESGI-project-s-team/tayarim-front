@@ -2,6 +2,7 @@ import {useTranslationContext} from "@/app/[lng]/hooks";
 import SelectMenusCustom from "@/app/components/SelectMenusCustom";
 import React from "react";
 import DatePickerRangeCustom from "@/app/components/DatePickerRangeCustom";
+import {Listbox} from "@headlessui/react";
 
 const valueLocation = [
     {
@@ -49,10 +50,12 @@ const HomeBody: React.FC = () => {
                 </div>
                 <form className="absolute inset-0 flex justify-center items-center">
                     <div className="border py-5 px- rounded-3xl w-fu lg:flex bg-white">
-                        <div className={"mr-10 ml-10 border border-gray-400 rounded"}>
+                        <div className={"mr-10 ml-10  rounded"}>
+                            <h5 className={"mb-2 text-sm font-semibold text-gray-950"}>{translation?.t('location')}</h5>
                             <SelectMenusCustom value={valueLocation} placeholder={translation?.t('btn_location')}
                                                icon={<svg
-                                                   xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                   xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                   viewBox="0 0 24 24"
                                                    strokeWidth={1.5}
                                                    stroke="currentColor" className="w-6 h-6">
                                                    <path strokeLinecap="round" strokeLinejoin="round"
@@ -62,12 +65,15 @@ const HomeBody: React.FC = () => {
                                                </svg>
                                                }/>
                         </div>
-                        <div className={"mr-10 border border-gray-400 rounded"}>
+                        <div className={"mr-10 "}>
+                            <h5 className={"mb-2 text-sm font-semibold text-gray-950"}>{translation?.t('check')}</h5>
                             <DatePickerRangeCustom placeholder={translation?.t('btn_date')}
                                                    days={translation?.t('days', {returnObjects: true})}
                                                    months={translation?.t('months', {returnObjects: true})}/>
                         </div>
-                        <div className={"mr-10 border border-gray-400 rounded"}>
+                        <div className={"mr-10 "}>
+                            <h5 className={"mb-2 text-sm font-semibold text-gray-950"}>{translation?.t('guest')}</h5>
+
                             <SelectMenusCustom value={valueGuest} placeholder={translation?.t('btn_guest')} icon={<svg
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                                 stroke="currentColor" className="w-6 h-6">

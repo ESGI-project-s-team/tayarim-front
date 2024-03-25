@@ -33,7 +33,7 @@ const DatePickerRangeCustom: React.FC<DatePickerRangeCustomProps> = ({
     }
 
     return (
-        <div className="cursor-pointer bg-white rounded relative py-1.5 ">
+        <div className="cursor-pointer bg-white rounded relative py-1 border border-gray-400 rounded ">
 
             <DatePicker
                 className=" ml-3 text-xs focus:outline-none w-56 cursor-pointer"
@@ -52,6 +52,7 @@ const DatePickerRangeCustom: React.FC<DatePickerRangeCustomProps> = ({
                 dateFormat="dd MMM YYYY"
                 onChangeRaw={handleDateChangeRaw}
                 onFocus={(e) => e.target.blur()}
+                label={"toto"}
                 icon={
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2"
                          stroke="currentColor"
