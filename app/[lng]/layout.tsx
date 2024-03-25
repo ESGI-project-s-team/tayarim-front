@@ -1,10 +1,10 @@
 "use client"
 import "../globals.css";
 import React, {useEffect, useState} from "react";
-import Navbar from "@/app/components/Navbar";
 import {useTranslation} from "@/app/il8n";
 import {NavbarContext, TranslationContext, IsOpenContext} from "./contexts";
 import Loader from "@/app/components/Loader";
+import Navbar from "@/app/components/NavBar";
 
 
 export default function RootLayout({children, params: {lng}}: { children: React.ReactNode; params: { lng: string } }) {

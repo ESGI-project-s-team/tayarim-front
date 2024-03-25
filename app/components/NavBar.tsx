@@ -2,6 +2,7 @@ import LanguageDropdown from "@/app/components/LanguageDropdown";
 import {usePathname} from 'next/navigation'
 import React from "react";
 import {useIsOpenContext, useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
+import DatePickerRangeCustom from "@/app/components/DatePickerCustom";
 
 
 const Navbar: React.FC = () => {
@@ -30,7 +31,8 @@ const Navbar: React.FC = () => {
 
     return (
         <div>
-            <div className={isOpen ? "m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0 bg-gray-950 lg:bg-transparent" :  " m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0"}>
+            <div
+                className={isOpen ? "m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0 bg-gray-950 lg:bg-transparent" : " m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0"}>
                 <div className="flex  cursor-pointer mt-2 z-30">
                     <img className="h-12 w-auto" src="/black-logo-remove-bg.png" alt="logo"/>
                 </div>
@@ -60,6 +62,7 @@ const Navbar: React.FC = () => {
                                     </svg>
                                 </div>
                             </button>
+
                         </div>
                     </ul>
                 </nav>

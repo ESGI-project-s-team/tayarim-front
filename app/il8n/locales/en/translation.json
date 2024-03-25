@@ -6,5 +6,31 @@
   "nav_about": "About us",
   "nav_properties": "Properties",
   "nav_faq": "FAQ",
-  "btn_owner": "I am an owner"
+  "btn_owner": "I am an owner",
+  "btn_location": "Choose your location",
+  "btn_date": "Check-in - check-out",
+  "btn_guest": "How many guests ?",
+  "months": [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ],
+  "days": [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+  ]
 }
