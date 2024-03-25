@@ -8,11 +8,12 @@
   "nav_faq": "FAQ",
   "btn_owner": "I am an owner",
   "btn_location": "Choose your location",
-  "btn_date": "Check-in - check-out",
+  "btn_date": "Check-in - Check-out",
   "btn_guest": "How many guests ?",
   "location": "Location",
   "check": "Check in - Check out",
   "guest": "Guests",
+  "search" : "Search",
   "months": [
     "Jan",
     "Feb",

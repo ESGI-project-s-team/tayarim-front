@@ -49,8 +49,8 @@ const HomeBody: React.FC = () => {
                     </div>
                 </div>
                 <form className="absolute inset-0 flex justify-center items-center">
-                    <div className="border py-5 px- rounded-3xl w-fu lg:flex bg-white">
-                        <div className={"mr-10 ml-10  rounded"}>
+                    <div className="border py-5 rounded-2xl lg:flex bg-white">
+                        <div className={"mr-10 ml-7  rounded"}>
                             <h5 className={"mb-2 text-sm font-semibold text-gray-950"}>{translation?.t('location')}</h5>
                             <SelectMenusCustom value={valueLocation} placeholder={translation?.t('btn_location')}
                                                icon={<svg
@@ -73,7 +73,6 @@ const HomeBody: React.FC = () => {
                         </div>
                         <div className={"mr-10 "}>
                             <h5 className={"mb-2 text-sm font-semibold text-gray-950"}>{translation?.t('guest')}</h5>
-
                             <SelectMenusCustom value={valueGuest} placeholder={translation?.t('btn_guest')} icon={<svg
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                                 stroke="currentColor" className="w-6 h-6">
@@ -82,6 +81,18 @@ const HomeBody: React.FC = () => {
                             </svg>
                             }/>
                         </div>
+                        <button
+                            className="bg-transparent font-semibold border border-black rounded h-9 px-3  text-black mt-7 mr-7 w-32 flex justify-center items-center">
+                            <div className="flex">
+                                <span
+                                    className={"text-sm font-semibold text-gray-950"}>{translation?.t('search')}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     strokeWidth="1.5" stroke="currentColor" className="w-4 h-5 ml-2">
+                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                          d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+                                </svg>
+                            </div>
+                        </button>
                     </div>
                 </form>
             </div>

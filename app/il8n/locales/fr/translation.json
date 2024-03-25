@@ -13,6 +13,7 @@
   "location": "Emplacement",
   "check": "Date d'arrivée - Date de départ",
   "guest": "Nombre de personnes",
+  "search": "Rechercher",
   "months": [
     "Jan",
     "Fév",

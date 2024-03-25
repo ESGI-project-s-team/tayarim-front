@@ -2,7 +2,7 @@ import LanguageDropdown from "@/app/components/LanguageDropdown";
 import {usePathname} from 'next/navigation'
 import React from "react";
 import {useIsOpenContext, useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
-import DatePickerRangeCustom from "@/app/components/DatePickerCustom";
+
 
 
 const Navbar: React.FC = () => {
