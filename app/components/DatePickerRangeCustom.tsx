@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 
@@ -6,8 +6,6 @@ interface DatePickerRangeCustomProps {
     placeholder: string;
     days: { [key: string]: string };
     months: { [key: string]: string };
-
-
 }
 
 const DatePickerRangeCustom: React.FC<DatePickerRangeCustomProps> = ({
@@ -17,7 +15,7 @@ const DatePickerRangeCustom: React.FC<DatePickerRangeCustomProps> = ({
                                                                      }: DatePickerRangeCustomProps) => {
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
-
+    const datePickerRef = useRef<HTMLDivElement>(null);
 
     const locale = {
         localize: {
@@ -27,16 +25,20 @@ const DatePickerRangeCustom: React.FC<DatePickerRangeCustomProps> = ({
         formatLong: {
             date: () => 'dd MMMM yyyy',
         }
-    }
-    const handleDateChangeRaw = (e) => {
+    };
+
+    const handleFocus = (e) => {
         e.preventDefault();
-    }
+        e.target.blur();
+
+    };
+
 
     return (
         <div className="cursor-pointer bg-white rounded relative py-1 border border-gray-400 rounded ">
-
             <DatePicker
-                className=" ml-3 text-xs focus:outline-none w-56 cursor-pointer"
+                className="ml-3 text-xs focus:outline-none w-56 cursor-pointer"
+                style={{pointerEvents: 'none'}}
                 showIcon
                 selectsRange={true}
                 startDate={startDate}
@@ -50,9 +52,9 @@ const DatePickerRangeCustom: React.FC<DatePickerRangeCustomProps> = ({
                 placeholderText={placeholder}
                 locale={locale}
                 dateFormat="dd MMM YYYY"
-                onChangeRaw={handleDateChangeRaw}
-                onFocus={(e) => e.target.blur()}
-                label={"toto"}
+                onChangeRaw={handleFocus}
+                onActive={handleFocus}
+                onFocus={handleFocus}
                 icon={
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2"
                          stroke="currentColor"

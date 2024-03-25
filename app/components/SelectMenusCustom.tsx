@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from "react";
 import {Listbox, Transition} from "@headlessui/react";
-import {CheckIcon, ChevronUpDownIcon, XIcon} from "@heroicons/react/16/solid";
+import {CheckIcon, ChevronUpDownIcon} from "@heroicons/react/16/solid";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -65,7 +65,7 @@ const SelectMenusCustom: React.FC<SelectMenusCustomProps> = ({
                             leaveTo="opacity-0"
                         >
                             <Listbox.Options
-                                className="absolute z-10 mt-1 w-full overflow-auto rounded bg-white py-1  sm:text-sm">
+                                className="absolute z-10 mt-1 w-full overflow-auto rounded bg-white py-1  sm:text-sm ">
                                 {value.map((person: any) => (
                                     <Listbox.Option
                                         key={person.id}
