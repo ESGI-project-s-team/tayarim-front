@@ -1,7 +1,6 @@
 import React, {Fragment, useState} from "react";
 import {Listbox, Transition} from "@headlessui/react";
-import {CheckIcon, ChevronUpDownIcon} from "@heroicons/react/16/solid";
-
+import {CheckIcon, ChevronUpDownIcon, XIcon} from "@heroicons/react/16/solid";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -19,13 +18,16 @@ const SelectMenusCustom: React.FC<SelectMenusCustomProps> = ({
                                                                  icon
                                                              }: SelectMenusCustomProps) => {
 
-    const [selected, setSelected] = useState({id: null, name: null});
+    const [selected, setSelected] = useState<{ id: number | null, name: string | null }>({id: null, name: null});
+
+    const clearSelection = () => {
+        setSelected({id: null, name: null});
+    };
 
     return (
         <Listbox value={selected} onChange={setSelected}>
             {({open}) => (
                 <>
-
                     <div className="relative rounded border border-gray-400">
                         <Listbox.Button
                             className="cursor-pointer rounded bg-white py-1.5 pl-3 pr-10 text-left
@@ -41,6 +43,20 @@ const SelectMenusCustom: React.FC<SelectMenusCustomProps> = ({
                                                aria-hidden="true"/>
                             </span>
                         </Listbox.Button>
+                        {selected.name && (
+                            <button
+                                className="absolute top-1/2 right-9 transform -translate-y-1/2 focus:outline-none "
+                                onClick={clearSelection}
+                                tabIndex={0}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor"
+                                     className="h-5 w-5 text-gray-400">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                          d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        )}
                         <Transition
                             show={open}
                             as={Fragment}
@@ -76,8 +92,8 @@ const SelectMenusCustom: React.FC<SelectMenusCustomProps> = ({
                                                             'absolute inset-y-0 right-0 flex items-center pr-4'
                                                         )}
                                                     >
-                                                    <CheckIcon className="h-5 w-5 text-black" aria-hidden="true"/>
-                                                </span>
+                                                        <CheckIcon className="h-5 w-5 text-black" aria-hidden="true"/>
+                                                    </span>
                                                 ) : null}
                                             </>
                                         )}
@@ -90,5 +106,6 @@ const SelectMenusCustom: React.FC<SelectMenusCustomProps> = ({
             )}
         </Listbox>
     );
-}
+};
+
 export default SelectMenusCustom;
