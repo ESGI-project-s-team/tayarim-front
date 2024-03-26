@@ -15,27 +15,25 @@ const DatePickerRangeCustom: React.FC<DatePickerRangeCustomProps> = ({
                                                                      }: DatePickerRangeCustomProps) => {
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
-    const datePickerRef = useRef<HTMLDivElement>(null);
 
     const locale = {
         localize: {
-            day: n => days[n],
-            month: n => months[n]
+            day: (n: string | number) => days[n],
+            month: (n: string | number) => months[n]
         },
         formatLong: {
             date: () => 'dd MMMM yyyy',
         }
     };
 
-    const handleFocus = (e) => {
+    const handleFocus = (e: FocusEvent) => {
         e.preventDefault();
         e.target.blur();
-
     };
 
 
     return (
-        <div className="cursor-pointer bg-white rounded relative py-1 border border-gray-400 rounded ">
+        <div className="cursor-pointer bg-white rounded relative py-1 border border-gray-400 rounded">
             <DatePicker
                 className="ml-3 text-xs focus:outline-none w-56 cursor-pointer"
                 style={{pointerEvents: 'none'}}

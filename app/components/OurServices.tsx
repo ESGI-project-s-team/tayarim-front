@@ -1,19 +1,22 @@
 import React from "react";
 import CardServices from "@/app/components/CardServices";
 import "../globals.css";
+import {useTranslationContext} from "@/app/[lng]/hooks";
+
 
 const OurServices: React.FC = () => {
+    const {translation} = useTranslationContext();
     return (
         <div>
             <div className="mx-auto py-10">
                 <div className="text-center">
-                    <h2 className="text-4xl font-bold">Our Services</h2>
+                    <h2 className="text-4xl font-bold">{translation?.t('nav_services')}</h2>
                     <p className="text-gray-500 mt-4">We provide the best services for our customers</p>
                 </div>
                 <div className={"lg:flex text-center justify-around flex-wrap "}>
                     <div className={" lg:w-auto mt-16"}>
                         <div>
-                            <h2 className="text-3xl font-bold">Traveler</h2>
+                            <h2 className="text-3xl font-bold">{translation?.t('traveler')}</h2>
                             <p className="text-gray-500 mt-4">We provide the best services for our traveler</p>
                         </div>
 
@@ -54,7 +57,7 @@ const OurServices: React.FC = () => {
                     </div>
                     <div className={" w-auto mt-16"}>
                         <div>
-                            <h2 className="text-3xl font-bold">Owner</h2>
+                            <h2 className="text-3xl font-bold">{translation?.t('owner')}</h2>
                             <p className="text-gray-500 mt-4">We provide the best services for our traveler</p>
                         </div>
                         <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 mt-10  ">

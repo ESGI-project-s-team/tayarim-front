@@ -23,10 +23,8 @@ const HomeBody: React.FC = () => {
                     </div>
                     <SearchRoomReservation/>
                 </div>
-
-                    <OurServices/>
+                <OurServices/>
             </div>
-
         </>
     );
 };

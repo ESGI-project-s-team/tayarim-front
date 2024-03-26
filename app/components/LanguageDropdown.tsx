@@ -8,6 +8,10 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ")
 }
 
+interface CustomStyle extends React.CSSProperties {
+    "--tw-ring-color"?: string; // Define the custom property here
+}
+
 interface LanguageDropdownProps {
     currentLanguage: string;
     onSelect: (language: string) => void;
@@ -37,7 +41,7 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({currentLanguage, onS
             <Menu as="div" className="relative inline-block cursor-pointer">
                 <div>
                     <Menu.Button
-                        style={{"--tw-ring-color": (showBackground) ? "rgb(0 0 0)" : ""}}
+                        style={{"--tw-ring-color": (showBackground) ? "rgb(0 0 0)" : ""} as CustomStyle}
                         className={isOpen ? "inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset lg:ring-white ring-black"
                             : "inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-white"}>
                         {languageTable[currentLanguage]?.[currentLanguage]} {/* Access the translation */}

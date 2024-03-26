@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import {useIsOpenContext, useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
 import "../globals.css";
 
+
 const Navbar: React.FC = () => {
 
     const pathname = usePathname();
@@ -33,7 +34,6 @@ const Navbar: React.FC = () => {
     useEffect(() => {
         const handleScroll = () => {
             const scrollableDiv = document.getElementById('scrollableDiv');
-            console.log(scrollableDiv?.scrollTop);
             if (scrollableDiv!.scrollTop > TOP_OFFSET) {
                 setShowBackground(true);
             } else {
