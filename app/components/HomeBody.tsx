@@ -1,6 +1,7 @@
 import {useTranslationContext} from "@/app/[lng]/hooks";
 import React from "react";
 import SearchRoomReservation from "@/app/components/SearchRoomReservation";
+import OurServices from "@/app/components/OurServices";
 
 
 const HomeBody: React.FC = () => {
@@ -23,6 +24,7 @@ const HomeBody: React.FC = () => {
                     <SearchRoomReservation/>
                 </div>
 
+                    <OurServices/>
             </div>
 
         </>

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-    --background-color: #ffffff;
+    --background-color: #e3e3e3;
 }
 
 @layer utilities {
@@ -23,8 +23,12 @@
         color: rgba(255, 255, 255, 0.7);
     }
 
-    .bg-custom-scroll-opacity a:hover{
+    .bg-custom-scroll-opacity a:hover {
         color: rgba(255, 255, 255, 1);
+    }
+
+    .bg-custom-search {
+        background-color: var(--background-color);
     }
 }
 

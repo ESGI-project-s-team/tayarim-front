@@ -2,6 +2,7 @@ import SelectMenusCustom from "@/app/components/SelectMenusCustom";
 import DatePickerRangeCustom from "@/app/components/DatePickerRangeCustom";
 import React from "react";
 import {useTranslationContext} from "@/app/[lng]/hooks";
+import "../globals.css";
 
 const valueLocation = [
     {
@@ -32,8 +33,8 @@ const valueGuest = [
 const SearchRoomReservation: React.FC = () => {
     const {translation} = useTranslationContext();
     return (
-        <form className="  inset-0 flex justify-center items-center ">
-            <div className="lg:flex  border py-5 rounded-2xl bg-white">
+        <form className="inset-0 flex justify-center items-center ">
+            <div className="lg:flex  border py-5 rounded-2xl bg-custom-search">
                 <div className={"lg:mr-10 lg:ml-7 lg:mx-0 mx-8 mb-2 lg:mb-0"}>
                     <h5 className={"mb-2 text-sm font-semibold text-gray-950"}>{translation?.t('location')}</h5>
                     <SelectMenusCustom value={valueLocation} placeholder={translation?.t('btn_location')}
@@ -67,7 +68,7 @@ const SearchRoomReservation: React.FC = () => {
                 </div>
                 <div className={"w-full flex justify-center"}>
                     <button
-                        className="bg-transparent font-semibold border border-black rounded h-9 text-black mt-7 lg:mr-7 w-32 flex justify-center items-center">
+                        className="bg-transparent font-semibold border border-gray-400 rounded h-9 text-black mt-7 lg:mr-7 w-32 flex justify-center items-center bg-white">
                         <div className="flex">
                                 <span
                                     className={"text-sm font-semibold text-gray-950"}>{translation?.t('search')}</span>
