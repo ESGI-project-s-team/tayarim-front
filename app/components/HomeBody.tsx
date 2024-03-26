@@ -9,7 +9,7 @@ const HomeBody: React.FC = () => {
 
     return (
         <>
-            <div className="fixed inset-0 z-0 overflow-auto">
+            <div className="fixed inset-0 z-0 overflow-auto" id={"scrollableDiv"}>
                 <div className="relative h-screen" style={{height: '100vh'}}>
                     <div className="absolute inset-0 overflow-hidden ">
                         <img src="/bg-home-body.webp" alt="logo" className="w-full h-full object-cover"/>
