@@ -1,6 +1,8 @@
 import React from "react";
 import {useTranslationContext} from "@/app/[lng]/hooks";
 import "../globals.css";
+import CardServices from "@/app/components/ui/CardServices";
+import CommentCarousel from "@/app/components/ui/CommentCarousel";
 
 const HostInformation: React.FC = () => {
     const {translation} = useTranslationContext();
@@ -13,7 +15,8 @@ const HostInformation: React.FC = () => {
                 </div>
                 <div className="pt-14">
                     <div className=" lg:flex text-center justify-evenly lg:px-10 ">
-                        <div className=" bg-custom-search shadow-lg rounded-3xl mx-5 p-6 h-min flex justify-evenly lg:min-w-96">
+                        <div
+                            className=" bg-custom-search shadow-lg rounded-3xl mx-5 p-6 h-min flex justify-evenly lg:min-w-96">
                             <div>
                                 <div className="relative ">
                                     <img
@@ -60,27 +63,24 @@ const HostInformation: React.FC = () => {
                                 <p className="text-gray-500  text-sm">années d'expérience</p>
                             </div>
                         </div>
-                        <div className=" bg-custom-search shadow-lg rounded-3xl mx-5 p-6 h-min flex mt-10 lg:mt-0  lg:min-w-96 lg:w-2/3">
-                            <div className="overflow-auto h-36">
-                                <div className="h-36">
+                        <div
+                            className=" bg-custom-search shadow-lg rounded-3xl mx-5 p-6 h-min flex mt-5 lg:mt-0  lg:min-w-96 lg:w-2/3 flex-col ">
+                            <div className="overflow-auto h-min">
+                                <div>
                                     <p className="mb-4 font-bold">Hey there !</p>
-                                    <p className="mb-4">I've been hosting on Airbnb for a few months, and I've had
+                                    <p>I've been hosting on Airbnb for a few months, and I've had
                                         the pleasure of welcoming guests from all over the world into my home. I
                                         take pride in providing a clean and comfortable space for my guests to relax
                                         and unwind.</p>
-                                    <p className="mb-4">I'm always available to answer any questions or provide
-                                        recommendations for things to do and see in the area. Good communication is
-                                        key to having a successful and enjoyable stay, so I make sure to stay in
-                                        touch with my guests throughout their stay and after they've left.</p>
-                                    <p className="mb-4">Don't hesitate to reach out if you have any questions or
-                                        concerns – I'm here to help!</p>
+                                </div>
+                            </div>
+                            <div className=" flex justify-center mt-10">
+                                <div className="lg:w-96">
+                                    <CommentCarousel comments={[{text: "fkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmj", author: "David"}, {
+                                        text: "fkmjlzfhzelmj",
+                                        author: "David"
+                                    }, {text: "fkmjlzfhzelmj", author: "David"}]}/>
 
-                                    <p className="mb-4">If you're looking for a beautiful home and a friendly and
-                                        welcoming host who will go above and beyond to make sure you have a great
-                                        time, you've come to the right place!</p>
-                                    <p className="mb-4">Please let me know if you have any questions, and I would be
-                                        happy to assist you!</p>
-                                    <p className="font-bold">Yaron from Tayarim</p>
                                 </div>
                             </div>
                         </div>

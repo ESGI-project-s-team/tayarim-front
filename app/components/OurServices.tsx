@@ -60,7 +60,7 @@ const OurServices: React.FC = () => {
                             <h2 className="text-3xl font-bold">{translation?.t('owner')}</h2>
                             <p className="text-gray-500 mt-4">We provide the best services for our traveler</p>
                         </div>
-                        <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 mt-10  ">
+                        <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 mt-10">
                             <CardServices title="Room Reservation"
                                           description="We provide the best services for our customers"
                                           icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
