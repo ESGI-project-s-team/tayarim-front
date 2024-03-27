@@ -1,4 +1,4 @@
-import LanguageDropdown from "@/app/components/LanguageDropdown";
+import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
 import {usePathname} from 'next/navigation';
 import React, {useEffect, useState} from "react";
 import {useIsOpenContext, useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
@@ -56,8 +56,8 @@ const Navbar: React.FC = () => {
             }}
                  className={isOpen ? "m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0 bg-custom-search lg:bg-transparent  lg:transform lg:transition lg:duration-500"
                      : " m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0"}>
-                <div className="flex  cursor-pointer mt-2 z-30">
-                    <img className="h-12 w-auto" src="/black-logo-remove-bg.png" alt="logo"/>
+                <div className="flex  cursor-pointer lg:mt-2 mt-4 ml-7 z-30">
+                    <img className="h-8 w-auto" src="/logo-contour.png" alt="logo"/>
                 </div>
                 <nav className={isOpen ? "flex " : "hidden lg:flex"}>
                     <ul className={isOpen ? "flex  absolute lg:relative flex-col lg:flex-row w-full shadow bg-custom-search lg:bg-transparent lg:shadow-none text-center left-0 top-20 lg:top-0 lg:mr-10" : "flex  absolute lg:relative flex-col lg:flex-row w-full shadow lg:shadow-none text-center mr-10"}>

@@ -1,8 +1,8 @@
-import SelectMenusCustom from "@/app/components/SelectMenusCustom";
-import DatePickerRangeCustom from "@/app/components/DatePickerRangeCustom";
+import SelectMenusCustom from "@/app/components/ui/SelectMenusCustom";
+import DatePickerRangeCustom from "@/app/components/ui/DatePickerRangeCustom";
 import React from "react";
 import {useTranslationContext} from "@/app/[lng]/hooks";
-import "../globals.css";
+import "../../globals.css";
 
 const valueLocation = [
     {

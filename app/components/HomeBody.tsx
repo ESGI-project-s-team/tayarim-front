@@ -1,7 +1,8 @@
 import {useTranslationContext} from "@/app/[lng]/hooks";
 import React from "react";
-import SearchRoomReservation from "@/app/components/SearchRoomReservation";
+import SearchRoomReservation from "@/app/components/ui/SearchRoomReservation";
 import OurServices from "@/app/components/OurServices";
+import HostInformations from "@/app/components/HostInformation";
 
 
 const HomeBody: React.FC = () => {
@@ -24,6 +25,7 @@ const HomeBody: React.FC = () => {
                     <SearchRoomReservation/>
                 </div>
                 <OurServices/>
+                <HostInformations/>
             </div>
         </>
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import CardServices from "@/app/components/CardServices";
+import CardServices from "@/app/components/ui/CardServices";
 import "../globals.css";
 import {useTranslationContext} from "@/app/[lng]/hooks";
 
@@ -8,13 +8,13 @@ const OurServices: React.FC = () => {
     const {translation} = useTranslationContext();
     return (
         <div>
-            <div className="mx-auto py-10">
+            <div className="py-20">
                 <div className="text-center">
                     <h2 className="text-4xl font-bold">{translation?.t('nav_services')}</h2>
                     <p className="text-gray-500 mt-4">We provide the best services for our customers</p>
                 </div>
-                <div className={"lg:flex text-center justify-around flex-wrap "}>
-                    <div className={" lg:w-auto mt-16"}>
+                <div className="lg:flex text-center justify-around flex-wrap px-10 ">
+                    <div className=" lg:w-auto mt-20  px-5 ">
                         <div>
                             <h2 className="text-3xl font-bold">{translation?.t('traveler')}</h2>
                             <p className="text-gray-500 mt-4">We provide the best services for our traveler</p>
@@ -55,8 +55,8 @@ const OurServices: React.FC = () => {
                                           }/>
                         </div>
                     </div>
-                    <div className={" w-auto mt-16"}>
-                        <div>
+                    <div className=" w-auto  mt-20 px-5">
+                        <div >
                             <h2 className="text-3xl font-bold">{translation?.t('owner')}</h2>
                             <p className="text-gray-500 mt-4">We provide the best services for our traveler</p>
                         </div>

@@ -2,7 +2,7 @@ import React from "react"
 import {Menu, Transition} from "@headlessui/react"
 import {ChevronDownIcon, LanguageIcon} from "@heroicons/react/20/solid"
 import {Fragment} from "react"
-import "../globals.css";
+import "../../globals.css";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ")
