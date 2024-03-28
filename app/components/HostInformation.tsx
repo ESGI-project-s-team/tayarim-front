@@ -1,19 +1,18 @@
 import React from "react";
 import {useTranslationContext} from "@/app/[lng]/hooks";
 import "../globals.css";
-import CardServices from "@/app/components/ui/CardServices";
-import CommentCarousel from "@/app/components/ui/CommentCarousel";
+
 
 const HostInformation: React.FC = () => {
     const {translation} = useTranslationContext();
     return (
-        <div>
-            <div className="py-5 bg-white lg:mx-20 mx-2 rounded-3xl shadow-lg">
+        <div className=" flex-col justify-center max-w-7xl  mx-auto">
+            <div className="py-5 bg-white  rounded-3xl shadow-lg ">
                 <div className="text-center mt-7">
                     <h2 className="text-4xl font-bold">Host at your service</h2>
                     <p className="text-gray-500 mt-4">We provide the best services for our customers</p>
                 </div>
-                <div className="pt-14">
+                <div className="pt-14 ">
                     <div className=" lg:flex text-center justify-evenly lg:px-10 ">
                         <div
                             className=" bg-custom-search shadow-lg rounded-3xl mx-5 p-6 h-min flex justify-evenly lg:min-w-96">
@@ -65,22 +64,29 @@ const HostInformation: React.FC = () => {
                         </div>
                         <div
                             className=" bg-custom-search shadow-lg rounded-3xl mx-5 p-6 h-min flex mt-5 lg:mt-0  lg:min-w-96 lg:w-2/3 flex-col ">
-                            <div className="overflow-auto h-min">
+                            <div className="overflow-auto h-52">
                                 <div>
                                     <p className="mb-4 font-bold">Hey there !</p>
+                                    <p>At Tayarim, we love nothing more than making sure my guests have the best
+                                        possible experience while they're staying at my places.</p>
+                                    <br/>
                                     <p>I've been hosting on Airbnb for a few months, and I've had
                                         the pleasure of welcoming guests from all over the world into my home. I
                                         take pride in providing a clean and comfortable space for my guests to relax
                                         and unwind.</p>
-                                </div>
-                            </div>
-                            <div className=" flex justify-center mt-10">
-                                <div className="lg:w-96">
-                                    <CommentCarousel comments={[{text: "fkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmjfkmjlzfhzelmj", author: "David"}, {
-                                        text: "fkmjlzfhzelmj",
-                                        author: "David"
-                                    }, {text: "fkmjlzfhzelmj", author: "David"}]}/>
-
+                                    <br/>
+                                    <p>
+                                        I believe that good communication is key to having a successful and enjoyable
+                                        stay, so I always make sure to stay in touch with my guests throughout their
+                                        stay and after they've left. So don't hesitate to reach out if you have any
+                                        question or concern, I'm happy to help you in any way I can.
+                                    </p>
+                                    <br/>
+                                    <p>So if you're looking for a beautiful home and a friendly and welcoming host who
+                                        will go above and beyond to make sure you have a great time, you've come to the
+                                        right place!</p>
+                                    <br/>
+                                    <p className="font-bold">Yaron from Tayarim</p>
                                 </div>
                             </div>
                         </div>

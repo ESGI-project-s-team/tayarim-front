@@ -110,26 +110,27 @@ const OurServices: React.FC = () => {
 
     return (
         <div>
-            <div className="py-20">
+            <div className="py-10">
                 <div className="text-center">
                     <h2 className="text-4xl font-bold">{translation?.t('nav_services')}</h2>
                     <p className="text-gray-500 mt-4">We provide the best services for our customers</p>
                 </div>
-                <div className="lg:flex-col text-center justify-center flex-wrap px-10">
-                    <div className="lg:w-1/2 mx-auto my-auto mt-10">
+                <div
+                    className="lg:flex-col text-center justify-center flex-wrap bg-white  shadow-lg py-5 pb-7 lg:mx-20 mx-2 rounded-3xl mt-10">
+                    <div className="max-w-4xl mx-auto my-auto ">
                         <Tab.Group>
                             <Tab.List
-                                className="flex justify-center space-x-1 rounded-xl bg-blue-900/20 p-1 max-w-xl mx-auto ">
+                                className="flex justify-center space-x-1 rounded-xl bg-custom-search  p-1  mx-auto max-w-xl  ">
                                 {Object.keys(categories).map((category) => (
                                     <Tab
                                         key={category}
-                                        className={({selected}: { selected: boolean } ) =>
+                                        className={({selected}: { selected: boolean }) =>
                                             classNames(
                                                 'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
                                                 'ring-white/60 ring-offset-2 focus:outline-none text-black ',
                                                 selected
-                                                    ? 'bg-white shadow'
-                                                    : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+                                                    ? 'bg-white shadow border-black border'
+                                                    : 'text-black hover:bg-white/[0.3]'
                                             )
                                         }
                                     >
@@ -137,13 +138,13 @@ const OurServices: React.FC = () => {
                                     </Tab>
                                 ))}
                             </Tab.List>
-                            <Tab.Panels className="mt-10">
+                            <Tab.Panels className="mt-5 bg-custom-search rounded-xl ">
                                 {Object.values(categories).map((posts, idx) => (
                                     <Tab.Panel
                                         key={idx}
                                         className={classNames(
-                                            'rounded-xl bg-white p-3',
-                                            'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+                                            'rounded-3xl p-5 ',
+                                            ' focus:outline-none '
                                         )}
                                     >
                                         {posts(
