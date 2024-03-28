@@ -12,7 +12,7 @@ const CardServices: React.FC<CardServicesProps> = ({
                                                        icon
                                                    }) => {
     return (
-        <div className="bg-white rounded-xl mt-5 p-6">
+        <div className="bg-white rounded-xl mt-5 p-6 shadow-2xl">
             <div className="text-center w-full flex justify-center">
                 {icon}
             </div>

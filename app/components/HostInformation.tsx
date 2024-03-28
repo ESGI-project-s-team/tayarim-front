@@ -6,16 +6,17 @@ import "../globals.css";
 const HostInformation: React.FC = () => {
     const {translation} = useTranslationContext();
     return (
-        <div className=" flex-col justify-center max-w-7xl  mx-auto">
-            <div className="py-5 bg-white  rounded-3xl shadow-lg ">
-                <div className="text-center mt-7">
-                    <h2 className="text-4xl font-bold">Host at your service</h2>
-                    <p className="text-gray-500 mt-4">We provide the best services for our customers</p>
-                </div>
-                <div className="pt-14 ">
+        <div className="flex-col justify-center lg:mx-20">
+            <div className="text-center">
+                <h2 className="text-4xl font-bold">Host at your service</h2>
+                <p className="text-gray-500 mt-4">We provide the best services for our customers</p>
+            </div>
+            <div className="bg-white  rounded-3xl shadow-lg  mt-10">
+                <div className="py-10 ">
                     <div className=" lg:flex text-center justify-evenly lg:px-10 ">
                         <div
-                            className=" bg-custom-search shadow-lg rounded-3xl mx-5 p-6 h-min flex justify-evenly lg:min-w-96">
+                            className=" bg-custom-search shadow-lg rounded-3xl mx-5 p-6 h-min flex justify-evenly lg:min-w-96
+                             border-4 border-white ring-[#e3e3e3] ring-2">
                             <div>
                                 <div className="relative ">
                                     <img
@@ -63,7 +64,8 @@ const HostInformation: React.FC = () => {
                             </div>
                         </div>
                         <div
-                            className=" bg-custom-search shadow-lg rounded-3xl mx-5 p-6 h-min flex mt-5 lg:mt-0  lg:min-w-96 lg:w-2/3 flex-col ">
+                            className=" bg-custom-search shadow-lg rounded-3xl  p-6 h-min flex mt-5 lg:mt-0
+                            lg:min-w-96 lg:max-w-xl flex-col border-4 border-white ring-[#e3e3e3] ring-2 mx-5 lg:mx-0">
                             <div className="overflow-auto h-52">
                                 <div>
                                     <p className="mb-4 font-bold">Hey there !</p>
