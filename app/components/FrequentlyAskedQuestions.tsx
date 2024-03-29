@@ -15,15 +15,15 @@ const FrequentlyAskedQuestions: React.FC = () => {
             </div>
             <div className="bg-white rounded-3xl shadow-lg mt-10 ">
                 <div className="w-full">
-                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-10  rounded-3xl
-                        text-2xl text-black p-5 ">
+                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 py-10 rounded-3xl
+                        text-2xl text-black ">
                         <Disclosure>
                             {({open}) => (
                                 <>
                                     <div className="flex-col">
 
                                         <Disclosure.Button
-                                            className="flex w-full  rounded-lg px-4 py-10 text-left  font-medium focus:outline-none items-center justify-center">
+                                            className="flex w-full rounded-lg px-4 text-left  font-medium focus:outline-none items-center justify-center">
                                             <ChevronRightIcon
                                                 className={`${
                                                     open ? 'rotate-90 transform' : ''
@@ -39,10 +39,14 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                             leaveFrom="transform scale-90 opacity-0"
                                             leaveTo="transform scale-100 opacity-0"
                                         >
-                                            <Disclosure.Panel className="text-sm text-gray-500">
-                                                If you're unhappy with your purchase for any reason, email us
-                                                within 90 days and we'll refund you in full, no questions asked.
-                                            </Disclosure.Panel>
+                                            <div className="w-full flex justify-center">
+                                                <Disclosure.Panel
+                                                    className="text-sm text-gray-500 max-w-sm ml-10 pt-5 ">
+                                                    If you're unhappy with your purchase for any reason, email us
+                                                    within 90 days and we'll refund you in full, no questions asked.
+                                                </Disclosure.Panel>
+                                            </div>
+
                                         </Transition>
                                     </div>
 
@@ -56,7 +60,7 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                     <div className="flex-col">
 
                                         <Disclosure.Button
-                                            className="flex w-full  rounded-lg px-4 py-10 text-left  font-medium focus:outline-none items-center justify-center">
+                                            className="flex w-full rounded-lg px-4 text-left  font-medium focus:outline-none items-center justify-center">
                                             <ChevronRightIcon
                                                 className={`${
                                                     open ? 'rotate-90 transform' : ''
@@ -72,10 +76,14 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                             leaveFrom="transform scale-90 opacity-0"
                                             leaveTo="transform scale-100 opacity-0"
                                         >
-                                            <Disclosure.Panel className="text-sm text-gray-500">
-                                                If you're unhappy with your purchase for any reason, email us
-                                                within 90 days and we'll refund you in full, no questions asked.
-                                            </Disclosure.Panel>
+                                            <div className="w-full flex justify-center">
+                                                <Disclosure.Panel
+                                                    className="text-sm text-gray-500 max-w-sm ml-10 pt-5 ">
+                                                    If you're unhappy with your purchase for any reason, email us
+                                                    within 90 days and we'll refund you in full, no questions asked.
+                                                </Disclosure.Panel>
+                                            </div>
+
                                         </Transition>
                                     </div>
 
@@ -89,7 +97,7 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                     <div className="flex-col">
 
                                         <Disclosure.Button
-                                            className="flex w-full  rounded-lg px-4 py-10 text-left  font-medium focus:outline-none items-center justify-center">
+                                            className="flex w-full rounded-lg px-4 pt-5 text-left  font-medium focus:outline-none items-center justify-center">
                                             <ChevronRightIcon
                                                 className={`${
                                                     open ? 'rotate-90 transform' : ''
@@ -105,10 +113,14 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                             leaveFrom="transform scale-90 opacity-0"
                                             leaveTo="transform scale-100 opacity-0"
                                         >
-                                            <Disclosure.Panel className="text-sm text-gray-500">
-                                                If you're unhappy with your purchase for any reason, email us
-                                                within 90 days and we'll refund you in full, no questions asked.
-                                            </Disclosure.Panel>
+                                            <div className="w-full flex justify-center">
+                                                <Disclosure.Panel
+                                                    className="text-sm text-gray-500 max-w-sm ml-10 pt-5 ">
+                                                    If you're unhappy with your purchase for any reason, email us
+                                                    within 90 days and we'll refund you in full, no questions asked.
+                                                </Disclosure.Panel>
+                                            </div>
+
                                         </Transition>
                                     </div>
 
@@ -122,7 +134,7 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                     <div className="flex-col">
 
                                         <Disclosure.Button
-                                            className="flex w-full  rounded-lg px-4 py-10 text-left  font-medium focus:outline-none items-center justify-center">
+                                            className="flex w-full rounded-lg px-4 pt-5 text-left  font-medium focus:outline-none items-center justify-center">
                                             <ChevronRightIcon
                                                 className={`${
                                                     open ? 'rotate-90 transform' : ''
@@ -138,10 +150,14 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                             leaveFrom="transform scale-90 opacity-0"
                                             leaveTo="transform scale-100 opacity-0"
                                         >
-                                            <Disclosure.Panel className="text-sm text-gray-500">
-                                                If you're unhappy with your purchase for any reason, email us
-                                                within 90 days and we'll refund you in full, no questions asked.
-                                            </Disclosure.Panel>
+                                            <div className="w-full flex justify-center">
+                                                <Disclosure.Panel
+                                                    className="text-sm text-gray-500 max-w-sm ml-10 pt-5 ">
+                                                    If you're unhappy with your purchase for any reason, email us
+                                                    within 90 days and we'll refund you in full, no questions asked.
+                                                </Disclosure.Panel>
+                                            </div>
+
                                         </Transition>
                                     </div>
 
