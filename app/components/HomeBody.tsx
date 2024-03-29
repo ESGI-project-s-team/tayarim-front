@@ -3,6 +3,7 @@ import React from "react";
 import SearchRoomReservation from "@/app/components/ui/SearchRoomReservation";
 import OurServices from "@/app/components/OurServices";
 import HostInformations from "@/app/components/HostInformation";
+import FrequentlyAskedQuestions from "@/app/components/FrequentlyAskedQuestions";
 
 
 const HomeBody: React.FC = () => {
@@ -27,6 +28,7 @@ const HomeBody: React.FC = () => {
                 </div>
                 <OurServices/>
                 <HostInformations/>
+                <FrequentlyAskedQuestions/>
             </div>
         </>
     );

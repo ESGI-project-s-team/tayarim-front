@@ -6,7 +6,7 @@ import "../globals.css";
 const HostInformation: React.FC = () => {
     const {translation} = useTranslationContext();
     return (
-        <div className="flex-col justify-center lg:mx-20">
+        <div className="flex-col justify-center lg:mx-20 mt-10">
             <div className="text-center">
                 <h2 className="text-4xl font-bold">Host at your service</h2>
                 <p className="text-gray-500 mt-4">We provide the best services for our customers</p>
