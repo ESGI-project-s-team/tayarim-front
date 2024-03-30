@@ -15,12 +15,12 @@ const FrequentlyAskedQuestions: React.FC = () => {
             </div>
             <div className="bg-white rounded-3xl shadow-lg mt-10 ">
                 <div className="w-full">
-                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 py-10 rounded-3xl
+                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-5 py-10 rounded-3xl
                         text-2xl text-black ">
                         <Disclosure>
                             {({open}) => (
                                 <>
-                                    <div className="flex-col">
+                                    <div className="flex-col  py-5">
 
                                         <Disclosure.Button
                                             className="flex w-full rounded-lg px-4 text-left  font-medium focus:outline-none items-center justify-center">
@@ -57,7 +57,7 @@ const FrequentlyAskedQuestions: React.FC = () => {
                         <Disclosure>
                             {({open}) => (
                                 <>
-                                    <div className="flex-col">
+                                    <div className="flex-col  py-5">
 
                                         <Disclosure.Button
                                             className="flex w-full rounded-lg px-4 text-left  font-medium focus:outline-none items-center justify-center">
@@ -94,10 +94,10 @@ const FrequentlyAskedQuestions: React.FC = () => {
                         <Disclosure>
                             {({open}) => (
                                 <>
-                                    <div className="flex-col">
+                                    <div className="flex-col  py-5">
 
                                         <Disclosure.Button
-                                            className="flex w-full rounded-lg px-4 pt-5 text-left  font-medium focus:outline-none items-center justify-center">
+                                            className="flex w-full rounded-lg px-4 text-left  font-medium focus:outline-none items-center justify-center">
                                             <ChevronRightIcon
                                                 className={`${
                                                     open ? 'rotate-90 transform' : ''
@@ -131,10 +131,10 @@ const FrequentlyAskedQuestions: React.FC = () => {
                         <Disclosure>
                             {({open}) => (
                                 <>
-                                    <div className="flex-col">
+                                    <div className="flex-col  py-5">
 
                                         <Disclosure.Button
-                                            className="flex w-full rounded-lg px-4 pt-5 text-left  font-medium focus:outline-none items-center justify-center">
+                                            className="flex w-full rounded-lg px-4 text-left  font-medium focus:outline-none items-center justify-center">
                                             <ChevronRightIcon
                                                 className={`${
                                                     open ? 'rotate-90 transform' : ''
@@ -165,6 +165,8 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                 </>
                             )}
                         </Disclosure>
+
+
                     </div>
                 </div>
             </div>
