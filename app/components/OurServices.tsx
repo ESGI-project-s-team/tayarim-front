@@ -17,46 +17,23 @@ const OurServices: React.FC = () => {
             <div>
                 <div>
                     <h2 className="text-3xl font-bold">{translation?.t('traveler')}</h2>
-                    <p className="text-gray-500 mt-4">We provide the best services for our traveler</p>
+                    <p className="text-gray-500 mt-4">{translation?.t('traveler-description')}</p>
                 </div>
 
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 mt-5  ">
-                    <CardServices title="Room Reservation"
-                                  description="We provide the best services for our customers"
-                                  icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                             viewBox="0 0 24 24"
-                                             strokeWidth="1.5" stroke="currentColor" className="w-16 h-16">
-                                      <path strokeLinecap="round" strokeLinejoin="round"
-                                            d="M12 3.75v16.5M2.25 12h19.5M6.375 17.25a4.875 4.875 0 0 0 4.875-4.875V12m6.375 5.25a4.875 4.875 0 0 1-4.875-4.875V12m-9 8.25h16.5a1.5 1.5 0 0 0 1.5-1.5V5.25a1.5 1.5 0 0 0-1.5-1.5H3.75a1.5 1.5 0 0 0-1.5 1.5v13.5a1.5 1.5 0 0 0 1.5 1.5Zm12.621-9.44c-1.409 1.41-4.242 1.061-4.242 1.061s-.349-2.833 1.06-4.242a2.25 2.25 0 0 1 3.182 3.182ZM10.773 7.63c1.409 1.409 1.06 4.242 1.06 4.242S9 12.22 7.592 10.811a2.25 2.25 0 1 1 3.182-3.182Z"/>
-                                  </svg>
-                                  }/>
-                    <CardServices title="Room Reservation"
-                                  description="We provide the best services for our customers"
-                                  icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                             viewBox="0 0 24 24"
-                                             strokeWidth="1.5" stroke="currentColor" className="w-16 h-16">
-                                      <path strokeLinecap="round" strokeLinejoin="round"
-                                            d="M12 3.75v16.5M2.25 12h19.5M6.375 17.25a4.875 4.875 0 0 0 4.875-4.875V12m6.375 5.25a4.875 4.875 0 0 1-4.875-4.875V12m-9 8.25h16.5a1.5 1.5 0 0 0 1.5-1.5V5.25a1.5 1.5 0 0 0-1.5-1.5H3.75a1.5 1.5 0 0 0-1.5 1.5v13.5a1.5 1.5 0 0 0 1.5 1.5Zm12.621-9.44c-1.409 1.41-4.242 1.061-4.242 1.061s-.349-2.833 1.06-4.242a2.25 2.25 0 0 1 3.182 3.182ZM10.773 7.63c1.409 1.409 1.06 4.242 1.06 4.242S9 12.22 7.592 10.811a2.25 2.25 0 1 1 3.182-3.182Z"/>
-                                  </svg>
-                                  }/>
-                    <CardServices title="Room Reservation"
-                                  description="We provide the best services for our customers"
-                                  icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                             viewBox="0 0 24 24"
-                                             strokeWidth="1.5" stroke="currentColor" className="w-16 h-16">
-                                      <path strokeLinecap="round" strokeLinejoin="round"
-                                            d="M12 3.75v16.5M2.25 12h19.5M6.375 17.25a4.875 4.875 0 0 0 4.875-4.875V12m6.375 5.25a4.875 4.875 0 0 1-4.875-4.875V12m-9 8.25h16.5a1.5 1.5 0 0 0 1.5-1.5V5.25a1.5 1.5 0 0 0-1.5-1.5H3.75a1.5 1.5 0 0 0-1.5 1.5v13.5a1.5 1.5 0 0 0 1.5 1.5Zm12.621-9.44c-1.409 1.41-4.242 1.061-4.242 1.061s-.349-2.833 1.06-4.242a2.25 2.25 0 0 1 3.182 3.182ZM10.773 7.63c1.409 1.409 1.06 4.242 1.06 4.242S9 12.22 7.592 10.811a2.25 2.25 0 1 1 3.182-3.182Z"/>
-                                  </svg>
-                                  }/>
-                    <CardServices title="Room Reservation"
-                                  description="We provide the best services for our customers"
-                                  icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                             viewBox="0 0 24 24"
-                                             strokeWidth="1.5" stroke="currentColor" className="w-16 h-16">
-                                      <path strokeLinecap="round" strokeLinejoin="round"
-                                            d="M12 3.75v16.5M2.25 12h19.5M6.375 17.25a4.875 4.875 0 0 0 4.875-4.875V12m6.375 5.25a4.875 4.875 0 0 1-4.875-4.875V12m-9 8.25h16.5a1.5 1.5 0 0 0 1.5-1.5V5.25a1.5 1.5 0 0 0-1.5-1.5H3.75a1.5 1.5 0 0 0-1.5 1.5v13.5a1.5 1.5 0 0 0 1.5 1.5Zm12.621-9.44c-1.409 1.41-4.242 1.061-4.242 1.061s-.349-2.833 1.06-4.242a2.25 2.25 0 0 1 3.182 3.182ZM10.773 7.63c1.409 1.409 1.06 4.242 1.06 4.242S9 12.22 7.592 10.811a2.25 2.25 0 1 1 3.182-3.182Z"/>
-                                  </svg>
-                                  }/>
+                    <CardServices title={translation?.t('clean-services')}
+                                  description={translation?.t('clean-services-description')}
+                                  icon={<img src={"/cleaning.svg"} alt="cleaning logo" width="80"/>}/>
+                    <CardServices title={translation?.t('host-services')}
+                                  description={translation?.t('host-services-description')}
+                                  icon={<img src={"/host.svg"} alt="host logo" width="80"/>}/>
+                    <CardServices title={translation?.t('properties-services')}
+                                  description={translation?.t('properties-services-description')}
+                                  icon={<img src={"/properties.svg"} alt="properties logo" width="80"/>}/>
+
+                    <CardServices title={translation?.t('price-services')}
+                                  description={translation?.t('price-services-description')}
+                                  icon={<img src={"/price.svg"} alt="price logo" width="80"/>}/>
                 </div>
             </div>
         ),
@@ -64,45 +41,21 @@ const OurServices: React.FC = () => {
             <div>
                 <div>
                     <h2 className="text-3xl font-bold">{translation?.t('owner')}</h2>
-                    <p className="text-gray-500 mt-4">We provide the best services for our traveler</p>
+                    <p className="text-gray-500 mt-4">{translation?.t('owner-description')}</p>
                 </div>
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 mt-5">
-                    <CardServices title="Room Reservation"
-                                  description="We provide the best services for our customers"
-                                  icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                             viewBox="0 0 24 24"
-                                             strokeWidth="1.5" stroke="currentColor" className="w-16 h-16">
-                                      <path strokeLinecap="round" strokeLinejoin="round"
-                                            d="M12 3.75v16.5M2.25 12h19.5M6.375 17.25a4.875 4.875 0 0 0 4.875-4.875V12m6.375 5.25a4.875 4.875 0 0 1-4.875-4.875V12m-9 8.25h16.5a1.5 1.5 0 0 0 1.5-1.5V5.25a1.5 1.5 0 0 0-1.5-1.5H3.75a1.5 1.5 0 0 0-1.5 1.5v13.5a1.5 1.5 0 0 0 1.5 1.5Zm12.621-9.44c-1.409 1.41-4.242 1.061-4.242 1.061s-.349-2.833 1.06-4.242a2.25 2.25 0 0 1 3.182 3.182ZM10.773 7.63c1.409 1.409 1.06 4.242 1.06 4.242S9 12.22 7.592 10.811a2.25 2.25 0 1 1 3.182-3.182Z"/>
-                                  </svg>
-                                  }/>
-                    <CardServices title="Room Reservation"
-                                  description="We provide the best services for our customers"
-                                  icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                             viewBox="0 0 24 24"
-                                             strokeWidth="1.5" stroke="currentColor" className="w-16 h-16">
-                                      <path strokeLinecap="round" strokeLinejoin="round"
-                                            d="M12 3.75v16.5M2.25 12h19.5M6.375 17.25a4.875 4.875 0 0 0 4.875-4.875V12m6.375 5.25a4.875 4.875 0 0 1-4.875-4.875V12m-9 8.25h16.5a1.5 1.5 0 0 0 1.5-1.5V5.25a1.5 1.5 0 0 0-1.5-1.5H3.75a1.5 1.5 0 0 0-1.5 1.5v13.5a1.5 1.5 0 0 0 1.5 1.5Zm12.621-9.44c-1.409 1.41-4.242 1.061-4.242 1.061s-.349-2.833 1.06-4.242a2.25 2.25 0 0 1 3.182 3.182ZM10.773 7.63c1.409 1.409 1.06 4.242 1.06 4.242S9 12.22 7.592 10.811a2.25 2.25 0 1 1 3.182-3.182Z"/>
-                                  </svg>
-                                  }/>
-                    <CardServices title="Room Reservation"
-                                  description="We provide the best services for our customers"
-                                  icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                             viewBox="0 0 24 24"
-                                             strokeWidth="1.5" stroke="currentColor" className="w-16 h-16">
-                                      <path strokeLinecap="round" strokeLinejoin="round"
-                                            d="M12 3.75v16.5M2.25 12h19.5M6.375 17.25a4.875 4.875 0 0 0 4.875-4.875V12m6.375 5.25a4.875 4.875 0 0 1-4.875-4.875V12m-9 8.25h16.5a1.5 1.5 0 0 0 1.5-1.5V5.25a1.5 1.5 0 0 0-1.5-1.5H3.75a1.5 1.5 0 0 0-1.5 1.5v13.5a1.5 1.5 0 0 0 1.5 1.5Zm12.621-9.44c-1.409 1.41-4.242 1.061-4.242 1.061s-.349-2.833 1.06-4.242a2.25 2.25 0 0 1 3.182 3.182ZM10.773 7.63c1.409 1.409 1.06 4.242 1.06 4.242S9 12.22 7.592 10.811a2.25 2.25 0 1 1 3.182-3.182Z"/>
-                                  </svg>
-                                  }/>
-                    <CardServices title="Room Reservation"
-                                  description="We provide the best services for our customers"
-                                  icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                             viewBox="0 0 24 24"
-                                             strokeWidth="1.5" stroke="currentColor" className="w-16 h-16">
-                                      <path strokeLinecap="round" strokeLinejoin="round"
-                                            d="M12 3.75v16.5M2.25 12h19.5M6.375 17.25a4.875 4.875 0 0 0 4.875-4.875V12m6.375 5.25a4.875 4.875 0 0 1-4.875-4.875V12m-9 8.25h16.5a1.5 1.5 0 0 0 1.5-1.5V5.25a1.5 1.5 0 0 0-1.5-1.5H3.75a1.5 1.5 0 0 0-1.5 1.5v13.5a1.5 1.5 0 0 0 1.5 1.5Zm12.621-9.44c-1.409 1.41-4.242 1.061-4.242 1.061s-.349-2.833 1.06-4.242a2.25 2.25 0 0 1 3.182 3.182ZM10.773 7.63c1.409 1.409 1.06 4.242 1.06 4.242S9 12.22 7.592 10.811a2.25 2.25 0 1 1 3.182-3.182Z"/>
-                                  </svg>
-                                  }/>
+                    <CardServices title={translation?.t('picture-services')}
+                                  description={translation?.t('picture-services-description')}
+                                  icon={<img src={"/picture.svg"} alt="picture logo" width="80"/>}/>
+                    <CardServices title={translation?.t('dashboard-services')}
+                                  description={translation?.t('dashboard-services-description')}
+                                  icon={<img src={"/dashboard.svg"} alt="dashboard logo" width="80"/>}/>
+                    <CardServices title={translation?.t('maintenance-services')}
+                                  description={translation?.t('maintenance-services-description')}
+                                  icon={<img src={"/maintenance.svg"} alt="maintenance logo" width="80"/>}/>
+                    <CardServices title={translation?.t('clean-services')}
+                                  description={translation?.t('clean-services-description')}
+                                  icon={<img src={"/cleaning.svg"} alt="cleaning logo" width="80"/>}/>
                 </div>
             </div>
         )
@@ -113,7 +66,7 @@ const OurServices: React.FC = () => {
             <div className="py-10">
                 <div className="text-center">
                     <h2 className="text-4xl font-bold">{translation?.t('nav_services')}</h2>
-                    <p className="text-gray-500 mt-4">We provide the best services for our customers</p>
+                    <p className="text-gray-500 mt-4">{translation?.t('services_description')}</p>
                 </div>
                 <div
                     className="lg:flex-col text-center justify-center flex-wrap bg-white
