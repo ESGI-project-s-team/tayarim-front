@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import CardServices from "@/app/components/CardServices";
 import "../globals.css";
 import {useTranslationContext} from "@/app/[lng]/hooks";
-import {Tab} from "@headlessui/react";
+import {Tab, Transition} from "@headlessui/react";
 
 
 function classNames(...classes: any[]) {
@@ -12,6 +12,7 @@ function classNames(...classes: any[]) {
 
 const OurServices: React.FC = () => {
     const {translation} = useTranslationContext();
+    const [selectedIndex, setSelectedIndex] = useState(0);
     let [categories] = useState<Record<any, React.FC>>({
         Traveler: (translation: any) => (
             <div>
@@ -72,7 +73,10 @@ const OurServices: React.FC = () => {
                     className="lg:flex-col text-center justify-center flex-wrap bg-white
                     shadow-lg py-5 pb-7 lg:mx-20 mx-2 rounded-3xl mt-10">
                     <div className="max-w-4xl mx-auto my-auto ">
-                        <Tab.Group>
+                        <Tab.Group
+                            selectedIndex={selectedIndex}
+                            onChange={setSelectedIndex}
+                        >
                             <Tab.List
                                 className="flex justify-center space-x-1 rounded-xl bg-custom-search  p-1  mx-auto max-w-xl ">
                                 {Object.keys(categories).map((category) => (
@@ -92,7 +96,7 @@ const OurServices: React.FC = () => {
                                     </Tab>
                                 ))}
                             </Tab.List>
-                            <Tab.Panels className="mt-5  rounded-xl ">
+                            <Tab.Panels className="mt-5 rounded-xl">
                                 {Object.values(categories).map((posts, idx) => (
                                     <Tab.Panel
                                         key={idx}
@@ -101,12 +105,26 @@ const OurServices: React.FC = () => {
                                             ' focus:outline-none '
                                         )}
                                     >
-                                        {posts(
-                                            translation
-                                        )}
+                                        <Transition
+                                            appear
+                                            show={selectedIndex === idx}
+                                            enter="transition-all duration-500 ease-in-out"
+                                            enterFrom="opacity-0 scale-95"
+                                            enterTo="opacity-100 scale-100"
+                                            leave="transition-all duration-500 ease-in-out"
+                                            leaveFrom="opacity-100 scale-100"
+                                            leaveTo="opacity-0 scale-95"
+                                            as="div"
+                                            className="transition-all duration-100"
+                                        >
+                                            {posts(
+                                                translation
+                                            )}
+                                        </Transition>
                                     </Tab.Panel>
                                 ))}
                             </Tab.Panels>
+
                         </Tab.Group>
                     </div>
                 </div>
