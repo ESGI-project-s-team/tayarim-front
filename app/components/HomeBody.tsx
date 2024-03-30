@@ -5,6 +5,7 @@ import OurServices from "@/app/components/OurServices";
 import HostInformations from "@/app/components/HostInformation";
 import FrequentlyAskedQuestions from "@/app/components/FrequentlyAskedQuestions";
 import Footer from "@/app/components/Footer";
+import "../globals.css"
 
 
 const HomeBody: React.FC = () => {
@@ -19,11 +20,10 @@ const HomeBody: React.FC = () => {
                     </div>
                     <div className="absolute inset-0 bg-black opacity-70"></div>
                 </div>
-                <div className="absolute inset-0 items-center sm:top-48 top-12 m-20">
-                    <div className="text-white text-center
-                    sm:mb-20 mb-5">
-                        <h1 className="text-4xl font-bold lg:text-5xl ">{translation?.t('title_body')}</h1>
-                        <p className="mt-8 text-lg font-normal ">{translation?.t('second_title_body')}</p>
+                <div className="absolute inset-0 items-center top-48 mx-5 xs-mtop lg:mt-14">
+                    <div className="text-white text-center mb-5">
+                        <h1 className=" font-bold ">{translation?.t('title_body')}</h1>
+                        <p className="mt-5 mb-10 font-normal">{translation?.t('second_title_body')}</p>
                     </div>
                     <SearchRoomReservation/>
                 </div>
