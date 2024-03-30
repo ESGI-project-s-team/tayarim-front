@@ -8,8 +8,8 @@ const HostInformation: React.FC = () => {
     return (
         <div className="flex-col justify-center lg:mx-20 mt-10">
             <div className="text-center">
-                <h2 className="text-4xl font-bold">Host at your service</h2>
-                <p className="text-gray-500 mt-4">We provide the best services for our customers</p>
+                <h2 className="text-4xl font-bold">{translation?.t('host-title')}</h2>
+                <p className="text-gray-500 mt-4">{translation?.t('host-description')}</p>
             </div>
             <div className="bg-white  rounded-3xl shadow-lg  mt-10">
                 <div className="py-10 ">
@@ -49,18 +49,18 @@ const HostInformation: React.FC = () => {
                                         <path
                                             d="m8.5 7.6 3.1-1.75 1.47-.82a.83.83 0 0 0 .43-.73V1.33a.83.83 0 0 0-.83-.83H3.33a.83.83 0 0 0-.83.83V4.3c0 .3.16.59.43.73l3 1.68 1.57.88c.35.2.65.2 1 0zm-.5.9a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"></path>
                                     </svg>
-                                    <p className="text-gray-500 text-center ml-1">Superhôte</p>
+                                    <p className="text-gray-500 text-center ml-1">{translation?.t('superhost')}</p>
                                 </div>
                             </div>
                             <div>
                                 <h2 className="text-3xl font-bold">20</h2>
-                                <p className="text-gray-500  text-sm">évaluations</p>
+                                <p className="text-gray-500  text-sm">{translation?.t('evaluation')}</p>
                                 <hr className="border-gray-300 mt-2"/>
                                 <h2 className="text-3xl font-bold mt-2">4.95</h2>
-                                <p className="text-gray-500  text-sm">en notes globale</p>
+                                <p className="text-gray-500  text-sm">{translation?.t('overall-ratings')}</p>
                                 <hr className="border-gray-300 mt-2"/>
                                 <h2 className="text-3xl font-bold mt-2">2</h2>
-                                <p className="text-gray-500  text-sm">années d'expérience</p>
+                                <p className="text-gray-500  text-sm">{translation?.t('experience')}</p>
                             </div>
                         </div>
                         <div
@@ -68,27 +68,16 @@ const HostInformation: React.FC = () => {
                             lg:min-w-96 lg:max-w-xl flex-col border-4 border-white ring-[#e3e3e3] ring-2 mx-5 lg:mx-0">
                             <div className="overflow-auto h-52">
                                 <div>
-                                    <p className="mb-4 font-bold">Hey there !</p>
-                                    <p>At Tayarim, we love nothing more than making sure my guests have the best
-                                        possible experience while they're staying at my places.</p>
+                                    <p className="mb-4 font-bold">{translation?.t('text-1')}</p>
+                                    <p>{translation?.t('text-2')}</p>
                                     <br/>
-                                    <p>I've been hosting on Airbnb for a few months, and I've had
-                                        the pleasure of welcoming guests from all over the world into my home. I
-                                        take pride in providing a clean and comfortable space for my guests to relax
-                                        and unwind.</p>
+                                    <p>{translation?.t('text-3')}</p>
                                     <br/>
-                                    <p>
-                                        I believe that good communication is key to having a successful and enjoyable
-                                        stay, so I always make sure to stay in touch with my guests throughout their
-                                        stay and after they've left. So don't hesitate to reach out if you have any
-                                        question or concern, I'm happy to help you in any way I can.
-                                    </p>
+                                    <p>{translation?.t('text-4')}</p>
                                     <br/>
-                                    <p>So if you're looking for a beautiful home and a friendly and welcoming host who
-                                        will go above and beyond to make sure you have a great time, you've come to the
-                                        right place!</p>
+                                    <p>{translation?.t('text-5')}</p>
                                     <br/>
-                                    <p className="font-bold">Yaron from Tayarim</p>
+                                    <p className="font-bold">Yaron - Tayarim</p>
                                 </div>
                             </div>
                         </div>
