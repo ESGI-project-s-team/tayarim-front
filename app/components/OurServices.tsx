@@ -22,18 +22,23 @@ const OurServices: React.FC = () => {
                 </div>
 
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 mt-5  ">
+
                     <CardServices title={translation?.t('clean-services')}
                                   description={translation?.t('clean-services-description')}
+                        /* eslint-disable-next-line @next/next/no-img-element */
                                   icon={<img src={"/cleaning.svg"} alt="cleaning logo" width="80"/>}/>
                     <CardServices title={translation?.t('host-services')}
                                   description={translation?.t('host-services-description')}
+                        /* eslint-disable-next-line @next/next/no-img-element */
                                   icon={<img src={"/host.svg"} alt="host logo" width="80"/>}/>
                     <CardServices title={translation?.t('properties-services')}
                                   description={translation?.t('properties-services-description')}
+                        /* eslint-disable-next-line @next/next/no-img-element */
                                   icon={<img src={"/properties.svg"} alt="properties logo" width="80"/>}/>
 
                     <CardServices title={translation?.t('price-services')}
                                   description={translation?.t('price-services-description')}
+                        /* eslint-disable-next-line @next/next/no-img-element */
                                   icon={<img src={"/price.svg"} alt="price logo" width="80"/>}/>
                 </div>
             </div>
@@ -47,15 +52,19 @@ const OurServices: React.FC = () => {
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 mt-5">
                     <CardServices title={translation?.t('picture-services')}
                                   description={translation?.t('picture-services-description')}
+                        /* eslint-disable-next-line @next/next/no-img-element */
                                   icon={<img src={"/picture.svg"} alt="picture logo" width="80"/>}/>
                     <CardServices title={translation?.t('dashboard-services')}
                                   description={translation?.t('dashboard-services-description')}
+                        /* eslint-disable-next-line @next/next/no-img-element */
                                   icon={<img src={"/dashboard.svg"} alt="dashboard logo" width="80"/>}/>
                     <CardServices title={translation?.t('maintenance-services')}
                                   description={translation?.t('maintenance-services-description')}
+                        /* eslint-disable-next-line @next/next/no-img-element */
                                   icon={<img src={"/maintenance.svg"} alt="maintenance logo" width="80"/>}/>
                     <CardServices title={translation?.t('clean-services')}
                                   description={translation?.t('clean-services-description')}
+                        /* eslint-disable-next-line @next/next/no-img-element */
                                   icon={<img src={"/cleaning.svg"} alt="cleaning logo" width="80"/>}/>
                 </div>
             </div>

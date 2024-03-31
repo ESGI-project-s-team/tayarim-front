@@ -5,6 +5,7 @@ export default function Loader() {
         <div id="loading-overlay"
              className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-95 flex-col">
             <div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img className="h-64 w-auto flex justify-center items-center border border-white" src="/black-logo.jpg" alt="logo"/>
             </div>
             <div className="flex">

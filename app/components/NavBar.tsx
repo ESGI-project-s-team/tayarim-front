@@ -57,6 +57,7 @@ const Navbar: React.FC = () => {
                  className={isOpen ? "m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0 bg-white lg:bg-transparent lg:transform lg:transition lg:duration-500"
                      : " m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0"}>
                 <div className="flex  cursor-pointer lg:mt-2 mt-4 ml-7 z-30">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className="h-8 w-auto" src="/logo-contour.png" alt="logo"/>
                 </div>
                 <nav className={isOpen ? "flex " : "hidden lg:flex"}>

@@ -19,6 +19,7 @@ const HostInformation: React.FC = () => {
                              border-4 border-white ring-[#e3e3e3] ring-2">
                             <div>
                                 <div className="relative ">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img
                                         src="/host.webp"
                                         alt="host"
