@@ -31,7 +31,7 @@ export default function RootLayout({children, params: {lng}}: { children: React.
         <body>
         <TranslationContext.Provider value={{translation}}>
             <nav>
-                <header className="relative">
+                <header>
                     <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
                         <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
                             <Navbar/>

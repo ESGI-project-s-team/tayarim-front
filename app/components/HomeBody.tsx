@@ -13,7 +13,7 @@ const HomeBody: React.FC = () => {
 
     return (
         <>
-            <div className="fixed inset-0 z-0 overflow-auto" id={"scrollableDiv"}>
+            <div className="inset-0 z-0 " id={"scrollableDiv"}>
                 <div className="relative h-screen" style={{height: '100vh'}}>
                     <div className="absolute inset-0 overflow-hidden ">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -28,10 +28,6 @@ const HomeBody: React.FC = () => {
                     </div>
                     <SearchRoomReservation/>
                 </div>
-                <OurServices/>
-                <HostInformations/>
-                <FrequentlyAskedQuestions/>
-                <Footer/>
             </div>
         </>
     );

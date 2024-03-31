@@ -33,8 +33,8 @@ const Navbar: React.FC = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            const scrollableDiv = document.getElementById('scrollableDiv');
-            if (scrollableDiv!.scrollTop > TOP_OFFSET) {
+            console.log(window.scrollY, TOP_OFFSET)
+            if (window.scrollY > TOP_OFFSET) {
                 setShowBackground(true);
             } else {
                 setShowBackground(false);
@@ -52,10 +52,10 @@ const Navbar: React.FC = () => {
         <div>
             <div style={{
                 backgroundColor: showBackground ? "white" : "",
-                transition: !isOpen ? "background-color 0.5s" : ""
+                transition: !isOpen && showBackground ? "background-color 0.5s" : ""
             }}
                  className={isOpen ? "m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0 bg-white lg:bg-transparent lg:transform lg:transition lg:duration-500"
-                     : " m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0"}>
+                     : " m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0 lg:transform lg:transition lg:duration-500"}>
                 <div className="flex  cursor-pointer lg:mt-2 mt-4 ml-7 z-30">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className="h-8 w-auto" src="/logo-contour.png" alt="logo"/>
