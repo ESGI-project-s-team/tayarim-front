@@ -13,7 +13,7 @@ const HomeBody: React.FC = () => {
 
     return (
         <>
-            <div className="inset-0 z-0 " id={"scrollableDiv"}>
+            <div className="inset-0 z-0 ">
                 <div className="relative h-screen" style={{height: '100vh'}}>
                     <div className="absolute inset-0 overflow-hidden ">
                         {/* eslint-disable-next-line @next/next/no-img-element */}

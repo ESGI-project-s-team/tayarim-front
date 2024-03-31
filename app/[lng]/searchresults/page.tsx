@@ -1,5 +1,13 @@
-export default function Page({params: {lng}}: { params: { lng: string } }) {
+"use client";
+import React from "react";
+import SearchRoomReservation from "@/app/components/ui/SearchRoomReservation";
+
+export default function Page() {
     return (
-        <h1>toto</h1>
+        <div>
+            <SearchRoomReservation/>
+        </div>
+
+
     )
 }
