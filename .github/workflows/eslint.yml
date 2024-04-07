@@ -8,11 +8,11 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci # or yarn install
+      - run: npm i # or yarn install
       - uses: sibiraj-s/action-eslint@v3
         with:
           all-files: true
