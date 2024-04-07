@@ -3,8 +3,20 @@ name: Lint
 on:
   push:
     branches: ["master", "dev"]
-
 jobs:
+  eslint:
+    name: runner / eslint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - run: npm install
+      - uses: reviewdog/action-eslint@v1
+        with:
+          reporter: github-check
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -12,11 +24,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm i # or yarn install
+      - run: npm ci # or yarn install
       - uses: sibiraj-s/action-eslint@v3
         with:
           all-files: true
-          token: ${{ secrets.GITHUB_TOKEN }} # optional
           eslint-args: '--ignore-path=.gitignore --quiet'
           extensions: 'js,jsx,ts,tsx'
           annotations: true
