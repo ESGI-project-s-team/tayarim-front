@@ -30,6 +30,32 @@
     .bg-custom-search {
         background-color: var(--background-color);
     }
+
+    .border-custom-search {
+        border: 1px solid var(--background-color);
+    }
+
+    @media screen and (max-width: 475px) {
+
+        .xs-mtop h1 {
+            font-size: 1.5em;
+        }
+
+        .xs-mtop p {
+            font-size: 0.75em;
+        }
+
+    }
+    @media screen and (min-width: 476px) {
+        .xs-mtop h1 {
+            font-size: 2.5em;
+        }
+
+        .xs-mtop p {
+            font-size: 1.2em;
+        }
+    }
+
 }
 
 

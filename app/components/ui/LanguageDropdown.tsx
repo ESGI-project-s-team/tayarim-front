@@ -2,17 +2,24 @@ import React from "react"
 import {Menu, Transition} from "@headlessui/react"
 import {ChevronDownIcon, LanguageIcon} from "@heroicons/react/20/solid"
 import {Fragment} from "react"
+import "../../globals.css";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ")
 }
 
+interface CustomStyle extends React.CSSProperties {
+    "--tw-ring-color"?: string; // Define the custom property here
+}
+
 interface LanguageDropdownProps {
     currentLanguage: string;
     onSelect: (language: string) => void;
+    isOpen?: boolean;
+    showBackground?: boolean;
 }
 
-const LanguageDropdown: React.FC<LanguageDropdownProps> = ({currentLanguage, onSelect}) => {
+const LanguageDropdown: React.FC<LanguageDropdownProps> = ({currentLanguage, onSelect, showBackground, isOpen}) => {
     const languageTable: any = {
         en: {
             en: "English",
@@ -29,13 +36,14 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({currentLanguage, onS
     }
 
     const options = languageTable[currentLanguage] ? Object.entries(languageTable[currentLanguage]) : [];
-
     return (
         <div className="">
             <Menu as="div" className="relative inline-block cursor-pointer">
                 <div>
                     <Menu.Button
-                        className="inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 ">
+                        style={{"--tw-ring-color": (showBackground) ? "rgb(0 0 0)" : ""} as CustomStyle}
+                        className={isOpen ? "inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset lg:ring-white ring-black"
+                            : "inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-white"}>
                         {languageTable[currentLanguage]?.[currentLanguage]} {/* Access the translation */}
                         <LanguageIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true"/>
                         <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true"/>

@@ -1,14 +1,10 @@
-"use client"
-import "../globals.css";
+"use client";
 import React, {useEffect, useState} from "react";
 import {doTranslation} from "@/app/il8n";
 import {NavbarContext, TranslationContext, IsOpenContext} from "./contexts";
 import Loader from "@/app/components/Loader";
-import Navbar from "@/app/components/NavBar";
-
 
 export default function RootLayout({children, params: {lng}}: { children: React.ReactNode; params: { lng: string } }) {
-
     const [theLanguage, setTheLanguage] = useState(lng);
     const [translation, setTranslation] = useState<{ t: any, i18n: any } | null>(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -32,19 +28,14 @@ export default function RootLayout({children, params: {lng}}: { children: React.
         </head>
         <body>
         <TranslationContext.Provider value={{translation}}>
-            <nav>
-                <header className="relative">
-                    <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
-                        <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
-                            <Navbar/>
-                        </IsOpenContext.Provider>
-                    </NavbarContext.Provider>
-                </header>
-            </nav>
-            <main>
-                {loading ? <Loader/> : null}
-                {children}
-            </main>
+            <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
+                <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
+                    <main>
+                        {loading ? <Loader/> : null}
+                        {children}
+                    </main>
+                </IsOpenContext.Provider>
+            </NavbarContext.Provider>
         </TranslationContext.Provider>
         </body>
         </html>
