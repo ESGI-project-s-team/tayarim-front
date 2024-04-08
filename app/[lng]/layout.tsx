@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import {doTranslation} from "@/app/il8n";
 import {NavbarContext, TranslationContext, IsOpenContext} from "./contexts";
 import Loader from "@/app/components/Loader";
-import Navbar from "@/app/components/NavBar";
 
 export default function RootLayout({children, params: {lng}}: { children: React.ReactNode; params: { lng: string } }) {
     const [theLanguage, setTheLanguage] = useState(lng);

@@ -2,7 +2,7 @@
 import React from "react";
 import SearchRoomReservation from "@/app/components/ui/SearchRoomReservation";
 import Navbar from "@/app/components/NavBar";
-import HomeBody from "@/app/components/HomeBody";
+
 
 export default function Page() {
     return (
@@ -13,10 +13,8 @@ export default function Page() {
                 </div>
                 <div className="mt-32 w-full">
                     <SearchRoomReservation/>
-
                 </div>
             </div>
-
             <div style={{height: '130vh'}}>
             </div>
         </div>
