@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "npm run start:$NODE_ENV",
+    "start:": "npm run start:development",
+    "start:development": "next dev",
+    "start:production": "next start",
+    "start:test": "next start"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",
