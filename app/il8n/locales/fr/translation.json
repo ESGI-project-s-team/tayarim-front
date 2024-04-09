@@ -1,4 +1,10 @@
 {
+  "email_placeholder": "Adresse e-mail",
+  "password_placeholder": "Mot de passe",
+  "sign_in_button": "Connexion",
+  "forgot_password": "Mot de passe oublié ?",
+  "forgot_email": "Adresse e-mail oubliée ?",
+  "welcome_placeholder": "Bon retour ! Connectez-vous pour continuer",
   "title_body": "À la maison où que vous soyez",
   "second_title_body": "Voyagez ou louez votre bien en toute tranquillité avec Tayarim.",
   "nav_home": "Accueil",

@@ -1,4 +1,10 @@
 {
+  "welcome_placeholder": "Welcome back ! Please enter your details",
+  "email_placeholder": "Email address",
+  "password_placeholder": "Password",
+  "sign_in_button": "Sign in",
+  "forgot_password": "Forgot password?",
+  "forgot_email": "Forgot email?",
   "title_body": "At home wherever you are",
   "second_title_body": "Travel or rent your property with complete peace of mind with Tayarim",
   "nav_home": "Home",
