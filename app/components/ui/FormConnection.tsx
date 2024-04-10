@@ -4,8 +4,8 @@ import {useTranslationContext} from "@/app/[lng]/hooks";
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
     return (
-        <div className="fixed inset-0 items-center top-24  flex justify-center overflow-auto ">
-            <div className="bg-white rounded-xl p-10 ">
+        <div className="fixed inset-0 items-center top-24  flex justify-center overflow-auto">
+            <div className="bg-white rounded-xl p-10 border-black border-2 ring-2 ring-white ">
                 <div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img

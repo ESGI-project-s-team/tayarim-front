@@ -3,6 +3,7 @@ import {usePathname} from 'next/navigation';
 import React, {useEffect, useState} from "react";
 import {useIsOpenContext, useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
 import "../globals.css";
+import Link from 'next/link';
 
 
 const Navbar: React.FC = () => {
@@ -56,20 +57,25 @@ const Navbar: React.FC = () => {
             }}
                  className={isOpen ? "m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0 bg-white lg:bg-transparent lg:transform lg:transition lg:duration-500"
                      : " m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0 lg:transform lg:transition lg:duration-500"}>
-                <div className="flex  cursor-pointer lg:mt-2 mt-4 ml-7 z-30">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img className="h-8 w-auto" src="/logo-contour.png" alt="logo"/>
-                </div>
+                <Link href="/">
+                    <div className="flex  cursor-pointer lg:mt-2 mt-4 ml-7 z-30">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img className="h-8 w-auto" src="/logo-contour.png" alt="logo"/>
+                    </div>
+                </Link>
                 <nav className={isOpen ? "flex " : "hidden lg:flex"}>
+
                     <ul className={isOpen ? "flex  absolute lg:relative flex-col lg:flex-row w-full shadow bg-white lg:bg-transparent lg:shadow-none text-center left-0 top-20 lg:top-0 lg:mr-10" : "flex  absolute lg:relative flex-col lg:flex-row w-full shadow lg:shadow-none text-center mr-10"}>
+
                         {pages.map((person, index) => (
                             <li key={index}
                                 style={{color: (showBackground) ? "black" : ""}}
                                 className={isOpen ? "px-8 py-8 mt-5 cursor-pointer rounded font-semibold   hover:scale-110 lg:text-white text-black"
                                     : "px-8 py-8 mt-5 cursor-pointer rounded font-semibold  hover:scale-110 text-white"}>
-                                <a className="p-2 rounded">{person}</a>
+                                <Link className="p-2 rounded" href="/">{person}</Link>
                             </li>
                         ))}
+
                         <div style={{color: (showBackground) ? "black" : ""}}
                              className={isOpen ? "mt-5 lg:mt-11 lg:ml-9 lg:text-white text-black" : "mt-11  ml-10 text-white"}>
                             <LanguageDropdown
@@ -80,22 +86,24 @@ const Navbar: React.FC = () => {
                             />
                         </div>
                         <div className={isOpen ? "w-full mb-5 lg:mb-0 lg:ml-20" : "ml-20 w-full "}>
-                            <button
-                                style={{
-                                    borderColor: showBackground ? "black" : "",
-                                    color: showBackground ? "black" : ""
-                                }}
-                                className={isOpen ? "bg-transparent font-semibold border border-black rounded h-10 mt-11 px-6 my-2 lg:text-white text-black lg:border-white "
-                                    : "bg-transparent font-semibold border border-white rounded h-10 mt-11 px-6 my-2 text-white"}>
-                                <div className="flex">
-                                    <span>{translation?.t('btn_owner')}</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         strokeWidth={1.5} stroke="currentColor" className="w-5 h-6 ml-2 mt-0.5">
-                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                              d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"/>
-                                    </svg>
-                                </div>
-                            </button>
+                            <Link as="/owner-connection" href="">
+                                <button
+                                    style={{
+                                        borderColor: showBackground ? "black" : "",
+                                        color: showBackground ? "black" : ""
+                                    }}
+                                    className={isOpen ? "bg-transparent font-semibold border border-black rounded h-10 mt-11 px-6 my-2 lg:text-white text-black lg:border-white "
+                                        : "bg-transparent font-semibold border border-white rounded h-10 mt-11 px-6 my-2 text-white"}>
+                                    <div className="flex">
+                                        <span>{translation?.t('btn_owner')}</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             strokeWidth={1.5} stroke="currentColor" className="w-5 h-6 ml-2 mt-0.5">
+                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                  d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"/>
+                                        </svg>
+                                    </div>
+                                </button>
+                            </Link>
                         </div>
                     </ul>
                 </nav>
