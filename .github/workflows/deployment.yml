@@ -14,13 +14,13 @@ jobs:
       # A MODIFIER
         run: echo "${{ secrets.REGISTRY_PASS }}" | docker login rg.fr-par.scw.cloud/babyteacher-regitstry -u nologin --password-stdin
       - name: Build the Docker image for the frontend
-        run: docker build . --tag rg.fr-par.scw.cloud/babyteacher-registry/backend:$GITHUB_SHA
+        run: docker build . --tag rg.fr-par.scw.cloud/tayarim-registry/backend:$GITHUB_SHA
       - name: Tag the image
-        run: docker tag rg.fr-par.scw.cloud/babyteacher-registry/backend:$GITHUB_SHA rg.fr-par.scw.cloud/babyteacher-registry/backend:latest
+        run: docker tag rg.fr-par.scw.cloud/tayarim-registry/backend:$GITHUB_SHA rg.fr-par.scw.cloud/tayarim-registry/backend:latest
       - name: Push the image to private registry
-        run: docker push rg.fr-par.scw.cloud/babyteacher-registry/backend:$GITHUB_SHA
+        run: docker push rg.fr-par.scw.cloud/tayarim-registry/backend:$GITHUB_SHA
       - name: Push the image with latest tag
-        run: docker push rg.fr-par.scw.cloud/babyteacher-registry/backend:latest
+        run: docker push rg.fr-par.scw.cloud/tayarim-registry/backend:latest
 
   trigger_workflow:
     runs-on: ubuntu-latest
