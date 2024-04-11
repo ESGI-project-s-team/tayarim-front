@@ -1,5 +1,6 @@
 import React from "react";
 import {useTranslationContext} from "@/app/[lng]/hooks";
+import Link from "next/link";
 
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
@@ -60,7 +61,9 @@ const FormConnection: React.FC = () => {
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-custom-search px-3 py-1.5 text-sm font-semibold leading-6 text-black border-black border shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                             >
-                                {translation?.t('sign_in_button')}
+                                <Link href={"/dashboard"}>
+                                    {translation?.t('sign_in_button')}
+                                </Link>
                             </button>
                         </div>
                     </form>
