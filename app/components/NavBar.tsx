@@ -1,32 +1,17 @@
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
-import {usePathname} from 'next/navigation';
 import React, {useEffect, useState} from "react";
-import {useIsOpenContext, useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useIsOpenContext, useTranslationContext} from "@/app/[lng]/hooks";
 import "../globals.css";
 import Link from 'next/link';
 
 
 const Navbar: React.FC = () => {
-
-    const pathname = usePathname();
-    const {theLanguage, setTheLanguage} = useNavbarContext();
     const [showBackground, setShowBackground] = useState(false);
     const {translation} = useTranslationContext();
     const {isOpen, setIsOpen} = useIsOpenContext();
     const pages: string[] = [translation?.t('nav_home')];
     const TOP_OFFSET = 100;
 
-    function switchLocale(locale: React.SetStateAction<string>) {
-        // e.g. '/en/about' or '/fr/contact'
-        const newPathname = pathname.replace(/^\/[a-z]{2}/, `/${locale}`);
-        const newPath = `${newPathname}${window.location.search}${window.location.hash}`;
-        window.history.replaceState(null, '', newPath);
-    }
-
-    const onLanguageSelected = (option: string) => {
-        setTheLanguage(option);
-        switchLocale(option);
-    };
 
     const toggleNavbar = (): void => {
         setIsOpen(!isOpen);
@@ -79,8 +64,6 @@ const Navbar: React.FC = () => {
                         <div style={{color: (showBackground) ? "black" : ""}}
                              className={isOpen ? "mt-5 lg:mt-11 lg:ml-9 lg:text-white text-black" : "mt-11  ml-10 text-white"}>
                             <LanguageDropdown
-                                onSelect={onLanguageSelected}
-                                currentLanguage={theLanguage}
                                 isOpen={isOpen}
                                 showBackground={showBackground}
                             />

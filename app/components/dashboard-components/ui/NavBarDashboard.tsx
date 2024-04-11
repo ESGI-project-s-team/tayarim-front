@@ -1,8 +1,9 @@
-import React, {useEffect} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import DropProfileItems from "@/app/components/dashboard-components/ui/DropProfileItems";
 import DropNotificationItems from "@/app/components/dashboard-components/ui/DropNotificationItems";
-import {useIsOpenContext, useNavbarContext, useNotificationContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useIsOpenContext, useNotificationContext} from "@/app/[lng]/hooks";
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
+import {Transition} from "@headlessui/react"
 
 const NavBarDashboard: React.FC = () => {
         const [isOpenProfile, setIsOpenProfile] = React.useState(false);
@@ -10,9 +11,7 @@ const NavBarDashboard: React.FC = () => {
         // TODO change to false
         const [isOpenNotificationPing, setIsOpenNotificationPing] = React.useState(true);
         const {items} = useNotificationContext();
-        const {theLanguage, setTheLanguage} = useNavbarContext();
-        const {translation} = useTranslationContext();
-        const {isOpen, setIsOpen} = useIsOpenContext();
+        const {isOpen} = useIsOpenContext();
         const handleOpenProfile = () => {
             setIsOpenProfile(!isOpenProfile);
             setIsOpenNotification(false);
@@ -23,6 +22,11 @@ const NavBarDashboard: React.FC = () => {
             setIsOpenProfile(false);
         }
 
+        const handleOpenLanguage = () => {
+            setIsOpenProfile(false);
+            setIsOpenNotification(false);
+        }
+
         useEffect(() => {
             const hasOpenNotification = items.some((item: { state: boolean; }) => item.state);
             setIsOpenNotificationPing(hasOpenNotification);
@@ -31,7 +35,7 @@ const NavBarDashboard: React.FC = () => {
 
         return (
             <div className="fixed bg-white w-screen top-0 drop-shadow-2xl">
-                <div className="flex flex-row-reverse px-10 py-5">
+                <div className="flex flex-row-reverse px-10 py-5 gap-10">
                     <div className="relative">
                         <a className="flex items-center gap-4" href="#" onClick={handleOpenProfile}><span
                             className=" text-right block"><span
@@ -51,8 +55,9 @@ const NavBarDashboard: React.FC = () => {
                             <DropProfileItems/>
                         )}
                     </div>
+
                     <div className="relative">
-                        <a className="relative flex h-9 w-9 items-center justify-center rounded-full border stroke-1 bg-[#f1f5f9] hover:bg-gray-200 mx-7"
+                        <a className="relative flex h-9 w-9 items-center justify-center rounded-full border stroke-1 bg-[#f1f5f9] hover:bg-gray-200 mr-4"
                            href="#" onClick={handleOpenNotification}>
                             {isOpenNotificationPing && (
                                 <><span
@@ -71,12 +76,11 @@ const NavBarDashboard: React.FC = () => {
                             <DropNotificationItems/>
                         )}
                     </div>
-                    <LanguageDropdown
-                        onSelect={onLanguageSelected}
-                        currentLanguage={theLanguage}
-                        isOpen={isOpen}
-                        /*showBackground={showBackground}*/
-                    />
+                    <div onClick={handleOpenLanguage}>
+                        <LanguageDropdown
+                            isOpen={isOpen}
+                        />
+                    </div>
                 </div>
             </div>
         )
