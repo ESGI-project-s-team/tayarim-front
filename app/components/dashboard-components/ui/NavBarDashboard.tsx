@@ -1,9 +1,8 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import DropProfileItems from "@/app/components/dashboard-components/ui/DropProfileItems";
 import DropNotificationItems from "@/app/components/dashboard-components/ui/DropNotificationItems";
 import {useIsOpenContext, useNotificationContext} from "@/app/[lng]/hooks";
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
-import {Transition} from "@headlessui/react"
 
 const NavBarDashboard: React.FC = () => {
         const [isOpenProfile, setIsOpenProfile] = React.useState(false);
@@ -12,6 +11,9 @@ const NavBarDashboard: React.FC = () => {
         const [isOpenNotificationPing, setIsOpenNotificationPing] = React.useState(true);
         const {items} = useNotificationContext();
         const {isOpen} = useIsOpenContext();
+        const profileRef = useRef<HTMLDivElement>(null);
+        const notificationRef = useRef<HTMLDivElement>(null);
+
         const handleOpenProfile = () => {
             setIsOpenProfile(!isOpenProfile);
             setIsOpenNotification(false);
@@ -30,13 +32,29 @@ const NavBarDashboard: React.FC = () => {
         useEffect(() => {
             const hasOpenNotification = items.some((item: { state: boolean; }) => item.state);
             setIsOpenNotificationPing(hasOpenNotification);
+
+            const handleClickOutside = (event: MouseEvent) => {
+                if (
+                    profileRef.current && !profileRef.current.contains(event.target as Node) &&
+                    notificationRef.current && !notificationRef.current.contains(event.target as Node)
+                ) {
+                    setIsOpenNotification(false);
+                    setIsOpenProfile(false);
+                }
+            };
+
+            document.addEventListener('click', handleClickOutside);
+
+            return () => {
+                document.removeEventListener('click', handleClickOutside);
+            };
         }, [items, setIsOpenNotificationPing]);
 
 
         return (
             <div className="fixed bg-white w-screen top-0 drop-shadow-2xl">
                 <div className="flex flex-row-reverse px-10 py-5 gap-10">
-                    <div className="relative">
+                    <div className="relative" ref={profileRef}>
                         <a className="flex items-center gap-4" href="#" onClick={handleOpenProfile}><span
                             className=" text-right block"><span
                             className="block text-sm font-medium text-black">Thomas Anree</span><span
@@ -56,7 +74,7 @@ const NavBarDashboard: React.FC = () => {
                         )}
                     </div>
 
-                    <div className="relative">
+                    <div className="relative" ref={notificationRef}>
                         <a className="relative flex h-9 w-9 items-center justify-center rounded-full border stroke-1 bg-[#f1f5f9] hover:bg-gray-200 mr-4"
                            href="#" onClick={handleOpenNotification}>
                             {isOpenNotificationPing && (

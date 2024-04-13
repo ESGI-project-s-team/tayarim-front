@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from "next/link";
 
 const SideNavDashboard: React.FC = () => {
 
@@ -159,7 +158,7 @@ const SideNavDashboard: React.FC = () => {
                     <div><h3 className="mb-4 ml-4 text-sm font-semibold text-[#8a99af]">OTHERS</h3>
                         <ul className="mb-6 flex flex-col gap-1.5">
                             <li><a
-                                className="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 false"
+                                className="relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-[#2b334a]"
                                 href="#">
                                 <svg className="fill-current" width="16" height="18" viewBox="0 0 16 18" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -187,7 +186,7 @@ const SideNavDashboard: React.FC = () => {
                             </a>
                             </li>
                             <li><a
-                                className="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 false"
+                                className=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-[#2b334a]"
                                 href="#">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
@@ -199,7 +198,7 @@ const SideNavDashboard: React.FC = () => {
                             </a>
                             </li>
                             <li><a
-                                className="relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 false"
+                                className="relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-[#2b334a]"
                                 href="#">
                                 <svg className="fill-current" width="18" height="19" viewBox="0 0 18 19" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
