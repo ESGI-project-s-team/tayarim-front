@@ -6,9 +6,9 @@ const DropProfileItems: React.FC = () => {
     return (
         <div
             className="absolute right-0 mt-4 flex w-60 flex-col rounded-sm border stroke-1 bg-white">
-            <ul className="flex flex-col gap-5 border-b  px-6 py-7 font-normal lg:text-base text-sm text-[#64748b]">
+            <ul className="flex flex-col gap-5 border-b  px-6 py-7 font-normal lg:text-base text-sm text-[#64748b] ">
                 <li><a
-                    className=" flex items-center gap-3.5 duration-300 ease-in-out "
+                    className=" flex items-center gap-3.5 duration-300 ease-in-out hover:text-[#1c2434] "
                     href="/profile">
                     <svg className=" fill-current" width="
                         22" height="22" viewBox="0 0 22 22" fill="none"
@@ -24,7 +24,7 @@ const DropProfileItems: React.FC = () => {
                 </a>
                 </li>
                 <li><a
-                    className="flex items-center gap-3.5   duration-300 ease-in-out hover:text-primary"
+                    className="flex items-center gap-3.5   duration-300 ease-in-out hover:text-[#1c2434]"
                     href="#">
                     <svg className="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
@@ -34,7 +34,7 @@ const DropProfileItems: React.FC = () => {
                     </svg>
                     My Contacts</a></li>
                 <li><a
-                    className="flex items-center gap-3.5   duration-300 ease-in-out hover:text-primary "
+                    className="flex items-center gap-3.5   duration-300 ease-in-out hover:text-[#1c2434]"
                     href="/pages/settings">
                     <svg className="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
@@ -48,7 +48,7 @@ const DropProfileItems: React.FC = () => {
                     Account Settings</a></li>
             </ul>
             <button
-                className="flex items-center gap-3.5 px-6 py-4 duration-300 ease-in-out lg:text-base text-sm font-normal text-[#64748b]">
+                className="flex items-center gap-3.5 px-6 py-4 duration-300 ease-in-out lg:text-base text-sm font-normal text-[#64748b] hover:text-[#1c2434]">
                 <svg className="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <path

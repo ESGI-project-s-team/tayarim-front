@@ -5,20 +5,18 @@ import Link from "next/link";
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
     return (
-        <div className="fixed inset-0 items-center top-24  flex justify-center overflow-auto">
-            <div className="bg-white rounded-xl p-10 border-black border-2 ring-2 ring-white ">
+        <div className="fixed xxs-mtop inset-x-0 max-w-max mx-auto flex shadow-2xl">
+            <div className="bg-white rounded-xl p-14 overflow-scroll ">
                 <div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                        className="mx-auto h-10 w-auto"
+                        className="mx-auto h-10 w-auto "
                         src="/white-logo-short-removebg.png"
                         alt="Your Company"
                     />
-                    <h2 className="mt-10 text-center leading-9 tracking-tight text-gray-900">
-                        {translation?.t('welcome_placeholder')}
-                    </h2>
+
                 </div>
-                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm ">
                     <form className="space-y-6" action="#" method="POST">
                         <div>
                             <label htmlFor="email"
