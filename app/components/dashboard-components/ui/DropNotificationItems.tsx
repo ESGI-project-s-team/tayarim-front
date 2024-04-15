@@ -17,7 +17,7 @@ const DropProfileItems: React.FC = () => {
 
     return (
         <div
-            className="absolute right-8 mt-2 h-auto max-h-96 w-72 flex-col rounded-sm border stroke-1 bg-white shadow sm:w-80 block overflow-y-auto">
+            className="fixed sm:absolute right-8 mt-2 h-auto max-h-96 w-72 flex-col rounded-sm border stroke-1 bg-white shadow sm:w-80 block overflow-y-auto">
             <div className="px-4 py-3">
                 <h5 className="text-sm font-medium text-[#8a99af]">Notification</h5></div>
             <ul className="flex h-auto flex-col">

@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import DropProfileItems from "@/app/components/dashboard-components/ui/DropProfileItems";
 import DropNotificationItems from "@/app/components/dashboard-components/ui/DropNotificationItems";
-import {useIsOpenContext, useNotificationContext} from "@/app/[lng]/hooks";
+import {useNotificationContext} from "@/app/[lng]/hooks";
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
 
 const NavBarDashboard: React.FC = () => {
@@ -10,7 +10,6 @@ const NavBarDashboard: React.FC = () => {
         // TODO change to false
         const [isOpenNotificationPing, setIsOpenNotificationPing] = React.useState(true);
         const {items} = useNotificationContext();
-        const {isOpen} = useIsOpenContext();
         const profileRef = useRef<HTMLDivElement>(null);
         const notificationRef = useRef<HTMLDivElement>(null);
 
@@ -96,7 +95,7 @@ const NavBarDashboard: React.FC = () => {
                     </div>
                     <div onClick={handleOpenLanguage}>
                         <LanguageDropdown
-                            isOpen={isOpen}
+                            isOpen={false}
                         />
                     </div>
                 </div>

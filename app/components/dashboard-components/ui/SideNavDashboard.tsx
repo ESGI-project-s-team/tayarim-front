@@ -1,12 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 const SideNavDashboard: React.FC = () => {
-
+    const [isOpen, setIsOpen] = useState(true);
+    const toggleOpen = () => {
+        setIsOpen(!isOpen);
+    };
     return (
-        <div className="absolute h-screen overflow-scroll bg-[#1c2434]" style={{scrollbarWidth: "none"}}>
-            <div className="fixed z-10 flex cursor-pointer w-72 pt-10 pb-7  bg-[#1c2434]">
+        <div style={{scrollbarWidth: "none"}}
+             className={`absolute overflow-scroll inset-y-0 left-0  w-72 transition-all duration-300 ease-in-out bg-[#1c2434] ${
+                 isOpen ? '' : '-translate-x-60'
+             }`}
+        >
+            <div className="fixed z-10 flex  w-72 pt-10 pb-7  bg-[#1c2434] justify-around ">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="h-8 w-auto justify-center ml-10" src="/logo-contour.png" alt="logo"/>
+                <img className="h-8 w-auto justify-center" src="/logo-contour.png" alt="logo"/>
+                <div className={`mt-1 cursor-pointer ${
+                    isOpen ? '' : 'transform rotate-180 ml-10'
+                }`}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                         stroke="currentColor" className="w-6 h-6 text-[#dee4ee]" onClick={toggleOpen}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+                    </svg>
+                </div>
             </div>
             <div className="bg-[#1c2434] w-72 overflow-scroll mt-24" style={{height: "auto"}}>
                 <nav className="mt-9 px-6 text-[#dee4ee] ">
