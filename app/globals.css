@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-    --background-color: #e3e3e3;
+    --background-color: #f1f5f9;
 }
 
 @layer utilities {
@@ -36,6 +36,9 @@
     }
 
     @media screen and (max-width: 475px) {
+        .xxs-mtop {
+            top: 12rem;
+        }
 
         .xs-mtop h1 {
             font-size: 1.5em;
@@ -46,7 +49,16 @@
         }
 
     }
+    @media screen and (max-width: 380px) {
+        .xxs-mtop {
+            top: 8rem;
+        }
+    }
     @media screen and (min-width: 476px) {
+        .xxs-mtop {
+            top: 12rem;
+        }
+
         .xs-mtop h1 {
             font-size: 2.5em;
         }

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 const SideNavDashboard: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const toggleOpen = () => {
         setIsOpen(!isOpen);
     };

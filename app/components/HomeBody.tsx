@@ -12,8 +12,8 @@ const HomeBody: React.FC = () => {
         <>
             <div className="inset-0 z-0 ">
                 <BackgroundImageDark/>
-                <div className="absolute inset-0 items-center top-48 mx-5 xs-mtop lg:mt-14">
-                    <div className="text-white text-center mb-5">
+                <div className="absolute inset-0 items-center xxs-mtop  mx-5 xs-mtop lg:mt-14">
+                    <div className="text-white text-center">
                         <h1 className=" font-bold ">{translation?.t('title_body')}</h1>
                         <p className="mt-5 mb-10 font-normal">{translation?.t('second_title_body')}</p>
                     </div>

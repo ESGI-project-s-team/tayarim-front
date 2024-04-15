@@ -43,21 +43,22 @@ const Navbar: React.FC = () => {
                  className={isOpen ? "m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0 bg-white lg:bg-transparent lg:transform lg:transition lg:duration-500"
                      : " m-auto p-3 flex justify-between items-center z-30 fixed w-full top-0 lg:transform lg:transition lg:duration-500"}>
                 <Link href="/">
-                    <div className="flex  cursor-pointer lg:mt-2 mt-4 ml-7 z-30">
+                    <div className="flex cursor-pointer top-14 ml-7 z-30 absolute">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img className="h-8 w-auto" src="/logo-contour.png" alt="logo"/>
                     </div>
                 </Link>
                 <nav className={isOpen ? "flex " : "hidden lg:flex"}>
 
-                    <ul className={isOpen ? "flex  absolute lg:relative flex-col lg:flex-row w-full shadow bg-white lg:bg-transparent lg:shadow-none text-center left-0 top-20 lg:top-0 lg:mr-10" : "flex  absolute lg:relative flex-col lg:flex-row w-full shadow lg:shadow-none text-center mr-10"}>
+                    <ul className={isOpen ? "flex  absolute lg:relative flex-col lg:flex-row w-full  bg-white lg:bg-transparent lg:shadow-none text-center left-0 top-20 lg:top-0 lg:mr-10" : "flex  absolute lg:relative flex-col lg:flex-row w-full shadow lg:shadow-none text-center mr-10"}>
 
-                        {pages.map((person, index) => (
+                        {pages.map((page, index) => (
                             <li key={index}
                                 style={{color: (showBackground) ? "black" : ""}}
+                                onClick={toggleNavbar}
                                 className={isOpen ? "px-8 py-8 mt-5 cursor-pointer rounded font-semibold   hover:scale-110 lg:text-white text-black"
                                     : "px-8 py-8 mt-5 cursor-pointer rounded font-semibold  hover:scale-110 text-white"}>
-                                <Link className="p-2 rounded" href="/">{person}</Link>
+                                <Link className="p-2 rounded" href="/">{page}</Link>
                             </li>
                         ))}
 
@@ -75,6 +76,7 @@ const Navbar: React.FC = () => {
                                         borderColor: showBackground ? "black" : "",
                                         color: showBackground ? "black" : ""
                                     }}
+                                    onClick={toggleNavbar}
                                     className={isOpen ? "bg-transparent font-semibold border border-black rounded h-10 mt-11 px-6 my-2 lg:text-white text-black lg:border-white "
                                         : "bg-transparent font-semibold border border-white rounded h-10 mt-11 px-6 my-2 text-white"}>
                                     <div className="flex">
@@ -91,7 +93,7 @@ const Navbar: React.FC = () => {
                     </ul>
                 </nav>
                 <div className="lg:hidden py-7 z-30">
-                    <button className="flex justify-center items-center mt-4 mr-5" onClick={toggleNavbar}
+                    <button className="flex justify-center items-center mt-5 mr-5" onClick={toggleNavbar}
                             style={{color: (showBackground) ? "black" : "white"}}>
                         <svg
                             viewBox="0 0 24 24"

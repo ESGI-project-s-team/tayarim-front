@@ -96,7 +96,7 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({
                                                 <div
                                                     className={classNames(
                                                         active
-                                                            ? "bg-gray-300 text-gray-900"
+                                                            ? "bg-[#f1f5f9] text-gray-900"
                                                             : "text-gray-700",
                                                         selected ? "font-bold" : "font-normal",
                                                         "block px-4 py-2 text-sm"
