@@ -1,7 +1,27 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 const SideNavDashboard: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 640px)"); // Change la taille en fonction de vos besoins
+        const handleMediaQueryChange = (e: MediaQueryListEvent) => {
+            setIsOpen(!e.matches); // Inverse isOpen si la condition est vraie (taille de l'écran <= 640px)
+        };
+
+        // Ajoute un écouteur d'événement pour les changements dans la taille de l'écran
+        mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+        // Initialise isOpen en fonction de la taille de l'écran lors du montage du composant
+        setIsOpen(!mediaQuery.matches);
+
+        // Nettoie l'écouteur d'événement lors du démontage du composant
+        return () => {
+            mediaQuery.removeEventListener('change', handleMediaQueryChange);
+        };
+    }, []);
+
+
     const toggleOpen = () => {
         setIsOpen(!isOpen);
     };
