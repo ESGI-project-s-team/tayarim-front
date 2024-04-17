@@ -19,7 +19,6 @@ const Navbar: React.FC = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            console.log(window.scrollY, TOP_OFFSET)
             if (window.scrollY > TOP_OFFSET) {
                 setShowBackground(true);
             } else {

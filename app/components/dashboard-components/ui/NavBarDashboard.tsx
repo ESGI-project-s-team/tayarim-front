@@ -1,18 +1,17 @@
 import React, {useEffect, useRef} from 'react';
 import DropProfileItems from "@/app/components/dashboard-components/ui/DropProfileItems";
 import DropNotificationItems from "@/app/components/dashboard-components/ui/DropNotificationItems";
-import {useNotificationContext} from "@/app/[lng]/hooks";
+import {useNotificationContext, useTranslationContext} from "@/app/[lng]/hooks";
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
 
 const NavBarDashboard: React.FC = () => {
         const [isOpenProfile, setIsOpenProfile] = React.useState(false);
         const [isOpenNotification, setIsOpenNotification] = React.useState(false);
-        // TODO change to false
-        const [isOpenNotificationPing, setIsOpenNotificationPing] = React.useState(true);
+        const [isOpenNotificationPing, setIsOpenNotificationPing] = React.useState(false);
         const {items} = useNotificationContext();
         const profileRef = useRef<HTMLDivElement>(null);
         const notificationRef = useRef<HTMLDivElement>(null);
-
+        const {translation} = useTranslationContext();
         const handleOpenProfile = () => {
             setIsOpenProfile(!isOpenProfile);
             setIsOpenNotification(false);
@@ -57,7 +56,7 @@ const NavBarDashboard: React.FC = () => {
                         <a className="flex items-center gap-4" href="#" onClick={handleOpenProfile}><span
                             className=" text-right block"><span
                             className="block text-sm font-medium text-black">Thomas Anree</span><span
-                            className="block text-xs text-[#64748b]">Owner</span></span>
+                            className="block text-xs text-[#64748b]">{translation?.t('owner')}</span></span>
                             <svg className=" fill-current block" width="12" height="8" viewBox="0 0 12 8"
                                  fill="none"
                                  xmlns="http://www.w3.org/2000/svg">

@@ -1,4 +1,14 @@
 {
+  "menu_placeholder": "MENU",
+  "menu_sidenav": ["Analytics","Calendar","Tasks","Billing"],
+
+  "management_placeholder": "MANAGEMENT",
+  "management_sidenav": ["Owner","Housing","Announcements"],
+
+  "others_placeholder": "OTHERS",
+  "others_sidenav": ["Reservations","Bank Transfer","Purchases"],
+
+
   "welcome_placeholder": "Welcome back ! Please enter your details",
   "email_placeholder": "Email address",
   "password_placeholder": "Password",
