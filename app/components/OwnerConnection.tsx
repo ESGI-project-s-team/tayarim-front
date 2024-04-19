@@ -1,5 +1,5 @@
 import React from "react";
-import FormConnection from "@/app/components/ui/FormConnection";
+import FormConnection from "@/app/components/ui/signin/FormConnection";
 import BackgroundImageDark from "@/app/components/ui/BackgroundImageDark";
 
 const OwnerConnection: React.FC = () => {

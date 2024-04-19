@@ -3,7 +3,7 @@ import {useTranslationContext} from "@/app/[lng]/hooks";
 import {getIconManagement, getIconMenu, getIconOthers} from "@/app/icon-export";
 
 const SideNavDashboard: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
     const {translation} = useTranslationContext();
     const menu_sidenav = translation?.t('menu_sidenav', {returnObjects: true}) ?? [];
     const management_sidenav = translation?.t('management_sidenav', {returnObjects: true}) ?? [];

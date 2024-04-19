@@ -1,9 +1,20 @@
-import React from "react";
+import React, {FormEvent} from "react";
 import {useTranslationContext} from "@/app/[lng]/hooks";
-import Link from "next/link";
+import {signInFun} from "@/app/components/ui/signin/action";
+
 
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
+
+    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+        const formData = new FormData(event.currentTarget)
+        const email = formData.get('email')
+        const password = formData.get('password')
+        const credentials = {"email": email, "motDePasse": password}
+        await signInFun(credentials)
+    }
+
     return (
         <div className="fixed xxs-mtop inset-x-0 max-w-max mx-auto flex shadow-2xl">
             <div className="bg-white rounded-xl p-14 overflow-scroll ">
@@ -17,7 +28,7 @@ const FormConnection: React.FC = () => {
 
                 </div>
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm ">
-                    <form className="space-y-6" action="#" method="POST">
+                    <form className="space-y-6" method="POST" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="email"
                                    className="block text-sm font-medium leading-6 text-gray-900">
@@ -59,9 +70,9 @@ const FormConnection: React.FC = () => {
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-custom-search px-3 py-1.5 text-sm font-semibold leading-6 text-black border-black border shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                             >
-                                <Link href={"/dashboard"}>
-                                    {translation?.t('sign_in_button')}
-                                </Link>
+
+                                {translation?.t('sign_in_button')}
+
                             </button>
                         </div>
                     </form>
