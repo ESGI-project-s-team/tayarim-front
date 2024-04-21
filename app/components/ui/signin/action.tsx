@@ -2,10 +2,10 @@
 import apiAuthProvider from "@/utils/api";
 
 
-export async function signInFun(credentials :any) {
+export async function signInFun(credentials: any) {
     try {
-        await apiAuthProvider(credentials);
+        return await apiAuthProvider(credentials);
     } catch (error) {
-        console.error("Login failed:", error);
+        throw new Error("Invalid credentials");
     }
 }

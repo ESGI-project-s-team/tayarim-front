@@ -1,18 +1,35 @@
-import React, {FormEvent} from "react";
+import React, {FormEvent, useState} from "react";
 import {useTranslationContext} from "@/app/[lng]/hooks";
 import {signInFun} from "@/app/components/ui/signin/action";
-
+import Loader from "@/app/components/Loader";
+import {useRouter} from 'next/navigation'
 
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
+    const router = useRouter()
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        setLoading(true)
         event.preventDefault()
         const formData = new FormData(event.currentTarget)
         const email = formData.get('email')
         const password = formData.get('password')
         const credentials = {"email": email, "motDePasse": password}
-        await signInFun(credentials)
+        await signInFun(credentials).then(
+            async (response) => {
+                if (response.error) {
+                    setError(response.error)
+                } else {
+                    localStorage.setItem("token", response.token)
+                    localStorage.setItem("userID", response.id)
+                    router.push("/dashboard")
+                }
+                await new Promise((resolve) => setTimeout(resolve, 500));
+                setLoading(false)
+            }
+        )
     }
 
     return (
@@ -66,14 +83,18 @@ const FormConnection: React.FC = () => {
                         </div>
 
                         <div>
+                            {loading && (
+                                <Loader/>
+                            )}{(
                             <button
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-custom-search px-3 py-1.5 text-sm font-semibold leading-6 text-black border-black border shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                             >
 
                                 {translation?.t('sign_in_button')}
-
                             </button>
+                        )}
+                            {error && <p className="text-red-500 text-sm absolute">{error}</p>}
                         </div>
                     </form>
                     <div className="flex-wrap  justify-between ">
