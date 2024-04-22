@@ -22,8 +22,6 @@ const FormConnection: React.FC = () => {
                 if (response.error) {
                     setError(response.error)
                 } else {
-                    localStorage.setItem("token", response.token)
-                    localStorage.setItem("userID", response.id)
                     router.push("/dashboard")
                 }
                 await new Promise((resolve) => setTimeout(resolve, 500));
@@ -94,7 +92,7 @@ const FormConnection: React.FC = () => {
                                 {translation?.t('sign_in_button')}
                             </button>
                         )}
-                            {error && <p className="text-red-500 text-sm absolute">{error}</p>}
+                            {error && <p className="text-red-500 text-sm absolute">{translation?.t(error)}</p>}
                         </div>
                     </form>
                     <div className="flex-wrap  justify-between ">

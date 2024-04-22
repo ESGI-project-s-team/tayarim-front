@@ -1,13 +1,24 @@
 {
+  "logout": "Déconnexion",
   "menu_placeholder": "MENU",
-  "menu_sidenav": ["Analyses","Calendrier","Tâches","Facturation"],
-
+  "menu_sidenav": [
+    "Analyses",
+    "Calendrier",
+    "Tâches",
+    "Facturation"
+  ],
   "management_placeholder": "GESTION",
-  "management_sidenav": ["Propriétaires","Logements","Annonces"],
-
+  "management_sidenav": [
+    "Propriétaires",
+    "Logements",
+    "Annonces"
+  ],
   "others_placeholder": "AUTRES",
-  "others_sidenav": ["Réservations","Virement Bancaire","Achats"],
-
+  "others_sidenav": [
+    "Réservations",
+    "Virement Bancaire",
+    "Achats"
+  ],
   "welcome_placeholder": "Bon retour ! Connectez-vous pour continuer",
   "email_placeholder": "Adresse e-mail",
   "password_placeholder": "Mot de passe",

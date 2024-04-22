@@ -1,4 +1,5 @@
 {
+  "logout" : "Log out",
   "menu_placeholder": "MENU",
   "menu_sidenav": ["Analytics","Calendar","Tasks","Billing"],
 

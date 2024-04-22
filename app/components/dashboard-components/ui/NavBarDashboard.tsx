@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import DropProfileItems from "@/app/components/dashboard-components/ui/DropProfileItems";
+import DropProfileItems from "@/app/components/dashboard-components/ui/navbar-dashboard/DropProfileItems";
 import DropNotificationItems from "@/app/components/dashboard-components/ui/DropNotificationItems";
 import {useNotificationContext, useTranslationContext} from "@/app/[lng]/hooks";
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
