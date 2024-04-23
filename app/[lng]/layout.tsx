@@ -1,7 +1,7 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import {doTranslation} from "@/app/il8n";
-import {NavbarContext, TranslationContext, IsOpenContext} from "./contexts";
+import {NavbarContext, TranslationContext, IsOpenContext, LoaderContext} from "./contexts";
 import Loader from "@/app/components/Loader";
 
 export default function RootLayout({children, params: {lng}}: { children: React.ReactNode; params: { lng: string } }) {
@@ -12,15 +12,19 @@ export default function RootLayout({children, params: {lng}}: { children: React.
 
     useEffect(() => {
         async function fetchTranslation() {
-            setLoading(true); // Set loading state to true when starting to fetch translation
             const t = await doTranslation(theLanguage);
             setTranslation(t);
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            setLoading(false); // Set loading state to false after translation is fetched
         }
 
         fetchTranslation().then();
-    }, [theLanguage]);
+
+        async function loader() {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            setLoading(false);
+        }
+
+        loader().then();
+    }, [theLanguage, loading]);
 
     return (
         <html lang={lng}>
@@ -31,10 +35,12 @@ export default function RootLayout({children, params: {lng}}: { children: React.
         <TranslationContext.Provider value={{translation}}>
             <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
                 <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
-                    <main>
-                        {loading ? <Loader/> : null}
-                        {children}
-                    </main>
+                    <LoaderContext.Provider value={{loading, setLoading}}>
+                        <main>
+                            {loading ? <Loader/> : null}
+                            {children}
+                        </main>
+                    </LoaderContext.Provider>
                 </IsOpenContext.Provider>
             </NavbarContext.Provider>
         </TranslationContext.Provider>

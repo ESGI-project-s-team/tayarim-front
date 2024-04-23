@@ -4,7 +4,7 @@ import {ChevronDownIcon, LanguageIcon} from "@heroicons/react/20/solid"
 import {Fragment} from "react"
 import "../../globals.css";
 import {usePathname} from "next/navigation";
-import {useNavbarContext} from "@/app/[lng]/hooks";
+import {useLoaderContext, useNavbarContext} from "@/app/[lng]/hooks";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ")
@@ -24,6 +24,7 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({
                                                            }) => {
     const pathname = usePathname();
     const {theLanguage, setTheLanguage} = useNavbarContext();
+    const {setLoading} = useLoaderContext();
 
     function switchLocale(locale: React.SetStateAction<string>) {
         // e.g. '/en/about' or '/fr/contact'
@@ -34,6 +35,7 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({
 
     const onLanguageSelected = (option: string) => {
         setTheLanguage(option);
+        setLoading(true);
         switchLocale(option);
     };
 

@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
 import {logoutInFun} from "@/app/components/dashboard-components/ui/navbar-dashboard/action";
 import {useRouter} from "next/navigation";
-import {useTranslationContext} from "@/app/[lng]/hooks";
+import {useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
 
 
 const DropProfileItems: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter()
+    const {setLoading} = useLoaderContext();
     const {translation} = useTranslationContext();
 
     async function handleLogout() {
+        setLoading(true)
         await logoutInFun().then(
             async (response) => {
                 if (response.error) {

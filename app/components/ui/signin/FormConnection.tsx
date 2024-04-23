@@ -1,14 +1,26 @@
-import React, {FormEvent, useState} from "react";
-import {useTranslationContext} from "@/app/[lng]/hooks";
-import {signInFun} from "@/app/components/ui/signin/action";
-import Loader from "@/app/components/Loader";
+import React, {FormEvent, useEffect, useState} from "react";
+import {useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {checkTokenInFun, signInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from 'next/navigation'
 
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
+    const {loading, setLoading} = useLoaderContext();
     const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter()
+
+    useEffect(
+        () => {
+            setLoading(true)
+            checkTokenInFun().then(
+                async (response) => {
+                    if (response) {
+                        router.push("/dashboard")
+                    }
+                }
+            )
+        }, [router, setLoading]
+    )
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         setLoading(true)
@@ -81,17 +93,12 @@ const FormConnection: React.FC = () => {
                         </div>
 
                         <div>
-                            {loading && (
-                                <Loader/>
-                            )}{(
                             <button
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-custom-search px-3 py-1.5 text-sm font-semibold leading-6 text-black border-black border shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                             >
-
                                 {translation?.t('sign_in_button')}
                             </button>
-                        )}
                             {error && <p className="text-red-500 text-sm absolute">{translation?.t(error)}</p>}
                         </div>
                     </form>
