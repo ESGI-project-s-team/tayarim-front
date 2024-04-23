@@ -50,7 +50,7 @@ const NavBarDashboard: React.FC = () => {
 
 
         return (
-            <div className="fixed bg-white w-screen top-0 drop-shadow-2xl">
+            <div className="fixed bg-white w-screen top-0 drop-shadow-2xl z-10">
                 <div className="flex flex-row-reverse px-10 py-5 gap-10">
                     <div className="relative" ref={profileRef}>
                         <a className="flex items-center gap-4" href="#" onClick={handleOpenProfile}><span

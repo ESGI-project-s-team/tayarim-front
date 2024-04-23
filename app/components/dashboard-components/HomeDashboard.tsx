@@ -16,7 +16,8 @@ const HomeDashboard: React.FC = () => {
         }, [router]
     )
     return (
-        <div className="bg-[#f1f5f9] h-screen w-screen">
+        <div className="bg-[#f1f5f9] h-screen ml-14">
+            {/*TODO ANALYTICS*/}
         </div>
     );
 };

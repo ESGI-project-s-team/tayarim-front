@@ -1,5 +1,12 @@
 import {useContext} from "react";
-import {NavbarContext, TranslationContext, IsOpenContext, NotificationContext, LoaderContext} from "./contexts";
+import {
+    NavbarContext,
+    TranslationContext,
+    IsOpenContext,
+    NotificationContext,
+    LoaderContext,
+    IsOpenSideBarContext
+} from "./contexts";
 
 export function useNavbarContext() {
     return useContext(NavbarContext);
@@ -19,4 +26,8 @@ export function useNotificationContext() {
 
 export function useLoaderContext() {
     return useContext(LoaderContext);
+}
+
+export function useIsOpenSideBarContext() {
+    return useContext(IsOpenSideBarContext);
 }

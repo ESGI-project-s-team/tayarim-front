@@ -1,21 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import {useTranslationContext} from "@/app/[lng]/hooks";
+import {useIsOpenSideBarContext, useTranslationContext} from "@/app/[lng]/hooks";
 import {getIconManagement, getIconMenu, getIconOthers} from "@/app/icon-export";
 
 const SideNavDashboard: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(true);
+    const {isOpenSideBar, setIsOpenSideBar} = useIsOpenSideBarContext();
     const {translation} = useTranslationContext();
     const menu_sidenav = translation?.t('menu_sidenav', {returnObjects: true}) ?? [];
     const management_sidenav = translation?.t('management_sidenav', {returnObjects: true}) ?? [];
     const others_sidenav = translation?.t('others_sidenav', {returnObjects: true}) ?? [];
     useEffect(() => {
-        const mediaQuery = window.matchMedia("(max-width: 640px)"); // Change la taille en fonction de vos besoins
+        const mediaQuery = window.matchMedia("(max-width: 1024px)");
         const handleMediaQueryChange = (e: MediaQueryListEvent) => {
-            setIsOpen(!e.matches); // Inverse isOpen si la condition est vraie (taille de l'écran <= 640px)
+            setIsOpenSideBar(!e.matches);
         };
         mediaQuery.addEventListener('change', handleMediaQueryChange);
 
-        setIsOpen(!mediaQuery.matches);
+        setIsOpenSideBar(!mediaQuery.matches);
 
         return () => {
             mediaQuery.removeEventListener('change', handleMediaQueryChange);
@@ -24,21 +24,21 @@ const SideNavDashboard: React.FC = () => {
 
 
     const toggleOpen = () => {
-        setIsOpen(!isOpen);
+        setIsOpenSideBar(!isOpenSideBar);
     };
     return (
         <div style={{scrollbarWidth: "none"}}
-             className={`absolute w-72 overflow-scroll inset-y-0 left-0 transition-all duration-300 ease-in-out bg-[#1c2434] ${
-                 isOpen ? '' : '-translate-x-60'
+             className={`absolute w-72 overflow-scroll inset-y-0 left-0 transition-all duration-300 ease-in-out bg-[#1c2434] z-10  ${
+                 isOpenSideBar ? '' : '-translate-x-60'
              }`}
         >
-            <div className=" fixed w-72 z-10 flex pt-10 pb-7 bg-[#1c2434] justify-around ">
-                <div className="">
+            <div className=" fixed w-72 z-10 flex pt-10 pb-7 bg-[#1c2434] justify-around lg:justify-start ">
+                <div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img className="h-8 w-auto justify-center" src="/logo-contour.png" alt="logo"/>
+                    <img className="h-8 w-auto justify-center lg:ml-10" src="/logo-contour.png" alt="logo"/>
                 </div>
-                <div className={`mt-1 cursor-pointer ${
-                    isOpen ? '' : 'transform rotate-180 ml-10'
+                <div className={`mt-1 cursor-pointer lg:hidden ${
+                    isOpenSideBar ? '' : 'transform rotate-180 ml-10'
                 }`}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                          stroke="currentColor" className="w-6 h-6 text-[#dee4ee]" onClick={toggleOpen}>
