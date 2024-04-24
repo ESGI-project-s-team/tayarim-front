@@ -21,7 +21,7 @@ const SideNavDashboard: React.FC = () => {
         return () => {
             mediaQuery.removeEventListener('change', handleMediaQueryChange);
         };
-    }, []);
+    }, [setIsOpenSideBar]);
 
 
     const toggleOpen = () => {

@@ -5,7 +5,7 @@ import {useRouter} from 'next/navigation'
 
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
-    const {loading, setLoading} = useLoaderContext();
+    const {setLoading} = useLoaderContext();
     const [error, setError] = useState<string | null>(null);
     const router = useRouter()
 
