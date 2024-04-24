@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useIsOpenSideBarContext, useTranslationContext} from "@/app/[lng]/hooks";
 import {getIconManagement, getIconMenu, getIconOthers} from "@/app/icon-export";
+import {getHrefManagement} from "@/app/href-export";
 
 const SideNavDashboard: React.FC = () => {
     const {isOpenSideBar, setIsOpenSideBar} = useIsOpenSideBarContext();
@@ -70,7 +71,7 @@ const SideNavDashboard: React.FC = () => {
                             {management_sidenav.map((page: string, index: number) => (
                                 <li key={index}><a
                                     className=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-[#2b334a]"
-                                    href="">
+                                    href={getHrefManagement(index)}>
                                     {getIconManagement(index)}
                                     {page}
                                 </a>
