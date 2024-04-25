@@ -5,6 +5,7 @@ import {redirect} from "next/navigation";
 const getAllOwnersUrl = `${BACKEND_API}/proprietaires`
 const createOwnerUrl = `${BACKEND_API}/proprietaires`
 const getByIdOwnerUrl = `${BACKEND_API}/proprietaires/logout`
+const updateOwnerUrl = `${BACKEND_API}/proprietaires`
 
 export async function createOwner(credentials: any) {
     try {
@@ -31,6 +32,35 @@ export async function createOwner(credentials: any) {
     }
 }
 
+export async function updateOwner(credentials: any) {
+    const token = cookies().get("token")?.value;
+    const id = credentials.id.toString();
+    //remove logements from credentials
+    delete credentials.logements;
+    const url = updateOwnerUrl + "/" + id;
+    try {
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(credentials),
+        });
+        console.log(response);
+        const data = await response.json();
+
+        if (!response.ok) {
+            if (data.errors) {
+                return {error: data.errors};
+            }
+        }
+        return data;
+    } catch (error: any) {
+        return {error: error.message};
+    }
+}
+
 export async function getAllOwners(): Promise<any> {
     const token = cookies().get("token")?.value;
     try {
@@ -47,7 +77,6 @@ export async function getAllOwners(): Promise<any> {
                 return {error: data.errors};
             }
         }
-        console.log(data)
         return data;
     } catch (error: any) {
         return {error: error.message};
