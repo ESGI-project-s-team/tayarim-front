@@ -23,7 +23,7 @@ jobs:
         with:
           file: ./Dockerfile
           push: true
-          tags: gcr.io/tayarim-project/tayarim_front:latest
+          tags: gcr.io/tayarim-project/tayarim_front:${{ github.sha }}
 #      - name: Build the Docker image for the frontend
 #        run: docker build . --tag rg.fr-par.scw.cloud/babyteacher-registry/backend:$GITHUB_SHA
 #      - name: Tag the image
