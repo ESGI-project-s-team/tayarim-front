@@ -15,7 +15,6 @@ export async function login(credentials: any) {
             },
             body: JSON.stringify(credentials),
         });
-
         const data = await response.json();
         if (!response.ok) {
             if (data.errors) {

@@ -6,3 +6,4 @@ export const IsOpenContext = createContext<any>(undefined);
 export const NotificationContext = createContext<any>(undefined);
 export const LoaderContext = createContext<any>(undefined);
 export const IsOpenSideBarContext = createContext<any>(undefined);
+export const IsErrorContext = createContext<any>(undefined);

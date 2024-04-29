@@ -1,11 +1,11 @@
 import {BACKEND_API} from "@/utils/constants";
 import {cookies} from "next/headers";
-import {redirect} from "next/navigation";
 
 const getAllOwnersUrl = `${BACKEND_API}/proprietaires`
 const createOwnerUrl = `${BACKEND_API}/proprietaires`
 const getByIdOwnerUrl = `${BACKEND_API}/proprietaires/logout`
 const updateOwnerUrl = `${BACKEND_API}/proprietaires`
+const deleteOwnerUrl = `${BACKEND_API}/proprietaires`
 
 export async function createOwner(credentials: any) {
     try {
@@ -36,6 +36,7 @@ export async function updateOwner(credentials: any) {
     const token = cookies().get("token")?.value;
     const id = credentials.id.toString();
     //remove logements from credentials
+    //TODO DO NOT DELETE LOGEMENTS
     delete credentials.logements;
     const url = updateOwnerUrl + "/" + id;
     try {
@@ -47,9 +48,12 @@ export async function updateOwner(credentials: any) {
             },
             body: JSON.stringify(credentials),
         });
-        console.log(response);
         const data = await response.json();
-
+        return {
+            errors: [
+                "error_token_expire_or_invalid"
+            ]
+        };
         if (!response.ok) {
             if (data.errors) {
                 return {error: data.errors};
@@ -72,6 +76,7 @@ export async function getAllOwners(): Promise<any> {
             },
         });
         const data = await response.json();
+
         if (!response.ok) {
             if (data.errors) {
                 return {error: data.errors};
@@ -101,6 +106,30 @@ export async function getByIdOwner(id: string): Promise<any> {
 
     } catch (error: any) {
         return false;
+    }
+}
+
+export async function deleteOwner(id: any) {
+    const token = cookies().get("token")?.value;
+    const url = deleteOwnerUrl + "/" + id.id;
+    try {
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log(response)
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {error: data.errors};
+            }
+        }
+        return data;
+    } catch (error: any) {
+        return {error: error.message};
     }
 }
 

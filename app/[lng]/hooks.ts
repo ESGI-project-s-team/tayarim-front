@@ -5,7 +5,7 @@ import {
     IsOpenContext,
     NotificationContext,
     LoaderContext,
-    IsOpenSideBarContext
+    IsOpenSideBarContext, IsErrorContext
 } from "./contexts";
 
 export function useNavbarContext() {
@@ -30,4 +30,8 @@ export function useLoaderContext() {
 
 export function useIsOpenSideBarContext() {
     return useContext(IsOpenSideBarContext);
+}
+
+export function useIsErrorContext() {
+    return useContext(IsErrorContext);
 }
