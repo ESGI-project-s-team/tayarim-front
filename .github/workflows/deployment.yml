@@ -33,7 +33,7 @@ jobs:
       - name: Trigger terraform workflow
         uses: convictional/trigger-workflow-and-wait@v1.6.5
         with:
-          owner: ESGI-project-s-team
+          owner: ESGI-project-s-teams
           repo: iac-tayarim
           github_token: ${{ secrets.ACTIONS_KEY }}
           workflow_file_name: terraform_deploy.yml
