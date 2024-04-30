@@ -2,17 +2,30 @@ import {Fragment, useRef} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import {ExclamationTriangleIcon} from '@heroicons/react/24/outline'
 import {deleteOwnerInFun} from "@/app/components/ui/modal/modal-delete-owner/action";
+import {useIsErrorContext, useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
 
-export default function ModalDeleteOwner({isOpen, onClose, id}: {
+export default function ModalDeleteOwner({isOpen, onClose, id, setOwnerDetails}: {
     isOpen: boolean;
     onClose: () => void;
+    setOwnerDetails: any;
     id: string;
 }) {
+    const {setError} = useIsErrorContext();
     const cancelButtonRef = useRef(null)
+    const {setLoading} = useLoaderContext();
+    const {translation} = useTranslationContext();
     const handleDeleteOwner = async () => {
         try {
-            await deleteOwnerInFun({id});
-            onClose();
+            deleteOwnerInFun({id}).then((response) => {
+                if (response.errors) {
+                    setError(response.errors)
+                } else {
+                    setOwnerDetails(null)
+                    setError(null)
+                    onClose(); // Close the modal
+                    setLoading(true)
+                }
+            });
         } catch (error) {
             console.error(error);
         }
@@ -55,13 +68,11 @@ export default function ModalDeleteOwner({isOpen, onClose, id}: {
                                         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                             <Dialog.Title as="h3"
                                                           className="text-base font-semibold leading-6 text-gray-900">
-                                                Delete owner
+                                                {translation?.t('delete_owner')}
                                             </Dialog.Title>
                                             <div className="mt-2" ref={cancelButtonRef}>
                                                 <p className="text-sm text-gray-500">
-                                                    Are you sure you want to deactivate this account? All of data
-                                                    will be permanently
-                                                    removed. This action cannot be undone.
+                                                    {translation?.t('warn_delete_owner')}
                                                 </p>
                                             </div>
                                         </div>
@@ -73,14 +84,14 @@ export default function ModalDeleteOwner({isOpen, onClose, id}: {
                                         className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                                         onClick={handleDeleteOwner}
                                     >
-                                        Delete
+                                        {translation?.t('delete')}
                                     </button>
                                     <button
                                         type="button"
                                         className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                                         onClick={onClose}
                                     >
-                                        Cancel
+                                        {translation?.t('cancel')}
                                     </button>
                                 </div>
                             </Dialog.Panel>

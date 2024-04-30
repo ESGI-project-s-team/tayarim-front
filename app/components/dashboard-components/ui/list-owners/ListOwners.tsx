@@ -160,7 +160,8 @@ const ListOwners: React.FC = () => {
                                 setOwnerDetails={setOwnerDetails}/>
             }
             {isOpenDelete &&
-                <ModalDeleteOwner isOpen={isOpenDelete} onClose={closeModal} id={ownerDetails.id.toString()}/>
+                <ModalDeleteOwner isOpen={isOpenDelete} onClose={closeModal} id={ownerDetails.id.toString()
+                } setOwnerDetails={setOwnerDetails}/>
             }
         </div>
     );

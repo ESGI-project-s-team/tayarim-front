@@ -1,4 +1,7 @@
 {
+  "cancel": "Cancel",
+  "delete_owner": "Delete Owner",
+  "warn_delete_owner": "Are you sure you want to deactivate this account? All of data will be permanently removed. This action cannot be undone.",
   "owner_name": "Owner Name",
   "phone": "Phone",
   "house": "House",

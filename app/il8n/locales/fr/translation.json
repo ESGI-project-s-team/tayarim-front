@@ -1,4 +1,7 @@
 {
+  "cancel": "Annuler",
+  "delete_owner": "Supprimer le propriétaire",
+  "warn_delete_owner": "Êtes-vous sûr de vouloir désactiver ce compte ? Toutes les données seront définitivement supprimées. Cette action ne peut pas être annulée.",
   "owner_name": "Nom du propriétaire",
   "phone": "Téléphone",
   "house": "Logement",
