@@ -9,24 +9,27 @@ const deleteOwnerUrl = `${BACKEND_API}/proprietaires`
 
 export async function createOwner(credentials: any) {
     try {
-        const response = await fetch(createOwnerUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(credentials),
-        });
+        const token = cookies().get("token")?.value;
 
-        const data = await response.json();
-        if (!response.ok) {
-            if (data.errors) {
-                return {errors: data.errors};
+        try {
+            const response = await fetch(updateOwnerUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(credentials),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                if (data.errors) {
+                    return {errors: data.errors};
+                }
             }
+            return data;
+        } catch (error: any) {
+            return {errors: error.message};
         }
-        const userID = data.id;
-        const token = data.token;
-        cookies().set("token", token);
-        return {...data, userID};
     } catch (error: any) {
         return {errors: error.message};
     }

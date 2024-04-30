@@ -1,18 +1,16 @@
 import {Fragment, useEffect, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
-import MultiSelectListbox from '@/app/components/ui/modal/ui/MultiSelectListbox';
-import {updateOwnerInFun} from '@/app/components/ui/modal/modal-edit-owner/action';
 import {useIsErrorContext, useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {createOwnerInFun} from "@/app/components/ui/modal/modal-create-owner/actions";
 
 
-export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerDetails}: {
+export default function ModalCreateOwner({isOpen, onClose, setOwnerDetails}: {
     isOpen: boolean;
     onClose: () => void;
-    ownerDetails: any
     setOwnerDetails: any
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
-    const [formValues, setFormValues] = useState<any>({...ownerDetails}); // Initial state from `owner`
+    const [formValues, setFormValues] = useState<any>(null); // Initial state from `owner`
     const {setError} = useIsErrorContext();
     const {setLoading} = useLoaderContext();
     const {translation} = useTranslationContext();
@@ -27,15 +25,8 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
     };
 
     const handleActionUpdateOwner = async () => {
-        //remove from formValues sames values between owner and formValues
-        Object.keys(ownerDetails).forEach((key) => {
-            if (ownerDetails[key] === formValues[key]) {
-                if (key !== 'id')
-                    delete formValues[key]
-            }
-        })
         try {
-            updateOwnerInFun(formValues).then((response) => {
+            createOwnerInFun(formValues).then((response) => {
                 if (response.errors) {
                     setError(response.errors)
                 } else {
@@ -86,7 +77,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
                                     <div className="flex flex-col gap-9">
                                         <div className="rounded-sm border stroke-1 bg-white shadow">
                                             <div className="border-b border-[#dee4ee] py-4 flex justify-between px-7">
-                                                <h3 className="font-medium text-black">{translation?.t('form_edit_owner')}</h3>
+                                                <h3 className="font-medium text-black">{translation?.t('form_add_owner')}</h3>
                                                 <button onClick={onClose} className="text-[#3c50e0] font-medium">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"
@@ -108,7 +99,6 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
                                                             placeholder="Enter your first name"
                                                             className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 outline-none transition"
                                                             type="text"
-                                                            value={formValues.prenom}
                                                             onChange={(e) => handleInputChange('prenom', e.target.value)} // Add onChange handler
                                                         />
                                                     </div>
@@ -121,7 +111,6 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
                                                             placeholder="Enter your last name"
                                                             className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                             type="text"
-                                                            value={formValues.nom}
                                                             onChange={(e) => handleInputChange('nom', e.target.value)} // Add onChange handler
                                                         />
                                                     </div>
@@ -134,7 +123,6 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
                                                         placeholder="Enter your email address"
                                                         className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                         type="email"
-                                                        value={formValues.email}
                                                         onChange={(e) => handleInputChange('email', e.target.value)} // Add onChange handler
                                                     />
                                                 </div>
@@ -148,23 +136,15 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
                                                         placeholder="Enter your phone number"
                                                         className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                         type="text"
-                                                        value={formValues.numTel}
                                                         onChange={(e) => handleInputChange('numTel', e.target.value)} // Add onChange handler
                                                     />
-                                                </div>
-
-                                                <div className="mb-5">
-                                                    <label
-                                                        className="mb-3 block text-sm font-medium text-black">
-                                                        {translation?.t('house')}</label>
-                                                    <MultiSelectListbox/>
                                                 </div>
                                                 <button
                                                     ref={focusElementRef}
                                                     onClick={handleActionUpdateOwner}
                                                     className="flex w-full justify-center rounded bg-[#3c50e0] p-3 font-medium text-white hover:bg-opacity-90"
                                                 >
-                                                    {translation?.t('form_edit_owner')}
+                                                    {translation?.t('form_add_owner')}
                                                 </button>
                                             </div>
                                         </div>
