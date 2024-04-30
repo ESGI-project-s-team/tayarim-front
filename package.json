@@ -7,7 +7,7 @@
     "start": "npm run start:$NODE_ENV",
     "start:": "npm run start:development",
     "start:development": "next dev",
-    "start:production": "next start",
+    "start:production": "next start -p 4000",
     "start:test": "next start"
   },
   "dependencies": {
