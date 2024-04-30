@@ -1,5 +1,6 @@
 import {BACKEND_API} from "@/utils/constants";
 import {cookies} from "next/headers";
+import {throws} from "node:assert";
 
 const getAllOwnersUrl = `${BACKEND_API}/proprietaires`
 const createOwnerUrl = `${BACKEND_API}/proprietaires`
@@ -8,30 +9,27 @@ const updateOwnerUrl = `${BACKEND_API}/proprietaires`
 const deleteOwnerUrl = `${BACKEND_API}/proprietaires`
 
 export async function createOwner(credentials: any) {
-    try {
-        const token = cookies().get("token")?.value;
+    const token = cookies().get("token")?.value;
 
-        try {
-            const response = await fetch(updateOwnerUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(credentials),
-            });
-            const data = await response.json();
-            if (!response.ok) {
-                if (data.errors) {
-                    return {errors: data.errors};
-                }
+    try {
+        const response: any = await fetch(updateOwnerUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(credentials),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {errors: data.errors};
             }
-            return data;
-        } catch (error: any) {
-            return {errors: error.message};
+            return {errors: ["error_occurred"]};
         }
+        return data;
     } catch (error: any) {
-        return {errors: error.message};
+        return Promise.reject(Error(error));
     }
 }
 
@@ -56,10 +54,11 @@ export async function updateOwner(credentials: any) {
             if (data.errors) {
                 return {errors: data.errors};
             }
+            return {errors: "error_occurred"};
         }
         return data;
     } catch (error: any) {
-        return {errors: error.message};
+        return {errors: error};
     }
 }
 
@@ -79,10 +78,11 @@ export async function getAllOwners(): Promise<any> {
             if (data.errors) {
                 return {errors: data.errors};
             }
+            return {errors: "error_occurred"};
         }
         return data;
     } catch (error: any) {
-        return {errors: error.message};
+        return {errors: error};
     }
 
 }
@@ -123,10 +123,11 @@ export async function deleteOwner(id: any) {
             if (data.errors) {
                 return {errors: data.errors};
             }
+            return {errors: "error_occurred"};
         }
         return data;
     } catch (error: any) {
-        return {errors: error.message};
+        return {errors: error};
     }
 }
 

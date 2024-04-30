@@ -69,7 +69,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
                     <div className="fixed inset-0 bg-black/25"/>
                 </Transition.Child>
 
-                <div className="fixed inset-0 overflow-y-auto ">
+                <div className="fixed inset-0 overflow-y-auto z-40">
                     <div className="flex min-h-full items-center justify-center p-4 text-center  z-50">
                         <Transition.Child
                             as={Fragment}
@@ -108,6 +108,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
                                                             placeholder="Enter your first name"
                                                             className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 outline-none transition"
                                                             type="text"
+                                                            required={true}
                                                             value={formValues.prenom}
                                                             onChange={(e) => handleInputChange('prenom', e.target.value)} // Add onChange handler
                                                         />
@@ -118,6 +119,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
                                                             className="mb-3 block text-sm font-medium text-black">
                                                             {translation?.t('form_lastname')}</label>
                                                         <input
+                                                            required={true}
                                                             placeholder="Enter your last name"
                                                             className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                             type="text"
@@ -131,6 +133,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
                                                     <label
                                                         className="mb-3 block text-sm font-medium text-black">Email</label>
                                                     <input
+                                                        required={true}
                                                         placeholder="Enter your email address"
                                                         className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                         type="email"
@@ -145,6 +148,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
                                                         {translation?.t('phone')}
                                                     </label>
                                                     <input
+                                                        required={true}
                                                         placeholder="Enter your phone number"
                                                         className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                         type="text"
