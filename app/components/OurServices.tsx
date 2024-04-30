@@ -87,7 +87,7 @@ const OurServices: React.FC = () => {
                             onChange={setSelectedIndex}
                         >
                             <Tab.List
-                                className="flex justify-center space-x-1 rounded-xl bg-custom-search  p-1  mx-auto max-w-xl ">
+                                className="flex justify-center space-x-1 rounded-xl bg-custom-search  p-1  sm:mx-auto max-w-xl mx-2 ">
                                 {Object.keys(categories).map((category) => (
                                     <Tab
                                         key={category}

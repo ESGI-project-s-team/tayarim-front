@@ -1,3 +1,5 @@
+import React from "react";
+
 const Footer: React.FC = () => {
     return (
         <footer className="bg-custom-search text-black py-8  bottom-0 w-full relative mt-10">

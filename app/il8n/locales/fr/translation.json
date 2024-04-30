@@ -1,4 +1,43 @@
 {
+  "cancel": "Annuler",
+  "delete_owner": "Supprimer le propriétaire",
+  "warn_delete_owner": "Êtes-vous sûr de vouloir désactiver ce compte ? Toutes les données seront définitivement supprimées. Cette action ne peut pas être annulée.",
+  "owner_name": "Nom du propriétaire",
+  "phone": "Téléphone",
+  "house": "Logement",
+  "edit": "Modifier",
+  "delete": "Supprimer",
+  "form_edit_owner": "Modifier le propriétaire",
+  "form_add_owner": "Ajouter un propriétaire",
+  "form_lastname": "Nom de famille",
+  "form_firstname": "Prénom",
+  "form_multi_select": "Sélection multiple",
+  "logout": "Déconnexion",
+  "menu_placeholder": "MENU",
+  "menu_sidenav": [
+    "Analyses",
+    "Calendrier",
+    "Tâches",
+    "Facturation"
+  ],
+  "management_placeholder": "GESTION",
+  "management_sidenav": [
+    "Propriétaires",
+    "Logements",
+    "Annonces"
+  ],
+  "others_placeholder": "AUTRES",
+  "others_sidenav": [
+    "Réservations",
+    "Virement Bancaire",
+    "Achats"
+  ],
+  "welcome_placeholder": "Bon retour ! Connectez-vous pour continuer",
+  "email_placeholder": "Adresse e-mail",
+  "password_placeholder": "Mot de passe",
+  "sign_in_button": "Connexion",
+  "forgot_password": "Mot de passe oublié ?",
+  "forgot_email": "Adresse e-mail oubliée ?",
   "title_body": "À la maison où que vous soyez",
   "second_title_body": "Voyagez ou louez votre bien en toute tranquillité avec Tayarim.",
   "nav_home": "Accueil",

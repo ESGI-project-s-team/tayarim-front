@@ -1,4 +1,43 @@
 {
+  "cancel": "Cancel",
+  "delete_owner": "Delete Owner",
+  "warn_delete_owner": "Are you sure you want to deactivate this account? All of data will be permanently removed. This action cannot be undone.",
+  "owner_name": "Owner Name",
+  "phone": "Phone",
+  "house": "House",
+  "edit": "Edit",
+  "delete": "Delete",
+  "form_edit_owner": "Edit Owner",
+  "form_add_owner": "Add Owner",
+  "form_lastname": "Last Name",
+  "form_firstname": "First Name",
+  "form_multi_select": "Select values",
+  "logout": "Log out",
+  "menu_placeholder": "MENU",
+  "menu_sidenav": [
+    "Analytics",
+    "Calendar",
+    "Tasks",
+    "Billing"
+  ],
+  "management_placeholder": "MANAGEMENT",
+  "management_sidenav": [
+    "Owner",
+    "Housing",
+    "Announcements"
+  ],
+  "others_placeholder": "OTHERS",
+  "others_sidenav": [
+    "Reservations",
+    "Bank Transfer",
+    "Purchases"
+  ],
+  "welcome_placeholder": "Welcome back ! Please enter your details",
+  "email_placeholder": "Email address",
+  "password_placeholder": "Password",
+  "sign_in_button": "Sign in",
+  "forgot_password": "Forgot password?",
+  "forgot_email": "Forgot email?",
   "title_body": "At home wherever you are",
   "second_title_body": "Travel or rent your property with complete peace of mind with Tayarim",
   "nav_home": "Home",
