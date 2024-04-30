@@ -37,13 +37,13 @@ export default function ModalCreateOwner({isOpen, onClose, setOwnerDetails}: {
                 }
             }); // Pass the updated form values
         } catch (error) {
-            console.error('Error updating owner:', error);
+            setError(error)
         }
     };
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative " onClose={
+            <Dialog as="div" className="relative z-40" onClose={
                 () => {
                     null
                 }
@@ -72,7 +72,7 @@ export default function ModalCreateOwner({isOpen, onClose, setOwnerDetails}: {
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel
-                                className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all ">
+                                className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all z-50 ">
                                 <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
                                     <div className="flex flex-col gap-9">
                                         <div className="rounded-sm border stroke-1 bg-white shadow">

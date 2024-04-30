@@ -6,6 +6,6 @@ export async function createOwnerInFun(credentials: any) {
     try {
         return await createOwner(credentials);
     } catch (error: any) {
-        throw new Error(error);
+        return {errors: error};
     }
 }
