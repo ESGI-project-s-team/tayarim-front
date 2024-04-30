@@ -1,4 +1,14 @@
 {
+  "owner_name": "Nom du propriétaire",
+  "phone": "Téléphone",
+  "house": "Logement",
+  "edit": "Modifier",
+  "delete": "Supprimer",
+  "form_edit_owner": "Modifier le propriétaire",
+  "form_add_owner": "Ajouter un propriétaire",
+  "form_lastname": "Nom de famille",
+  "form_firstname": "Prénom",
+  "form_multi_select": "Sélection multiple",
   "logout": "Déconnexion",
   "menu_placeholder": "MENU",
   "menu_sidenav": [

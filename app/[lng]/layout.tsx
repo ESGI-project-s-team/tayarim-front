@@ -40,12 +40,10 @@ export default function RootLayout({children, params: {lng}}: { children: React.
                         <LoaderContext.Provider value={{loading, setLoading}}>
                             {isError ? <ErrorsManagement data={isError}/> : null}
                             <body>
-
                             <main>
                                 {loading ? <Loader/> : null}
                                 {children}
                             </main>
-
                             </body>
                         </LoaderContext.Provider>
                     </IsOpenContext.Provider>

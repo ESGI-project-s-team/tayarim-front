@@ -3,8 +3,8 @@ import {getAllOwnersInFun} from "@/app/components/dashboard-components/ui/list-o
 import ModalEditOwner from "@/app/components/ui/modal/modal-edit-owner/ModalEditOwner";
 import {ProprietaireDTO} from "@/app/model/Owner";
 import ModalDeleteOwner from "@/app/components/ui/modal/modal-delete-owner/ModalDeleteOwner";
-import ErrorsManagement from "@/utils/apiErrors";
-import {useIsErrorContext} from "@/app/[lng]/hooks";
+import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {Simulate} from "react-dom/test-utils";
 
 
 const ListOwners: React.FC = () => {
@@ -13,6 +13,7 @@ const ListOwners: React.FC = () => {
     const [isOpenDelete, setIsOpenDelete] = useState(false)
     const [ownerDetails, setOwnerDetails] = useState({} as ProprietaireDTO)
     const {setError} = useIsErrorContext();
+    const {translation} = useTranslationContext();
 
     function openModalEdit(owner: ProprietaireDTO) {
         setOwnerDetails(owner)
@@ -39,9 +40,7 @@ const ListOwners: React.FC = () => {
                     setOwners(response);
                 }
             });
-    }, [
-        setError
-    ]);
+    }, [setError, ownerDetails]);
     return (
         <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0  ">
             <div className="relative top-32 w-full flex justify-end mb-2 ">
@@ -59,23 +58,24 @@ const ListOwners: React.FC = () => {
             <div className="relative  border  bg-white   top-32  overflow-hidden rounded-[10px] stroke-2">
                 <div className="max-w-full overflow-x-auto">
                     <div className="min-w-[1170px]">
-                        <div className="grid grid-cols-10 bg-[#F9FAFB] px-5 py-4 ">
-                            <div className="col-span-2 items-center "><p className="font-medium">Owner
-                                Name</p>
+                        <div className="grid grid-cols-12 bg-[#F9FAFB] px-5 py-4 ">
+                            <div className="col-span-2 items-center "><p className="font-medium">
+                                {translation?.t('owner_name')}
+                            </p>
                             </div>
                             <div className="col-span-2  items-center ">
                                 <p className="font-medium">Email</p>
                             </div>
                             <div className="col-span-2  items-center ">
-                                <p className="font-medium">Phone</p>
+                                <p className="font-medium">{translation?.t('phone')}</p>
                             </div>
                             <div className="col-span-2  items-center ">
-                                <p className="font-medium">House</p>
+                                <p className="font-medium">{translation?.t('house')}</p>
                             </div>
                         </div>
                         {owners.map((owner: any, index: number) => (
                             <div
-                                className="grid  border-t  py-4 grid-cols-10 px-5 "
+                                className="grid  border-t  py-4 grid-cols-12 px-5 "
                                 key={index}>
                                 <div className="col-span-2  items-center">
                                     <div className="flex gap-4 flex-row items-center">
@@ -105,7 +105,7 @@ const ListOwners: React.FC = () => {
                                     </div>
                                 }
                                 <div
-                                    className="col-span-1  items-center flex text-sm text-[#3c50e0] hover:underline cursor-pointer"
+                                    className="col-span-2  items-center flex text-sm text-[#3c50e0] hover:underline cursor-pointer"
                                     onClick={() =>
                                         openModalEdit({
                                             id: owner.id,
@@ -118,7 +118,7 @@ const ListOwners: React.FC = () => {
                                         })
                                     }
                                 >
-                                    Edit
+                                    {translation?.t('edit')}
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          strokeWidth="1.5"
                                          stroke="currentColor" className="w-4 h-4 ml-1">
@@ -127,7 +127,7 @@ const ListOwners: React.FC = () => {
                                     </svg>
                                 </div>
                                 <div
-                                    className="col-span-1  items-center flex text-sm text-red-600 hover:underline cursor-pointer"
+                                    className="col-span-2  items-center flex text-sm text-red-600 hover:underline cursor-pointer"
                                     onClick={() =>
                                         openModalDelete(
                                             {
@@ -142,7 +142,7 @@ const ListOwners: React.FC = () => {
                                         )
                                     }
                                 >
-                                    Delete
+                                    {translation?.t('delete')}
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          strokeWidth="1.5" stroke="currentColor" className="w-4 h-4 ml-1">
                                         <path strokeLinecap="round" strokeLinejoin="round"
@@ -156,7 +156,8 @@ const ListOwners: React.FC = () => {
                 </div>
             </div>
             {isOpenEdit &&
-                <ModalEditOwner isOpen={isOpenEdit} onClose={closeModal} owner={ownerDetails}/>
+                <ModalEditOwner isOpen={isOpenEdit} onClose={closeModal} ownerDetails={ownerDetails}
+                                setOwnerDetails={setOwnerDetails}/>
             }
             {isOpenDelete &&
                 <ModalDeleteOwner isOpen={isOpenDelete} onClose={closeModal} id={ownerDetails.id.toString()}/>

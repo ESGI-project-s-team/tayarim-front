@@ -32,7 +32,7 @@ const MultiSelectListbox = () => {
     };
 
     const getSelectedNames = () => {
-        if (selected.length === 0) return 'Select house';
+        if (selected.length === 0) return 'Select values...';
         return selected.map((person) => person.name).join(', ');
     };
 

@@ -10,7 +10,6 @@ export default function ModalDeleteOwner({isOpen, onClose, id}: {
 }) {
     const cancelButtonRef = useRef(null)
     const handleDeleteOwner = async () => {
-        console.log("test")
         try {
             await deleteOwnerInFun({id});
             onClose();

@@ -14,8 +14,8 @@ const ErrorsManagement: React.FC<ErrorsManagementProps> = (data: any) => {
     }
 
     return (
-        <div className=" lg:ml-80 lg:mr-7 mr-2 ml-14  right-0 absolute z-50">
-            <div className="relative top-32 flex justify-end mb-2">
+        <div className=" lg:ml-80 lg:mr-7 mr-2 ml-14  right-0 absolute z-50 top-32">
+            <div className="relative  flex justify-end mb-2">
                 <div className="bg-red-100 flex p-5 rounded text-red-600">
                     <div className="flex-col">
                         <strong className="font-bold">Errors !</strong>

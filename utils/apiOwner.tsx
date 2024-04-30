@@ -20,7 +20,7 @@ export async function createOwner(credentials: any) {
         const data = await response.json();
         if (!response.ok) {
             if (data.errors) {
-                return {error: data.errors};
+                return {errors: data.errors};
             }
         }
         const userID = data.id;
@@ -28,7 +28,7 @@ export async function createOwner(credentials: any) {
         cookies().set("token", token);
         return {...data, userID};
     } catch (error: any) {
-        return {error: error.message};
+        return {errors: error.message};
     }
 }
 
@@ -49,19 +49,14 @@ export async function updateOwner(credentials: any) {
             body: JSON.stringify(credentials),
         });
         const data = await response.json();
-        return {
-            errors: [
-                "error_token_expire_or_invalid"
-            ]
-        };
         if (!response.ok) {
             if (data.errors) {
-                return {error: data.errors};
+                return {errors: data.errors};
             }
         }
         return data;
     } catch (error: any) {
-        return {error: error.message};
+        return {errors: error.message};
     }
 }
 
@@ -79,12 +74,12 @@ export async function getAllOwners(): Promise<any> {
 
         if (!response.ok) {
             if (data.errors) {
-                return {error: data.errors};
+                return {errors: data.errors};
             }
         }
         return data;
     } catch (error: any) {
-        return {error: error.message};
+        return {errors: error.message};
     }
 
 }
@@ -120,16 +115,15 @@ export async function deleteOwner(id: any) {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response)
         const data = await response.json();
         if (!response.ok) {
             if (data.errors) {
-                return {error: data.errors};
+                return {errors: data.errors};
             }
         }
         return data;
     } catch (error: any) {
-        return {error: error.message};
+        return {errors: error.message};
     }
 }
 
