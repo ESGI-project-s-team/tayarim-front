@@ -4,7 +4,6 @@ import ModalEditOwner from "@/app/components/ui/modal/modal-edit-owner/ModalEdit
 import {ProprietaireDTO} from "@/app/model/Owner";
 import ModalDeleteOwner from "@/app/components/ui/modal/modal-delete-owner/ModalDeleteOwner";
 import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
-import {Simulate} from "react-dom/test-utils";
 import ModalCreateOwner from "@/app/components/ui/modal/modal-create-owner/ModalCreateOwner";
 
 

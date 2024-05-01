@@ -16,6 +16,9 @@ const Navbar: React.FC = () => {
     const toggleNavbar = (): void => {
         setIsOpen(!isOpen);
     };
+    const closeNavbar = (): void => {
+        setIsOpen(false);
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -27,10 +30,17 @@ const Navbar: React.FC = () => {
         };
 
         window.addEventListener('scroll', handleScroll, true);
+        const mediaQuery = window.matchMedia("(max-width: 1024px)");
+        const handleMediaQueryChange = (e: MediaQueryListEvent) => {
+            setIsOpen(!e.matches);
+        };
+        mediaQuery.addEventListener('change', handleMediaQueryChange);
 
         return () => {
             window.removeEventListener('scroll', handleScroll, true);
+            mediaQuery.removeEventListener('change', handleMediaQueryChange);
         };
+
     }, []);
 
     return (
@@ -54,7 +64,7 @@ const Navbar: React.FC = () => {
                         {pages.map((page, index) => (
                             <li key={index}
                                 style={{color: (showBackground) ? "black" : ""}}
-                                onClick={toggleNavbar}
+                                onClick={closeNavbar}
                                 className={isOpen ? "px-8 py-8 mt-5 cursor-pointer rounded font-semibold   hover:scale-110 lg:text-white text-black"
                                     : "px-8 py-8 mt-5 cursor-pointer rounded font-semibold  hover:scale-110 text-white"}>
                                 <Link className="p-2 rounded" href="/">{page}</Link>
