@@ -18,7 +18,7 @@ jobs:
           username: _json_key
           password: ${{ secrets.GCR_JSON_KEY }}
 
-      - name: Build and push docker image
+      - name: Build and push image
         uses: docker/build-push-action@v4
         with:
           file: ./Dockerfile
