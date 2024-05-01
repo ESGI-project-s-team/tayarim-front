@@ -52,7 +52,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative " onClose={
+            <Dialog as="div" className="relative z-40" onClose={
                 () => {
                     null
                 }

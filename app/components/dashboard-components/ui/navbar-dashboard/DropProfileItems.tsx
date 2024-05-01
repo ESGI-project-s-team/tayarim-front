@@ -11,9 +11,9 @@ const DropProfileItems: React.FC = () => {
     const {translation} = useTranslationContext();
 
     async function handleLogout() {
-        setLoading(true)
         await logoutInFun().then(
             async (response) => {
+                setLoading(true)
                 if (response.error) {
                     setError(response.error)
                 } else {

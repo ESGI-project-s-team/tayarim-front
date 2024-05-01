@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useIsOpenSideBarContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useAdminContext, useIsOpenSideBarContext, useTranslationContext} from "@/app/[lng]/hooks";
 import {getIconManagement, getIconMenu, getIconOthers} from "@/app/icon-export";
 import {getHrefManagement} from "@/app/href-export";
 
@@ -9,6 +9,7 @@ const SideNavDashboard: React.FC = () => {
     const menu_sidenav = translation?.t('menu_sidenav', {returnObjects: true}) ?? [];
     const management_sidenav = translation?.t('management_sidenav', {returnObjects: true}) ?? [];
     const others_sidenav = translation?.t('others_sidenav', {returnObjects: true}) ?? [];
+    const {isAdmin} = useAdminContext();
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 1024px)");
         const handleMediaQueryChange = (e: MediaQueryListEvent) => {
@@ -63,23 +64,23 @@ const SideNavDashboard: React.FC = () => {
                             ))}
                         </ul>
                     </div>
-                    {/*TODO - ONLY ADMIN*/}
-                    <div><h3
-                        className="mb-4 ml-4 text-sm font-semibold text-[#8a99af]">{translation?.t('management_placeholder')}</h3>
+                    {isAdmin &&
+                        <div><h3
+                            className="mb-4 ml-4 text-sm font-semibold text-[#8a99af]">{translation?.t('management_placeholder')}</h3>
 
-                        <ul className="mb-6 flex flex-col gap-1.5">
-                            {management_sidenav.map((page: string, index: number) => (
-                                <li key={index}><a
-                                    className=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-[#2b334a]"
-                                    href={getHrefManagement(index)}>
-                                    {getIconManagement(index)}
-                                    {page}
-                                </a>
-                                </li>
-                            ))}
-                        </ul>
-
-                    </div>
+                            <ul className="mb-6 flex flex-col gap-1.5">
+                                {management_sidenav.map((page: string, index: number) => (
+                                    <li key={index}><a
+                                        className=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-[#2b334a]"
+                                        href={getHrefManagement(index)}>
+                                        {getIconManagement(index)}
+                                        {page}
+                                    </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    }
                     <div><h3
                         className="mb-4 ml-4 text-sm font-semibold text-[#8a99af]">{translation?.t('others_placeholder')}</h3>
                         <ul className="mb-6 flex flex-col gap-1.5">
