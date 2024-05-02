@@ -1,6 +1,6 @@
+"use server";
 import {BACKEND_API} from "@/utils/constants";
 import {cookies} from "next/headers";
-import {redirect} from "next/navigation";
 
 const loginUrl = `${BACKEND_API}/auth/login`
 const checkTokenUrl = `${BACKEND_API}/auth`
@@ -70,7 +70,31 @@ export async function checkToken() {
             },
         });
         return response.ok;
+    } catch (error: any) {
+        return false;
+    }
+}
 
+export async function isAdminByToken() {
+    const token = cookies().get("token")?.value;
+    if (!token) {
+        return false;
+    }
+    try {
+        const response = await fetch(checkTokenUrl, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {error: data.errors};
+            }
+        }
+        return data.admin;
     } catch (error: any) {
         return false;
     }

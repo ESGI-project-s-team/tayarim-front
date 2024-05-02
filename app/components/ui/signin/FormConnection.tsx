@@ -1,11 +1,12 @@
 import React, {FormEvent, useEffect, useState} from "react";
-import {useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useAdminContext, useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
 import {checkTokenInFun, signInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from 'next/navigation'
 
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
     const {setLoading} = useLoaderContext();
+    const {setIsAdmin} = useAdminContext();
     const [error, setError] = useState<string | null>(null);
     const router = useRouter()
 
@@ -23,7 +24,6 @@ const FormConnection: React.FC = () => {
     )
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        setLoading(true)
         event.preventDefault()
         const formData = new FormData(event.currentTarget)
         const email = formData.get('email')
@@ -31,13 +31,13 @@ const FormConnection: React.FC = () => {
         const credentials = {"email": email, "motDePasse": password}
         await signInFun(credentials).then(
             async (response) => {
+                setLoading(true)
                 if (response.error) {
                     setError(response.error)
                 } else {
+                    setIsAdmin(response.admin)
                     router.push("/dashboard")
                 }
-                await new Promise((resolve) => setTimeout(resolve, 500));
-                setLoading(false)
             }
         )
     }

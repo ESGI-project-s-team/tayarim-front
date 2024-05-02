@@ -85,7 +85,7 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({
                     leaveTo="transform opacity-0 scale-95"
                 >
                     <Menu.Items
-                        className={`z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isOpen ? "" : "sm:absolute fixed sm:right-0 "}`}
+                        className={`z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ml-5 sm:ml-0 ${isOpen ? "" : "sm:absolute fixed sm:right-0 "}`}
                     >
                         <div className={isOpen ? "" : "sm:right-0"}>
                             <div className="py-1  ">

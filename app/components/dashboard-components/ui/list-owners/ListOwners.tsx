@@ -4,8 +4,8 @@ import ModalEditOwner from "@/app/components/ui/modal/modal-edit-owner/ModalEdit
 import {ProprietaireDTO} from "@/app/model/Owner";
 import ModalDeleteOwner from "@/app/components/ui/modal/modal-delete-owner/ModalDeleteOwner";
 import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
-import {Simulate} from "react-dom/test-utils";
 import ModalCreateOwner from "@/app/components/ui/modal/modal-create-owner/ModalCreateOwner";
+import {useRouter} from "next/navigation";
 
 
 const ListOwners: React.FC = () => {
@@ -16,6 +16,7 @@ const ListOwners: React.FC = () => {
     const [ownerDetails, setOwnerDetails] = useState({} as ProprietaireDTO)
     const {setError} = useIsErrorContext();
     const {translation} = useTranslationContext();
+    const router = useRouter()
 
     function openModalEdit(owner: ProprietaireDTO) {
         setOwnerDetails(owner)
@@ -38,6 +39,7 @@ const ListOwners: React.FC = () => {
             .then((response) => {
                 if (response.errors) {
                     setError(response.errors)
+                    router.push("/dashboard")
                 } else {
                     setError(null)
                     setOwners(response);
@@ -59,7 +61,8 @@ const ListOwners: React.FC = () => {
                     {translation?.t('form_add_owner')}
                 </button>
             </div>
-            <div className="relative  border  bg-white   top-32  overflow-hidden rounded-[10px] stroke-2">
+            <div
+                className="relative  border  bg-white   top-32   rounded-[10px] stroke-2 max-h-96 overflow-scroll ">
                 <div className="max-w-full overflow-x-auto">
                     <div className="min-w-[1170px]">
                         <div className="grid grid-cols-12 bg-[#F9FAFB] px-5 py-4 ">
