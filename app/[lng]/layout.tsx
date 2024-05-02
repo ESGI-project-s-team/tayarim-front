@@ -27,7 +27,6 @@ export default function RootLayout({children, params: {lng}}: { children: React.
             const t = await doTranslation(theLanguage);
             setTranslation(t);
         }
-
         fetchTranslation().then();
 
         async function isAdmin() {

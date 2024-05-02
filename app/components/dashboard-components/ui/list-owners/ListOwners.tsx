@@ -45,7 +45,7 @@ const ListOwners: React.FC = () => {
                     setOwners(response);
                 }
             });
-    }, [setError, ownerDetails]);
+    }, [setError, ownerDetails, router]);
     return (
         <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0  ">
             <div className="relative top-32 w-full flex justify-end mb-2 ">

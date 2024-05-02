@@ -41,7 +41,7 @@ const Navbar: React.FC = () => {
             mediaQuery.removeEventListener('change', handleMediaQueryChange);
         };
 
-    }, []);
+    }, [setIsOpen]);
 
     return (
         <div>
