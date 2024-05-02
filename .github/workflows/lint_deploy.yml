@@ -51,6 +51,6 @@ jobs:
           workflow_file_name: terraform_deploy.yml
           ref: main
           wait_interval: 30
-          propagate_failure: true
+          propagate_failure: false
           wait_workflow: true
           client_payload: '{"front":"${{ github.sha }}"}'
