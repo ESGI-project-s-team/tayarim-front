@@ -8,11 +8,13 @@ import {
     LoaderContext,
     IsErrorContext,
     IsAdminContext,
-    UserInfoContext
+    UserInfoContext,
+    IsSuccessContext
 } from "./contexts";
 import Loader from "@/app/components/Loader";
 import ErrorsManagement from "@/utils/apiErrors";
 import {isAdminByToken} from "@/utils/apiAuth";
+import SuccessManagement from "@/utils/apiSuccess";
 
 export default function RootLayout({children, params: {lng}}: { children: React.ReactNode; params: { lng: string } }) {
     const [theLanguage, setTheLanguage] = useState(lng);
@@ -21,6 +23,7 @@ export default function RootLayout({children, params: {lng}}: { children: React.
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isError, setError] = useState(undefined);
+    const [isSuccess, setSuccess] = useState(undefined);
     const [userInfos, setUserInfos] = useState({});
 
     useEffect(() => {
@@ -74,25 +77,29 @@ export default function RootLayout({children, params: {lng}}: { children: React.
         </head>
         <TranslationContext.Provider value={{translation}}>
             <IsErrorContext.Provider value={{isError, setError}}>
-                <IsAdminContext.Provider value={{isAdmin, setIsAdmin}}>
-                    <UserInfoContext.Provider value={{userInfos}}>
-                        <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
-                            <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
-                                <LoaderContext.Provider value={{loading, setLoading}}>
-                                    {isError ? <ErrorsManagement data={isError}/> : null}
-                                    <body>
-                                    <main>
-                                        {loading ? <Loader/> : null}
-                                        {children}
-                                    </main>
-                                    </body>
-                                </LoaderContext.Provider>
-                            </IsOpenContext.Provider>
-                        </NavbarContext.Provider>
-                    </UserInfoContext.Provider>
-                </IsAdminContext.Provider>
+                <IsSuccessContext.Provider value={{isSuccess, setSuccess}}>
+                    <IsAdminContext.Provider value={{isAdmin, setIsAdmin}}>
+                        <UserInfoContext.Provider value={{userInfos}}>
+                            <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
+                                <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
+                                    <LoaderContext.Provider value={{loading, setLoading}}>
+                                        {isError ? <ErrorsManagement data={isError}/> : null}
+                                        {isSuccess ? <SuccessManagement/> : null}
+                                        <body>
+                                        <main>
+                                            {loading ? <Loader/> : null}
+                                            {children}
+                                        </main>
+                                        </body>
+                                    </LoaderContext.Provider>
+                                </IsOpenContext.Provider>
+                            </NavbarContext.Provider>
+                        </UserInfoContext.Provider>
+                    </IsAdminContext.Provider>
+                </IsSuccessContext.Provider>
             </IsErrorContext.Provider>
         </TranslationContext.Provider>
         </html>
-    );
+    )
+        ;
 }

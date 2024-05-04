@@ -3,7 +3,7 @@ import {Dialog, Transition} from '@headlessui/react';
 import {
     useAdminContext,
     useIsErrorContext,
-    useLoaderContext,
+    useLoaderContext, useSuccessContext,
     useTranslationContext,
     useUserInfoContext
 } from "@/app/[lng]/hooks";
@@ -16,6 +16,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
     const {setError} = useIsErrorContext();
+    const {setSuccess} = useSuccessContext();
     const {setLoading} = useLoaderContext();
     const {translation} = useTranslationContext();
     const {userInfos} = useUserInfoContext();
@@ -45,7 +46,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                     if (response.errors) {
                         setError(response.errors)
                     } else {
-                        setError(null)
+                        setSuccess('Votre demande à bien été prise en compte.')
                         setLoading(true)
                         setIsAdmin(response.admin)
                         localStorage.setItem("id", response.id)
@@ -61,7 +62,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                     if (response.errors) {
                         setError(response.errors)
                     } else {
-                        setError(null)
+                        setSuccess(true)
                         setLoading(true)
                         setIsAdmin(response.admin)
                         localStorage.setItem("id", response.id)

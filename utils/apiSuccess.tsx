@@ -1,41 +1,34 @@
 import React, {useEffect} from "react";
 import {useIsErrorContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 
-interface ErrorsManagementProps {
-    data: any;
-}
-
-const ErrorsManagement: React.FC<ErrorsManagementProps> = (data: any) => {
+const SuccessManagement: React.FC = () => {
     const {translation} = useTranslationContext();
-    const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext();
+    const {setError} = useIsErrorContext();
 
     function handleClose() {
-        setError(null)
+        setSuccess(null)
     }
 
     useEffect(() => {
-        setSuccess(null)
+        setError(null)
     });
-
     return (
         <div className=" lg:ml-80 lg:mr-7 mr-2 ml-14  right-0 absolute z-50 top-32">
             <div className="relative  flex justify-end mb-2">
-                <div className="bg-red-100 flex p-5 rounded text-red-600">
+                <div className="bg-green-100 flex p-5 rounded text-green-600">
                     <div className="flex-col">
-                        <strong className="font-bold">Errors !</strong>
+                        <strong className="font-bold">Success !</strong>
                         <div>
-                            {data.data.map((error: any, index: any) => (
-                                <div key={index} className="block sm:inline">
-                                    {translation?.t(error)}
-                                </div>
-                            ))}
+                            <div className="block sm:inline">
+                                {translation?.t("success")}
+                            </div>
                         </div>
                     </div>
                     <span className="relative cursor-pointer"
                           onClick={handleClose}>
                   <svg
-                      className="fill-current h-6 w-6 text-red-600"
+                      className="fill-current h-6 w-6 text-green-600"
                       role="button"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
@@ -51,6 +44,6 @@ const ErrorsManagement: React.FC<ErrorsManagementProps> = (data: any) => {
         </div>
     );
 }
-export default ErrorsManagement;
+export default SuccessManagement;
 
 

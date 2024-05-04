@@ -9,3 +9,4 @@ export const IsOpenSideBarContext = createContext<any>(undefined);
 export const IsErrorContext = createContext<any>(undefined);
 export const IsAdminContext = createContext<any>(undefined);
 export const UserInfoContext = createContext<any>(undefined);
+export const IsSuccessContext = createContext<any>(undefined);
