@@ -1,6 +1,6 @@
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
 import React, {useEffect, useState} from "react";
-import {useIsOpenContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useAdminContext, useIsOpenContext, useTranslationContext} from "@/app/[lng]/hooks";
 import "../globals.css";
 import Link from 'next/link';
 
@@ -11,6 +11,7 @@ const Navbar: React.FC = () => {
     const {isOpen, setIsOpen} = useIsOpenContext();
     const pages: string[] = [translation?.t('nav_home')];
     const TOP_OFFSET = 100;
+
 
 
     const toggleNavbar = (): void => {

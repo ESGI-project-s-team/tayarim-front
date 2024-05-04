@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {logoutInFun} from "@/app/components/dashboard-components/ui/navbar-dashboard/action";
 import {useRouter} from "next/navigation";
 import {useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
+import ModalInfoUser from "@/app/components/ui/modal/modal-info-user/ModalInfoUser";
 
 
 const DropProfileItems: React.FC = () => {
@@ -9,6 +10,11 @@ const DropProfileItems: React.FC = () => {
     const router = useRouter()
     const {setLoading} = useLoaderContext();
     const {translation} = useTranslationContext();
+    const [isOpenInfo, setIsOpenInfo] = useState(false)
+
+    function closeModal() {
+        setIsOpenInfo(false)
+    }
 
     async function handleLogout() {
         await logoutInFun().then(
@@ -28,8 +34,8 @@ const DropProfileItems: React.FC = () => {
             className="absolute right-0 mt-4 flex w-60 flex-col rounded-sm border stroke-1 bg-white">
             <ul className="flex flex-col gap-5 border-b  px-6 py-7 font-normal lg:text-base text-sm text-[#64748b] ">
                 <li><a
-                    className=" flex items-center gap-3.5 duration-300 ease-in-out hover:text-[#1c2434] "
-                    href="/profile">
+                    className="flex items-center gap-3.5 duration-300 ease-in-out hover:text-[#1c2434] cursor-pointer"
+                    onClick={() => setIsOpenInfo(true)}>
                     <svg className=" fill-current" width="
                         22" height="22" viewBox="0 0 22 22" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
@@ -82,6 +88,9 @@ const DropProfileItems: React.FC = () => {
                 {translation?.t("logout")}
             </button>
             {error && <p className="text-red-500 text-sm ">{translation?.t(error)}</p>}
+            {isOpenInfo &&
+                <ModalInfoUser isOpen={isOpenInfo} onClose={closeModal}/>
+            }
         </div>
     );
 };

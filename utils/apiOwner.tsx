@@ -1,6 +1,5 @@
 import {BACKEND_API} from "@/utils/constants";
 import {cookies} from "next/headers";
-import {throws} from "node:assert";
 
 const getAllOwnersUrl = `${BACKEND_API}/proprietaires`
 const createOwnerUrl = `${BACKEND_API}/proprietaires`
@@ -12,7 +11,7 @@ export async function createOwner(credentials: any) {
     const token = cookies().get("token")?.value;
 
     try {
-        const response: any = await fetch(updateOwnerUrl, {
+        const response: any = await fetch(createOwnerUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -38,8 +37,9 @@ export async function updateOwner(credentials: any) {
     const id = credentials.id.toString();
     //remove logements from credentials
     //TODO DO NOT DELETE LOGEMENTS
-    delete credentials.logements;
-    const url = updateOwnerUrl + "/" + id;
+    if (credentials.logements)
+        delete credentials.logements;
+    let url = updateOwnerUrl + "/" + id;
     try {
         const response = await fetch(url, {
             method: "PUT",
