@@ -1,8 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
-import DropProfileItems from "@/app/components/dashboard-components/ui/navbar-dashboard/DropProfileItems";
+import DropProfileItems from "@/app/components/dashboard-components/ui/drop-profile-items/DropProfileItems";
 import DropNotificationItems from "@/app/components/dashboard-components/ui/DropNotificationItems";
 import {useAdminContext, useNotificationContext, useTranslationContext, useUserInfoContext} from "@/app/[lng]/hooks";
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
+import ModalInfoUser from "@/app/components/ui/modal/modal-info-user/ModalInfoUser";
 
 
 const NavBarDashboard: React.FC = () => {
@@ -15,6 +16,7 @@ const NavBarDashboard: React.FC = () => {
         const {translation} = useTranslationContext();
         const {isAdmin} = useAdminContext();
         const {userInfos} = useUserInfoContext();
+        const [isOpenInfo, setIsOpenInfo] = useState(false)
 
         const handleOpenProfile = () => {
             setIsOpenProfile(!isOpenProfile);
@@ -30,6 +32,11 @@ const NavBarDashboard: React.FC = () => {
             setIsOpenProfile(false);
             setIsOpenNotification(false);
         }
+
+        function closeModal() {
+            setIsOpenInfo(false)
+        }
+
 
         useEffect(() => {
             const hasOpenNotification = items.some((item: { state: boolean; }) => item.state);
@@ -55,6 +62,9 @@ const NavBarDashboard: React.FC = () => {
 
         return (
             <div className="fixed bg-white w-screen top-0 drop-shadow-xl z-10">
+                {isOpenInfo &&
+                    <ModalInfoUser isOpen={isOpenInfo} onClose={closeModal}/>
+                }
                 <div className="flex flex-row-reverse px-10 py-5 gap-10">
                     <div className="relative" ref={profileRef}>
                         <a className="flex items-center gap-4" href="#" onClick={handleOpenProfile}><span
@@ -73,7 +83,7 @@ const NavBarDashboard: React.FC = () => {
 
                         </a>
                         {isOpenProfile && (
-                            <DropProfileItems/>
+                            <DropProfileItems setIsOpenInfo={setIsOpenInfo}/>
                         )}
                     </div>
 

@@ -1,20 +1,18 @@
 import React, {useState} from 'react';
-import {logoutInFun} from "@/app/components/dashboard-components/ui/navbar-dashboard/action";
+import {logoutInFun} from "@/app/components/dashboard-components/ui/drop-profile-items/action";
 import {useRouter} from "next/navigation";
 import {useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
-import ModalInfoUser from "@/app/components/ui/modal/modal-info-user/ModalInfoUser";
+
+interface DropProfileItemsProps {
+    setIsOpenInfo: (isOpen: boolean) => void;
+}
 
 
-const DropProfileItems: React.FC = () => {
+const DropProfileItems: React.FC<DropProfileItemsProps> = ({setIsOpenInfo}) => {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter()
     const {setLoading} = useLoaderContext();
     const {translation} = useTranslationContext();
-    const [isOpenInfo, setIsOpenInfo] = useState(false)
-
-    function closeModal() {
-        setIsOpenInfo(false)
-    }
 
     async function handleLogout() {
         await logoutInFun().then(
@@ -88,11 +86,9 @@ const DropProfileItems: React.FC = () => {
                 {translation?.t("logout")}
             </button>
             {error && <p className="text-red-500 text-sm ">{translation?.t(error)}</p>}
-            {isOpenInfo &&
-                <ModalInfoUser isOpen={isOpenInfo} onClose={closeModal}/>
-            }
         </div>
-    );
-};
+    )
+
+}
 
 export default DropProfileItems;
