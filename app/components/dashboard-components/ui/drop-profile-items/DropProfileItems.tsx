@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {logoutInFun} from "@/app/components/dashboard-components/ui/drop-profile-items/action";
 import {useRouter} from "next/navigation";
-import {useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useIsErrorContext, useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
 
 interface DropProfileItemsProps {
     setIsOpenInfo: (isOpen: boolean) => void;
@@ -9,17 +9,17 @@ interface DropProfileItemsProps {
 
 
 const DropProfileItems: React.FC<DropProfileItemsProps> = ({setIsOpenInfo}) => {
-    const [error, setError] = useState<string | null>(null);
     const router = useRouter()
     const {setLoading} = useLoaderContext();
     const {translation} = useTranslationContext();
+    const {setError} = useIsErrorContext();
 
     async function handleLogout() {
         await logoutInFun().then(
             async (response) => {
                 setLoading(true)
-                if (response.error) {
-                    setError(response.error)
+                if (response.errors) {
+                    setError(response.errors)
                 } else {
                     router.replace("/")
                 }
@@ -85,7 +85,6 @@ const DropProfileItems: React.FC<DropProfileItemsProps> = ({setIsOpenInfo}) => {
                 </svg>
                 {translation?.t("logout")}
             </button>
-            {error && <p className="text-red-500 text-sm ">{translation?.t(error)}</p>}
         </div>
     )
 
