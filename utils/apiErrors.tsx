@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import {useIsErrorContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
+import React from "react";
+import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
 
 interface ErrorsManagementProps {
     data: any;
@@ -8,15 +8,10 @@ interface ErrorsManagementProps {
 const ErrorsManagement: React.FC<ErrorsManagementProps> = (data: any) => {
     const {translation} = useTranslationContext();
     const {setError} = useIsErrorContext();
-    const {setSuccess} = useSuccessContext();
 
     function handleClose() {
         setError(null)
     }
-
-    useEffect(() => {
-        setSuccess(null)
-    });
 
     return (
         <div className=" lg:ml-80 lg:mr-7 mr-2 ml-14  right-0 absolute z-50 top-32">
@@ -25,7 +20,7 @@ const ErrorsManagement: React.FC<ErrorsManagementProps> = (data: any) => {
                     <div className="flex-col">
                         <strong className="font-bold">Errors !</strong>
                         <div>
-                            {data.data.map((error: any, index: any) => (
+                            {data.data?.map((error: any, index: any) => (
                                 <div key={index} className="block sm:inline">
                                     {translation?.t(error)}
                                 </div>

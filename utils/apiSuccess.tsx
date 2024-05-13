@@ -1,18 +1,15 @@
-import React, {useEffect} from "react";
-import {useIsErrorContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
+import React from "react";
+import {useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 
 const SuccessManagement: React.FC = () => {
     const {translation} = useTranslationContext();
     const {setSuccess} = useSuccessContext();
-    const {setError} = useIsErrorContext();
+
 
     function handleClose() {
         setSuccess(null)
     }
 
-    useEffect(() => {
-        setError(null)
-    });
     return (
         <div className=" lg:ml-80 lg:mr-7 mr-2 ml-14  right-0 absolute z-50 top-32">
             <div className="relative  flex justify-end mb-2">

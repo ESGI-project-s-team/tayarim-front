@@ -69,7 +69,7 @@ const NavBarDashboard: React.FC = () => {
                     <div className="relative" ref={profileRef}>
                         <a className="flex items-center gap-4" href="#" onClick={handleOpenProfile}><span
                             className=" text-right block"><span
-                            className="block text-sm font-medium text-black">{userInfos?.prenom} {userInfos?.nom}</span><span
+                            className="block text-sm font-medium text-black ">{userInfos?.prenom} {userInfos?.nom}</span><span
                             className="block text-xs text-[#64748b]">{isAdmin ? translation?.t('admin') : translation?.t('owner')}
                                     </span></span>
                             <svg className=" fill-current block" width="12" height="8" viewBox="0 0 12 8"

@@ -19,7 +19,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
     const {setSuccess} = useSuccessContext();
     const {setLoading} = useLoaderContext();
     const {translation} = useTranslationContext();
-    const {userInfos} = useUserInfoContext();
+    let {userInfos} = useUserInfoContext();
     const {setIsAdmin, isAdmin} = useAdminContext();
     const [formValues, setFormValues] = useState<any>(userInfos); // Initial state from `owner`
 
@@ -44,9 +44,10 @@ export default function ModalInfoUser({isOpen, onClose}: {
             if (isAdmin) {
                 updateAdminInFun(formValues).then((response) => {
                     if (response.errors) {
+                        setLoading(true)
                         setError(response.errors)
                     } else {
-                        setSuccess('Votre demande à bien été prise en compte.')
+                        setSuccess(true)
                         setLoading(true)
                         setIsAdmin(response.admin)
                         localStorage.setItem("id", response.id)
