@@ -1,6 +1,6 @@
 import {Fragment, useEffect, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
-import {useIsErrorContext, useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 import {createOwnerInFun} from "@/app/components/ui/modal/modal-create-owner/actions";
 
 
@@ -12,6 +12,7 @@ export default function ModalCreateOwner({isOpen, onClose, setOwnerDetails}: {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
     const [formValues, setFormValues] = useState<any>(null); // Initial state from `owner`
     const {setError} = useIsErrorContext();
+    const {setSuccess} = useSuccessContext()
     const {setLoading} = useLoaderContext();
     const {translation} = useTranslationContext();
     useEffect(() => {
@@ -34,6 +35,7 @@ export default function ModalCreateOwner({isOpen, onClose, setOwnerDetails}: {
                     setError(null)
                     onClose(); // Close the modal
                     setLoading(true)
+                    setSuccess(true)
                 }
             }); // Pass the updated form values
         } catch (error) {

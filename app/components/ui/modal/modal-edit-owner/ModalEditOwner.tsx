@@ -2,7 +2,7 @@ import {Fragment, useEffect, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import MultiSelectListbox from '@/app/components/ui/modal/ui/MultiSelectListbox';
 import {updateOwnerInFun} from '@/app/components/ui/modal/modal-edit-owner/action';
-import {useIsErrorContext, useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 
 
 export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerDetails}: {
@@ -16,6 +16,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
     const {setError} = useIsErrorContext();
     const {setLoading} = useLoaderContext();
     const {translation} = useTranslationContext();
+    const {setSuccess} = useSuccessContext()
 
     useEffect(() => {
         if (focusElementRef.current) {
@@ -45,6 +46,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
                     setError(null)
                     onClose(); // Close the modal
                     setLoading(true)
+                    setSuccess(true)
                 }
             }); // Pass the updated form values
         } catch (error) {
