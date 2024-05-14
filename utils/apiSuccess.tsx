@@ -13,7 +13,7 @@ const SuccessManagement: React.FC = () => {
     return (
         <div className=" lg:ml-80 lg:mr-7 mr-2 ml-14  right-0 absolute z-50 top-32">
             <div className="relative  flex justify-end mb-2">
-                <div className="bg-green-100 flex p-5 rounded text-green-600">
+                <div style={{backgroundColor: "rgb(220 252 231)", color :" rgb(22 163 74)"}} className="flex p-5 rounded text-green-600">
                     <div className="flex-col">
                         <strong className="font-bold">Success !</strong>
                         <div>
