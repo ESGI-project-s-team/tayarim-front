@@ -2,7 +2,7 @@ import {Fragment, useRef} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import {ExclamationTriangleIcon} from '@heroicons/react/24/outline'
 import {deleteOwnerInFun} from "@/app/components/ui/modal/modal-delete-owner/action";
-import {useIsErrorContext, useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 
 export default function ModalDeleteOwner({isOpen, onClose, id, setOwnerDetails}: {
     isOpen: boolean;
@@ -14,6 +14,7 @@ export default function ModalDeleteOwner({isOpen, onClose, id, setOwnerDetails}:
     const cancelButtonRef = useRef(null)
     const {setLoading} = useLoaderContext();
     const {translation} = useTranslationContext();
+    const {setSuccess} = useSuccessContext()
     const handleDeleteOwner = async () => {
         try {
             deleteOwnerInFun({id}).then((response) => {
@@ -24,6 +25,7 @@ export default function ModalDeleteOwner({isOpen, onClose, id, setOwnerDetails}:
                     setError(null)
                     onClose(); // Close the modal
                     setLoading(true)
+                    setSuccess(true)
                 }
             });
         } catch (error) {
