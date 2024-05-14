@@ -91,7 +91,7 @@ export default function RootLayout({children, params: {lng}}: { children: React.
 
         fetchInfoUser().then();
 
-    }, [theLanguage, loading, isAdmin]);
+    }, [theLanguage, loading, isAdmin, isError, isSuccess]);
 
     return (
         <html lang={lng}>
