@@ -36,6 +36,11 @@ const FormConnection: React.FC = () => {
                     setError(response.error)
                 } else {
                     setIsAdmin(response.admin)
+                    localStorage.setItem("id", response.id)
+                    localStorage.setItem("nom", response.nom)
+                    localStorage.setItem("prenom", response.prenom)
+                    localStorage.setItem("email", response.email)
+                    localStorage.setItem("numTel", response.numTel)
                     router.push("/dashboard")
                 }
             }

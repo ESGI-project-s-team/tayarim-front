@@ -1,8 +1,10 @@
-import React, {useEffect, useRef} from 'react';
-import DropProfileItems from "@/app/components/dashboard-components/ui/navbar-dashboard/DropProfileItems";
+import React, {useEffect, useRef, useState} from 'react';
+import DropProfileItems from "@/app/components/dashboard-components/ui/drop-profile-items/DropProfileItems";
 import DropNotificationItems from "@/app/components/dashboard-components/ui/DropNotificationItems";
-import {useNotificationContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useAdminContext, useNotificationContext, useTranslationContext, useUserInfoContext} from "@/app/[lng]/hooks";
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
+import ModalInfoUser from "@/app/components/ui/modal/modal-info-user/ModalInfoUser";
+
 
 const NavBarDashboard: React.FC = () => {
         const [isOpenProfile, setIsOpenProfile] = React.useState(false);
@@ -12,6 +14,10 @@ const NavBarDashboard: React.FC = () => {
         const profileRef = useRef<HTMLDivElement>(null);
         const notificationRef = useRef<HTMLDivElement>(null);
         const {translation} = useTranslationContext();
+        const {isAdmin} = useAdminContext();
+        const {userInfos} = useUserInfoContext();
+        const [isOpenInfo, setIsOpenInfo] = useState(false)
+
         const handleOpenProfile = () => {
             setIsOpenProfile(!isOpenProfile);
             setIsOpenNotification(false);
@@ -26,6 +32,11 @@ const NavBarDashboard: React.FC = () => {
             setIsOpenProfile(false);
             setIsOpenNotification(false);
         }
+
+        function closeModal() {
+            setIsOpenInfo(false)
+        }
+
 
         useEffect(() => {
             const hasOpenNotification = items.some((item: { state: boolean; }) => item.state);
@@ -51,12 +62,16 @@ const NavBarDashboard: React.FC = () => {
 
         return (
             <div className="fixed bg-white w-screen top-0 drop-shadow-xl z-10">
+                {isOpenInfo &&
+                    <ModalInfoUser isOpen={isOpenInfo} onClose={closeModal}/>
+                }
                 <div className="flex flex-row-reverse px-10 py-5 gap-10">
                     <div className="relative" ref={profileRef}>
                         <a className="flex items-center gap-4" href="#" onClick={handleOpenProfile}><span
                             className=" text-right block"><span
-                            className="block text-sm font-medium text-black">Thomas Anree</span><span
-                            className="block text-xs text-[#64748b]">{translation?.t('owner')}</span></span>
+                            className="block text-sm font-medium text-black ">{userInfos?.prenom} {userInfos?.nom}</span><span
+                            className="block text-xs text-[#64748b]">{isAdmin ? translation?.t('admin') : translation?.t('owner')}
+                                    </span></span>
                             <svg className=" fill-current block" width="12" height="8" viewBox="0 0 12 8"
                                  fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +83,7 @@ const NavBarDashboard: React.FC = () => {
 
                         </a>
                         {isOpenProfile && (
-                            <DropProfileItems/>
+                            <DropProfileItems setIsOpenInfo={setIsOpenInfo}/>
                         )}
                     </div>
 
@@ -98,6 +113,7 @@ const NavBarDashboard: React.FC = () => {
                         />
                     </div>
                 </div>
+
             </div>
         )
             ;
