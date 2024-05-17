@@ -142,6 +142,7 @@ export default function ModalCreateOwner({isOpen, onClose, setOwnerDetails}: {
                                                     />
                                                 </div>
                                                 <button
+                                                    type="button"
                                                     ref={focusElementRef}
                                                     onClick={handleActionUpdateOwner}
                                                     className="flex w-full justify-center rounded bg-[#3c50e0] p-3 font-medium text-white hover:bg-opacity-90"

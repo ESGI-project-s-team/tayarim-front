@@ -29,7 +29,7 @@ export default function ModalDeleteOwner({isOpen, onClose, id, setOwnerDetails}:
                 }
             });
         } catch (error) {
-            console.error(error);
+            setError(error)
         }
     }
     return (

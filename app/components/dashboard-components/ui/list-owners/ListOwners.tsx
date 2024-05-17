@@ -35,6 +35,7 @@ const ListOwners: React.FC = () => {
     }
 
     useEffect(() => {
+        console.log("ListOwners")
         getAllOwnersInFun()
             .then((response) => {
                 if (response.errors) {
@@ -45,7 +46,7 @@ const ListOwners: React.FC = () => {
                     setOwners(response);
                 }
             });
-    }, [setError, ownerDetails, router]);
+    }, [setError, ownerDetails, setOwnerDetails, router]);
     return (
         <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0  ">
             <div className="relative top-32 w-full flex justify-end mb-2 ">
@@ -62,8 +63,8 @@ const ListOwners: React.FC = () => {
                 </button>
             </div>
             <div
-                className="relative  border  bg-white   top-32   rounded-[10px] stroke-2 max-h-96 overflow-scroll ">
-                <div className="max-w-full overflow-x-auto">
+                className="relative  border  bg-white   top-32   rounded-[10px] stroke-2 max-h-[70%] overflow-auto ">
+                <div className="max-w-full">
                     <div className="min-w-[1170px]">
                         <div className="grid grid-cols-12 bg-[#F9FAFB] px-5 py-4 ">
                             <div className="col-span-2 items-center "><p className="font-medium">
@@ -88,8 +89,8 @@ const ListOwners: React.FC = () => {
                                     <div className="flex gap-4 flex-row items-center">
                                         <p className="text-sm text-black">{owner.prenom} {owner.nom}</p></div>
                                 </div>
-                                <div className="col-span-2 items-center flex"><p
-                                    className="text-sm text-black ">{owner.email}</p>
+                                <div className="col-span-2 items-center flex max-w-52 overflow-auto no-scrollbar">
+                                    <p className="text-sm text-black ">{owner.email}</p>
                                 </div>
                                 <div className="col-span-2 flex items-center"><p
                                     className="text-sm text-black">{owner.numTel}</p>
