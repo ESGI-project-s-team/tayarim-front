@@ -32,25 +32,27 @@ export default function RootLayout({children, params: {lng}}: { children: React.
     useEffect(() => {
         console.log('RootLayout')
 
-        if (isError == null || isSuccess == null) {
-            if (isError != null) {
-                pile.push(false)
-            }
-            if (isSuccess != null) {
-                pile.push(true)
-            }
-        } else {
-            let lastValueIndex = pile[pile.length - 1];
-            console.log(lastValueIndex)
-            if (lastValueIndex) {
-                pile[pile.length - 1] = false;
-                setSuccess(null)
+        async function replaceAlertSuccessOrError() {
+            if (isError == null || isSuccess == null) {
+                if (isError != null) {
+                    pile.push(false)
+                }
+                if (isSuccess != null) {
+                    pile.push(true)
+                }
             } else {
-                pile[pile.length - 1] = true;
-                setError(null)
+                let lastValueIndex = pile[pile.length - 1];
+                if (lastValueIndex) {
+                    pile[pile.length - 1] = false;
+                    setSuccess(null)
+                } else {
+                    pile[pile.length - 1] = true;
+                    setError(null)
+                }
             }
-            console.log(pile)
         }
+
+        replaceAlertSuccessOrError().then();
 
         async function fetchTranslation() {
             const t = await doTranslation(theLanguage);

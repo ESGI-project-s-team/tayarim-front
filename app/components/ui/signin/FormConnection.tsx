@@ -2,17 +2,17 @@ import React, {FormEvent, useEffect, useState} from "react";
 import {useAdminContext, useIsErrorContext, useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
 import {checkTokenInFun, signInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from 'next/navigation'
+import SpinnerUI from "@/app/components/ui/SpinnerUI";
 
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
-    const {setLoading} = useLoaderContext();
+    const [isLoading, setLoading] = useState(false)
     const {setIsAdmin} = useAdminContext();
     const {setError} = useIsErrorContext();
     const router = useRouter()
 
     useEffect(
         () => {
-            setLoading(true)
             checkTokenInFun().then(
                 async (response) => {
                     if (response) {
@@ -29,9 +29,9 @@ const FormConnection: React.FC = () => {
         const email = formData.get('email')
         const password = formData.get('password')
         const credentials = {"email": email, "motDePasse": password}
+        setLoading(true)
         await signInFun(credentials).then(
             async (response) => {
-                setLoading(true)
                 if (response.error) {
                     setError(response.error)
                 } else {
@@ -44,8 +44,13 @@ const FormConnection: React.FC = () => {
                     localStorage.setItem("numTel", response.numTel)
                     router.push("/dashboard")
                 }
+                setLoading(false);
             }
         )
+            .catch((error) => {
+                setError(error)
+                setLoading(false)
+            })
     }
 
     return (
@@ -99,12 +104,16 @@ const FormConnection: React.FC = () => {
                         </div>
 
                         <div>
-                            <button
-                                type="submit"
-                                className="flex w-full justify-center rounded-md bg-custom-search px-3 py-1.5 text-sm font-semibold leading-6 text-black border-black border shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-                            >
-                                {translation?.t('sign_in_button')}
-                            </button>
+                            {isLoading ? <div className="flex justify-center">
+                                    <SpinnerUI/>
+                                </div> :
+                                <button
+                                    type="submit"
+                                    className="flex w-full justify-center rounded-md bg-custom-search px-3 py-1.5 text-sm font-semibold leading-6 text-black border-black border shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                                >
+                                    {translation?.t('sign_in_button')}
+                                </button>
+                            }
                         </div>
                     </form>
                     <div className="flex-wrap  justify-between ">
@@ -119,7 +128,6 @@ const FormConnection: React.FC = () => {
                             </a>
                         </p>
                     </div>
-
                 </div>
             </div>
         </div>
