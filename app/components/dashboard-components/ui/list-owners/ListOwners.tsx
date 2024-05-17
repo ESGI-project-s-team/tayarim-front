@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {getAllOwnersInFun} from "@/app/components/dashboard-components/ui/list-owners/action";
+import React, {useCallback, useEffect, useState} from 'react';
 import ModalEditOwner from "@/app/components/ui/modal/modal-edit-owner/ModalEditOwner";
 import {ProprietaireDTO} from "@/app/model/Owner";
 import ModalDeleteOwner from "@/app/components/ui/modal/modal-delete-owner/ModalDeleteOwner";
 import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
 import ModalCreateOwner from "@/app/components/ui/modal/modal-create-owner/ModalCreateOwner";
 import {useRouter} from "next/navigation";
+import {getAllOwners} from "@/utils/apiOwner";
 
 
 const ListOwners: React.FC = () => {
@@ -34,19 +34,24 @@ const ListOwners: React.FC = () => {
         setIsOpenCreate(false)
     }
 
-    useEffect(() => {
-        console.log("ListOwners")
-        getAllOwnersInFun()
+    const getAllOwnersInFun = useCallback(() => {
+        getAllOwners()
             .then((response) => {
                 if (response.errors) {
-                    setError(response.errors)
-                    router.push("/dashboard")
+                    setError(response.errors);
+                    router.push("/dashboard");
                 } else {
-                    setError(null)
+                    setError(null);
                     setOwners(response);
                 }
             });
-    }, [setError, ownerDetails, setOwnerDetails, router]);
+    }, [router, setError]);
+
+    useEffect(() => {
+        console.log("ListOwners");
+        getAllOwnersInFun();
+    }, [getAllOwnersInFun]);
+
     return (
         <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0  ">
             <div className="relative top-32 w-full flex justify-end mb-2 ">
@@ -164,15 +169,15 @@ const ListOwners: React.FC = () => {
                 </div>
             </div>
             {isOpenCreate &&
-                <ModalCreateOwner isOpen={isOpenCreate} onClose={closeModal} setOwnerDetails={setOwnerDetails}/>
+                <ModalCreateOwner isOpen={isOpenCreate} onClose={closeModal} getAllOwners={getAllOwnersInFun}/>
             }
             {isOpenEdit &&
                 <ModalEditOwner isOpen={isOpenEdit} onClose={closeModal} ownerDetails={ownerDetails}
-                                setOwnerDetails={setOwnerDetails}/>
+                                getAllOwners={getAllOwnersInFun}/>
             }
             {isOpenDelete &&
                 <ModalDeleteOwner isOpen={isOpenDelete} onClose={closeModal} id={ownerDetails.id.toString()
-                } setOwnerDetails={setOwnerDetails}/>
+                } getAllOwners={getAllOwnersInFun}/>
             }
         </div>
     );

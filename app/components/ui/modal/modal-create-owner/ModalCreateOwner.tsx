@@ -4,10 +4,10 @@ import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationCo
 import {createOwnerInFun} from "@/app/components/ui/modal/modal-create-owner/actions";
 
 
-export default function ModalCreateOwner({isOpen, onClose, setOwnerDetails}: {
+export default function ModalCreateOwner({isOpen, onClose, getAllOwners}: {
     isOpen: boolean;
     onClose: () => void;
-    setOwnerDetails: any
+    getAllOwners: any
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
     const [formValues, setFormValues] = useState<any>(null); // Initial state from `owner`
@@ -31,7 +31,7 @@ export default function ModalCreateOwner({isOpen, onClose, setOwnerDetails}: {
                 if (response.errors) {
                     setError(response.errors)
                 } else {
-                    setOwnerDetails(null)
+                    getAllOwners();
                     setError(null)
                     onClose(); // Close the modal
                     setLoading(true)

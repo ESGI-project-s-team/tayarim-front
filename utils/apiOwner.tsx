@@ -1,3 +1,4 @@
+"use server";
 import {BACKEND_API} from "@/utils/constants";
 import {cookies} from "next/headers";
 
