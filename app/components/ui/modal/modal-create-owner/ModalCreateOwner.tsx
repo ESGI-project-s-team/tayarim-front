@@ -28,10 +28,10 @@ export default function ModalCreateOwner({isOpen, onClose, getAllOwners}: {
             focusElementRef.current.focus();
         }
     }, []);
-    
+
     useEffect(() => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const phoneRegex = /^[0-9]{10}$/; // Adjust the regex according to your phone number format
+        const phoneRegex = /^[+]?[(]?\d{3}[)]?[-\s.]?\d{3}[-\s.]?\d{4,6}$/;
 
         const allFieldsFilled = Object.values(formValues).every(value => value.trim() !== '');
         const emailValid = emailRegex.test(formValues.email);

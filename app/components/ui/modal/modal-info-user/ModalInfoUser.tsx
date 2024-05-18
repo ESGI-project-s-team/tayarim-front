@@ -8,6 +8,7 @@ import {
     useUserInfoContext
 } from "@/app/[lng]/hooks";
 import {updateAdminInFun, updateOwnerInFun} from "@/app/components/ui/modal/modal-info-user/action";
+import SpinnerUI from "@/app/components/ui/SpinnerUI";
 
 export default function ModalInfoUser({isOpen, onClose}: {
     isOpen: boolean;
@@ -16,7 +17,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext();
-    const {setLoading} = useLoaderContext();
+    const [isLoading, setLoading] = useState(false)
     const {translation} = useTranslationContext();
     let {userInfos} = useUserInfoContext();
     const {setIsAdmin, isAdmin} = useAdminContext();
@@ -32,12 +33,19 @@ export default function ModalInfoUser({isOpen, onClose}: {
 
     useEffect(() => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const phoneRegex = /^(\+212|0)([ \-_/]*)(\d[ \-_/]*){9}$/;
+        const phoneRegex = /^[+]?[(]?\d{3}[)]?[-\s.]?\d{3}[-\s.]?\d{4,6}$/;
+        const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[!@#$%&*()_+\-=\[\]?]).{8,}$/;
+        //the passwordRegex is a regex that checks if the password has at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character
 
         const emailValid = emailRegex.test(formValues.email);
         const phoneValid = phoneRegex.test(formValues.numTel);
-
-        setButtonDisabled(!(emailValid && phoneValid));
+        let passwordValid;
+        if (formValues.motDePasse !== undefined && formValues.motDePasse !== '') {
+            passwordValid = passwordRegex.test(formValues.motDePasse);
+        } else {
+            passwordValid = true
+        }
+        setButtonDisabled(!(emailValid && phoneValid && passwordValid));
     }, [formValues]);
 
     const togglePasswordVisibility = () => {
@@ -49,10 +57,11 @@ export default function ModalInfoUser({isOpen, onClose}: {
     };
 
     const handleActionUpdateOwner = async () => {
+        setLoading(true)
         try {
             Object.keys(userInfos).forEach((key) => {
                 if (userInfos[key] === formValues[key]) {
-                    if (key === 'motDePasse' && formValues[key] === '') {
+                    if (key === 'motDePasse' && (formValues[key] === '' || formValues[key] === undefined)) {
                         console.log('mot de passe vide')
                         delete formValues[key]
                     }
@@ -63,11 +72,9 @@ export default function ModalInfoUser({isOpen, onClose}: {
             if (isAdmin) {
                 updateAdminInFun(formValues).then((response) => {
                     if (response.errors) {
-                        setLoading(true)
                         setError(response.errors)
                     } else {
                         setSuccess(true)
-                        setLoading(true)
                         setIsAdmin(response.admin)
                         localStorage.setItem("id", response.id)
                         localStorage.setItem("nom", response.nom)
@@ -76,6 +83,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                         localStorage.setItem("numTel", response.numTel)
                         onClose();
                     }
+                    setLoading(false)
                 });
             } else {
                 updateOwnerInFun(formValues).then((response) => {
@@ -83,7 +91,6 @@ export default function ModalInfoUser({isOpen, onClose}: {
                         setError(response.errors)
                     } else {
                         setSuccess(true)
-                        setLoading(true)
                         setIsAdmin(response.admin)
                         localStorage.setItem("id", response.id)
                         localStorage.setItem("nom", response.nom)
@@ -92,9 +99,11 @@ export default function ModalInfoUser({isOpen, onClose}: {
                         localStorage.setItem("numTel", response.numTel)
                         onClose();
                     }
+                    setLoading(false)
                 });
             }
         } catch (error) {
+            setLoading(false)
             setError(error)
         }
     };
@@ -202,10 +211,24 @@ export default function ModalInfoUser({isOpen, onClose}: {
                                                     />
                                                 </div>
                                                 <div className="relative mb-5">
-                                                    <label
-                                                        className="mb-3 block text-sm font-medium text-black">
-                                                        {translation?.t('new_password_placeholder')}
-                                                    </label>
+                                                    <div className="flex">
+                                                        <label
+                                                            className="mb-3 block text-sm font-medium text-black">
+                                                            {translation?.t('new_password_placeholder')}
+                                                        </label>
+                                                        <div className='has-tooltip cursor-pointer w-fit ml-1'>
+                                                        <span
+                                                            className='tooltip rounded shadow-lg p-1 bg-gray-100 text-red-500 -mt-8'> {translation?.t('password_requirements')}</span>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24" strokeWidth="1.5"
+                                                                 stroke="currentColor"
+                                                                 className="w-4 h-">
+                                                                <path strokeLinecap="round" strokeLinejoin="round"
+                                                                      d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"/>
+                                                            </svg>
+
+                                                        </div>
+                                                    </div>
                                                     <input
                                                         placeholder="Enter your new password"
                                                         className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
@@ -238,16 +261,19 @@ export default function ModalInfoUser({isOpen, onClose}: {
                                                         }
                                                     </button>
                                                 </div>
-                                                <button
-                                                    ref={focusElementRef}
-                                                    onClick={handleActionUpdateOwner}
-                                                    disabled={isButtonDisabled}
-                                                    className={`flex w-full justify-center rounded  p-3 font-medium text-white  ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
-                                                >
-                                                    {translation?.t('edit_info')}
-                                                </button>
+                                                {isLoading ? <div className="flex justify-center">
+                                                        <SpinnerUI/>
+                                                    </div> :
+                                                    <button
+                                                        ref={focusElementRef}
+                                                        onClick={handleActionUpdateOwner}
+                                                        disabled={isButtonDisabled}
+                                                        className={`flex w-full justify-center rounded  p-3 font-medium text-white  ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
+                                                    >
+                                                        {translation?.t('edit_info')}
+                                                    </button>
+                                                }
                                             </div>
-
                                         </div>
                                     </div>
 

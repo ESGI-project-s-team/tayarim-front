@@ -41,6 +41,7 @@
   "welcome_placeholder": "Bon retour ! Connectez-vous pour continuer",
   "email_placeholder": "Adresse e-mail",
   "new_password_placeholder": "Nouveau mot de passe",
+  "password_requirements": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial",
   "password_placeholder": "Mot de passe",
   "sign_in_button": "Connexion",
   "forgot_password": "Mot de passe oublié ?",

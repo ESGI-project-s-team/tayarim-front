@@ -18,12 +18,24 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
     const [isLoading, setLoading] = useState(false)
     const {translation} = useTranslationContext();
     const {setSuccess} = useSuccessContext()
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
+
 
     useEffect(() => {
         if (focusElementRef.current) {
             focusElementRef.current.focus();
         }
     }, []);
+
+    useEffect(() => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[+]?[(]?\d{3}[)]?[-\s.]?\d{3}[-\s.]?\d{4,6}$/;
+
+        const emailValid = emailRegex.test(formValues.email);
+        const phoneValid = phoneRegex.test(formValues.numTel);
+
+        setButtonDisabled(!(emailValid && phoneValid));
+    }, [formValues]);
 
     const handleInputChange = (field: keyof any, value: any) => {
         setFormValues((prev: any) => ({...prev, [field]: value})); // Update the specific field
@@ -175,7 +187,8 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                                 </div> : <button
                                                     ref={focusElementRef}
                                                     onClick={handleActionUpdateOwner}
-                                                    className="flex w-full justify-center rounded bg-[#3c50e0] p-3 font-medium text-white hover:bg-opacity-90"
+                                                    disabled={isButtonDisabled}
+                                                    className={`flex w-full justify-center rounded  p-3 font-medium text-white  ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
                                                 >
                                                     {translation?.t('form_edit_owner')}
                                                 </button>
