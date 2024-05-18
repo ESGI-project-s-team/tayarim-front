@@ -3,6 +3,7 @@ import {useAdminContext, useIsErrorContext, useLoaderContext, useTranslationCont
 import {checkTokenInFun, signInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from 'next/navigation'
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
+import ShowPasswordEye from "@/app/components/ui/ShowPasswordEye";
 
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
@@ -10,6 +11,7 @@ const FormConnection: React.FC = () => {
     const {setIsAdmin} = useAdminContext();
     const {setError} = useIsErrorContext();
     const router = useRouter()
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(
         () => {
@@ -23,12 +25,18 @@ const FormConnection: React.FC = () => {
         }, [router, setLoading]
     )
 
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
         const formData = new FormData(event.currentTarget)
         const email = formData.get('email')
         const password = formData.get('password')
         const credentials = {"email": email, "motDePasse": password}
+
         setLoading(true)
         await signInFun(credentials).then(
             async (response) => {
@@ -91,16 +99,7 @@ const FormConnection: React.FC = () => {
                                     {translation?.t('password_placeholder')}
                                 </label>
                             </div>
-                            <div className="mt-2">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    autoComplete="current-password"
-                                    required
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:leading-6"
-                                />
-                            </div>
+                            <ShowPasswordEye/>
                         </div>
 
                         <div>
