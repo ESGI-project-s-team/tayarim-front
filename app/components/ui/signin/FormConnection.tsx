@@ -1,5 +1,11 @@
 import React, {FormEvent, useEffect, useState} from "react";
-import {useAdminContext, useIsErrorContext, useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {
+    useAdminContext,
+    useIsErrorContext,
+    useLoaderContext,
+    useTranslationContext,
+    useUserInfoContext
+} from "@/app/[lng]/hooks";
 import {checkTokenInFun, signInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from 'next/navigation'
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
@@ -10,8 +16,8 @@ const FormConnection: React.FC = () => {
     const [isLoading, setLoading] = useState(false)
     const {setIsAdmin} = useAdminContext();
     const {setError} = useIsErrorContext();
+    const {setUserInfos} = useUserInfoContext();
     const router = useRouter()
-    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(
         () => {
@@ -24,11 +30,6 @@ const FormConnection: React.FC = () => {
             )
         }, [router, setLoading]
     )
-
-
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -44,12 +45,20 @@ const FormConnection: React.FC = () => {
                     setError(response.error)
                 } else {
                     setError(null)
+                    const user = {
+                        id: response.id,
+                        nom: response.nom,
+                        prenom: response.prenom,
+                        email: response.email,
+                        numTel: response.numTel,
+                    }
+                    localStorage.setItem("id", user.id)
+                    localStorage.setItem("nom", user.nom)
+                    localStorage.setItem("prenom", user.prenom)
+                    localStorage.setItem("email", user.email)
+                    localStorage.setItem("numTel", user.numTel)
+                    setUserInfos(user);
                     setIsAdmin(response.admin)
-                    localStorage.setItem("id", response.id)
-                    localStorage.setItem("nom", response.nom)
-                    localStorage.setItem("prenom", response.prenom)
-                    localStorage.setItem("email", response.email)
-                    localStorage.setItem("numTel", response.numTel)
                     router.push("/dashboard")
                 }
                 setLoading(false);

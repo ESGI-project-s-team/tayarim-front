@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAdminContext, useIsOpenSideBarContext, useTranslationContext} from "@/app/[lng]/hooks";
 import {getIconManagement, getIconMenu, getIconOthers} from "@/app/icon-export";
 import {getHrefManagement} from "@/app/href-export";
@@ -9,8 +9,12 @@ const SideNavDashboard: React.FC = () => {
     const menu_sidenav = translation?.t('menu_sidenav', {returnObjects: true}) ?? [];
     const management_sidenav = translation?.t('management_sidenav', {returnObjects: true}) ?? [];
     const others_sidenav = translation?.t('others_sidenav', {returnObjects: true}) ?? [];
+    const [isAdminState, setIsAdminState] = useState(false);
     const {isAdmin} = useAdminContext();
+
     useEffect(() => {
+        console.log(isAdmin);
+        setIsAdminState(isAdmin);
         const mediaQuery = window.matchMedia("(max-width: 1024px)");
         const handleMediaQueryChange = (e: MediaQueryListEvent) => {
             setIsOpenSideBar(!e.matches);
@@ -22,7 +26,7 @@ const SideNavDashboard: React.FC = () => {
         return () => {
             mediaQuery.removeEventListener('change', handleMediaQueryChange);
         };
-    }, [setIsOpenSideBar]);
+    }, [isAdmin, setIsOpenSideBar]);
 
 
     const toggleOpen = () => {
@@ -64,7 +68,7 @@ const SideNavDashboard: React.FC = () => {
                             ))}
                         </ul>
                     </div>
-                    {isAdmin &&
+                    {isAdminState &&
                         <div><h3
                             className="mb-4 ml-4 text-sm font-semibold text-[#8a99af]">{translation?.t('management_placeholder')}</h3>
 

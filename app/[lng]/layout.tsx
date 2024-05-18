@@ -22,7 +22,7 @@ export default function RootLayout({children, params: {lng}}: { children: React.
     const [translation, setTranslation] = useState<{ t: any, i18n: any } | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(undefined);
     const [isError, setError] = useState(null);
     const [isSuccess, setSuccess] = useState(null);
 
@@ -104,7 +104,7 @@ export default function RootLayout({children, params: {lng}}: { children: React.
             <IsErrorContext.Provider value={{isError, setError}}>
                 <IsSuccessContext.Provider value={{isSuccess, setSuccess}}>
                     <IsAdminContext.Provider value={{isAdmin, setIsAdmin}}>
-                        <UserInfoContext.Provider value={{userInfos}}>
+                        <UserInfoContext.Provider value={{userInfos, setUserInfos}}>
                             <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
                                 <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
                                     <LoaderContext.Provider value={{loading, setLoading}}>
