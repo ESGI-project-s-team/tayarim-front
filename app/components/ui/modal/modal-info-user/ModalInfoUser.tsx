@@ -22,12 +22,23 @@ export default function ModalInfoUser({isOpen, onClose}: {
     const {setIsAdmin, isAdmin} = useAdminContext();
     const [formValues, setFormValues] = useState<any>(userInfos); // Initial state from `owner`
     const [showPassword, setShowPassword] = useState(false);
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
 
     useEffect(() => {
         if (focusElementRef.current) {
             focusElementRef.current.focus();
         }
     }, []);
+
+    useEffect(() => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^(\+212|0)([ \-_/]*)(\d[ \-_/]*){9}$/;
+
+        const emailValid = emailRegex.test(formValues.email);
+        const phoneValid = phoneRegex.test(formValues.numTel);
+
+        setButtonDisabled(!(emailValid && phoneValid));
+    }, [formValues]);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -230,7 +241,8 @@ export default function ModalInfoUser({isOpen, onClose}: {
                                                 <button
                                                     ref={focusElementRef}
                                                     onClick={handleActionUpdateOwner}
-                                                    className="flex w-full justify-center rounded bg-[#3c50e0] p-3 font-medium text-white hover:bg-opacity-90"
+                                                    disabled={isButtonDisabled}
+                                                    className={`flex w-full justify-center rounded  p-3 font-medium text-white  ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
                                                 >
                                                     {translation?.t('edit_info')}
                                                 </button>
