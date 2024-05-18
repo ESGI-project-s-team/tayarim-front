@@ -1,7 +1,8 @@
 {
+  "my_profile": "Mon Profil",
   "success": "Votre demande à bien été prise en compte.",
   "edit_info": "Modifier les informations",
-  "error" : "Erreur !",
+  "error": "Erreur !",
   "admin": "Administrateur",
   "error_occurred": "Une erreur est survenue",
   "cancel": "Annuler",
@@ -39,6 +40,7 @@
   ],
   "welcome_placeholder": "Bon retour ! Connectez-vous pour continuer",
   "email_placeholder": "Adresse e-mail",
+  "new_password_placeholder": "Nouveau mot de passe",
   "password_placeholder": "Mot de passe",
   "sign_in_button": "Connexion",
   "forgot_password": "Mot de passe oublié ?",

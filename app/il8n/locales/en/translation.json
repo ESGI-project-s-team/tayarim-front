@@ -1,4 +1,5 @@
 {
+  "my_profile" : "My Profile",
   "success": "Your request has been successfully processed.",
   "edit_info": "Edit information",
   "admin": "Administrator",
@@ -39,6 +40,7 @@
   ],
   "welcome_placeholder": "Welcome back ! Please enter your details",
   "email_placeholder": "Email address",
+  "new_password_placeholder": "New password",
   "password_placeholder": "Password",
   "sign_in_button": "Sign in",
   "forgot_password": "Forgot password?",
@@ -133,6 +135,7 @@
   "error_token_missing": "Token is missing in request headers",
   "error_token_expire_or_invalid": "Session expired please log in again",
   "error_owner_invalid_updateBody": "Invalid or missing data to update owner",
+  "error_admin_invalid_updateBody": "Invalid or missing data to update admin",
   "error_unauthorized": "You are not authorized to perform this action",
   "error_admin_invalid_name": "The name is invalid (ex: 'Doe')",
   "error_admin_invalid_firstName": "The first name is invalid (ex: 'Jhon')",

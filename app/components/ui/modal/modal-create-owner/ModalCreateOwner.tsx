@@ -4,6 +4,12 @@ import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationCo
 import {createOwnerInFun} from "@/app/components/ui/modal/modal-create-owner/actions";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 
+interface FormValues {
+    prenom: string;
+    nom: string;
+    email: string;
+    numTel: string;
+}
 
 export default function ModalCreateOwner({isOpen, onClose, getAllOwners}: {
     isOpen: boolean;
@@ -11,22 +17,28 @@ export default function ModalCreateOwner({isOpen, onClose, getAllOwners}: {
     getAllOwners: any
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
-    const [formValues, setFormValues] = useState<any>(null); // Initial state from `owner`
+    const [formValues, setFormValues] = useState<FormValues>({prenom: '', nom: '', email: '', numTel: ''});
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext()
     const [isLoading, setLoading] = useState(false)
+    const [isButtonDisabled, setButtonDisabled] = useState(true);
     const {translation} = useTranslationContext();
     useEffect(() => {
         if (focusElementRef.current) {
             focusElementRef.current.focus();
         }
     }, []);
+    useEffect(() => {
+        // Check if all form values are filled
+        const allFieldsFilled = Object.values(formValues).every(value => value.trim() !== '');
+        setButtonDisabled(!allFieldsFilled);
+    }, [formValues]);
 
     const handleInputChange = (field: keyof any, value: any) => {
         setFormValues((prev: any) => ({...prev, [field]: value})); // Update the specific field
     };
 
-    const handleActionUpdateOwner = async () => {
+    const handleActionCreateOwner = async () => {
         setLoading(true)
         try {
             createOwnerInFun(formValues).then((response) => {
@@ -150,8 +162,9 @@ export default function ModalCreateOwner({isOpen, onClose, getAllOwners}: {
                                                     <button
                                                         type="button"
                                                         ref={focusElementRef}
-                                                        onClick={handleActionUpdateOwner}
-                                                        className="flex w-full justify-center rounded bg-[#3c50e0] p-3 font-medium text-white hover:bg-opacity-90"
+                                                        onClick={handleActionCreateOwner}
+                                                        disabled={isButtonDisabled}
+                                                        className={`flex w-full justify-center rounded  p-3 font-medium text-white ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
                                                     >
                                                         {translation?.t('form_add_owner')}
                                                     </button>
