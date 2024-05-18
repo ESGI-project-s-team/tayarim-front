@@ -28,10 +28,16 @@ export default function ModalCreateOwner({isOpen, onClose, getAllOwners}: {
             focusElementRef.current.focus();
         }
     }, []);
+    
     useEffect(() => {
-        // Check if all form values are filled
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[0-9]{10}$/; // Adjust the regex according to your phone number format
+
         const allFieldsFilled = Object.values(formValues).every(value => value.trim() !== '');
-        setButtonDisabled(!allFieldsFilled);
+        const emailValid = emailRegex.test(formValues.email);
+        const phoneValid = phoneRegex.test(formValues.numTel);
+
+        setButtonDisabled(!(allFieldsFilled && emailValid && phoneValid));
     }, [formValues]);
 
     const handleInputChange = (field: keyof any, value: any) => {
