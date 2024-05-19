@@ -4,7 +4,9 @@ import SideNavDashboard from "@/app/components/dashboard-components/ui/SideNavDa
 import HomeDashboard from "@/app/components/dashboard-components/HomeDashboard";
 import NavBarDashboard from "@/app/components/dashboard-components/ui/NavBarDashboard";
 import {NotificationContext, IsOpenSideBarContext} from "@/app/[lng]/contexts";
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
+import {useRouter} from 'next/navigation';
+import {checkTokenInFun} from "@/app/components/ui/signin/action";
 
 export default function Page() {
     const itemsAll = useMemo(() => [
@@ -35,6 +37,17 @@ export default function Page() {
     ], [])
     const [items, setItems] = useState(itemsAll);
     const [isOpenSideBar, setIsOpenSideBar] = useState(true);
+    const router = useRouter();
+
+    useEffect(() => {
+        checkTokenInFun().then(
+            async (response) => {
+                if (!response.isPasswordUpdated) {
+                    router.push("/dashboard/first-connection")
+                }
+            }
+        )
+    });
     return (
         <div>
             <IsOpenSideBarContext.Provider value={{isOpenSideBar, setIsOpenSideBar}}>

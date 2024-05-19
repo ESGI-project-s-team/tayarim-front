@@ -4,7 +4,7 @@ import BackgroundImageDark from "@/app/components/ui/BackgroundImageDark";
 
 const OwnerConnection: React.FC = () => {
     return (
-        <div className="overflow-hidden bg-red-600 ">
+        <div className="overflow-hidden">
             <BackgroundImageDark/>
             <FormConnection/>
         </div>

@@ -23,8 +23,10 @@ const FormConnection: React.FC = () => {
         () => {
             checkTokenInFun().then(
                 async (response) => {
-                    if (response) {
+                    if (response.isPasswordUpdated) {
                         router.push("/dashboard")
+                    } else {
+                        router.push("/dashboard/first-connection")
                     }
                 }
             )

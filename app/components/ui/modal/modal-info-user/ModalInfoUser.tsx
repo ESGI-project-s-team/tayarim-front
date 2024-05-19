@@ -9,6 +9,7 @@ import {
 } from "@/app/[lng]/hooks";
 import {updateAdminInFun, updateOwnerInFun} from "@/app/components/ui/modal/modal-info-user/action";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
+import TooltipPersonalized from "@/app/components/ui/TooltipPersonalized";
 
 export default function ModalInfoUser({isOpen, onClose}: {
     isOpen: boolean;
@@ -56,13 +57,12 @@ export default function ModalInfoUser({isOpen, onClose}: {
         setFormValues((prev: any) => ({...prev, [field]: value})); // Update the specific field
     };
 
-    const handleActionUpdateOwner = async () => {
+    const handleActionUpdate = async () => {
         setLoading(true)
         try {
             Object.keys(userInfos).forEach((key) => {
                 if (userInfos[key] === formValues[key]) {
                     if (key === 'motDePasse' && (formValues[key] === '' || formValues[key] === undefined)) {
-                        console.log('mot de passe vide')
                         delete formValues[key]
                     }
                     if (key !== 'id')
@@ -216,18 +216,8 @@ export default function ModalInfoUser({isOpen, onClose}: {
                                                             className="mb-3 block text-sm font-medium text-black">
                                                             {translation?.t('new_password_placeholder')}
                                                         </label>
-                                                        <div className='has-tooltip cursor-pointer w-fit ml-1'>
-                                                        <span
-                                                            className='tooltip rounded shadow-lg p-1 bg-gray-100 text-red-500 -mt-8'> {translation?.t('password_requirements')}</span>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                 viewBox="0 0 24 24" strokeWidth="1.5"
-                                                                 stroke="currentColor"
-                                                                 className="w-4 h-">
-                                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                                      d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"/>
-                                                            </svg>
-
-                                                        </div>
+                                                        <TooltipPersonalized
+                                                            description={translation?.t('password_requirements')}/>
                                                     </div>
                                                     <input
                                                         placeholder="Enter your new password"
@@ -266,7 +256,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                                                     </div> :
                                                     <button
                                                         ref={focusElementRef}
-                                                        onClick={handleActionUpdateOwner}
+                                                        onClick={handleActionUpdate}
                                                         disabled={isButtonDisabled}
                                                         className={`flex w-full justify-center rounded  p-3 font-medium text-white  ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
                                                     >

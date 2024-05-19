@@ -43,6 +43,7 @@
   "new_password_placeholder": "Nouveau mot de passe",
   "password_requirements": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial",
   "password_placeholder": "Mot de passe",
+  "confirm_password_placeholder": "Confirmer le mot de passe",
   "sign_in_button": "Connexion",
   "forgot_password": "Mot de passe oublié ?",
   "forgot_email": "Adresse e-mail oubliée ?",
@@ -125,6 +126,7 @@
     "Ven",
     "Sam"
   ],
+  "new_password_label": "Veuillez saisir votre nouveau mot de passe",
   "error_owner_invalid_name": "Le nom est invalide (ex: 'Doe')",
   "error_owner_invalid_firstName": "Le prenom est invalide (ex: 'Jhon')",
   "error_owner_invalid_mail": "L'adresse e-mail est invalide (ex: 'test@gmail.com')",
@@ -136,7 +138,8 @@
   "error_hash_password_impossible": "Impossible de hasher le mot de passe de l'utilisateur",
   "error_token_missing": "Le token est absent des headers de la requete",
   "error_token_expire_or_invalid": "Session expiré veuillez vous reconnecter",
-  "error_owner_invalid_updateBody": "Donnée invalid ou manquante pour la mise à jour du proprietaire",
+  "error_owner_invalid_updateBody": "Donnée invalide ou manquante pour la mise à jour du proprietaire",
+  "error_admin_invalid_updateBody": "Donnée invalide ou manquante pour la mise à jour de l'administateur",
   "error_unauthorized": "Vous n'êtes pas authorisé à effectuer cette action",
   "error_admin_invalid_name": "Le nom est invalide (ex: 'Doe')",
   "error_admin_invalid_firstName": "Le prenom est invalide (ex: 'Jhon')",
@@ -144,5 +147,6 @@
   "error_admin_invalid_phone": "Le numéro de téléphone est invalide (ex: '+33612345678')",
   "error_admin_invalid_password": "Le mot de passe est invalide, \n Un mot de passe doit contenir: \n Au moins 8 charactere, \n Au moins 1 majuscule, \n Au moins 1 chiffre, \n Au moins 1 charactere special ($,*,?,!, ...)",
   "error_admin_notExist": "Cet user n'existe pas",
-  "error_user_notExist": "Cet utilistateur n'existe pas"
+  "error_user_notExist": "Cet utilistateur n'existe pas",
+  "error_not_same_password": "Les mots de passe ne sont pas identiques"
 }

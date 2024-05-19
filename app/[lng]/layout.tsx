@@ -16,6 +16,7 @@ import ErrorsManagement from "@/utils/apiErrors";
 import {isAdminByToken} from "@/utils/apiAuth";
 import SuccessManagement from "@/utils/apiSuccess";
 import {pile} from "@/pile";
+import {useRouter} from 'next/navigation';
 
 export default function RootLayout({children, params: {lng}}: { children: React.ReactNode; params: { lng: string } }) {
     const [theLanguage, setTheLanguage] = useState(lng);
@@ -25,7 +26,7 @@ export default function RootLayout({children, params: {lng}}: { children: React.
     const [isAdmin, setIsAdmin] = useState(undefined);
     const [isError, setError] = useState(null);
     const [isSuccess, setSuccess] = useState(null);
-
+    const router = useRouter();
     const [userInfos, setUserInfos] = useState({});
 
 
@@ -64,8 +65,8 @@ export default function RootLayout({children, params: {lng}}: { children: React.
         async function isAdmin() {
             await isAdminByToken().then(
                 async (response) => {
-                    if (!response.error) {
-                        setIsAdmin(response)
+                    if (!response.error && response !== false && response !== undefined) {
+                        setIsAdmin(response.admin)
                     }
                 }
             )
@@ -93,7 +94,7 @@ export default function RootLayout({children, params: {lng}}: { children: React.
 
         fetchInfoUser().then();
 
-    }, [theLanguage, loading, isAdmin, isError, isSuccess]);
+    }, [theLanguage, loading, isAdmin, isError, isSuccess, router]);
 
     return (
         <html lang={lng}>

@@ -48,7 +48,6 @@ const ListOwners: React.FC = () => {
     }, [router, setError]);
 
     useEffect(() => {
-        console.log("ListOwners");
         getAllOwnersInFun();
     }, [getAllOwnersInFun]);
 

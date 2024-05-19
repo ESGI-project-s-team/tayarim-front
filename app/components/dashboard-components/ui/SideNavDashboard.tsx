@@ -13,7 +13,6 @@ const SideNavDashboard: React.FC = () => {
     const {isAdmin} = useAdminContext();
 
     useEffect(() => {
-        console.log(isAdmin);
         setIsAdminState(isAdmin);
         const mediaQuery = window.matchMedia("(max-width: 1024px)");
         const handleMediaQueryChange = (e: MediaQueryListEvent) => {

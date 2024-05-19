@@ -1,7 +1,11 @@
 import React, {useState} from "react";
 
 
-const ShowPasswordEye: React.FC = () => {
+interface ShowPasswordEyeProps {
+    idInput?: string
+}
+
+const ShowPasswordEye: React.FC<ShowPasswordEyeProps> = (idInput) => {
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -10,8 +14,8 @@ const ShowPasswordEye: React.FC = () => {
     return (
         <div className="mt-2 relative">
             <input
-                id="password"
-                name="password"
+                id={idInput.idInput ?? "password"}
+                name={idInput.idInput ?? "password"}
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 required
