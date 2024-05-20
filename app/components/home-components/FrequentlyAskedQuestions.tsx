@@ -1,6 +1,6 @@
 import React from "react";
 import {useTranslationContext} from "@/app/[lng]/hooks";
-import "../globals.css";
+import "../../globals.css";
 import {Disclosure, Transition} from "@headlessui/react";
 import {ChevronRightIcon} from "@heroicons/react/16/solid";
 

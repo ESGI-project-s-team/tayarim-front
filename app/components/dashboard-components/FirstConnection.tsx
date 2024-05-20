@@ -1,6 +1,5 @@
 "use client";
 import "../../globals.css"
-import BackgroundImageDark from "@/app/components/ui/BackgroundImageDark";
 import React, {useState} from "react";
 import ShowPasswordEye from "@/app/components/ui/ShowPasswordEye";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
@@ -10,8 +9,8 @@ import {
     useSuccessContext,
     useTranslationContext,
 } from "@/app/[lng]/hooks";
-import Navbar from "@/app/components/NavBar";
-import {updateAdminInFun, updateOwnerInFun} from "@/app/components/ui/modal/modal-info-user/action";
+import Navbar from "@/app/components/home-components/ui/NavBar";
+import {updateAdminInFun, updateOwnerInFun} from "@/app/components/modal/modal-info-user/action";
 import TooltipPersonalized from "@/app/components/ui/TooltipPersonalized";
 
 export default function FirstConnection() {

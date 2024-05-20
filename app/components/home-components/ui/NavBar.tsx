@@ -1,7 +1,7 @@
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
 import React, {useEffect, useState} from "react";
 import {useIsErrorContext, useIsOpenContext, useTranslationContext} from "@/app/[lng]/hooks";
-import "../globals.css";
+import "../../../globals.css";
 import Link from 'next/link';
 import {logoutInFun} from "@/app/components/dashboard-components/ui/drop-profile-items/action";
 import {useRouter} from "next/navigation";

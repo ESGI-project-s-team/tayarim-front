@@ -11,10 +11,10 @@ import {
     UserInfoContext,
     IsSuccessContext
 } from "./contexts";
-import Loader from "@/app/components/Loader";
-import ErrorsManagement from "@/utils/apiErrors";
+import Loader from "@/app/components/ui/Loader";
+import ErrorsManagement from "@/utils/alertErrors";
 import {isAdminByToken} from "@/utils/apiAuth";
-import SuccessManagement from "@/utils/apiSuccess";
+import SuccessManagement from "@/utils/alertSuccess";
 import {pile} from "@/pile";
 import {useRouter} from 'next/navigation';
 

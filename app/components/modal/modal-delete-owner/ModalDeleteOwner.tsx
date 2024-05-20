@@ -1,7 +1,7 @@
 import {Fragment, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import {ExclamationTriangleIcon} from '@heroicons/react/24/outline'
-import {deleteOwnerInFun} from "@/app/components/ui/modal/modal-delete-owner/action";
+import {deleteOwnerInFun} from "@/app/components/modal/modal-delete-owner/action";
 import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 

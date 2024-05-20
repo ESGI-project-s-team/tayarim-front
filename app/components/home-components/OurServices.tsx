@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import CardServices from "@/app/components/CardServices";
-import "../globals.css";
+import CardServices from "@/app/components/home-components/CardServices";
+import "../../globals.css";
 import {useTranslationContext} from "@/app/[lng]/hooks";
 import {Tab, Transition} from "@headlessui/react";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import {useTranslationContext} from "@/app/[lng]/hooks";
-import "../globals.css";
+import "../../globals.css";
 
 
 const HostInformation: React.FC = () => {

@@ -1,7 +1,7 @@
 import {Fragment, useEffect, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
-import MultiSelectListbox from '@/app/components/ui/modal/ui/MultiSelectListbox';
-import {updateOwnerInFun} from '@/app/components/ui/modal/modal-edit-owner/action';
+import MultiSelectListbox from '@/app/components/modal/ui/MultiSelectListbox';
+import {updateOwnerInFun} from '@/app/components/modal/modal-edit-owner/action';
 import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 

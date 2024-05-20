@@ -1,7 +1,7 @@
 import {useTranslationContext} from "@/app/[lng]/hooks";
 import React from "react";
 import SearchRoomReservation from "@/app/components/ui/SearchRoomReservation";
-import "../globals.css"
+import "../../globals.css"
 import BackgroundImageDark from "@/app/components/ui/BackgroundImageDark";
 
 
