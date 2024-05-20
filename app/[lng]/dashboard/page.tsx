@@ -42,7 +42,7 @@ export default function Page() {
     useEffect(() => {
         checkTokenInFun().then(
             async (response) => {
-                if (!response.isPasswordUpdated) {
+                if (response.isPasswordUpdated === false) {
                     router.push("/dashboard/first-connection")
                 }
             }

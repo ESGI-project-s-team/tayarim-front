@@ -22,7 +22,7 @@ const DropProfileItems: React.FC<DropProfileItemsProps> = ({setIsOpenInfo}) => {
                 if (response.errors) {
                     setError(response.errors)
                 } else {
-                    router.replace("/")
+                    router.push("/")
                 }
                 setLoading(false)
             }

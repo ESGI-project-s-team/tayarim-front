@@ -23,10 +23,12 @@ const FormConnection: React.FC = () => {
         () => {
             checkTokenInFun().then(
                 async (response) => {
-                    if (response.isPasswordUpdated) {
-                        router.push("/dashboard")
-                    } else {
-                        router.push("/dashboard/first-connection")
+                    if (!response.errors) {
+                        if (response.isPasswordUpdated === true) {
+                            router.push("/dashboard")
+                        } else if (response.isPasswordUpdated === false) {
+                            router.push("/dashboard/first-connection")
+                        }
                     }
                 }
             )
@@ -61,7 +63,11 @@ const FormConnection: React.FC = () => {
                     localStorage.setItem("numTel", user.numTel)
                     setUserInfos(user);
                     setIsAdmin(response.admin)
-                    router.push("/dashboard")
+                    if (response.isPasswordUpdated === true) {
+                        router.push("/dashboard")
+                    } else {
+                        router.push("/dashboard/first-connection")
+                    }
                 }
                 setLoading(false);
             }

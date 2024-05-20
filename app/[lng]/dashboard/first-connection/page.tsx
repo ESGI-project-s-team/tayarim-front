@@ -8,7 +8,6 @@ import FirstConnection from "@/app/components/dashboard-components/FirstConnecti
 export default function Page() {
     return (
         <>
-            <Navbar/>
             <BackgroundImageDark/>
             <FirstConnection/>
         </>

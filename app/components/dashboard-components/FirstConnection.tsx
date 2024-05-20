@@ -13,7 +13,6 @@ import {
 import Navbar from "@/app/components/NavBar";
 import {updateAdminInFun, updateOwnerInFun} from "@/app/components/ui/modal/modal-info-user/action";
 import TooltipPersonalized from "@/app/components/ui/TooltipPersonalized";
-import Link from "next/link";
 
 export default function FirstConnection() {
     const {translation} = useTranslationContext();
@@ -80,8 +79,7 @@ export default function FirstConnection() {
     return (
         <>
             <Navbar/>
-            <BackgroundImageDark/>
-            <div className="fixed xxs-mtop inset-x-0 max-w-max mx-auto flex shadow-2xl">
+            <div className="fixed xxs-mtop inset-x-0 max-w-max mx-auto flex shadow-2xl ">
                 <div className="bg-white rounded-xl p-14">
                     <div>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -118,7 +116,7 @@ export default function FirstConnection() {
                             </div>
 
                             <div>
-                                {isLoading ? <div className="flex justify-center">
+                                {isLoading ? <div className="flex justify-center items-center">
                                         <SpinnerUI/>
                                     </div> :
                                     <button

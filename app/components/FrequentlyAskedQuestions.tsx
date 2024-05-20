@@ -8,7 +8,7 @@ import {ChevronRightIcon} from "@heroicons/react/16/solid";
 const FrequentlyAskedQuestions: React.FC = () => {
     const {translation} = useTranslationContext();
     return (
-        <div className="flex-col justify-center lg:mx-20 mt-20">
+        <div className="flex-col justify-center lg:mx-20 mt-20 mx-2 ">
             <div className="text-center">
                 <h2 className="text-4xl font-bold">{translation?.t('faq-title')}</h2>
                 <p className="text-gray-500 mt-4">{translation?.t('faq-description')}</p>
