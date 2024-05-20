@@ -11,7 +11,7 @@ const HomeBody: React.FC = () => {
     return (
         <>
             <div className="inset-0 z-0 ">
-                <div className="relative h-screen" style={{height: '90vh'}}>
+                <div className="relative h-screen lg:h-[90vh]">
                     <div className="absolute inset-0 overflow-hidden ">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src="/bg-home-body.webp" alt="logo" className="w-full h-full object-cover"/>
