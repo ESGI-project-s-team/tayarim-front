@@ -1,6 +1,6 @@
 import React from "react";
 import {useTranslationContext} from "@/app/[lng]/hooks";
-import "../globals.css";
+import "../../globals.css";
 import {Disclosure, Transition} from "@headlessui/react";
 import {ChevronRightIcon} from "@heroicons/react/16/solid";
 
@@ -8,7 +8,7 @@ import {ChevronRightIcon} from "@heroicons/react/16/solid";
 const FrequentlyAskedQuestions: React.FC = () => {
     const {translation} = useTranslationContext();
     return (
-        <div className="flex-col justify-center lg:mx-20 mt-20">
+        <div className="flex-col justify-center lg:mx-20 mt-20 mx-2 ">
             <div className="text-center">
                 <h2 className="text-4xl font-bold">{translation?.t('faq-title')}</h2>
                 <p className="text-gray-500 mt-4">{translation?.t('faq-description')}</p>
@@ -23,7 +23,6 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                 {({open}) => (
                                     <>
                                         <div className="flex-col  py-5">
-
                                             <Disclosure.Button
                                                 className="flex w-full rounded-lg px-4 text-left  font-medium focus:outline-none items-center ">
                                                 <ChevronRightIcon
@@ -41,7 +40,7 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                                 leaveFrom="transform scale-90 opacity-0"
                                                 leaveTo="transform scale-100 opacity-0"
                                             >
-                                                <div className="w-full flex justify-center">
+                                                <div className="w-full flex ">
                                                     <Disclosure.Panel
                                                         className="text-sm text-gray-500 max-w-lg ml-10 pt-5 ">
                                                         {translation?.t('answer-1')}
@@ -77,7 +76,7 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                                 leaveFrom="transform scale-90 opacity-0"
                                                 leaveTo="transform scale-100 opacity-0"
                                             >
-                                                <div className="w-full flex justify-center">
+                                                <div className="w-full flex ">
                                                     <Disclosure.Panel
                                                         className="text-sm text-gray-500 max-w-lg ml-10 pt-5 ">
                                                         {translation?.t('answer-2')}
@@ -115,7 +114,7 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                                 leaveFrom="transform scale-90 opacity-0"
                                                 leaveTo="transform scale-100 opacity-0"
                                             >
-                                                <div className="w-full flex justify-center">
+                                                <div className="w-full flex ">
                                                     <Disclosure.Panel
                                                         className="text-sm text-gray-500 max-w-lg ml-10 pt-5 ">
                                                         {translation?.t('answer-3')}
@@ -151,7 +150,7 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                                 leaveFrom="transform scale-90 opacity-0"
                                                 leaveTo="transform scale-100 opacity-0"
                                             >
-                                                <div className="w-full flex justify-center">
+                                                <div className="w-full flex ">
                                                     <Disclosure.Panel
                                                         className="text-sm text-gray-500 max-w-lg ml-10 pt-5 ">
                                                         {translation?.t('answer-4')}
@@ -166,7 +165,6 @@ const FrequentlyAskedQuestions: React.FC = () => {
                                 )}
                             </Disclosure>
                         </div>
-
                     </div>
                 </div>
             </div>

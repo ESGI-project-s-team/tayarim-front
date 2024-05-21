@@ -1,7 +1,6 @@
 import {NextResponse} from 'next/server'
 import acceptLanguage from 'accept-language'
 import {fallbackLng, languages, cookieName} from './app/il8n/settings'
-import {cookies} from "next/headers";
 import {checkToken} from "./utils/apiAuth";
 
 acceptLanguage.languages(languages)

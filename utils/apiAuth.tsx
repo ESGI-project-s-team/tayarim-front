@@ -69,7 +69,7 @@ export async function checkToken() {
                 Authorization: `Bearer ${token}`,
             },
         });
-        return response.ok;
+        return response.json();
     } catch (error: any) {
         return false;
     }
@@ -94,7 +94,7 @@ export async function isAdminByToken() {
                 return {error: data.errors};
             }
         }
-        return data.admin;
+        return data;
     } catch (error: any) {
         return false;
     }

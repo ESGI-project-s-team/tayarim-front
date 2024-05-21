@@ -1,8 +1,9 @@
 import {Fragment, useEffect, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
-import MultiSelectListbox from '@/app/components/ui/modal/ui/MultiSelectListbox';
-import {updateOwnerInFun} from '@/app/components/ui/modal/modal-edit-owner/action';
+import MultiSelectListbox from '@/app/components/modal/ui/MultiSelectListbox';
+import {updateOwnerInFun} from '@/app/components/modal/modal-edit-owner/action';
 import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
+import SpinnerUI from "@/app/components/ui/SpinnerUI";
 
 
 export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwners}: {
@@ -14,9 +15,11 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
     const [formValues, setFormValues] = useState<any>({...ownerDetails}); // Initial state from `owner`
     const {setError} = useIsErrorContext();
-    const {setLoading} = useLoaderContext();
+    const [isLoading, setLoading] = useState(false)
     const {translation} = useTranslationContext();
     const {setSuccess} = useSuccessContext()
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
+
 
     useEffect(() => {
         if (focusElementRef.current) {
@@ -24,11 +27,22 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
         }
     }, []);
 
+    useEffect(() => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[+]?[(]?\d{3}[)]?[-\s.]?\d{3}[-\s.]?\d{4,6}$/;
+
+        const emailValid = emailRegex.test(formValues.email);
+        const phoneValid = phoneRegex.test(formValues.numTel);
+
+        setButtonDisabled(!(emailValid && phoneValid));
+    }, [formValues]);
+
     const handleInputChange = (field: keyof any, value: any) => {
         setFormValues((prev: any) => ({...prev, [field]: value})); // Update the specific field
     };
 
     const handleActionUpdateOwner = async () => {
+        setLoading(true)
         //remove from formValues sames values between owner and formValues
         Object.keys(ownerDetails).forEach((key) => {
             if (ownerDetails[key] === formValues[key]) {
@@ -45,12 +59,13 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                     getAllOwners()
                     setError(null)
                     onClose(); // Close the modal
-                    setLoading(true)
                     setSuccess(true)
                 }
+                setLoading(false)
             }); // Pass the updated form values
         } catch (error) {
-            console.error('Error updating owner:', error);
+            setLoading(false)
+            setError(error)
         }
     };
 
@@ -167,13 +182,17 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                                         {translation?.t('house')}</label>
                                                     <MultiSelectListbox/>
                                                 </div>
-                                                <button
+                                                {isLoading ? <div className="flex justify-center">
+                                                    <SpinnerUI/>
+                                                </div> : <button
                                                     ref={focusElementRef}
                                                     onClick={handleActionUpdateOwner}
-                                                    className="flex w-full justify-center rounded bg-[#3c50e0] p-3 font-medium text-white hover:bg-opacity-90"
+                                                    disabled={isButtonDisabled}
+                                                    className={`flex w-full justify-center rounded  p-3 font-medium text-white  ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
                                                 >
                                                     {translation?.t('form_edit_owner')}
                                                 </button>
+                                                }
                                             </div>
                                         </div>
                                     </div>

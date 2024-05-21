@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import ModalEditOwner from "@/app/components/ui/modal/modal-edit-owner/ModalEditOwner";
+import ModalEditOwner from "@/app/components/modal/modal-edit-owner/ModalEditOwner";
 import {ProprietaireDTO} from "@/app/model/Owner";
-import ModalDeleteOwner from "@/app/components/ui/modal/modal-delete-owner/ModalDeleteOwner";
+import ModalDeleteOwner from "@/app/components/modal/modal-delete-owner/ModalDeleteOwner";
 import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
-import ModalCreateOwner from "@/app/components/ui/modal/modal-create-owner/ModalCreateOwner";
+import ModalCreateOwner from "@/app/components/modal/modal-create-owner/ModalCreateOwner";
 import {useRouter} from "next/navigation";
 import {getAllOwners} from "@/utils/apiOwner";
 
@@ -48,7 +48,6 @@ const ListOwners: React.FC = () => {
     }, [router, setError]);
 
     useEffect(() => {
-        console.log("ListOwners");
         getAllOwnersInFun();
     }, [getAllOwnersInFun]);
 

@@ -3,7 +3,7 @@ import DropProfileItems from "@/app/components/dashboard-components/ui/drop-prof
 import DropNotificationItems from "@/app/components/dashboard-components/ui/DropNotificationItems";
 import {useAdminContext, useNotificationContext, useTranslationContext, useUserInfoContext} from "@/app/[lng]/hooks";
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
-import ModalInfoUser from "@/app/components/ui/modal/modal-info-user/ModalInfoUser";
+import ModalInfoUser from "@/app/components/modal/modal-info-user/ModalInfoUser";
 
 
 const NavBarDashboard: React.FC = () => {
