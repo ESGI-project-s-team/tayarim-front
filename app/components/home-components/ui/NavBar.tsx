@@ -1,27 +1,69 @@
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
 import React, {useEffect, useState} from "react";
-import {useAdminContext, useIsOpenContext, useTranslationContext} from "@/app/[lng]/hooks";
-import "../globals.css";
+import {useIsErrorContext, useIsOpenContext, useTranslationContext} from "@/app/[lng]/hooks";
+import "../../../globals.css";
 import Link from 'next/link';
+import {logoutInFun} from "@/app/components/dashboard-components/ui/drop-profile-items/action";
+import {useRouter} from "next/navigation";
+import {checkTokenInFun} from "@/app/components/ui/signin/action";
 
 
 const Navbar: React.FC = () => {
     const [showBackground, setShowBackground] = useState(false);
     const {translation} = useTranslationContext();
     const {isOpen, setIsOpen} = useIsOpenContext();
+    const [isFirstConnection, setIsFirstConnection] = useState(false);
     const pages: string[] = [translation?.t('nav_home')];
     const TOP_OFFSET = 100;
-
-
-
+    const router = useRouter()
+    const {setError} = useIsErrorContext();
     const toggleNavbar = (): void => {
         setIsOpen(!isOpen);
     };
+
+    async function handleLoginPage() {
+        checkTokenInFun().then(
+            async (response) => {
+                if (response.errors) {
+                    router.push("/owner-connection")
+                } else {
+                    if (response.isPasswordUpdated === true) {
+                        router.push("/dashboard")
+                    } else if (response.isPasswordUpdated === false) {
+                        router.push("/dashboard/first-connection")
+                    } else {
+                        router.push("/owner-connection")
+                    }
+                }
+            }
+        )
+        setIsOpen(false)
+
+    }
+
+    async function handleLogout() {
+        await logoutInFun().then(
+            async (response) => {
+                if (response.errors) {
+                    setError(response.errors)
+                } else {
+                    router.replace("/")
+                }
+                setIsOpen(false)
+            }
+        )
+    }
+
     const closeNavbar = (): void => {
         setIsOpen(false);
     };
 
     useEffect(() => {
+        if (window.location.pathname.includes("/first-connection")) {
+            setIsFirstConnection(true);
+        } else {
+            setIsFirstConnection(false);
+        }
         const handleScroll = () => {
             if (window.scrollY > TOP_OFFSET) {
                 setShowBackground(true);
@@ -68,7 +110,9 @@ const Navbar: React.FC = () => {
                                 onClick={closeNavbar}
                                 className={isOpen ? "px-8 py-7  cursor-pointer rounded font-semibold   lg:text-white text-black"
                                     : "px-8 py-7 cursor-pointer rounded font-semibold   text-white "}>
-                                <Link className="p-2 rounded " href="/"><div className="hover:scale-110   ">{page}</div></Link>
+                                <Link className="p-2 rounded " href="/">
+                                    <div className="hover:scale-110   ">{page}</div>
+                                </Link>
                             </li>
                         ))}
 
@@ -79,26 +123,49 @@ const Navbar: React.FC = () => {
                                 showBackground={showBackground}
                             />
                         </div>
+
                         <div className={isOpen ? "w-full mb-5 lg:mb-0 lg:ml-20" : "ml-20 w-full "}>
-                            <Link as="/owner-connection" href="">
+                            {isFirstConnection ? (
                                 <button
                                     style={{
                                         borderColor: showBackground ? "black" : "",
                                         color: showBackground ? "black" : ""
                                     }}
-                                    onClick={toggleNavbar}
+                                    onClick={handleLogout}
                                     className={isOpen ? "bg-transparent font-semibold border border-black rounded h-10 mt-11 px-6 my-2 lg:text-white text-black lg:border-white "
                                         : "bg-transparent font-semibold border border-white rounded h-10 mt-11 px-6 my-2 text-white"}>
                                     <div className="flex">
-                                        <span>{translation?.t('btn_owner')}</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             strokeWidth={1.5} stroke="currentColor" className="w-5 h-6 ml-2 mt-0.5">
+                                        <span>{translation?.t('btn_owner_log_out')}</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                             viewBox="0 0 24 24"
+                                             strokeWidth={1.5} stroke="currentColor"
+                                             className="w-5 h-6 ml-2 mt-0.5">
                                             <path strokeLinecap="round" strokeLinejoin="round"
                                                   d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"/>
                                         </svg>
                                     </div>
                                 </button>
-                            </Link>
+                            ) : (
+                                <button
+                                    style={{
+                                        borderColor: showBackground ? "black" : "",
+                                        color: showBackground ? "black" : ""
+                                    }}
+                                    onClick={handleLoginPage}
+                                    className={isOpen ? "bg-transparent font-semibold border border-black rounded h-10 mt-11 px-6 my-2 lg:text-white text-black lg:border-white "
+                                        : "bg-transparent font-semibold border border-white rounded h-10 mt-11 px-6 my-2 text-white"}>
+                                    <div className="flex">
+                                        <span>{translation?.t('btn_owner')}</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                             viewBox="0 0 24 24"
+                                             strokeWidth={1.5} stroke="currentColor"
+                                             className="w-5 h-6 ml-2 mt-0.5">
+                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                  d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"/>
+                                        </svg>
+                                    </div>
+                                </button>
+                            )}
                         </div>
                     </ul>
                 </nav>

@@ -11,46 +11,49 @@ import {
     UserInfoContext,
     IsSuccessContext
 } from "./contexts";
-import Loader from "@/app/components/Loader";
-import ErrorsManagement from "@/utils/apiErrors";
+import Loader from "@/app/components/ui/Loader";
+import ErrorsManagement from "@/utils/alertErrors";
 import {isAdminByToken} from "@/utils/apiAuth";
-import SuccessManagement from "@/utils/apiSuccess";
+import SuccessManagement from "@/utils/alertSuccess";
 import {pile} from "@/pile";
+import {useRouter} from 'next/navigation';
 
 export default function RootLayout({children, params: {lng}}: { children: React.ReactNode; params: { lng: string } }) {
     const [theLanguage, setTheLanguage] = useState(lng);
     const [translation, setTranslation] = useState<{ t: any, i18n: any } | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(undefined);
     const [isError, setError] = useState(null);
     const [isSuccess, setSuccess] = useState(null);
-
+    const router = useRouter();
     const [userInfos, setUserInfos] = useState({});
 
 
     useEffect(() => {
         console.log('RootLayout')
 
-        if (isError == null || isSuccess == null) {
-            if (isError != null) {
-                pile.push(false)
-            }
-            if (isSuccess != null) {
-                pile.push(true)
-            }
-        } else {
-            let lastValueIndex = pile[pile.length - 1];
-            console.log(lastValueIndex)
-            if (lastValueIndex) {
-                pile[pile.length - 1] = false;
-                setSuccess(null)
+        async function replaceAlertSuccessOrError() {
+            if (isError == null || isSuccess == null) {
+                if (isError != null) {
+                    pile.push(false)
+                }
+                if (isSuccess != null) {
+                    pile.push(true)
+                }
             } else {
-                pile[pile.length - 1] = true;
-                setError(null)
+                let lastValueIndex = pile[pile.length - 1];
+                if (lastValueIndex) {
+                    pile[pile.length - 1] = false;
+                    setSuccess(null)
+                } else {
+                    pile[pile.length - 1] = true;
+                    setError(null)
+                }
             }
-            console.log(pile)
         }
+
+        replaceAlertSuccessOrError().then();
 
         async function fetchTranslation() {
             const t = await doTranslation(theLanguage);
@@ -62,8 +65,8 @@ export default function RootLayout({children, params: {lng}}: { children: React.
         async function isAdmin() {
             await isAdminByToken().then(
                 async (response) => {
-                    if (!response.error) {
-                        setIsAdmin(response)
+                    if (!response.error && response !== false && response !== undefined) {
+                        setIsAdmin(response.admin)
                     }
                 }
             )
@@ -91,7 +94,7 @@ export default function RootLayout({children, params: {lng}}: { children: React.
 
         fetchInfoUser().then();
 
-    }, [theLanguage, loading, isAdmin, isError, isSuccess]);
+    }, [theLanguage, loading, isAdmin, isError, isSuccess, router]);
 
     return (
         <html lang={lng}>
@@ -102,7 +105,7 @@ export default function RootLayout({children, params: {lng}}: { children: React.
             <IsErrorContext.Provider value={{isError, setError}}>
                 <IsSuccessContext.Provider value={{isSuccess, setSuccess}}>
                     <IsAdminContext.Provider value={{isAdmin, setIsAdmin}}>
-                        <UserInfoContext.Provider value={{userInfos}}>
+                        <UserInfoContext.Provider value={{userInfos, setUserInfos}}>
                             <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
                                 <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
                                     <LoaderContext.Provider value={{loading, setLoading}}>
