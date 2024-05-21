@@ -7,6 +7,7 @@ import {NotificationContext, IsOpenSideBarContext} from "@/app/[lng]/contexts";
 import {useEffect, useMemo, useState} from "react";
 import {useRouter} from 'next/navigation';
 import {checkTokenInFun} from "@/app/components/ui/signin/action";
+import Loader from "@/app/components/ui/Loader";
 
 export default function Page() {
     const itemsAll = useMemo(() => [
@@ -38,25 +39,35 @@ export default function Page() {
     const [items, setItems] = useState(itemsAll);
     const [isOpenSideBar, setIsOpenSideBar] = useState(true);
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         checkTokenInFun().then(
             async (response) => {
                 if (response.isPasswordUpdated === false) {
                     router.push("/dashboard/first-connection")
+                } else if (response === false) {
+                    router.push("/owner-connection")
                 }
+                setIsLoading(false);
             }
         )
     });
     return (
-        <div>
-            <IsOpenSideBarContext.Provider value={{isOpenSideBar, setIsOpenSideBar}}>
-                <NotificationContext.Provider value={{items, setItems}}>
-                    <NavBarDashboard/>
-                </NotificationContext.Provider>
-                <SideNavDashboard/>
-                <HomeDashboard/>
-            </IsOpenSideBarContext.Provider>
-        </div>
+        <>
+            {
+                isLoading ? <Loader/>
+                    :
+                    <div>
+                        <IsOpenSideBarContext.Provider value={{isOpenSideBar, setIsOpenSideBar}}>
+                            <NotificationContext.Provider value={{items, setItems}}>
+                                <NavBarDashboard/>
+                            </NotificationContext.Provider>
+                            <SideNavDashboard/>
+                            <HomeDashboard/>
+                        </IsOpenSideBarContext.Provider>
+                    </div>
+            }
+        </>
     );
 };
