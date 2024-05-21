@@ -30,7 +30,7 @@ const SideNavDashboard: React.FC = () => {
     };
     return (
         <div style={{scrollbarWidth: "none"}}
-             className={`absolute w-72 overflow-scroll inset-y-0 left-0 transition-all duration-300 ease-in-out bg-[#1c2434] z-10  ${
+             className={`absolute w-72  inset-y-0 left-0 transition-all duration-300 ease-in-out bg-[#1c2434] z-10  ${
                  isOpenSideBar ? '' : '-translate-x-60'
              }`}
         >
@@ -48,7 +48,7 @@ const SideNavDashboard: React.FC = () => {
                     </svg>
                 </div>
             </div>
-            <div className="bg-[#1c2434]  overflow-scroll mt-24" style={{height: "auto"}}>
+            <div className="bg-[#1c2434] overflow-y-scroll no-scrollbar mt-24" style={{height: "auto"}}>
                 <nav className="mt-9 px-6 text-[#dee4ee] ">
                     <div>
                         <h3 className="mb-4 ml-4 text-sm font-semibold text-[#8a99af]">{translation?.t('menu_placeholder')}</h3>

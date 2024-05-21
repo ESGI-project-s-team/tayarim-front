@@ -5,11 +5,11 @@ import {updateOwnerInFun} from '@/app/components/ui/modal/modal-edit-owner/actio
 import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 
 
-export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerDetails}: {
+export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwners}: {
     isOpen: boolean;
     onClose: () => void;
     ownerDetails: any
-    setOwnerDetails: any
+    getAllOwners: any
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
     const [formValues, setFormValues] = useState<any>({...ownerDetails}); // Initial state from `owner`
@@ -42,7 +42,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, setOwnerD
                 if (response.errors) {
                     setError(response.errors)
                 } else {
-                    setOwnerDetails(null)
+                    getAllOwners()
                     setError(null)
                     onClose(); // Close the modal
                     setLoading(true)
