@@ -11,7 +11,13 @@ const HomeBody: React.FC = () => {
     return (
         <>
             <div className="inset-0 z-0 ">
-                <BackgroundImageDark/>
+                <div className="relative h-screen" style={{height: '90vh'}}>
+                    <div className="absolute inset-0 overflow-hidden ">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src="/bg-home-body.webp" alt="logo" className="w-full h-full object-cover"/>
+                    </div>
+                    <div className="absolute inset-0 bg-black opacity-70"></div>
+                </div>
                 <div className="absolute inset-0 items-center xxs-mtop  mx-5 xs-mtop lg:mt-14">
                     <div className="text-white text-center">
                         <h1 className=" font-bold ">{translation?.t('title_body')}</h1>

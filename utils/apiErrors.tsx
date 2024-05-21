@@ -18,7 +18,7 @@ const ErrorsManagement: React.FC<ErrorsManagementProps> = (data: any) => {
             <div className="relative  flex justify-end mb-2">
                 <div className="bg-red-100 flex p-5 rounded text-red-600">
                     <div className="flex-col">
-                        <strong className="font-bold">Errors !</strong>
+                        <strong className="font-bold">{translation?.t("error")}</strong>
                         <div>
                             {data.data?.map((error: any, index: any) => (
                                 <div key={index} className="block sm:inline">

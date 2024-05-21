@@ -4,10 +4,10 @@ import {ExclamationTriangleIcon} from '@heroicons/react/24/outline'
 import {deleteOwnerInFun} from "@/app/components/ui/modal/modal-delete-owner/action";
 import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 
-export default function ModalDeleteOwner({isOpen, onClose, id, setOwnerDetails}: {
+export default function ModalDeleteOwner({isOpen, onClose, id, getAllOwners}: {
     isOpen: boolean;
     onClose: () => void;
-    setOwnerDetails: any;
+    getAllOwners: any;
     id: string;
 }) {
     const {setError} = useIsErrorContext();
@@ -21,7 +21,7 @@ export default function ModalDeleteOwner({isOpen, onClose, id, setOwnerDetails}:
                 if (response.errors) {
                     setError(response.errors)
                 } else {
-                    setOwnerDetails(null)
+                    getAllOwners()
                     setError(null)
                     onClose(); // Close the modal
                     setLoading(true)
@@ -29,7 +29,7 @@ export default function ModalDeleteOwner({isOpen, onClose, id, setOwnerDetails}:
                 }
             });
         } catch (error) {
-            console.error(error);
+            setError(error)
         }
     }
     return (

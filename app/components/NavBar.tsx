@@ -66,9 +66,9 @@ const Navbar: React.FC = () => {
                             <li key={index}
                                 style={{color: (showBackground) ? "black" : ""}}
                                 onClick={closeNavbar}
-                                className={isOpen ? "px-8 py-8 mt-5 cursor-pointer rounded font-semibold   hover:scale-110 lg:text-white text-black"
-                                    : "px-8 py-8 mt-5 cursor-pointer rounded font-semibold  hover:scale-110 text-white"}>
-                                <Link className="p-2 rounded" href="/">{page}</Link>
+                                className={isOpen ? "px-8 py-7  cursor-pointer rounded font-semibold   lg:text-white text-black"
+                                    : "px-8 py-7 cursor-pointer rounded font-semibold   text-white "}>
+                                <Link className="p-2 rounded " href="/"><div className="hover:scale-110   ">{page}</div></Link>
                             </li>
                         ))}
 

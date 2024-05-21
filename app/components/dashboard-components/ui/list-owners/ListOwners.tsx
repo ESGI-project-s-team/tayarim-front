@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {getAllOwnersInFun} from "@/app/components/dashboard-components/ui/list-owners/action";
+import React, {useCallback, useEffect, useState} from 'react';
 import ModalEditOwner from "@/app/components/ui/modal/modal-edit-owner/ModalEditOwner";
 import {ProprietaireDTO} from "@/app/model/Owner";
 import ModalDeleteOwner from "@/app/components/ui/modal/modal-delete-owner/ModalDeleteOwner";
 import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
 import ModalCreateOwner from "@/app/components/ui/modal/modal-create-owner/ModalCreateOwner";
 import {useRouter} from "next/navigation";
+import {getAllOwners} from "@/utils/apiOwner";
 
 
 const ListOwners: React.FC = () => {
@@ -34,18 +34,24 @@ const ListOwners: React.FC = () => {
         setIsOpenCreate(false)
     }
 
-    useEffect(() => {
-        getAllOwnersInFun()
+    const getAllOwnersInFun = useCallback(() => {
+        getAllOwners()
             .then((response) => {
                 if (response.errors) {
-                    setError(response.errors)
-                    router.push("/dashboard")
+                    setError(response.errors);
+                    router.push("/dashboard");
                 } else {
-                    setError(null)
+                    setError(null);
                     setOwners(response);
                 }
             });
-    }, [setError, ownerDetails, router]);
+    }, [router, setError]);
+
+    useEffect(() => {
+        console.log("ListOwners");
+        getAllOwnersInFun();
+    }, [getAllOwnersInFun]);
+
     return (
         <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0  ">
             <div className="relative top-32 w-full flex justify-end mb-2 ">
@@ -62,8 +68,8 @@ const ListOwners: React.FC = () => {
                 </button>
             </div>
             <div
-                className="relative  border  bg-white   top-32   rounded-[10px] stroke-2 max-h-96 overflow-scroll ">
-                <div className="max-w-full overflow-x-auto">
+                className="relative  border  bg-white   top-32   rounded-[10px] stroke-2 max-h-[70%] overflow-auto ">
+                <div className="max-w-full">
                     <div className="min-w-[1170px]">
                         <div className="grid grid-cols-12 bg-[#F9FAFB] px-5 py-4 ">
                             <div className="col-span-2 items-center "><p className="font-medium">
@@ -88,8 +94,8 @@ const ListOwners: React.FC = () => {
                                     <div className="flex gap-4 flex-row items-center">
                                         <p className="text-sm text-black">{owner.prenom} {owner.nom}</p></div>
                                 </div>
-                                <div className="col-span-2 items-center flex"><p
-                                    className="text-sm text-black ">{owner.email}</p>
+                                <div className="col-span-2 items-center flex max-w-52 overflow-auto no-scrollbar">
+                                    <p className="text-sm text-black ">{owner.email}</p>
                                 </div>
                                 <div className="col-span-2 flex items-center"><p
                                     className="text-sm text-black">{owner.numTel}</p>
@@ -163,15 +169,15 @@ const ListOwners: React.FC = () => {
                 </div>
             </div>
             {isOpenCreate &&
-                <ModalCreateOwner isOpen={isOpenCreate} onClose={closeModal} setOwnerDetails={setOwnerDetails}/>
+                <ModalCreateOwner isOpen={isOpenCreate} onClose={closeModal} getAllOwners={getAllOwnersInFun}/>
             }
             {isOpenEdit &&
                 <ModalEditOwner isOpen={isOpenEdit} onClose={closeModal} ownerDetails={ownerDetails}
-                                setOwnerDetails={setOwnerDetails}/>
+                                getAllOwners={getAllOwnersInFun}/>
             }
             {isOpenDelete &&
                 <ModalDeleteOwner isOpen={isOpenDelete} onClose={closeModal} id={ownerDetails.id.toString()
-                } setOwnerDetails={setOwnerDetails}/>
+                } getAllOwners={getAllOwnersInFun}/>
             }
         </div>
     );

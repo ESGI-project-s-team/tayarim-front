@@ -1,5 +1,5 @@
 import React, {FormEvent, useEffect, useState} from "react";
-import {useAdminContext, useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useAdminContext, useIsErrorContext, useLoaderContext, useTranslationContext} from "@/app/[lng]/hooks";
 import {checkTokenInFun, signInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from 'next/navigation'
 
@@ -7,7 +7,7 @@ const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
     const {setLoading} = useLoaderContext();
     const {setIsAdmin} = useAdminContext();
-    const [error, setError] = useState<string | null>(null);
+    const {setError} = useIsErrorContext();
     const router = useRouter()
 
     useEffect(
@@ -35,6 +35,7 @@ const FormConnection: React.FC = () => {
                 if (response.error) {
                     setError(response.error)
                 } else {
+                    setError(null)
                     setIsAdmin(response.admin)
                     localStorage.setItem("id", response.id)
                     localStorage.setItem("nom", response.nom)
@@ -48,8 +49,8 @@ const FormConnection: React.FC = () => {
     }
 
     return (
-        <div className="fixed xxs-mtop inset-x-0 max-w-max mx-auto flex shadow-2xl">
-            <div className="bg-white rounded-xl p-14 overflow-scroll ">
+        <div className="fixed xxs-mtop inset-x-0 max-w-max mx-auto flex shadow-2xl ">
+            <div className="bg-white rounded-xl p-14">
                 <div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -104,7 +105,6 @@ const FormConnection: React.FC = () => {
                             >
                                 {translation?.t('sign_in_button')}
                             </button>
-                            {error && <p className="text-red-500 text-sm absolute">{translation?.t(error)}</p>}
                         </div>
                     </form>
                     <div className="flex-wrap  justify-between ">
