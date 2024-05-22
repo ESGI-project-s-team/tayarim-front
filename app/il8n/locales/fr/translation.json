@@ -1,6 +1,7 @@
 {
   "my_profile": "Mon Profil",
   "success": "Votre demande à bien été prise en compte.",
+  "success_title": "Succès !",
   "edit_info": "Modifier les informations",
   "error": "Erreur !",
   "admin": "Administrateur",
@@ -38,6 +39,13 @@
     "Virement Bancaire",
     "Achats"
   ],
+  "email_placeholder_form": "Entrez votre adresse email",
+  "first_name_placeholder_form": "Entrez votre prénom",
+  "last_name_placeholder_form": "Entrez votre nom de famille",
+  "phone_placeholder_form": "Entrez votre numéro de téléphone",
+  "password_placeholder_form": "Entrez votre mot de passe",
+  "confirm_password_placeholder_form": "Confirmez votre mot de passe",
+  "select_placeholder_form": "Sélectionnez une option",
   "welcome_placeholder": "Bon retour ! Connectez-vous pour continuer",
   "email_placeholder": "Adresse e-mail",
   "new_password_placeholder": "Nouveau mot de passe",

@@ -9,7 +9,7 @@ const OwnerManagement: React.FC = () => {
         () => {
             checkTokenInFun().then(
                 (response) => {
-                    if (!response) {
+                    if (!response.admin) {
                         router.push("/owner-connection")
                     }
                 }

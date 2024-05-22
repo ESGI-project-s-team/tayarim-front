@@ -1,6 +1,7 @@
 {
   "my_profile": "My Profile",
   "success": "Your request has been successfully processed.",
+  "success_title" : "Success !",
   "edit_info": "Edit information",
   "admin": "Administrator",
   "error": "Error !",
@@ -38,6 +39,14 @@
     "Bank Transfer",
     "Purchases"
   ],
+  "email_placeholder_form": "Enter your email address",
+  "first_name_placeholder_form": "Enter your first name",
+  "last_name_placeholder_form": "Enter your last name",
+  "phone_placeholder_form": "Enter your phone number",
+  "password_placeholder_form": "Enter your new password",
+  "select_placeholder_form": "Select a value",
+
+  "confirm_password_placeholder_form": "Confirm your new password",
   "welcome_placeholder": "Welcome back ! Please enter your details",
   "email_placeholder": "Email address",
   "new_password_placeholder": "New password",

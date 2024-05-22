@@ -119,7 +119,7 @@ export default function ModalCreateOwner({isOpen, onClose, getAllOwners}: {
                                                             {translation?.t('form_firstname')}
                                                         </label>
                                                         <input
-                                                            placeholder="Enter your first name"
+                                                            placeholder={translation?.t('first_name_placeholder_form')}
                                                             className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 outline-none transition"
                                                             type="text"
                                                             onChange={(e) => handleInputChange('prenom', e.target.value)} // Add onChange handler
@@ -131,7 +131,7 @@ export default function ModalCreateOwner({isOpen, onClose, getAllOwners}: {
                                                             className="mb-3 block text-sm font-medium text-black">
                                                             {translation?.t('form_lastname')}</label>
                                                         <input
-                                                            placeholder="Enter your last name"
+                                                            placeholder={translation?.t('last_name_placeholder_form')}
                                                             className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                             type="text"
                                                             onChange={(e) => handleInputChange('nom', e.target.value)} // Add onChange handler
@@ -143,7 +143,7 @@ export default function ModalCreateOwner({isOpen, onClose, getAllOwners}: {
                                                     <label
                                                         className="mb-3 block text-sm font-medium text-black">Email</label>
                                                     <input
-                                                        placeholder="Enter your email address"
+                                                        placeholder={translation?.t('email_placeholder_form')}
                                                         className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                         type="email"
                                                         onChange={(e) => handleInputChange('email', e.target.value)} // Add onChange handler
@@ -156,7 +156,7 @@ export default function ModalCreateOwner({isOpen, onClose, getAllOwners}: {
                                                         {translation?.t('phone')}
                                                     </label>
                                                     <input
-                                                        placeholder="Enter your phone number"
+                                                        placeholder={translation?.t('phone_placeholder_form')}
                                                         className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                         type="text"
                                                         onChange={(e) => handleInputChange('numTel', e.target.value)} // Add onChange handler
