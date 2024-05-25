@@ -51,59 +51,13 @@ export async function logout(): Promise<any> {
             }
 
         }
+        cookies().delete("token");
+        cookies().delete("refreshToken");
         return true;
     } catch (error: any) {
         return {error: error.message};
     }
 
-}
-
-export async function checkToken() {
-    let token = cookies().get("token")?.value;
-    if (token === undefined || token === '') {
-        return false;
-    }
-    return await checkTokenInFun(token).then(
-        async (responseToken) => {
-            if (!responseToken) {
-                token = cookies().get("refreshToken")?.value;
-                if (token === undefined || token === null) {
-                    return false;
-                }
-                return await refreshToken(token).then(
-                    async (responseRefreshToken) => {
-                        if (!responseRefreshToken) {
-                            return false;
-                        }
-                        if (responseRefreshToken.accessToken) {
-                            cookies().set("token", responseRefreshToken.accessToken);
-                            return true;
-                        }
-                    }
-                );
-            }
-            return true;
-        });
-}
-
-
-export async function checkTokenInFun(token: string) {
-    try {
-        const response = await fetch(checkTokenUrl, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        const data = await response.json();
-        if (!response.ok) {
-            return false
-        }
-        return data;
-    } catch (error: any) {
-        return false;
-    }
 }
 
 async function refreshToken(token: string) {
@@ -139,7 +93,6 @@ export async function isAdminByToken() {
                 }
                 return await refreshToken(token).then(
                     async (responseRefreshToken) => {
-                        console.log(responseRefreshToken)
                         if (!responseRefreshToken) {
                             return false;
                         }
@@ -156,7 +109,6 @@ export async function isAdminByToken() {
 
 async function isAdminByTokenInFun(token: string) {
     try {
-        console.log(checkTokenUrl)
         const response = await fetch(checkTokenUrl, {
             method: "GET",
             headers: {
