@@ -46,13 +46,13 @@ export async function middleware(req) {
         .replace(`/${lng}`, '')
         .replace(/\/$/, '')
     const isProtectedRoute = protectedRoutes.includes(`${path}`)
-    if (isProtectedRoute) {
-        return await checkToken().then((response) => {
-            if (response === false) {
-                return NextResponse.redirect(new URL('/owner-connection', req.nextUrl))
-            }
-        })
-    }
+    /*    if (isProtectedRoute) {
+            return await checkToken().then((response) => {
+                if (response === false) {
+                    return NextResponse.redirect(new URL('/owner-connection', req.nextUrl))
+                }
+            })
+        }*/
 
     return NextResponse.next()
 }

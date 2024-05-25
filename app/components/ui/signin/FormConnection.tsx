@@ -2,7 +2,6 @@ import React, {FormEvent, useEffect, useState} from "react";
 import {
     useAdminContext,
     useIsErrorContext,
-    useLoaderContext,
     useTranslationContext,
     useUserInfoContext
 } from "@/app/[lng]/hooks";
@@ -45,28 +44,30 @@ const FormConnection: React.FC = () => {
         setLoading(true)
         await signInFun(credentials).then(
             async (response) => {
-                if (response.error) {
-                    setError(response.error)
-                } else {
-                    setError(null)
-                    const user = {
-                        id: response.id,
-                        nom: response.nom,
-                        prenom: response.prenom,
-                        email: response.email,
-                        numTel: response.numTel,
-                    }
-                    localStorage.setItem("id", user.id)
-                    localStorage.setItem("nom", user.nom)
-                    localStorage.setItem("prenom", user.prenom)
-                    localStorage.setItem("email", user.email)
-                    localStorage.setItem("numTel", user.numTel)
-                    setUserInfos(user);
-                    setIsAdmin(response.admin)
-                    if (response.isPasswordUpdated === true) {
-                        router.push("/dashboard")
+                if (response !== false) {
+                    if (response.error) {
+                        setError(response.error)
                     } else {
-                        router.push("/dashboard/first-connection")
+                        setError(null)
+                        const user = {
+                            id: response.id,
+                            nom: response.nom,
+                            prenom: response.prenom,
+                            email: response.email,
+                            numTel: response.numTel,
+                        }
+                        localStorage.setItem("id", user.id)
+                        localStorage.setItem("nom", user.nom)
+                        localStorage.setItem("prenom", user.prenom)
+                        localStorage.setItem("email", user.email)
+                        localStorage.setItem("numTel", user.numTel)
+                        setUserInfos(user);
+                        setIsAdmin(response.admin)
+                        if (response.isPasswordUpdated === true) {
+                            router.push("/dashboard")
+                        } else {
+                            router.push("/dashboard/first-connection")
+                        }
                     }
                 }
                 setLoading(false);

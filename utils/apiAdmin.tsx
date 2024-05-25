@@ -1,6 +1,7 @@
 import {BACKEND_API} from "@/utils/constants";
 import {cookies} from "next/headers";
 
+
 const updateAdminUrl = `${BACKEND_API}/admin`
 
 

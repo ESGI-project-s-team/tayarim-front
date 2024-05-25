@@ -2,6 +2,7 @@
 import {BACKEND_API} from "@/utils/constants";
 import {cookies} from "next/headers";
 
+
 const getAllOwnersUrl = `${BACKEND_API}/proprietaires`
 const createOwnerUrl = `${BACKEND_API}/proprietaires`
 const getByIdOwnerUrl = `${BACKEND_API}/proprietaires/logout`

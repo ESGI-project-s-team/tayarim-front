@@ -1,19 +1,22 @@
-"use server";
-import {checkToken, login} from "@/utils/apiAuth";
+import {isAdminByToken, login} from "@/utils/apiAuth";
 
 
 export async function signInFun(credentials: any) {
     try {
         return await login(credentials);
     } catch (error) {
-        throw new Error("Invalid credentials");
+        return false;
     }
 }
 
 export async function checkTokenInFun() {
-    try {
-        return await checkToken();
-    } catch (error) {
-        throw new Error("Invalid credentials");
-    }
+
+    return await isAdminByToken();
+
+}
+
+export async function checkTokenInFunIsAdmin() {
+
+    return await isAdminByToken();
+
 }
