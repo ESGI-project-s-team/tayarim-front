@@ -4,7 +4,7 @@ import SideNavDashboard from "@/app/components/dashboard-components/ui/SideNavDa
 import NavBarDashboard from "@/app/components/dashboard-components/ui/NavBarDashboard";
 import {NotificationContext, IsOpenSideBarContext} from "@/app/[lng]/contexts";
 import {useMemo, useState} from "react";
-import OwnerManagement from "@/app/components/dashboard-components/OwnerManagement";
+import HousingManagement from "@/app/components/dashboard-components/HousingManagement";
 
 export default function Page() {
     const itemsAll = useMemo(() => [
@@ -42,7 +42,7 @@ export default function Page() {
                     <NavBarDashboard/>
                 </NotificationContext.Provider>
                 <SideNavDashboard/>
-                <OwnerManagement/>
+                <HousingManagement/>
             </IsOpenSideBarContext.Provider>
         </div>
     );

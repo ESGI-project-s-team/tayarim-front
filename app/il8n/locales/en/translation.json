@@ -16,6 +16,7 @@
   "delete": "Delete",
   "form_edit_owner": "Edit Owner",
   "form_add_owner": "Add Owner",
+  "form_add_housing": "Add Housing",
   "form_lastname": "Last Name",
   "form_firstname": "First Name",
   "form_multi_select": "Select values",
