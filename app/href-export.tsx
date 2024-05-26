@@ -1,6 +1,7 @@
 const icon_menu: string[] = []
 const icon_management: string[] = [
-    "/dashboard/owner-management"
+    "/dashboard/owner-management",
+    "/dashboard/housing-management",
 ]
 const icon_others: string[] = []
 
