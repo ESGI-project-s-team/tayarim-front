@@ -73,6 +73,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                 updateAdminInFun(formValues).then((response) => {
                     if (response.errors) {
                         setError(response.errors)
+                        setFormValues({...userInfos})
                     } else {
                         setSuccess(true)
                         setIsAdmin(response.admin)

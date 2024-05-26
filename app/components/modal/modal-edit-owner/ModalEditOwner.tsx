@@ -33,7 +33,6 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
 
         const emailValid = emailRegex.test(formValues.email);
         const phoneValid = phoneRegex.test(formValues.numTel);
-
         setButtonDisabled(!(emailValid && phoneValid));
     }, [formValues]);
 
@@ -55,6 +54,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
             updateOwnerInFun(formValues).then((response) => {
                 if (response.errors) {
                     setError(response.errors)
+                    setFormValues({...ownerDetails})
                 } else {
                     getAllOwners()
                     setError(null)
