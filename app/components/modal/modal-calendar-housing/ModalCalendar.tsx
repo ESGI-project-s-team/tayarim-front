@@ -1,5 +1,5 @@
-import React, {Fragment, useEffect, useRef, useState} from 'react';
-import {Dialog, Select, Transition} from '@headlessui/react';
+import React, {Fragment, useState} from 'react';
+import {Dialog, Transition} from '@headlessui/react';
 import {
     useNavbarContext,
     useTranslationContext

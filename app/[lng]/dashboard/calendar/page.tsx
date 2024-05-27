@@ -8,7 +8,7 @@ import {useEffect, useMemo, useState} from "react";
 import {useRouter} from 'next/navigation';
 import {checkTokenInFun} from "@/app/components/ui/signin/action";
 import Loader from "@/app/components/ui/Loader";
-import CalendarDashboard from "@/app/components/dashboard-components/CalendarDashboard";
+import PlanningDashboard from "@/app/components/dashboard-components/PlanningDashboard";
 
 export default function Page() {
     const itemsAll = useMemo(() => [
@@ -65,7 +65,7 @@ export default function Page() {
                                 <NavBarDashboard/>
                             </NotificationContext.Provider>
                             <SideNavDashboard/>
-                            <CalendarDashboard/>
+                            <PlanningDashboard/>
                         </IsOpenSideBarContext.Provider>
                     </div>
             }
