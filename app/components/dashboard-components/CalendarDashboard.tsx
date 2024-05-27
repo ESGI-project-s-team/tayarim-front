@@ -1,15 +1,28 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {checkTokenInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from "next/navigation";
 import {useTranslationContext} from "@/app/[lng]/hooks";
-import {getHrefMenu} from "@/app/href-export";
-import {getIconMenu} from "@/app/icon-export";
+import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from 'react-datepicker';
 
 const CalendarDashboard: React.FC = () => {
     const router = useRouter()
     const {translation} = useTranslationContext()
     const menu_days_all = translation?.t('days_all', {returnObjects: true}) ?? [];
     const menu_days = translation?.t('days', {returnObjects: true}) ?? [];
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const renderQuarterContent = (quarter: any, shortQuarter: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined) => {
+        const tooltipText = `Tooltip for quarter: ${quarter}`;
+        return <span title={tooltipText}>{shortQuarter}</span>;
+    };
+    const handleChange = (date: any) => {
+        setSelectedDate(date);
+    };
+    const handleFocus = (e: any) => {
+        e.preventDefault();
+        e.target.blur();
+    };
     useEffect(
         () => {
             checkTokenInFun().then(
@@ -23,7 +36,17 @@ const CalendarDashboard: React.FC = () => {
     )
     return (
         <div className=" lg:ml-80  mr-2 ml-14 z-0 ">
-            <div className="relative top-32 w-full    ">
+            <div className="relative top-32 w-full">
+                <DatePicker
+                    selected={selectedDate}
+                    renderQuarterContent={renderQuarterContent}
+                    showMonthYearPicker
+                    dateFormat="yyyy, MMM"
+                    onChange={handleChange}
+                    onChangeRaw={handleFocus}
+                    onFocus={handleFocus}
+                    className={"ml-6 border-1 border-solid border-gray-300 rounded-md"}
+                />
                 <div className="bg-[#f1f5f9] ">
                     <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
                         <div className="mx-auto max-w-7xl">
