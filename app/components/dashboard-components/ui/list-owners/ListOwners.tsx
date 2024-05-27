@@ -133,6 +133,7 @@ const ListOwners: React.FC = () => {
                                             numTel: owner.numTel,
                                             dateInscription: owner.dateInscription,
                                             logements: owner.logements,
+                                            commission: owner.commission
                                         })
                                     }
                                 >
@@ -145,7 +146,7 @@ const ListOwners: React.FC = () => {
                                     </svg>
                                 </div>
                                 <div
-                                    className="col-span-1  items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10"
+                                    className="col-span-1  items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10 "
                                     onClick={() =>
                                         openModalDelete(
                                             {
@@ -156,6 +157,7 @@ const ListOwners: React.FC = () => {
                                                 numTel: owner.numTel,
                                                 dateInscription: owner.dateInscription,
                                                 logements: owner.logements,
+                                                commission: owner.commission
                                             }
                                         )
                                     }

@@ -33,6 +33,11 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
 
         const emailValid = emailRegex.test(formValues.email);
         const phoneValid = phoneRegex.test(formValues.numTel);
+
+        if (formValues.commission < 0 || formValues.commission > 100) {
+            setButtonDisabled(true)
+            return
+        }
         setButtonDisabled(!(emailValid && phoneValid));
     }, [formValues]);
 
@@ -176,6 +181,20 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                                     />
                                                 </div>
 
+                                                <div className="mb-5">
+                                                    <label
+                                                        className="mb-3 block text-sm font-medium text-black">
+                                                        Commission
+                                                    </label>
+                                                    <input
+                                                        required={true}
+                                                        placeholder={translation?.t('phone_placeholder_form')}
+                                                        className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                                        type="number"
+                                                        value={formValues.commission}
+                                                        onChange={(e) => handleInputChange('commission', e.target.value)} // Add onChange handler
+                                                    />
+                                                </div>
                                                 <div className="mb-5">
                                                     <label
                                                         className="mb-3 block text-sm font-medium text-black">
