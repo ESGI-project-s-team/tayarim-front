@@ -81,7 +81,7 @@ const CalendarDashboard: React.FC = () => {
     )
     return (
         <div className=" lg:ml-80  mr-2 ml-14 z-0 ">
-            <div className="relative top-32 w-full">
+            <div className="relative top-32 w-full ">
                 <Select name="status" aria-label="Project status"
                         className={"ml-6 border-1 border-solid border-gray-300 rounded-md cursor-pointer"}
                         onChange={handleChangeHousing}>

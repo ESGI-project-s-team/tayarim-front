@@ -1,4 +1,5 @@
 {
+  "calendar": "Calendrier",
   "my_profile": "Mon Profil",
   "success": "Votre demande à bien été prise en compte.",
   "success_title": "Succès !",
@@ -24,7 +25,7 @@
   "menu_placeholder": "MENU",
   "menu_sidenav": [
     "Analyses",
-    "Calendrier",
+    "Planning",
     "Tâches",
     "Facturation"
   ],
