@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {checkTokenInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from "next/navigation";
-import {useTranslationContext} from "@/app/[lng]/hooks";
+import {useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 
@@ -11,7 +11,9 @@ const CalendarDashboard: React.FC = () => {
     const menu_days_all = translation?.t('days_all', {returnObjects: true}) ?? [];
     const menu_days = translation?.t('days', {returnObjects: true}) ?? [];
     const [selectedDate, setSelectedDate] = useState(new Date());
-
+    const {theLanguage} = useNavbarContext();
+    const days = translation?.t('days', {returnObjects: true}) ?? [];
+    const months = translation?.t('months', {returnObjects: true}) ?? [];
     const renderQuarterContent = (quarter: any, shortQuarter: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined) => {
         const tooltipText = `Tooltip for quarter: ${quarter}`;
         return <span title={tooltipText}>{shortQuarter}</span>;
@@ -23,6 +25,19 @@ const CalendarDashboard: React.FC = () => {
         e.preventDefault();
         e.target.blur();
     };
+
+    const locale: any = {
+        localize: {
+            day: (n: string | number) => days[n],
+            month: (n: string | number) => months[n]
+        },
+        formatLong: {
+            date: () => 'dd MMMM yyyy',
+        },
+        code: theLanguage,
+    };
+
+
     useEffect(
         () => {
             checkTokenInFun().then(
@@ -45,6 +60,7 @@ const CalendarDashboard: React.FC = () => {
                     onChange={handleChange}
                     onChangeRaw={handleFocus}
                     onFocus={handleFocus}
+                    locale={locale}
                     className={"ml-6 border-1 border-solid border-gray-300 rounded-md"}
                 />
                 <div className="bg-[#f1f5f9] ">
