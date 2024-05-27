@@ -1,4 +1,7 @@
-const icon_menu: string[] = []
+const icon_menu: string[] = [
+    "/dashboard/analytics",
+    "/dashboard/calendar",
+]
 const icon_management: string[] = [
     "/dashboard/owner-management",
     "/dashboard/housing-management",

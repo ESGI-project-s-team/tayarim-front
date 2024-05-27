@@ -52,7 +52,7 @@ const ListOwners: React.FC = () => {
     }, [getAllOwnersInFun]);
 
     return (
-        <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0  ">
+        <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0">
             <div className="relative top-32 w-full flex justify-end mb-2 ">
                 <button
                     onClick={() => setIsOpenCreate(true)}
@@ -84,6 +84,9 @@ const ListOwners: React.FC = () => {
                             <div className="col-span-2  items-center ">
                                 <p className="font-medium">{translation?.t('house')}</p>
                             </div>
+                            <div className="col-span-2  items-center ">
+                                <p className="font-medium">Commission</p>
+                            </div>
                         </div>
                         {owners.map((owner: any, index: number) => (
                             <div
@@ -101,13 +104,13 @@ const ListOwners: React.FC = () => {
                                 </div>
                                 {owner.logements.length > 0 ?
                                     <div
-                                        className="col-span-2  items-center flex-col text-[#3c50e0] hover:underline cursor-pointer">
+                                        className="col-span-2  items-center flex-col text-[#3c50e0] hover:underline cursor-pointer   ">
                                         {owner.logements.map((logement: any, index: number) => (
                                             <p className="text-sm" key={index}>House {logement.id}</p>
                                         ))}
                                     </div>
                                     :
-                                    <div className="col-span-2  items-center ml-3 flex cursor-pointer ">
+                                    <div className="col-span-2 items-center ml-3 flex cursor-pointer ">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              strokeWidth="1.5"
                                              stroke="currentColor" className="w-6 h-6 text-[#3c50e0]">
@@ -116,8 +119,11 @@ const ListOwners: React.FC = () => {
                                         </svg>
                                     </div>
                                 }
+                                <div className="col-span-2 flex items-center ml-5 "><p
+                                    className="text-sm text-black">{owner.commission}%</p>
+                                </div>
                                 <div
-                                    className="col-span-2  items-center flex text-sm text-[#3c50e0] hover:underline cursor-pointer"
+                                    className="col-span-1 items-center flex text-sm text-[#3c50e0] hover:underline cursor-pointer"
                                     onClick={() =>
                                         openModalEdit({
                                             id: owner.id,
@@ -139,7 +145,7 @@ const ListOwners: React.FC = () => {
                                     </svg>
                                 </div>
                                 <div
-                                    className="col-span-2  items-center flex text-sm text-red-600 hover:underline cursor-pointer"
+                                    className="col-span-1  items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10"
                                     onClick={() =>
                                         openModalDelete(
                                             {
