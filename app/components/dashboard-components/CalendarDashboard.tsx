@@ -1,9 +1,15 @@
 import React, {useEffect} from 'react';
 import {checkTokenInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from "next/navigation";
+import {useTranslationContext} from "@/app/[lng]/hooks";
+import {getHrefMenu} from "@/app/href-export";
+import {getIconMenu} from "@/app/icon-export";
 
 const CalendarDashboard: React.FC = () => {
     const router = useRouter()
+    const {translation} = useTranslationContext()
+    const menu_days_all = translation?.t('days_all', {returnObjects: true}) ?? [];
+    const menu_days = translation?.t('days', {returnObjects: true}) ?? [];
     useEffect(
         () => {
             checkTokenInFun().then(
@@ -26,27 +32,12 @@ const CalendarDashboard: React.FC = () => {
                                 <table className="w-full">
                                     <thead>
                                     <tr className="grid grid-cols-7 rounded-t-sm bg-[#3c50e0] text-white">
-                                        <th className="flex h-15 items-center justify-center rounded-tl-sm p-1 text-xs font-semibold sm:text-base xl:p-5">
-                                            <span className="hidden lg:block"> Sunday </span><span
-                                            className="block lg:hidden"> Sun </span></th>
-                                        <th className="flex h-15 items-center justify-center p-1 text-xs font-semibold sm:text-base xl:p-5">
-                                            <span className="hidden lg:block"> Monday </span><span
-                                            className="block lg:hidden"> Mon </span></th>
-                                        <th className="flex h-15 items-center justify-center p-1 text-xs font-semibold sm:text-base xl:p-5">
-                                            <span className="hidden lg:block"> Tuesday </span><span
-                                            className="block lg:hidden"> Tue </span></th>
-                                        <th className="flex h-15 items-center justify-center p-1 text-xs font-semibold sm:text-base xl:p-5">
-                                            <span className="hidden lg:block"> Wednesday </span><span
-                                            className="block lg:hidden"> Wed </span></th>
-                                        <th className="flex h-15 items-center justify-center p-1 text-xs font-semibold sm:text-base xl:p-5">
-                                            <span className="hidden lg:block"> Thursday </span><span
-                                            className="block lg:hidden"> Thur </span></th>
-                                        <th className="flex h-15 items-center justify-center p-1 text-xs font-semibold sm:text-base xl:p-5">
-                                            <span className="hidden lg:block"> Friday </span><span
-                                            className="block lg:hidden"> Fri </span></th>
-                                        <th className="flex h-15 items-center justify-center rounded-tr-sm p-1 text-xs font-semibold sm:text-base xl:p-5">
-                                            <span className="hidden lg:block"> Saturday </span><span
-                                            className="block lg:hidden"> Sat </span></th>
+                                        {menu_days_all.map((page: string, index: number) => (
+                                            <th className="flex h-15 items-center justify-center p-1 text-xs font-semibold sm:text-base xl:p-5"
+                                                key={index}>
+                                                <span className="hidden lg:block"> {page} </span><span
+                                                className="block lg:hidden"> {menu_days[index]} </span></th>
+                                        ))}
                                     </tr>
                                     </thead>
                                     <tbody>

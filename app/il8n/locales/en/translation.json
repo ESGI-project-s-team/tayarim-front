@@ -136,6 +136,15 @@
     "Fri",
     "Sat"
   ],
+  "days_all": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
   "new_password_label": "Please enter your new password",
   "error_owner_invalid_name": "The name is invalid (ex: 'Doe')",
   "error_owner_invalid_firstName": "The first name is invalid (ex: 'Jhon')",

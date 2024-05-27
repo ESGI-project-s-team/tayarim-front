@@ -136,6 +136,15 @@
     "Ven",
     "Sam"
   ],
+  "days_all": [
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi"
+  ],
   "new_password_label": "Veuillez saisir votre nouveau mot de passe",
   "error_owner_invalid_name": "Le nom est invalide (ex: 'Doe')",
   "error_owner_invalid_firstName": "Le prenom est invalide (ex: 'Jhon')",
