@@ -11,7 +11,7 @@
     "start:test": "next start"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.18",
+    "@headlessui/react": "^2.0.4",
     "@heroicons/react": "^2.1.1",
     "accept-language": "^3.0.18",
     "i18next": "^23.10.1",

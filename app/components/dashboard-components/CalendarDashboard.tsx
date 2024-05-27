@@ -4,6 +4,7 @@ import {useRouter} from "next/navigation";
 import {useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
+import {Select} from '@headlessui/react'
 
 const CalendarDashboard: React.FC = () => {
     const router = useRouter()
@@ -11,32 +12,7 @@ const CalendarDashboard: React.FC = () => {
     const menu_days_all = translation?.t('days_all', {returnObjects: true}) ?? [];
     const menu_days = translation?.t('days_calendar', {returnObjects: true}) ?? [];
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const {theLanguage} = useNavbarContext();
-    const days = translation?.t('days_calendar', {returnObjects: true}) ?? [];
-    const months = translation?.t('months', {returnObjects: true}) ?? [];
-    const renderQuarterContent = (quarter: any, shortQuarter: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined) => {
-        const tooltipText = `Tooltip for quarter: ${quarter}`;
-        return <span title={tooltipText}>{shortQuarter}</span>;
-    };
-    const handleChange = (date: any) => {
-        setSelectedDate(date);
-    };
-    const handleFocus = (e: any) => {
-        e.preventDefault();
-        e.target.blur();
-    };
-
-    const locale: any = {
-        localize: {
-            day: (n: string | number) => days[n],
-            month: (n: string | number) => months[n]
-        },
-        formatLong: {
-            date: () => 'dd MMMM yyyy',
-        },
-        code: theLanguage,
-    };
-
+    const [selectedHousing, setSelectedHousing] = useState(new Date());
     const generateMonthDays = (date: Date) => {
         const year = date.getFullYear();
         const month = date.getMonth();
@@ -63,7 +39,34 @@ const CalendarDashboard: React.FC = () => {
 
         return daysInMonth;
     };
-    const monthDays = generateMonthDays(selectedDate);
+    const [monthDays, setMonthDays] = useState(generateMonthDays(selectedDate));
+    const {theLanguage} = useNavbarContext();
+    const days = translation?.t('days_calendar', {returnObjects: true}) ?? [];
+    const months = translation?.t('months', {returnObjects: true}) ?? [];
+
+    const handleChangeDate = (date: any) => {
+        setSelectedDate(date);
+        setMonthDays(generateMonthDays(date));
+    };
+    const handleChangeHousing = (house: any) => {
+        setSelectedHousing(house);
+    };
+    const handleFocus = (e: any) => {
+        e.preventDefault();
+        e.target.blur();
+    };
+
+    const locale: any = {
+        localize: {
+            day: (n: string | number) => days[n],
+            month: (n: string | number) => months[n]
+        },
+        formatLong: {
+            date: () => 'dd MMMM yyyy',
+        },
+        code: theLanguage,
+    };
+
 
     useEffect(
         () => {
@@ -79,16 +82,23 @@ const CalendarDashboard: React.FC = () => {
     return (
         <div className=" lg:ml-80  mr-2 ml-14 z-0 ">
             <div className="relative top-32 w-full">
+                <Select name="status" aria-label="Project status"
+                        className={"ml-6 border-1 border-solid border-gray-300 rounded-md cursor-pointer"}
+                        onChange={handleChangeHousing}>
+                    <option value="active">Active</option>
+                    <option value="paused">Paused</option>
+                    <option value="delayed">Delayed</option>
+                    <option value="canceled">Canceled</option>
+                </Select>
                 <DatePicker
                     selected={selectedDate}
-                    renderQuarterContent={renderQuarterContent}
                     showMonthYearPicker
                     dateFormat="yyyy, MMM"
-                    onChange={handleChange}
+                    onChange={handleChangeDate}
                     onChangeRaw={handleFocus}
                     onFocus={handleFocus}
                     locale={locale}
-                    className={"ml-6 border-1 border-solid border-gray-300 rounded-md"}
+                    className={"ml-6 border-1 border-solid border-gray-300 rounded-md cursor-pointer"}
                 />
                 <div className="bg-[#f1f5f9] ">
                     <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
