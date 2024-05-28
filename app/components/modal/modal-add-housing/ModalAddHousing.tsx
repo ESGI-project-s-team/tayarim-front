@@ -39,7 +39,6 @@ export default function ModalAddHousing({isOpen, onClose, getAllOwners}: {
     const [owners, setOwners] = useState<OwnerType[]>([]);
 
     useEffect(() => {
-        //if all input are not empty set setButtonDisabled to false
         if (formValues.url && formValues.title && selected) {
             setButtonDisabled(false)
         } else {
@@ -48,38 +47,42 @@ export default function ModalAddHousing({isOpen, onClose, getAllOwners}: {
     }, [formValues, selected]);
 
     useEffect(() => {
+        const handleGetAllOwner = async () => {
+            setLoading(true);
+            try {
+                getAllOwnerInFun().then((response) => {
+                    if (response.errors) {
+                        setError(response.errors);
+                    } else {
+                        setOwners(response);
+                        setError(null);
+                    }
+                    setLoading(false);
+                }); // Pass the updated form values
+            } catch (error) {
+                setLoading(false);
+                setError(error);
+            }
+        };
+
         if (focusElementRef.current) {
             focusElementRef.current.focus();
         }
         handleGetAllOwner().then();
-    }, []);
+    }, [setError]);
 
     const filteredPeople =
         query === ''
             ? owners
             : owners.filter((person: OwnerType) => {
-                return person.nom.toLowerCase().includes(query.toLowerCase())
+                // Combine the first name and last name into a single string
+                const fullName = person.prenom + ' ' + person.nom;
+                // Return the person if the full name includes the query
+                return fullName.toLowerCase().includes(query.toLowerCase());
             })
 
     const handleInputChange = (field: keyof any, value: any) => {
         setFormValues((prev: any) => ({...prev, [field]: value})); // Update the specific field
-    };
-    const handleGetAllOwner = async () => {
-        setLoading(true)
-        try {
-            getAllOwnerInFun().then((response) => {
-                if (response.errors) {
-                    setError(response.errors)
-                } else {
-                    setOwners(response)
-                    setError(null)
-                }
-                setLoading(false)
-            }); // Pass the updated form values
-        } catch (error) {
-            setLoading(false)
-            setError(error)
-        }
     };
 
     const handleActionCreateOwner = async () => {
@@ -186,9 +189,12 @@ export default function ModalAddHousing({isOpen, onClose, getAllOwners}: {
                                                                 className={clsx(
                                                                     "text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                                 )}
-                                                                displayValue={(person: {
-                                                                    name: string
-                                                                }) => person?.name}
+                                                                displayValue={(person: OwnerType) => {
+                                                                    if (person)
+                                                                        return person.prenom + ' ' + person.nom
+                                                                    else
+                                                                        return ''
+                                                                }}
                                                                 onChange={(event) => setQuery(event.target.value)}
                                                                 placeholder={translation?.t('form_add_owner')}
                                                             />
