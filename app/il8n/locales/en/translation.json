@@ -1,4 +1,11 @@
 {
+  "today": "Today",
+  "choose_owner": "Choose an owner",
+  "title_house": "Title of the house",
+  "start_date": "Start Date",
+  "end_date": "End Date",
+  "price": "Price per night",
+  "info_reservation": "Reservation information",
   "calendar": "Calendar",
   "my_profile": "My Profile",
   "success": "Your request has been successfully processed.",

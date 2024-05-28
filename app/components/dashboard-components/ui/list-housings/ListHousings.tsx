@@ -8,6 +8,7 @@ import {useRouter} from "next/navigation";
 import {getAllOwners} from "@/utils/apiOwner";
 import ModalCalendar from "@/app/components/modal/modal-calendar-housing/ModalCalendar";
 import DatePicker from "react-datepicker";
+import ModalAddHousing from "@/app/components/modal/modal-add-housing/ModalAddHousing";
 
 
 const ListHousings: React.FC = () => {
@@ -172,7 +173,7 @@ const ListHousings: React.FC = () => {
                 </div>
             </div>
             {isOpenCreate &&
-                <ModalCreateOwner isOpen={isOpenCreate} onClose={closeModal} getAllOwners={getAllOwnersInFun}/>
+                <ModalAddHousing isOpen={isOpenCreate} onClose={closeModal} getAllOwners={getAllOwnersInFun}/>
             }
             {isOpenEdit &&
                 <ModalEditOwner isOpen={isOpenEdit} onClose={closeModal} ownerDetails={ownerDetails}

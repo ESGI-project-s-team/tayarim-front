@@ -1,4 +1,11 @@
 {
+  "today": "Aujourd'hui",
+  "choose_owner": "Choisissez un propriéjson",
+  "title_house": "Titre du logement",
+  "start_date": "Date d'arrivée",
+  "end_date": "Date de départ",
+  "price": "Prix par nuit",
+  "info_reservation": "Informations de réservation",
   "calendar": "Calendrier",
   "my_profile": "Mon Profil",
   "success": "Votre demande à bien été prise en compte.",
