@@ -101,7 +101,6 @@ export default function ModalCalendar({isOpen, onClose, id}: {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-
                             <Dialog.Panel
                                 className="transform rounded-2xl p-6 text-left align-middle shadow-xl transition-all z-50 bg-white">
                                 <div className="border-b border-[#dee4ee] py-4 flex justify-between px-7">
@@ -115,7 +114,7 @@ export default function ModalCalendar({isOpen, onClose, id}: {
                                         </svg>
                                     </button>
                                 </div>
-                                <div>
+                                <div className="flex items-center">
                                     <DatePicker
                                         selected={selectedDate}
                                         showMonthYearPicker
@@ -126,49 +125,49 @@ export default function ModalCalendar({isOpen, onClose, id}: {
                                         locale={locale}
                                         className={"ml-6 border-1 border-solid border-gray-300 rounded-md cursor-pointer mt-5"}
                                     />
-                                    {/*                               <Select name="status" aria-label="Project status"
-                                        className={"ml-6 border-1 border-solid border-gray-300 rounded-md cursor-pointer"}
-                                        onChange={handleChangeHousing}>
-                                    <option value="active">Active</option>
-                                    <option value="paused">Paused</option>
-                                    <option value="delayed">Delayed</option>
-                                    <option value="canceled">Canceled</option>
-                                </Select>*/}
+                                    <div className="absolute mt-5 ml-48">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             strokeWidth="1.5"
+                                             stroke="currentColor" className="w-4 h-4">
+                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                  d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
 
-                                    <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-                                        <div className="mx-auto max-w-7xl">
-                                            <div
-                                                className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                                                <table className="w-full">
-                                                    <thead>
-                                                    <tr className="grid grid-cols-7 rounded-t-sm bg-[#3c50e0] text-white">
-                                                        {menu_days_all.map((page: string, index: number) => (
-                                                            <th className="flex h-15 items-center justify-center p-1 text-xs font-semibold sm:text-base xl:p-5"
-                                                                key={index}>
+                                <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+                                    <div className="mx-auto max-w-7xl">
+                                        <div
+                                            className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                                            <table className="w-full">
+                                                <thead>
+                                                <tr className="grid grid-cols-7 rounded-t-sm bg-[#3c50e0] text-white">
+                                                    {menu_days_all.map((page: string, index: number) => (
+                                                        <th className="flex h-15 items-center justify-center p-1 text-xs font-semibold sm:text-base xl:p-5"
+                                                            key={index}>
                                                                         <span
                                                                             className="hidden lg:block"> {page} </span><span
-                                                                className="block lg:hidden"> {menu_days[index]} </span>
-                                                            </th>
-                                                        ))}
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {Array.from({length: Math.ceil(monthDays.length / 7)}).map((_, weekIndex) => (
-                                                        <tr className="grid grid-cols-7" key={weekIndex}>
-                                                            {monthDays.slice(weekIndex * 7, (weekIndex + 1) * 7).map((date, dayIndex) => (
-                                                                <td
-                                                                    className="ease relative h-20 cursor-pointer border border-stroke p-2 transition duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31"
-                                                                    key={dayIndex}
-                                                                >
+                                                            className="block lg:hidden"> {menu_days[index]} </span>
+                                                        </th>
+                                                    ))}
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {Array.from({length: Math.ceil(monthDays.length / 7)}).map((_, weekIndex) => (
+                                                    <tr className="grid grid-cols-7" key={weekIndex}>
+                                                        {monthDays.slice(weekIndex * 7, (weekIndex + 1) * 7).map((date, dayIndex) => (
+                                                            <td
+                                                                className="ease relative h-20 cursor-pointer border border-stroke p-2 transition duration-500 hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4 md:h-25 md:p-6 xl:h-31"
+                                                                key={dayIndex}
+                                                            >
                                                     <span
                                                         className="font-medium text-black dark:text-white">{date.getDate()}</span>
-                                                                </td>
-                                                            ))}
-                                                        </tr>
-                                                    ))}
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                            </td>
+                                                        ))}
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -178,5 +177,6 @@ export default function ModalCalendar({isOpen, onClose, id}: {
                 </div>
             </Dialog>
         </Transition>
-    );
+    )
+        ;
 }

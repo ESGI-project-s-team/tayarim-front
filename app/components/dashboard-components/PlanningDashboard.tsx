@@ -110,7 +110,7 @@ const PlanningDashboard: React.FC = () => {
                                 <h2 className="text-base sm:text-lg md:text-xl font-medium">
                                     {format(currentWeekStart, 'MMMM yyyy', {locale: fr})}
                                 </h2>
-                                <button onClick={goToToday} className="text-[#3c50e0] underline text-base">
+                                <button onClick={goToToday} className="text-[#3c50e0] underline text-sm">
                                     {translation?.t('today')}
                                 </button>
                             </div>
@@ -162,12 +162,14 @@ const PlanningDashboard: React.FC = () => {
                                         {people.map((person, personIndex) => (
                                             <div key={personIndex} className="grid grid-cols-7 gap-0">
                                                 {getMergedSchedules(schedules[personIndex]).map((block, blockIndex, array) => (
+
                                                     <div
                                                         key={blockIndex}
                                                         className={`border-r border-gray-300 border-b  p-2 flex items-center justify-center`}
                                                         style={{gridColumn: `span ${block.span}`}}
                                                     >
-                                                        <div className="h-12 w-full rounded-md cursor-pointer"
+                                     
+                                                        <div className="h-12 w-full rounded-md cursor-pointer "
                                                              onClick={() => openModal(reservation[personIndex])}
                                                              style={{backgroundColor: block.color}}></div>
                                                     </div>
