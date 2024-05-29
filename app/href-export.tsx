@@ -6,7 +6,9 @@ const icon_management: string[] = [
     "/dashboard/owner-management",
     "/dashboard/housing-management",
 ]
-const icon_others: string[] = []
+const icon_others: string[] = [
+    "/dashboard/reservation",
+]
 
 export function getHrefMenu(index: number): string | undefined {
     return icon_menu[index];

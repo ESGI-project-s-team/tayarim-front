@@ -33,14 +33,14 @@
   "menu_sidenav": [
     "Analyses",
     "Planning",
-    "Tâches",
     "Facturation"
   ],
   "management_placeholder": "GESTION",
   "management_sidenav": [
     "Propriétaires",
     "Logements",
-    "Annonces"
+    "Annonces",
+    "Tâches"
   ],
   "others_placeholder": "AUTRES",
   "others_sidenav": [
