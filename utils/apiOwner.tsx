@@ -5,7 +5,7 @@ import {cookies} from "next/headers";
 
 const getAllOwnersUrl = `${BACKEND_API}/proprietaires`
 const createOwnerUrl = `${BACKEND_API}/proprietaires`
-const getByIdOwnerUrl = `${BACKEND_API}/proprietaires/logout`
+const getByIdOwnerUrl = `${BACKEND_API}/proprietaires`
 const updateOwnerUrl = `${BACKEND_API}/proprietaires`
 const deleteOwnerUrl = `${BACKEND_API}/proprietaires`
 
@@ -94,16 +94,23 @@ export async function getByIdOwner(id: string): Promise<any> {
     if (!token) {
         return false;
     }
+    const url = getByIdOwnerUrl + "/" + id;
     try {
-        const response = await fetch(getByIdOwnerUrl, {
+        const response = await fetch(url, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
         });
-        return response.ok;
-
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: "error_occurred"};
+        }
+        return data;
     } catch (error: any) {
         return false;
     }

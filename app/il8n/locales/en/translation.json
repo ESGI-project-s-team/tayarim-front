@@ -1,4 +1,7 @@
 {
+  "housing_titre": "Title",
+  "housing_type": "Type",
+  "price_per_night": "Price per night",
   "today": "Today",
   "choose_owner": "Choose an owner",
   "title_house": "Title of the house",
@@ -6,6 +9,7 @@
   "end_date": "End Date",
   "price": "Price per night",
   "info_reservation": "Reservation information",
+  "info_owner": "Owner information",
   "calendar": "Calendar",
   "my_profile": "My Profile",
   "success": "Your request has been successfully processed.",

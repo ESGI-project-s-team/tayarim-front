@@ -3,37 +3,43 @@ import ModalEditOwner from "@/app/components/modal/modal-edit-owner/ModalEditOwn
 import {ProprietaireDTO} from "@/app/model/Owner";
 import ModalDeleteOwner from "@/app/components/modal/modal-delete-owner/ModalDeleteOwner";
 import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
-import ModalCreateOwner from "@/app/components/modal/modal-create-owner/ModalCreateOwner";
 import {useRouter} from "next/navigation";
-import {getAllOwners} from "@/utils/apiOwner";
 import ModalCalendar from "@/app/components/modal/modal-calendar-housing/ModalCalendar";
-import DatePicker from "react-datepicker";
 import ModalAddHousing from "@/app/components/modal/modal-add-housing/ModalAddHousing";
-
+import {getAllHousing} from "@/utils/apiHousing";
+import {getOwnerById} from "@/app/components/dashboard-components/ui/list-housings/action";
+import ModalInfoUser from "@/app/components/modal/modal-info-user/ModalInfoUser";
+import ModalInfoOwner from "@/app/components/modal/modal-info-owner/ModalInfoOwner";
 
 const ListHousings: React.FC = () => {
-    const [owners, setOwners] = React.useState([]);
+    const [housing, setHousing] = useState<HouseDTO[]>([]);
     const [isOpenEdit, setIsOpenEdit] = useState(false)
     const [isOpenDelete, setIsOpenDelete] = useState(false)
     const [isOpenCreate, setIsOpenCreate] = useState(false)
     const [isOpenCalendar, setIsOpenCalendar] = useState(false)
-    const [ownerDetails, setOwnerDetails] = useState({} as ProprietaireDTO)
+    const [isOpenInfoOwner, setIsOpenInfoOwner] = useState(false)
+    const [ownerDetailsList, setOwnerDetailsList] = useState<any>([{nom: ""}])
+    const [ownerDetails, setOwnerDetails] = useState<any>({});
     const {setError} = useIsErrorContext();
     const {translation} = useTranslationContext();
     const router = useRouter()
 
     function openModalEdit(owner: ProprietaireDTO) {
-        setOwnerDetails(owner)
+        setOwnerDetailsList(owner)
         setIsOpenEdit(true)
     }
 
     function openModalDelete(owner: ProprietaireDTO) {
-        setOwnerDetails(owner)
+        setOwnerDetailsList(owner)
         setIsOpenDelete(true)
     }
 
+    function openModalInfoOwner(index: number) {
+        setOwnerDetails(ownerDetailsList[index])
+        setIsOpenInfoOwner(true)
+    }
+
     function openModalCalendar() {
-        console.log('openModalCalendar')
         setIsOpenCalendar(true)
     }
 
@@ -42,24 +48,46 @@ const ListHousings: React.FC = () => {
         setIsOpenDelete(false)
         setIsOpenCreate(false)
         setIsOpenCalendar(false)
+        setIsOpenInfoOwner(false)
     }
 
-    const getAllOwnersInFun = useCallback(() => {
-        getAllOwners()
+    function getOwnerByIdFun(id: string): any {
+        return getOwnerById(id)
             .then((response) => {
+                if (response.errors) {
+                    setError(response.errors);
+                    return false
+                } else {
+                    setError(null);
+                    return response;
+                }
+            });
+    }
+
+    const getAllHousingFun = useCallback(() => {
+        let ownerDetailsList: any = [];
+        getAllHousing()
+            .then(async (response) => {
                 if (response.errors) {
                     setError(response.errors);
                     router.push("/dashboard");
                 } else {
                     setError(null);
-                    setOwners(response);
+                    setHousing(response);
+                    for (let i = 0; i < response.length; i++) {
+                        let ownerDetailsUnique = await getOwnerByIdFun(response[i].idProprietaire);
+                        if (ownerDetailsUnique) {
+                            ownerDetailsList.push(ownerDetailsUnique);
+                        }
+                    }
+                    setOwnerDetailsList(ownerDetailsList);
                 }
             });
     }, [router, setError]);
 
     useEffect(() => {
-        getAllOwnersInFun();
-    }, [getAllOwnersInFun]);
+        getAllHousingFun();
+    }, [getAllHousingFun]);
 
     return (
         <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0  ">
@@ -80,31 +108,39 @@ const ListHousings: React.FC = () => {
                 className="relative  border  bg-white   top-32   rounded-[10px] stroke-2 max-h-[70%] overflow-auto ">
                 <div className="max-w-full">
                     <div className="min-w-[1170px]">
-                        <div className="grid grid-cols-12 bg-[#F9FAFB] px-5 py-4 ">
-                            <div className="col-span-2 items-center "><p className="font-medium">
-                                {translation?.t('owner_name')}
-                            </p>
+                        <div className="grid  bg-[#F9FAFB] px-5 py-4"
+                             style={{gridTemplateColumns: "repeat(14, minmax(0, 1fr))"}}>
+                            <div className="col-span-2 items-center">
+                                <p className="font-medium">{translation?.t('housing_titre')}</p>
                             </div>
-                            <div className="col-span-2  items-center ">
-                                <p className="font-medium">Email</p>
+                            <div className="col-span-2 items-center">
+                                <p className="font-medium">{translation?.t('owner')}</p>
                             </div>
-                            <div className="col-span-2  items-center ">
-                                <p className="font-medium">{translation?.t('phone')}</p>
+                            <div className="col-span-2 items-center">
+                                <p className="font-medium">{translation?.t('housing_type')}</p>
+                            </div>
+                            <div className="col-span-2 items-center">
+                                <p className="font-medium">{translation?.t('price_per_night')}</p>
                             </div>
                         </div>
-                        {owners.map((owner: any, index: number) => (
+                        {housing.map((house: any, index: number) => (
                             <div
-                                className="grid  border-t  py-4 grid-cols-12 px-5 "
+                                className="grid border-t py-4 grid-cols-12 px-5"
+                                style={{gridTemplateColumns: "repeat(14, minmax(0, 1fr))"}}
                                 key={index}>
-                                <div className="col-span-2  items-center">
-                                    <div className="flex gap-4 flex-row items-center">
-                                        <p className="text-sm text-black">{owner.prenom} {owner.nom}</p></div>
+                                <div className="col-span-2 items-center  max-w-36 overflow-auto no-scrollbar">
+                                    <p className="text-sm text-black">{house.titre}</p>
                                 </div>
-                                <div className="col-span-2 items-center flex max-w-36 overflow-auto no-scrollbar">
-                                    <p className="text-sm text-black ">{owner.email}</p>
+                                <div className="col-span-2 items-center  max-w-36 overflow-auto no-scrollbar flex
+                                text-[#3c50e0] hover:underline cursor-pointer">
+                                    <p className="text-sm ml-2"
+                                       onClick={() => openModalInfoOwner(index)}>{ownerDetailsList[index].prenom} {ownerDetailsList[index].nom}</p>
                                 </div>
-                                <div className="col-span-2 flex items-center"><p
-                                    className="text-sm text-black">{owner.numTel}</p>
+                                <div className="col-span-2 items-center">
+                                    <p className="text-sm text-black">{house.typeLogement}</p>
+                                </div>
+                                <div className="col-span-2 items-center">
+                                    <p className="text-sm text-black">{house.prixParNuit} €</p>
                                 </div>
                                 <div
                                     className="col-span-2  items-center flex-col text-[#3c50e0] hover:underline cursor-pointer"
@@ -123,14 +159,14 @@ const ListHousings: React.FC = () => {
                                     className="col-span-2  items-center flex text-sm text-[#3c50e0] hover:underline cursor-pointer"
                                     onClick={() =>
                                         openModalEdit({
-                                            id: owner.id,
-                                            nom: owner.nom,
-                                            prenom: owner.prenom,
-                                            email: owner.email,
-                                            numTel: owner.numTel,
-                                            dateInscription: owner.dateInscription,
-                                            logements: owner.logements,
-                                            commission: owner.commissions,
+                                            id: house.id,
+                                            nom: house.nom,
+                                            prenom: house.prenom,
+                                            email: house.email,
+                                            numTel: house.numTel,
+                                            dateInscription: house.dateInscription,
+                                            logements: house.logements,
+                                            commission: house.commissions,
                                         })
                                     }
                                 >
@@ -147,14 +183,14 @@ const ListHousings: React.FC = () => {
                                     onClick={() =>
                                         openModalDelete(
                                             {
-                                                id: owner.id,
-                                                nom: owner.nom,
-                                                prenom: owner.prenom,
-                                                email: owner.email,
-                                                numTel: owner.numTel,
-                                                dateInscription: owner.dateInscription,
-                                                logements: owner.logements,
-                                                commission: owner.commissions,
+                                                id: house.id,
+                                                nom: house.nom,
+                                                prenom: house.prenom,
+                                                email: house.email,
+                                                numTel: house.numTel,
+                                                dateInscription: house.dateInscription,
+                                                logements: house.logements,
+                                                commission: house.commissions,
                                             }
                                         )
                                     }
@@ -172,19 +208,25 @@ const ListHousings: React.FC = () => {
                     </div>
                 </div>
             </div>
-            {isOpenCreate &&
-                <ModalAddHousing isOpen={isOpenCreate} onClose={closeModal} getAllOwners={getAllOwnersInFun}/>
+            {
+                isOpenCreate &&
+                <ModalAddHousing isOpen={isOpenCreate} onClose={closeModal} getAllOwners={getAllHousing}/>
             }
-            {isOpenEdit &&
-                <ModalEditOwner isOpen={isOpenEdit} onClose={closeModal} ownerDetails={ownerDetails}
-                                getAllOwners={getAllOwnersInFun}/>
+            {
+                isOpenEdit &&
+                <ModalEditOwner isOpen={isOpenEdit} onClose={closeModal} ownerDetails={ownerDetailsList}
+                                getAllOwners={getAllHousing}/>
             }
-            {isOpenDelete &&
-                <ModalDeleteOwner isOpen={isOpenDelete} onClose={closeModal} id={ownerDetails.id.toString()
-                } getAllOwners={getAllOwnersInFun}/>
+            {
+                isOpenDelete &&
+                <ModalDeleteOwner isOpen={isOpenDelete} onClose={closeModal} id={ownerDetailsList.id.toString()
+                } getAllOwners={getAllHousing}/>
             }
             {isOpenCalendar &&
                 <ModalCalendar isOpen={isOpenCalendar} onClose={closeModal} id={"id"}/>
+            }
+            {isOpenInfoOwner &&
+                <ModalInfoOwner isOpen={isOpenInfoOwner} onClose={closeModal} user={ownerDetails}/>
             }
         </div>
     );
