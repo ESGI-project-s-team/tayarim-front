@@ -10,6 +10,7 @@ import ModalInfoHousing from "@/app/components/modal/modal-info-housing/ModalInf
 
 
 const ListOwners: React.FC = () => {
+    const [ownerHousing, setOwnerHousing] = useState([] as any);
     const [owners, setOwners] = React.useState([]);
     const [isOpenEdit, setIsOpenEdit] = useState(false)
     const [isOpenDelete, setIsOpenDelete] = useState(false)
@@ -30,8 +31,9 @@ const ListOwners: React.FC = () => {
         setIsOpenDelete(true)
     }
 
-    function openModalInfoHousing() {
+    function openModalInfoHousing(housingDetails: any) {
         setIsOpenInfoHousing(true)
+        setOwnerHousing(housingDetails)
     }
 
     function closeModal() {
@@ -109,12 +111,14 @@ const ListOwners: React.FC = () => {
                                 <div className="col-span-2 flex items-center"><p
                                     className="text-sm text-black">{owner.numTel}</p>
                                 </div>
-                                <div
-                                    className="col-span-2  items-center flex-col text-[#3c50e0] hover:underline cursor-pointer
-                                           max-w-36 overflow-auto no-scrollbar ml-2">
-                                    <p className="text-sm ml-5" key={index}
-                                       onClick={() => openModalInfoHousing()}>{owner.logements.length}</p>
-                                </div>
+                                {owner.logements.length > 0 &&
+                                    <div
+                                        className="col-span-2  items-center flex-col text-[#3c50e0] hover:underline cursor-pointer
+                                           max-w-36 overflow-auto no-scrollbar">
+                                        <p className="text-sm " key={index}
+                                           onClick={() => openModalInfoHousing(owner.logements)}>{owner.logements.length} {translation?.t('house')}{owner.logements.length > 1 ? 's' : ''}  </p>
+                                    </div>
+                                }
                                 <div className="col-span-2 flex items-center ml-5 "><p
                                     className="text-sm text-black">{owner.commission}%</p>
                                 </div>
@@ -183,7 +187,7 @@ const ListOwners: React.FC = () => {
                 } getAllOwners={getAllOwnersInFun}/>
             }
             {isOpenInfoHousing &&
-                <ModalInfoHousing isOpen={isOpenInfoHousing} onClose={closeModal} idLogement={"id"}/>
+                <ModalInfoHousing isOpen={isOpenInfoHousing} onClose={closeModal} housings={ownerHousing}/>
             }
 
         </div>

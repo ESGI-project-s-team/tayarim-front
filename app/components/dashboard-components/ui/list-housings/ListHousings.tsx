@@ -80,7 +80,6 @@ const ListHousings: React.FC = () => {
                             ownerDetailsList.push(ownerDetailsUnique);
                         }
                     }
-                    console.log(ownerDetailsList)
                     setOwnerDetailsList(ownerDetailsList);
                 }
             });

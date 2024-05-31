@@ -110,7 +110,6 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
         setLoading(true);
         (Object.keys(formValues) as (keyof FormValues)[]).forEach((key) => (formValues[key] === "" || formValues[key] === 0) && delete formValues[key]);
         try {
-            console.log(formValues)
             const response = await createHouseInFun(formValues);
             if (response.errors) {
                 setError(response.errors);
