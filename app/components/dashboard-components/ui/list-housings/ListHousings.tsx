@@ -210,7 +210,7 @@ const ListHousings: React.FC = () => {
             </div>
             {
                 isOpenCreate &&
-                <ModalAddHousing isOpen={isOpenCreate} onClose={closeModal} getAllOwners={getAllHousing}/>
+                <ModalAddHousing isOpen={isOpenCreate} onClose={closeModal} getAllHousing={getAllHousing}/>
             }
             {
                 isOpenEdit &&

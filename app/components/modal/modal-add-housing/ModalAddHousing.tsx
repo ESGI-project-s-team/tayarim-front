@@ -1,19 +1,36 @@
 import {Fragment, useEffect, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import {useIsErrorContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
-import {createOwnerInFun} from "@/app/components/modal/modal-create-owner/actions";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
-import {Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions} from '@headlessui/react'
-import {CheckIcon, ChevronDownIcon} from '@heroicons/react/20/solid'
-import clsx from 'clsx'
-import {getAllOwnerInFun} from "@/app/components/modal/modal-add-housing/action";
+import {Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions} from '@headlessui/react';
+import {CheckIcon, ChevronDownIcon} from '@heroicons/react/20/solid';
+import clsx from 'clsx';
+import {createHouseInFun, getAllOwnerInFun} from "@/app/components/modal/modal-add-housing/action";
+import countryList from 'react-select-country-list';
 
 interface FormValues {
-    url: string;
-    idOwner: string;
-    title: string;
+    titre: string;
+    idProprietaire: number;
+    nombresDeChambres: number;
+    nombresDeLits: number;
+    nombresSallesDeBains: number;
+    capaciteMaxPersonne: number;
+    nombresNuitsMin: number;
+    description: string;
+    prixParNuit: number;
+    defaultCheckIn: string;
+    defaultCheckOut: string;
+    intervalReservation: number;
+    ville: string;
+    rue: string;
+    numero: number;
+    suffixeNumero: string;
+    codePostal: string;
+    pays: string;
+    etage: string;
+    numeroDePorte: string;
+    idTypeLogement: number;
 }
-
 
 interface OwnerType {
     id: number;
@@ -22,43 +39,61 @@ interface OwnerType {
     email: string;
 }
 
-export default function ModalAddHousing({isOpen, onClose, getAllOwners}: {
+export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     isOpen: boolean;
     onClose: () => void;
-    getAllOwners: any
+    getAllHousing: any
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
-    const [formValues, setFormValues] = useState<FormValues>({url: '', idOwner: '', title: ''});
+    const [formValues, setFormValues] = useState<FormValues>({
+        titre: '',
+        idProprietaire: 0,
+        nombresDeChambres: 1,
+        nombresDeLits: 1,
+        nombresSallesDeBains: 1,
+        capaciteMaxPersonne: 1,
+        nombresNuitsMin: 1,
+        description: '',
+        prixParNuit: 1,
+        defaultCheckIn: '',
+        defaultCheckOut: '',
+        intervalReservation: 1,
+        ville: '',
+        rue: '',
+        numero: 1,
+        suffixeNumero: '',
+        codePostal: '',
+        pays: '',
+        etage: '',
+        numeroDePorte: '',
+        idTypeLogement: 1
+    });
     const {setError} = useIsErrorContext();
-    const {setSuccess} = useSuccessContext()
-    const [isLoading, setLoading] = useState(false)
+    const {setSuccess} = useSuccessContext();
+    const [isLoading, setLoading] = useState(false);
     const {translation} = useTranslationContext();
-    const [query, setQuery] = useState('')
-    const [selected, setSelected] = useState<string>()
-    const [isButtonDisabled, setButtonDisabled] = useState(true);
+    const [query, setQuery] = useState('');
+    const [selected, setSelected] = useState<number | null>(null);
     const [owners, setOwners] = useState<OwnerType[]>([]);
-
-    useEffect(() => {
-        if (formValues.url && formValues.title && selected) {
-            setButtonDisabled(false)
-        } else {
-            setButtonDisabled(true)
-        }
-    }, [formValues, selected]);
+    const [currentStep, setCurrentStep] = useState(1);
+    const [countries] = useState(countryList().getData());
+    const [selectedCountry, setSelectedCountry] = useState<{ value: string; label: string } | null>(null);
+    const [countryQuery, setCountryQuery] = useState('');
+    const [checkInQuery, setCheckInQuery] = useState('');
+    const [checkOutQuery, setCheckOutQuery] = useState('');
 
     useEffect(() => {
         const handleGetAllOwner = async () => {
             setLoading(true);
             try {
-                getAllOwnerInFun().then((response) => {
-                    if (response.errors) {
-                        setError(response.errors);
-                    } else {
-                        setOwners(response);
-                        setError(null);
-                    }
-                    setLoading(false);
-                }); // Pass the updated form values
+                const response = await getAllOwnerInFun();
+                if (response.errors) {
+                    setError(response.errors);
+                } else {
+                    setOwners(response);
+                    setError(null);
+                }
+                setLoading(false);
             } catch (error) {
                 setLoading(false);
                 setError(error);
@@ -71,47 +106,477 @@ export default function ModalAddHousing({isOpen, onClose, getAllOwners}: {
         handleGetAllOwner().then();
     }, [setError]);
 
-    const filteredPeople =
-        query === ''
-            ? owners
-            : owners.filter((person: OwnerType) => {
-                // Combine the first name and last name into a single string
-                const fullName = person.prenom + ' ' + person.nom;
-                // Return the person if the full name includes the query
-                return fullName.toLowerCase().includes(query.toLowerCase());
-            })
+    const createHousingInFun = async () => {
+        setLoading(true);
+        try {
+            const response = await createHouseInFun(formValues);
+            if (response.errors) {
+                console.log(response.errors)
+                setError(response.errors);
+            } else {
+                getAllHousing();
+                setError(null);
+                onClose();
+                setSuccess(true);
+            }
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            setError(error);
+        }
+    }
 
-    const handleInputChange = (field: keyof any, value: any) => {
-        setFormValues((prev: any) => ({...prev, [field]: value})); // Update the specific field
+    const filteredPeople = query === ''
+        ? owners
+        : owners.filter((person: OwnerType) => {
+            const fullName = person.prenom + ' ' + person.nom;
+            return fullName.toLowerCase().includes(query.toLowerCase());
+        });
+
+    const filteredCountries = countryQuery === ''
+        ? countries
+        : countries.filter((country: { label: string; }) => {
+            return country.label.toLowerCase().includes(countryQuery.toLowerCase());
+        });
+
+    const hoursOptions = Array.from({length: 24}, (_, i) => ({
+        value: (i + 1).toString().padStart(2, '0') + ':00',
+        label: (i + 1).toString().padStart(2, '0') + ':00',
+    }));
+    const filteredCheckInOptions = checkInQuery === ''
+        ? hoursOptions
+        : hoursOptions.filter((option) => {
+            return option.label.includes(checkInQuery);
+        });
+
+    const filteredCheckOutOptions = checkOutQuery === ''
+        ? hoursOptions
+        : hoursOptions.filter((option) => {
+            return option.label.includes(checkOutQuery);
+        });
+
+    const handleInputChange = (field: keyof FormValues, value: any) => {
+        setFormValues((prev: FormValues) => ({...prev, [field]: value}));
     };
 
-    const handleActionCreateOwner = async () => {
-        setLoading(true)
-        try {
-            createOwnerInFun(formValues).then((response) => {
-                if (response.errors) {
-                    setError(response.errors)
-                } else {
-                    getAllOwners();
-                    setError(null)
-                    onClose(); // Close the modal
-                    setSuccess(true)
-                }
-                setLoading(false)
-            }); // Pass the updated form values
-        } catch (error) {
-            setLoading(false)
-            setError(error)
+    const handleNext = () => {
+        if (validateStep()) {
+            setCurrentStep((prev) => prev + 1);
+        }
+    };
+
+    const handleBack = () => {
+        setCurrentStep((prev) => prev - 1);
+    };
+
+    const validateStep = () => {
+        switch (currentStep) {
+            case 1:
+                return formValues.titre && selected;
+            case 2:
+                return formValues.nombresDeChambres > 0 && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains > 0;
+            case 3:
+                return selectedCountry && formValues.ville && formValues.codePostal;
+            case 4:
+                return formValues.rue && formValues.numero > 0;
+            case 5:
+                return formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit > 0;
+            case 6:
+                return formValues.description;
+            default:
+                return false;
+        }
+    };
+
+
+    const renderStep = () => {
+        switch (currentStep) {
+            case 1:
+                return (
+                    <div className="mb-5 flex flex-col gap-6">
+                        <div className="w-full">
+                            <label className="mb-3 block text-sm font-medium text-black">
+                                {translation?.t('title_house')}
+                            </label>
+                            <input
+                                placeholder={translation?.t('title_house_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="text"
+                                onChange={(e) => handleInputChange('titre', e.target.value)}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('choose_owner')}</label>
+                            <Combobox value={selected} onChange={(value: number) => setSelected(value)}>
+                                <div className="relative">
+                                    <ComboboxInput
+                                        className={clsx(
+                                            "text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                        )}
+                                        displayValue={(person: OwnerType) => {
+                                            if (person)
+                                                return person.prenom + ' ' + person.nom;
+                                            else
+                                                return '';
+                                        }}
+                                        onChange={(event) => setQuery(event.target.value)}
+                                        placeholder={translation?.t('choose_owner_placeholder')}
+                                    />
+                                    <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+                                        <ChevronDownIcon className="size-6"/>
+                                    </ComboboxButton>
+                                </div>
+                                <Transition
+                                    leave="transition ease-in duration-100"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
+                                    afterLeave={() => setQuery('')}
+                                >
+                                    <ComboboxOptions
+                                        anchor="bottom"
+                                        className="w-[var(--input-width)] rounded-xl border border-gray-300 bg-white p-1 [--anchor-gap:var(--spacing-1)] empty:hidden"
+                                    >
+                                        {filteredPeople.map((person: any) => (
+                                            <ComboboxOption
+                                                key={person.id}
+                                                value={person}
+                                                className="group flex items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-gray-100 cursor-pointer"
+                                            >
+                                                <CheckIcon
+                                                    className="invisible size-5 fill-black group-data-[selected]:visible"/>
+                                                <div className="text-sm/6 text-black">{person.prenom} {person.nom}</div>
+                                            </ComboboxOption>
+                                        ))}
+                                    </ComboboxOptions>
+                                </Transition>
+                            </Combobox>
+                        </div>
+                    </div>
+                );
+            case 2:
+                return (
+                    <div className="mb-5 flex flex-col gap-6">
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_de_chambres')}</label>
+                            <input
+                                placeholder={translation?.t('nombres_de_chambres_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.nombresDeChambres}
+                                onChange={(e) => handleInputChange('nombresDeChambres', parseInt(e.target.value))}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_de_lits')}</label>
+                            <input
+                                placeholder={translation?.t('nombres_de_lits_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.nombresDeLits}
+                                onChange={(e) => handleInputChange('nombresDeLits', parseInt(e.target.value))}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_de_salles_de_bains')}</label>
+                            <input
+                                placeholder={translation?.t('nombres_de_salles_de_bains_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.nombresSallesDeBains}
+                                onChange={(e) => handleInputChange('nombresSallesDeBains', parseInt(e.target.value))}
+                            />
+                        </div>
+                    </div>
+                );
+            case 3:
+                return (
+                    <div className="mb-5 flex flex-col gap-6">
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('pays')}</label>
+                            <Combobox value={selectedCountry} onChange={(value) => {
+                                setSelectedCountry(value);
+                                handleInputChange('pays', value?.label || '');
+                            }}>
+                                <div className="relative">
+                                    <ComboboxInput
+                                        className={clsx(
+                                            "text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                        )}
+                                        displayValue={(country: { value: string; label: string }) => country?.label}
+                                        onChange={(event) => setCountryQuery(event.target.value)}
+                                        placeholder={translation?.t('pays_placeholder')}
+                                    />
+                                    <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+                                        <ChevronDownIcon className="size-6"/>
+                                    </ComboboxButton>
+                                </div>
+                                <Transition
+                                    leave="transition ease-in duration-100"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
+                                    afterLeave={() => setCountryQuery('')}
+                                >
+                                    <ComboboxOptions
+                                        anchor="bottom"
+                                        className="w-[var(--input-width)] rounded-xl border border-gray-300 bg-white p-1 [--anchor-gap:var(--spacing-1)] empty:hidden"
+                                    >
+                                        {filteredCountries.map((country: any) => (
+                                            <ComboboxOption
+                                                key={country.value}
+                                                value={country}
+                                                className="group flex items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-gray-100 cursor-pointer"
+                                            >
+                                                <CheckIcon
+                                                    className="invisible size-5 fill-black group-data-[selected]:visible"/>
+                                                <div className="text-sm/6 text-black">{country.label}</div>
+                                            </ComboboxOption>
+                                        ))}
+                                    </ComboboxOptions>
+                                </Transition>
+                            </Combobox>
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('ville')}</label>
+                            <input
+                                placeholder={translation?.t('ville_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="text"
+                                value={formValues.ville}
+                                onChange={(e) => handleInputChange('ville', e.target.value)}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('code_postal')}</label>
+                            <input
+                                placeholder={translation?.t('code_postal_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="text"
+                                value={formValues.codePostal}
+                                onChange={(e) => handleInputChange('codePostal', e.target.value)}
+                            />
+                        </div>
+                    </div>
+                );
+            case 4:
+                return (
+                    <div className="mb-5 flex flex-col gap-6">
+                        <div className="w-full">
+                            <label className="mb-3 block text-sm font-medium text-black">{translation?.t('rue')}</label>
+                            <input
+                                placeholder={translation?.t('rue_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="text"
+                                value={formValues.rue}
+                                onChange={(e) => handleInputChange('rue', e.target.value)}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('numero')}</label>
+                            <input
+                                placeholder={translation?.t('numero_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.numero}
+                                onChange={(e) => handleInputChange('numero', parseInt(e.target.value))}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('suffixe_numero')}</label>
+                            <input
+                                placeholder={translation?.t('suffixe_numero_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="text"
+                                value={formValues.suffixeNumero}
+                                onChange={(e) => handleInputChange('suffixeNumero', e.target.value)}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('etage')}</label>
+                            <input
+                                placeholder={translation?.t('etage_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="text"
+                                value={formValues.etage}
+                                onChange={(e) => handleInputChange('etage', e.target.value)}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('numero_de_porte')}</label>
+                            <input
+                                placeholder={translation?.t('numero_de_porte_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="text"
+                                value={formValues.numeroDePorte}
+                                onChange={(e) => handleInputChange('numeroDePorte', e.target.value)}
+                            />
+                        </div>
+                    </div>
+                );
+            case 5:
+                return (
+                    <div className="mb-5 flex flex-col gap-6">
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('capacite_max_personne')}</label>
+                            <input
+                                placeholder={translation?.t('capacite_max_personne_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.capaciteMaxPersonne}
+                                onChange={(e) => handleInputChange('capaciteMaxPersonne', parseInt(e.target.value))}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_nuits_min')}</label>
+                            <input
+                                placeholder={translation?.t('nombres_nuits_min_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.nombresNuitsMin}
+                                onChange={(e) => handleInputChange('nombresNuitsMin', parseInt(e.target.value))}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('default_check_in')}</label>
+                            <Combobox value={formValues.defaultCheckIn}
+                                      onChange={(value) => handleInputChange('defaultCheckIn', value)}>
+                                <div className="relative">
+                                    <ComboboxInput
+                                        className={clsx(
+                                            "text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                        )}
+                                        displayValue={(option: { value: string; label: string }) => option?.label}
+                                        onChange={(event) => setCheckInQuery(event.target.value)}
+                                        placeholder={translation?.t('default_check_in_placeholder')}
+                                    />
+                                    <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+                                        <ChevronDownIcon className="size-6"/>
+                                    </ComboboxButton>
+                                </div>
+                                <Transition
+                                    leave="transition ease-in duration-100"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
+                                    afterLeave={() => setCheckInQuery('')}
+                                >
+                                    <ComboboxOptions
+                                        anchor="bottom"
+                                        className="w-[var(--input-width)] rounded-xl border border-gray-300 bg-white p-1 [--anchor-gap:var(--spacing-1)] empty:hidden"
+                                    >
+                                        {filteredCheckInOptions.map((option: any) => (
+                                            <ComboboxOption
+                                                key={option.value}
+                                                value={option}
+                                                className="group flex items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-gray-100 cursor-pointer"
+                                            >
+                                                <CheckIcon
+                                                    className="invisible size-5 fill-black group-data-[selected]:visible"/>
+                                                <div className="text-sm/6 text-black">{option.label}</div>
+                                            </ComboboxOption>
+                                        ))}
+                                    </ComboboxOptions>
+                                </Transition>
+                            </Combobox>
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('default_check_out')}</label>
+                            <Combobox value={formValues.defaultCheckOut}
+                                      onChange={(value) => handleInputChange('defaultCheckOut', value)}>
+                                <div className="relative">
+                                    <ComboboxInput
+                                        className={clsx(
+                                            "text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                        )}
+                                        displayValue={(option: { value: string; label: string }) => option?.label}
+                                        onChange={(event) => setCheckOutQuery(event.target.value)}
+                                        placeholder={translation?.t('default_check_out_placeholder')}
+                                    />
+                                    <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+                                        <ChevronDownIcon className="size-6"/>
+                                    </ComboboxButton>
+                                </div>
+                                <Transition
+                                    leave="transition ease-in duration-100"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
+                                    afterLeave={() => setCheckOutQuery('')}
+                                >
+                                    <ComboboxOptions
+                                        anchor="bottom"
+                                        className="w-[var(--input-width)] rounded-xl border border-gray-300 bg-white p-1 [--anchor-gap:var(--spacing-1)] empty:hidden"
+                                    >
+                                        {filteredCheckOutOptions.map((option: any) => (
+                                            <ComboboxOption
+                                                key={option.value}
+                                                value={option}
+                                                className="group flex items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-gray-100 cursor-pointer"
+                                            >
+                                                <CheckIcon
+                                                    className="invisible size-5 fill-black group-data-[selected]:visible"/>
+                                                <div className="text-sm/6 text-black">{option.label}</div>
+                                            </ComboboxOption>
+                                        ))}
+                                    </ComboboxOptions>
+                                </Transition>
+                            </Combobox>
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('prix_par_nuit')}</label>
+                            <input
+                                placeholder={translation?.t('prix_par_nuit_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.prixParNuit}
+                                onChange={(e) => handleInputChange('prixParNuit', parseFloat(e.target.value))}
+                            />
+                        </div>
+                    </div>
+                );
+            case 6:
+                return (
+                    <div className="mb-5 flex flex-col gap-6">
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('description')}</label>
+                            <textarea
+                                placeholder={translation?.t('description_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                value={formValues.description}
+                                onChange={(e) => handleInputChange('description', e.target.value)}
+                            />
+                        </div>
+                    </div>
+                );
+            default:
+                return null;
         }
     };
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-40" onClose={
-                () => {
-                    null
-                }
-            }>
+            <Dialog as="div" className="relative z-40" onClose={() => null}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -124,8 +589,8 @@ export default function ModalAddHousing({isOpen, onClose, getAllOwners}: {
                     <div className="fixed inset-0 bg-black/25"/>
                 </Transition.Child>
 
-                <div className="fixed inset-0 overflow-y-auto ">
-                    <div className="flex min-h-full items-center justify-center p-4 text-center  z-50">
+                <div className="fixed inset-0 overflow-y-auto">
+                    <div className="flex min-h-full items-center justify-center p-4 text-center z-50">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -136,7 +601,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllOwners}: {
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel
-                                className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all z-50 ">
+                                className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all z-50">
                                 <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
                                     <div className="flex flex-col gap-9">
                                         <div className="rounded-sm border stroke-1 bg-white shadow">
@@ -153,96 +618,51 @@ export default function ModalAddHousing({isOpen, onClose, getAllOwners}: {
                                             </div>
 
                                             <div className="p-7">
-                                                <div className="mb-5 flex flex-col gap-6 ">
-                                                    <div className="w-full">
-                                                        <label
-                                                            className="mb-3 block text-sm font-medium text-black">
-                                                            {translation?.t('title_house')}</label>
-                                                        <input
-                                                            placeholder={translation?.t('last_name_placeholder_form')}
-                                                            className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                                            type="text"
-                                                            onChange={(e) => handleInputChange('title', e.target.value)} // Add onChange handler
-                                                        />
-                                                    </div>
-                                                    <div className="w-full">
-                                                        <label
-                                                            className="mb-3 block text-sm font-medium text-black">
-                                                            Url
-                                                        </label>
-                                                        <input
-                                                            placeholder="https://www.airbnb.fr/rooms/660723434387433968"
-                                                            className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 outline-none transition"
-                                                            type="text"
-                                                            onChange={(e) => handleInputChange('url', e.target.value)} // Add onChange handler
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="mb-5">
-                                                    <label
-                                                        className="mb-3 block text-sm font-medium text-black">{translation?.t('choose_owner')}</label>
-                                                    <Combobox value={selected}
-                                                              onChange={(value: string) => setSelected(value)}
-                                                    >
-                                                        <div className="relative">
-                                                            <ComboboxInput
-                                                                className={clsx(
-                                                                    "text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                                                )}
-                                                                displayValue={(person: OwnerType) => {
-                                                                    if (person)
-                                                                        return person.prenom + ' ' + person.nom
-                                                                    else
-                                                                        return ''
-                                                                }}
-                                                                onChange={(event) => setQuery(event.target.value)}
-                                                                placeholder={translation?.t('form_add_owner')}
-                                                            />
-                                                            <ComboboxButton
-                                                                className="group absolute inset-y-0 right-0 px-2.5">
-                                                                <ChevronDownIcon
-                                                                    className="size-6"/>
-                                                            </ComboboxButton>
-                                                        </div>
-                                                        <Transition
-                                                            leave="transition ease-in duration-100"
-                                                            leaveFrom="opacity-100"
-                                                            leaveTo="opacity-0"
-                                                            afterLeave={() => setQuery('')}
+                                                {renderStep()}
+                                                <div className="flex justify-between mt-5">
+                                                    {currentStep > 1 && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={handleBack}
+                                                            className="flex justify-center rounded  p-3 font-medium text-white bg-[#3c50e0] hover:bg-opacity-90"
                                                         >
-                                                            <ComboboxOptions
-                                                                anchor="bottom"
-                                                                className="w-[var(--input-width)] rounded-xl border border-gray-300 bg-white p-1 [--anchor-gap:var(--spacing-1)] empty:hidden"
-                                                            >
-                                                                {filteredPeople.map((person: any) => (
-                                                                    <ComboboxOption
-                                                                        key={person.id}
-                                                                        value={person}
-                                                                        className="group flex  items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-gray-100 cursor-pointer"
-                                                                    >
-                                                                        <CheckIcon
-                                                                            className="invisible size-5 fill-black group-data-[selected]:visible"/>
-                                                                        <div
-                                                                            className="text-sm/6 text-black">{person.prenom} {person.nom}</div>
-                                                                    </ComboboxOption>
-                                                                ))}
-                                                            </ComboboxOptions>
-                                                        </Transition>
-                                                    </Combobox>
+                                                            {translation?.t('previous')}
+                                                        </button>
+                                                    )}
+                                                    {currentStep < 6 ? (
+                                                        <button
+                                                            type="button"
+                                                            onClick={handleNext}
+                                                            disabled={!validateStep()}
+                                                            className={`flex justify-center rounded  p-3 font-medium text-white ${!validateStep() ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
+                                                        >
+                                                            {translation?.t('next')}
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            type="button"
+                                                            ref={focusElementRef}
+                                                            onClick={createHousingInFun}
+                                                            disabled={isLoading}
+                                                            className={`flex justify-center rounded  p-3 font-medium text-white ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
+                                                        >
+                                                            {isLoading ?
+                                                                <SpinnerUI/> : translation?.t('form_add_housing')}
+                                                        </button>
+                                                    )}
                                                 </div>
-                                                {isLoading ? <div className="flex justify-center">
-                                                        <SpinnerUI/>
-                                                    </div> :
-                                                    <button
-                                                        type="button"
-                                                        ref={focusElementRef}
-                                                        onClick={handleActionCreateOwner}
-                                                        disabled={isButtonDisabled}
-                                                        className={`flex w-full justify-center rounded  p-3 font-medium text-white ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
-                                                    >
-                                                        {translation?.t('form_add_housing')}
-                                                    </button>
-                                                }
+                                                <div className="mt-4">
+                                                    <div className="text-sm font-medium text-gray-500">
+                                                        {translation?.t('step')} {currentStep} {translation?.t('of')} 6
+                                                    </div>
+                                                    <div className="relative pt-1">
+                                                        <div
+                                                            className="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
+                                                            <div style={{width: `${(currentStep / 6) * 100}%`}}
+                                                                 className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#3c50e0]"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
