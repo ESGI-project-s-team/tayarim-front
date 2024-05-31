@@ -99,7 +99,7 @@ const ListOwners: React.FC = () => {
                             <div
                                 className="grid  border-t  py-4 grid-cols-12 px-5 "
                                 key={index}>
-                                <div className="col-span-2  items-center">
+                                <div className="col-span-2 items-center flex max-w-36 overflow-auto no-scrollbar">
                                     <div className="flex gap-4 flex-row items-center">
                                         <p className="text-sm text-black">{owner.prenom} {owner.nom}</p></div>
                                 </div>
@@ -109,20 +109,12 @@ const ListOwners: React.FC = () => {
                                 <div className="col-span-2 flex items-center"><p
                                     className="text-sm text-black">{owner.numTel}</p>
                                 </div>
-                                {owner.logements.length > 0 ?
-                                    <div
-                                        className="col-span-2  items-center flex-col text-[#3c50e0] hover:underline cursor-pointer
+                                <div
+                                    className="col-span-2  items-center flex-col text-[#3c50e0] hover:underline cursor-pointer
                                            max-w-36 overflow-auto no-scrollbar ml-2">
-                                        {owner.logements.map((logement: any, index: number) => (
-                                            <p className="text-sm" key={index}
-                                               onClick={() => openModalInfoHousing()}>House {logement.id}</p>
-                                        ))}
-                                    </div>
-                                    :
-                                    <div className="col-span-2 items-center  flex cursor-pointer ml-7 text-gray-400">
-                                        <p>/</p>
-                                    </div>
-                                }
+                                    <p className="text-sm ml-5" key={index}
+                                       onClick={() => openModalInfoHousing()}>{owner.logements.length}</p>
+                                </div>
                                 <div className="col-span-2 flex items-center ml-5 "><p
                                     className="text-sm text-black">{owner.commission}%</p>
                                 </div>

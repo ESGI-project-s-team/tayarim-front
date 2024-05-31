@@ -80,6 +80,7 @@ const ListHousings: React.FC = () => {
                             ownerDetailsList.push(ownerDetailsUnique);
                         }
                     }
+                    console.log(ownerDetailsList)
                     setOwnerDetailsList(ownerDetailsList);
                 }
             });
@@ -134,7 +135,7 @@ const ListHousings: React.FC = () => {
                                 <div className="col-span-2 items-center  max-w-36 overflow-auto no-scrollbar flex
                                 text-[#3c50e0] hover:underline cursor-pointer">
                                     <p className="text-sm ml-2"
-                                       onClick={() => openModalInfoOwner(index)}>{ownerDetailsList[index].prenom} {ownerDetailsList[index].nom}</p>
+                                       onClick={() => openModalInfoOwner(index)}>{ownerDetailsList[index]?.prenom} {ownerDetailsList[index]?.nom}</p>
                                 </div>
                                 <div className="col-span-2 items-center">
                                     <p className="text-sm text-black">{house.typeLogement}</p>
@@ -210,17 +211,17 @@ const ListHousings: React.FC = () => {
             </div>
             {
                 isOpenCreate &&
-                <ModalAddHousing isOpen={isOpenCreate} onClose={closeModal} getAllHousing={getAllHousing}/>
+                <ModalAddHousing isOpen={isOpenCreate} onClose={closeModal} getAllHousing={getAllHousingFun}/>
             }
             {
                 isOpenEdit &&
                 <ModalEditOwner isOpen={isOpenEdit} onClose={closeModal} ownerDetails={ownerDetailsList}
-                                getAllOwners={getAllHousing}/>
+                                getAllOwners={getAllHousingFun}/>
             }
             {
                 isOpenDelete &&
                 <ModalDeleteOwner isOpen={isOpenDelete} onClose={closeModal} id={ownerDetailsList.id.toString()
-                } getAllOwners={getAllHousing}/>
+                } getAllOwners={getAllHousingFun}/>
             }
             {isOpenCalendar &&
                 <ModalCalendar isOpen={isOpenCalendar} onClose={closeModal} id={"id"}/>

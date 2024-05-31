@@ -73,11 +73,11 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const [isLoading, setLoading] = useState(false);
     const {translation} = useTranslationContext();
     const [query, setQuery] = useState('');
-    const [selected, setSelected] = useState<number | null>(null);
+    const [selectedOwner, setSelectedOwner] = useState<OwnerType | null>(null);
     const [owners, setOwners] = useState<OwnerType[]>([]);
     const [currentStep, setCurrentStep] = useState(1);
     const [countries] = useState(countryList().getData());
-    const [selectedCountry, setSelectedCountry] = useState<{ value: string; label: string } | null>(null);
+    const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
     const [countryQuery, setCountryQuery] = useState('');
     const [checkInQuery, setCheckInQuery] = useState('');
     const [checkOutQuery, setCheckOutQuery] = useState('');
@@ -108,13 +108,14 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
 
     const createHousingInFun = async () => {
         setLoading(true);
+        (Object.keys(formValues) as (keyof FormValues)[]).forEach((key) => (formValues[key] === "" || formValues[key] === 0) && delete formValues[key]);
         try {
+            console.log(formValues)
             const response = await createHouseInFun(formValues);
             if (response.errors) {
-                console.log(response.errors)
                 setError(response.errors);
             } else {
-                getAllHousing();
+                await getAllHousing();
                 setError(null);
                 onClose();
                 setSuccess(true);
@@ -172,7 +173,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const validateStep = () => {
         switch (currentStep) {
             case 1:
-                return formValues.titre && selected;
+                return formValues.titre && selectedOwner;
             case 2:
                 return formValues.nombresDeChambres > 0 && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains > 0;
             case 3:
@@ -208,18 +209,16 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                         <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('choose_owner')}</label>
-                            <Combobox value={selected} onChange={(value: number) => setSelected(value)}>
+                            <Combobox value={selectedOwner} onChange={(value: OwnerType) => {
+                                setSelectedOwner(value);
+                                handleInputChange('idProprietaire', value.id);
+                            }}>
                                 <div className="relative">
                                     <ComboboxInput
                                         className={clsx(
                                             "text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                         )}
-                                        displayValue={(person: OwnerType) => {
-                                            if (person)
-                                                return person.prenom + ' ' + person.nom;
-                                            else
-                                                return '';
-                                        }}
+                                        displayValue={(person: OwnerType) => person ? person.prenom + ' ' + person.nom : ''}
                                         onChange={(event) => setQuery(event.target.value)}
                                         placeholder={translation?.t('choose_owner_placeholder')}
                                     />
@@ -301,16 +300,16 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                         <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('pays')}</label>
-                            <Combobox value={selectedCountry} onChange={(value) => {
-                                setSelectedCountry(value);
-                                handleInputChange('pays', value?.label || '');
+                            <Combobox value={selectedCountry} onChange={(value: any) => {
+                                setSelectedCountry(value.label);
+                                handleInputChange('pays', value?.label);
                             }}>
                                 <div className="relative">
                                     <ComboboxInput
                                         className={clsx(
                                             "text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                         )}
-                                        displayValue={(country: { value: string; label: string }) => country?.label}
+                                        displayValue={(country: string) => country}
                                         onChange={(event) => setCountryQuery(event.target.value)}
                                         placeholder={translation?.t('pays_placeholder')}
                                     />
@@ -464,7 +463,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                         className={clsx(
                                             "text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                         )}
-                                        displayValue={(option: { value: string; label: string }) => option?.label}
+                                        displayValue={(option: string) => option}
                                         onChange={(event) => setCheckInQuery(event.target.value)}
                                         placeholder={translation?.t('default_check_in_placeholder')}
                                     />
@@ -485,7 +484,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                         {filteredCheckInOptions.map((option: any) => (
                                             <ComboboxOption
                                                 key={option.value}
-                                                value={option}
+                                                value={option.value}
                                                 className="group flex items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-gray-100 cursor-pointer"
                                             >
                                                 <CheckIcon
@@ -507,7 +506,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                         className={clsx(
                                             "text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                         )}
-                                        displayValue={(option: { value: string; label: string }) => option?.label}
+                                        displayValue={(option: string) => option}
                                         onChange={(event) => setCheckOutQuery(event.target.value)}
                                         placeholder={translation?.t('default_check_out_placeholder')}
                                     />
@@ -528,7 +527,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                         {filteredCheckOutOptions.map((option: any) => (
                                             <ComboboxOption
                                                 key={option.value}
-                                                value={option}
+                                                value={option.value}
                                                 className="group flex items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-gray-100 cursor-pointer"
                                             >
                                                 <CheckIcon
