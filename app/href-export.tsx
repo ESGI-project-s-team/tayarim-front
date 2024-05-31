@@ -1,6 +1,6 @@
 const icon_menu: string[] = [
     "/dashboard/analytics",
-    "/dashboard/calendar",
+    "/dashboard/planning",
 ]
 const icon_management: string[] = [
     "/dashboard/owner-management",
