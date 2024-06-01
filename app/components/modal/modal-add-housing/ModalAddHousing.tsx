@@ -10,26 +10,26 @@ import countryList from 'react-select-country-list';
 
 interface FormValues {
     titre: string;
-    idProprietaire: number;
-    nombresDeChambres: number;
-    nombresDeLits: number;
-    nombresSallesDeBains: number;
-    capaciteMaxPersonne: number;
-    nombresNuitsMin: number;
+    idProprietaire: number | null;
+    nombresDeChambres: number | null;
+    nombresDeLits: number | null;
+    nombresSallesDeBains: number | null;
+    capaciteMaxPersonne: number | null;
+    nombresNuitsMin: number | null;
     description: string;
-    prixParNuit: number;
+    prixParNuit: number | null;
     defaultCheckIn: string;
     defaultCheckOut: string;
-    intervalReservation: number;
+    intervalReservation: number | null;
     ville: string;
     rue: string;
-    numero: number;
+    numero: number | null;
     suffixeNumero: string;
     codePostal: string;
     pays: string;
     etage: string;
     numeroDePorte: string;
-    idTypeLogement: number;
+    idTypeLogement: number | null;
 }
 
 interface OwnerType {
@@ -47,26 +47,26 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
     const [formValues, setFormValues] = useState<FormValues>({
         titre: '',
-        idProprietaire: 0,
-        nombresDeChambres: 1,
-        nombresDeLits: 1,
-        nombresSallesDeBains: 1,
-        capaciteMaxPersonne: 1,
-        nombresNuitsMin: 1,
+        idProprietaire: null,
+        nombresDeChambres: null,
+        nombresDeLits: null,
+        nombresSallesDeBains: null,
+        capaciteMaxPersonne: null,
+        nombresNuitsMin: null,
         description: '',
-        prixParNuit: 1,
+        prixParNuit: null,
         defaultCheckIn: '',
         defaultCheckOut: '',
-        intervalReservation: 1,
+        intervalReservation: null,
         ville: '',
         rue: '',
-        numero: 1,
+        numero: null,
         suffixeNumero: '',
         codePostal: '',
         pays: '',
         etage: '',
         numeroDePorte: '',
-        idTypeLogement: 1
+        idTypeLogement: 1,
     });
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext();
@@ -108,7 +108,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
 
     const createHousingInFun = async () => {
         setLoading(true);
-        (Object.keys(formValues) as (keyof FormValues)[]).forEach((key) => (formValues[key] === "" || formValues[key] === 0) && delete formValues[key]);
+        (Object.keys(formValues) as (keyof FormValues)[]).forEach((key) => (formValues[key] === "" || formValues[key] === null) && delete formValues[key]);
         try {
             const response = await createHouseInFun(formValues);
             if (response.errors) {
@@ -174,20 +174,19 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
             case 1:
                 return formValues.titre && selectedOwner;
             case 2:
-                return formValues.nombresDeChambres > 0 && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains > 0;
+                return formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0;
             case 3:
                 return selectedCountry && formValues.ville && formValues.codePostal;
             case 4:
-                return formValues.rue && formValues.numero > 0;
+                return formValues.rue && formValues.numero !== null && formValues.numero > 0;
             case 5:
-                return formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit > 0;
+                return formValues.capaciteMaxPersonne !== null && formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin !== null && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit !== null && formValues.prixParNuit > 0;
             case 6:
                 return formValues.description;
             default:
                 return false;
         }
     };
-
 
     const renderStep = () => {
         switch (currentStep) {
@@ -210,7 +209,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('choose_owner')}</label>
                             <Combobox value={selectedOwner} onChange={(value: OwnerType) => {
                                 setSelectedOwner(value);
-                                handleInputChange('idProprietaire', value.id);
+                                handleInputChange('idProprietaire', value?.id);
                             }}>
                                 <div className="relative">
                                     <ComboboxInput
@@ -263,7 +262,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="number"
                                 min="1"
-                                value={formValues.nombresDeChambres}
+                                value={formValues.nombresDeChambres || ''}
                                 onChange={(e) => handleInputChange('nombresDeChambres', parseInt(e.target.value))}
                             />
                         </div>
@@ -275,7 +274,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="number"
                                 min="1"
-                                value={formValues.nombresDeLits}
+                                value={formValues.nombresDeLits || ''}
                                 onChange={(e) => handleInputChange('nombresDeLits', parseInt(e.target.value))}
                             />
                         </div>
@@ -287,7 +286,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="number"
                                 min="1"
-                                value={formValues.nombresSallesDeBains}
+                                value={formValues.nombresSallesDeBains || ''}
                                 onChange={(e) => handleInputChange('nombresSallesDeBains', parseInt(e.target.value))}
                             />
                         </div>
@@ -300,7 +299,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('pays')}</label>
                             <Combobox value={selectedCountry} onChange={(value: any) => {
-                                setSelectedCountry(value.label);
+                                setSelectedCountry(value?.label);
                                 handleInputChange('pays', value?.label);
                             }}>
                                 <div className="relative">
@@ -386,7 +385,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="number"
                                 min="1"
-                                value={formValues.numero}
+                                value={formValues.numero || ''}
                                 onChange={(e) => handleInputChange('numero', parseInt(e.target.value))}
                             />
                         </div>
@@ -436,7 +435,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="number"
                                 min="1"
-                                value={formValues.capaciteMaxPersonne}
+                                value={formValues.capaciteMaxPersonne || ''}
                                 onChange={(e) => handleInputChange('capaciteMaxPersonne', parseInt(e.target.value))}
                             />
                         </div>
@@ -448,7 +447,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="number"
                                 min="1"
-                                value={formValues.nombresNuitsMin}
+                                value={formValues.nombresNuitsMin || ''}
                                 onChange={(e) => handleInputChange('nombresNuitsMin', parseInt(e.target.value))}
                             />
                         </div>
@@ -546,7 +545,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="number"
                                 min="1"
-                                value={formValues.prixParNuit}
+                                value={formValues.prixParNuit || ''}
                                 onChange={(e) => handleInputChange('prixParNuit', parseFloat(e.target.value))}
                             />
                         </div>

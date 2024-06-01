@@ -8,7 +8,6 @@ import ModalCalendar from "@/app/components/modal/modal-calendar-housing/ModalCa
 import ModalAddHousing from "@/app/components/modal/modal-add-housing/ModalAddHousing";
 import {getAllHousing} from "@/utils/apiHousing";
 import {getOwnerById} from "@/app/components/dashboard-components/ui/list-housings/action";
-import ModalInfoUser from "@/app/components/modal/modal-info-user/ModalInfoUser";
 import ModalInfoOwner from "@/app/components/modal/modal-info-owner/ModalInfoOwner";
 
 const ListHousings: React.FC = () => {
@@ -51,20 +50,20 @@ const ListHousings: React.FC = () => {
         setIsOpenInfoOwner(false)
     }
 
-    function getOwnerByIdFun(id: string): any {
-        return getOwnerById(id)
-            .then((response) => {
-                if (response.errors) {
-                    setError(response.errors);
-                    return false
-                } else {
-                    setError(null);
-                    return response;
-                }
-            });
-    }
-
     const getAllHousingFun = useCallback(() => {
+        function getOwnerByIdFun(id: string): any {
+            return getOwnerById(id)
+                .then((response) => {
+                    if (response.errors) {
+                        setError(response.errors);
+                        return false;
+                    } else {
+                        setError(null);
+                        return response;
+                    }
+                });
+        }
+
         let ownerDetailsList: any = [];
         getAllHousing()
             .then(async (response) => {

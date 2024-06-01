@@ -111,12 +111,17 @@ const ListOwners: React.FC = () => {
                                 <div className="col-span-2 flex items-center"><p
                                     className="text-sm text-black">{owner.numTel}</p>
                                 </div>
-                                {owner.logements.length > 0 &&
+                                {owner.logements.length > 0 ?
                                     <div
                                         className="col-span-2  items-center flex-col text-[#3c50e0] hover:underline cursor-pointer
                                            max-w-36 overflow-auto no-scrollbar">
                                         <p className="text-sm " key={index}
                                            onClick={() => openModalInfoHousing(owner.logements)}>{owner.logements.length} {translation?.t('house')}{owner.logements.length > 1 ? 's' : ''}  </p>
+                                    </div>
+                                    :
+                                    <div
+                                        className="col-span-2 items-center text-gray-400 ml-7">
+                                        <p className="text-sm ">/</p>
                                     </div>
                                 }
                                 <div className="col-span-2 flex items-center ml-5 "><p
