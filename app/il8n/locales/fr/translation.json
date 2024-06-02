@@ -1,4 +1,9 @@
 {
+  "general": "Général",
+  "pieces": "Pièces",
+  "adresse": "Adresse",
+  "detailsAdresse": "Détails de l'adresse",
+  "critere_reservation": "Critères de réservation",
   "address": "Adresse",
   "rooms": "Chambres",
   "beds": "Lits",
@@ -78,6 +83,7 @@
   "edit": "Modifier",
   "delete": "Supprimer",
   "form_edit_owner": "Modifier le propriétaire",
+  "form_edit_housing": "Modifier le logement",
   "form_add_owner": "Ajouter un propriétaire",
   "form_add_housing": "Ajouter un logement",
   "form_lastname": "Nom de famille",
