@@ -61,7 +61,6 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
     const [checkOutQuery, setCheckOutQuery] = useState('');
 
     useEffect(() => {
-        console.log(housingData)
         const handleGetAllOwner = async () => {
             setLoading(true);
             try {
@@ -541,9 +540,9 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
                         >
                             <Dialog.Panel
                                 className="max-h-[90vh] overflow-y-auto w-full max-w-5xl transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all z-50">
-                                <div className="flex">
-                                    <div className="w-1/4 bg-gray-100 p-4">
-                                        <ul className="space-y-2">
+                                <div className="flex flex-col md:flex-row">
+                                    <div className="w-full md:w-1/4 bg-gray-100 p-4 flex md:flex-col gap-4 md:gap-2">
+                                        <ul className="flex md:flex-col flex-wrap md:space-y-2">
                                             <li>
                                                 <button onClick={() => setCurrentSection('general')}
                                                         className={`w-full text-left p-2 ${currentSection === 'general' ? 'bg-[#3c50e0] text-white' : 'text-black'}`}>
@@ -577,7 +576,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
                                         </ul>
                                     </div>
 
-                                    <div className="w-3/4 p-4">
+                                    <div className="w-full md:w-3/4 p-4">
                                         <div className=" flex  px-7  justify-end">
                                             <button onClick={onClose} className="text-[#3c50e0] font-medium">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"

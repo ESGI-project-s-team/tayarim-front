@@ -9,10 +9,11 @@ import {getAllHousing} from "@/utils/apiHousing";
 import {getOwnerById} from "@/app/components/dashboard-components/ui/list-housings/action";
 import ModalInfoOwner from "@/app/components/modal/modal-info-owner/ModalInfoOwner";
 import ModalUpdateHousing from "@/app/components/modal/modal-update-housing/ModalUpdateHousing";
+import ModalDeleteHousing from "@/app/components/modal/modal-delete-housing/ModalDeleteHousing";
 
 const ListHousings: React.FC = () => {
     const [housing, setHousing] = useState<HouseDTO[]>([]);
-    const [allHousing, setAllHousing] = useState<HouseDTO[]>([]);
+    const [allHousing, setAllHousing] = useState<any>([]);
     const [isOpenEdit, setIsOpenEdit] = useState(false)
     const [isOpenDelete, setIsOpenDelete] = useState(false)
     const [isOpenCreate, setIsOpenCreate] = useState(false)
@@ -29,8 +30,8 @@ const ListHousings: React.FC = () => {
         setIsOpenEdit(true)
     }
 
-    function openModalDelete(owner: ProprietaireDTO) {
-        setOwnerDetailsList(owner)
+    function openModalDelete(house: HouseDTO) {
+        setAllHousing(house)
         setIsOpenDelete(true)
     }
 
@@ -173,16 +174,7 @@ const ListHousings: React.FC = () => {
                                     className="col-span-2  items-center flex text-sm text-red-600 hover:underline cursor-pointer"
                                     onClick={() =>
                                         openModalDelete(
-                                            {
-                                                id: house.id,
-                                                nom: house.nom,
-                                                prenom: house.prenom,
-                                                email: house.email,
-                                                numTel: house.numTel,
-                                                dateInscription: house.dateInscription,
-                                                logements: house.logements,
-                                                commission: house.commissions,
-                                            }
+                                            house
                                         )
                                     }
                                 >
@@ -209,8 +201,8 @@ const ListHousings: React.FC = () => {
             }
             {
                 isOpenDelete &&
-                <ModalDeleteOwner isOpen={isOpenDelete} onClose={closeModal} id={ownerDetailsList.id.toString()
-                } getAllOwners={getAllHousingFun}/>
+                <ModalDeleteHousing isOpen={isOpenDelete} onClose={closeModal} id={allHousing.id}
+                                    getAllHousing={getAllHousingFun}/>
             }
             {isOpenCalendar &&
                 <ModalCalendar isOpen={isOpenCalendar} onClose={closeModal} id={"id"}/>
