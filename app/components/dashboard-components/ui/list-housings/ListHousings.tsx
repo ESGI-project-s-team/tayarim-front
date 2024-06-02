@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import ModalEditOwner from "@/app/components/modal/modal-edit-owner/ModalEditOwner";
 import {ProprietaireDTO} from "@/app/model/Owner";
 import ModalDeleteOwner from "@/app/components/modal/modal-delete-owner/ModalDeleteOwner";
 import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
@@ -9,9 +8,11 @@ import ModalAddHousing from "@/app/components/modal/modal-add-housing/ModalAddHo
 import {getAllHousing} from "@/utils/apiHousing";
 import {getOwnerById} from "@/app/components/dashboard-components/ui/list-housings/action";
 import ModalInfoOwner from "@/app/components/modal/modal-info-owner/ModalInfoOwner";
+import ModalUpdateHousing from "@/app/components/modal/modal-update-housing/ModalUpdateHousing";
 
 const ListHousings: React.FC = () => {
     const [housing, setHousing] = useState<HouseDTO[]>([]);
+    const [allHousing, setAllHousing] = useState<HouseDTO[]>([]);
     const [isOpenEdit, setIsOpenEdit] = useState(false)
     const [isOpenDelete, setIsOpenDelete] = useState(false)
     const [isOpenCreate, setIsOpenCreate] = useState(false)
@@ -23,8 +24,8 @@ const ListHousings: React.FC = () => {
     const {translation} = useTranslationContext();
     const router = useRouter()
 
-    function openModalEdit(owner: ProprietaireDTO) {
-        setOwnerDetailsList(owner)
+    function openModalEdit(housing: any) {
+        setAllHousing(housing)
         setIsOpenEdit(true)
     }
 
@@ -157,16 +158,7 @@ const ListHousings: React.FC = () => {
                                 <div
                                     className="col-span-2  items-center flex text-sm text-[#3c50e0] hover:underline cursor-pointer"
                                     onClick={() =>
-                                        openModalEdit({
-                                            id: house.id,
-                                            nom: house.nom,
-                                            prenom: house.prenom,
-                                            email: house.email,
-                                            numTel: house.numTel,
-                                            dateInscription: house.dateInscription,
-                                            logements: house.logements,
-                                            commission: house.commissions,
-                                        })
+                                        openModalEdit(house)
                                     }
                                 >
                                     {translation?.t('edit')}
@@ -213,8 +205,7 @@ const ListHousings: React.FC = () => {
             }
             {
                 isOpenEdit &&
-                <ModalEditOwner isOpen={isOpenEdit} onClose={closeModal} ownerDetails={ownerDetailsList}
-                                getAllOwners={getAllHousingFun}/>
+                <ModalUpdateHousing isOpen={isOpenEdit} onClose={closeModal} housingData={allHousing}/>
             }
             {
                 isOpenDelete &&

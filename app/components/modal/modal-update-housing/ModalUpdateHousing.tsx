@@ -5,7 +5,7 @@ import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import {Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions} from '@headlessui/react';
 import {CheckIcon, ChevronDownIcon} from '@heroicons/react/20/solid';
 import clsx from 'clsx';
-import {createHouseInFun, getAllOwnerInFun} from "@/app/components/modal/modal-add-housing/action";
+import {getAllOwnerInFun} from "@/app/components/modal/modal-add-housing/action";
 import countryList from 'react-select-country-list';
 
 interface FormValues {
@@ -39,35 +39,13 @@ interface OwnerType {
     email: string;
 }
 
-export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
+export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
     isOpen: boolean;
     onClose: () => void;
-    getAllHousing: any
+    housingData: any;
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
-    const [formValues, setFormValues] = useState<FormValues>({
-        titre: '',
-        idProprietaire: null,
-        nombresDeChambres: null,
-        nombresDeLits: null,
-        nombresSallesDeBains: null,
-        capaciteMaxPersonne: null,
-        nombresNuitsMin: null,
-        description: '',
-        prixParNuit: null,
-        defaultCheckIn: '',
-        defaultCheckOut: '',
-        intervalReservation: 1,
-        ville: '',
-        rue: '',
-        numero: null,
-        suffixeNumero: '',
-        codePostal: '',
-        pays: '',
-        etage: '',
-        numeroDePorte: '',
-        idTypeLogement: 1,
-    });
+    const [formValues, setFormValues] = useState<FormValues>(housingData);
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext();
     const [isLoading, setLoading] = useState(false);
@@ -75,7 +53,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const [query, setQuery] = useState('');
     const [selectedOwner, setSelectedOwner] = useState<OwnerType | null>(null);
     const [owners, setOwners] = useState<OwnerType[]>([]);
-    const [currentStep, setCurrentStep] = useState(1);
+    const [currentSection, setCurrentSection] = useState('general');
     const [countries] = useState(countryList().getData());
     const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
     const [countryQuery, setCountryQuery] = useState('');
@@ -83,6 +61,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const [checkOutQuery, setCheckOutQuery] = useState('');
 
     useEffect(() => {
+        console.log(housingData)
         const handleGetAllOwner = async () => {
             setLoading(true);
             try {
@@ -106,25 +85,9 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
         handleGetAllOwner().then();
     }, [setError]);
 
-    const createHousingInFun = async () => {
-        setLoading(true);
-        (Object.keys(formValues) as (keyof FormValues)[]).forEach((key) => (formValues[key] === "" || formValues[key] === null) && delete formValues[key]);
-        try {
-            const response = await createHouseInFun(formValues);
-            if (response.errors) {
-                setError(response.errors);
-            } else {
-                await getAllHousing();
-                setError(null);
-                onClose();
-                setSuccess(true);
-            }
-            setLoading(false);
-        } catch (error) {
-            setLoading(false);
-            setError(error);
-        }
-    }
+    const updateHousingInFun = async () => {
+        // Code to update housing goes here
+    };
 
     const filteredPeople = query === ''
         ? owners
@@ -139,15 +102,18 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
             return country.label.toLowerCase().includes(countryQuery.toLowerCase());
         });
 
-    const hoursOptions = Array.from({length: 23}, (_, i) => ({
-        value: (i + 1).toString().padStart(2, '0') + ':00',
-        label: (i + 1).toString().padStart(2, '0') + ':00',
-
-    }));
+    const hoursOptions = Array.from({length: 24}, (_, i) => {
+        const hour = (i % 24).toString().padStart(2, '0') + ':00';
+        return {
+            value: hour,
+            label: hour,
+        };
+    });
     hoursOptions.push({
         value: '00:00',
         label: '00:00',
     });
+
     const filteredCheckInOptions = checkInQuery === ''
         ? hoursOptions
         : hoursOptions.filter((option) => {
@@ -164,38 +130,9 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
         setFormValues((prev: FormValues) => ({...prev, [field]: value}));
     };
 
-    const handleNext = () => {
-        if (validateStep()) {
-            setCurrentStep((prev) => prev + 1);
-        }
-    };
-
-    const handleBack = () => {
-        setCurrentStep((prev) => prev - 1);
-    };
-
-    const validateStep = () => {
-        switch (currentStep) {
-            case 1:
-                return formValues.titre && selectedOwner;
-            case 2:
-                return formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0;
-            case 3:
-                return selectedCountry && formValues.ville && formValues.codePostal;
-            case 4:
-                return formValues.rue && formValues.numero !== null && formValues.numero > 0;
-            case 5:
-                return formValues.capaciteMaxPersonne !== null && formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin !== null && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit !== null && formValues.prixParNuit > 0;
-            case 6:
-                return formValues.description;
-            default:
-                return false;
-        }
-    };
-
-    const renderStep = () => {
-        switch (currentStep) {
-            case 1:
+    const renderSection = () => {
+        switch (currentSection) {
+            case 'general':
                 return (
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
@@ -206,7 +143,19 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 placeholder={translation?.t('title_house_placeholder')}
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="text"
+                                value={formValues.titre}
                                 onChange={(e) => handleInputChange('titre', e.target.value)}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label className="mb-3 block text-sm font-medium text-black">
+                                {translation?.t('description')}
+                            </label>
+                            <textarea
+                                placeholder={translation?.t('description_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                value={formValues.description}
+                                onChange={(e) => handleInputChange('description', e.target.value)}
                             />
                         </div>
                         <div className="w-full">
@@ -256,7 +205,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                         </div>
                     </div>
                 );
-            case 2:
+            case 'pieces':
                 return (
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
@@ -297,7 +246,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                         </div>
                     </div>
                 );
-            case 3:
+            case 'adresse':
                 return (
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
@@ -369,11 +318,11 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                         </div>
                     </div>
                 );
-            case 4:
+            case 'detailsAdresse':
                 return (
                     <div className="mb-5 flex flex-col gap-6">
-                        <div className="flex gap-6">
-                            <div className="w-1/3">
+                        <div className="flex gap-4">
+                            <div className="w-1/4">
                                 <label
                                     className="mb-3 block text-sm font-medium text-black">{translation?.t('numero')}</label>
                                 <input
@@ -432,7 +381,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                         </div>
                     </div>
                 );
-            case 5:
+            case 'reservation':
                 return (
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
@@ -559,21 +508,6 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                         </div>
                     </div>
                 );
-            case 6:
-                return (
-                    <div className="mb-5 flex flex-col gap-6">
-                        <div className="w-full">
-                            <label
-                                className="mb-3 block text-sm font-medium text-black">{translation?.t('description')}</label>
-                            <textarea
-                                placeholder={translation?.t('description_placeholder')}
-                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                value={formValues.description}
-                                onChange={(e) => handleInputChange('description', e.target.value)}
-                            />
-                        </div>
-                    </div>
-                );
             default:
                 return null;
         }
@@ -595,7 +529,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 </Transition.Child>
 
                 <div className="fixed inset-0 overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4 text-center z-50">
+                    <div className="flex min-h-full  items-center justify-center p-4 text-center z-50">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -606,69 +540,65 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel
-                                className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all z-50">
-                                <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
-                                    <div className="flex flex-col gap-9">
-                                        <div className="rounded-sm border stroke-1 bg-white shadow">
-                                            <div className="border-b border-[#dee4ee] py-4 flex justify-between px-7">
-                                                <h3 className="font-medium text-black">{translation?.t('form_add_housing')}</h3>
-                                                <button onClick={onClose} className="text-[#3c50e0] font-medium">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"
-                                                         className="w-6 h-6 text-[#3c50e0]">
-                                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                                              d="M6 18L18 6M6 6l12 12"/>
-                                                    </svg>
+                                className="max-h-[90vh] overflow-y-auto w-full max-w-5xl transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all z-50">
+                                <div className="flex">
+                                    <div className="w-1/4 bg-gray-100 p-4">
+                                        <ul className="space-y-2">
+                                            <li>
+                                                <button onClick={() => setCurrentSection('general')}
+                                                        className={`w-full text-left p-2 ${currentSection === 'general' ? 'bg-[#3c50e0] text-white' : 'text-black'}`}>
+                                                    {translation?.t('general')}
                                                 </button>
-                                            </div>
+                                            </li>
+                                            <li>
+                                                <button onClick={() => setCurrentSection('pieces')}
+                                                        className={`w-full text-left p-2 ${currentSection === 'pieces' ? 'bg-[#3c50e0] text-white' : 'text-black'}`}>
+                                                    {translation?.t('pieces')}
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button onClick={() => setCurrentSection('adresse')}
+                                                        className={`w-full text-left p-2 ${currentSection === 'adresse' ? 'bg-[#3c50e0] text-white' : 'text-black'}`}>
+                                                    {translation?.t('adresse')}
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button onClick={() => setCurrentSection('detailsAdresse')}
+                                                        className={`w-full text-left p-2 ${currentSection === 'detailsAdresse' ? 'bg-[#3c50e0] text-white' : 'text-black'}`}>
+                                                    {translation?.t('detailsAdresse')}
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button onClick={() => setCurrentSection('reservation')}
+                                                        className={`w-full text-left p-2 ${currentSection === 'reservation' ? 'bg-[#3c50e0] text-white' : 'text-black'}`}>
+                                                    {translation?.t('critere_reservation')}
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
 
-                                            <div className="p-7">
-                                                {renderStep()}
-                                                <div className="flex justify-between mt-5">
-                                                    {currentStep > 1 && (
-                                                        <button
-                                                            type="button"
-                                                            onClick={handleBack}
-                                                            className="flex justify-center rounded  p-3 font-medium text-white bg-[#3c50e0] hover:bg-opacity-90"
-                                                        >
-                                                            {translation?.t('previous')}
-                                                        </button>
-                                                    )}
-                                                    {currentStep < 6 ? (
-                                                        <button
-                                                            type="button"
-                                                            onClick={handleNext}
-                                                            disabled={!validateStep()}
-                                                            className={`flex justify-center rounded  p-3 font-medium text-white ${!validateStep() ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
-                                                        >
-                                                            {translation?.t('next')}
-                                                        </button>
-                                                    ) : (
-                                                        <button
-                                                            type="button"
-                                                            ref={focusElementRef}
-                                                            onClick={createHousingInFun}
-                                                            disabled={isLoading}
-                                                            className={`flex justify-center rounded  p-3 font-medium text-white ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
-                                                        >
-                                                            {isLoading ?
-                                                                <SpinnerUI/> : translation?.t('form_add_housing')}
-                                                        </button>
-                                                    )}
-                                                </div>
-                                                <div className="mt-4">
-                                                    <div className="text-sm font-medium text-gray-500">
-                                                        {translation?.t('step')} {currentStep} {translation?.t('of')} 6
-                                                    </div>
-                                                    <div className="relative pt-1">
-                                                        <div
-                                                            className="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
-                                                            <div style={{width: `${(currentStep / 6) * 100}%`}}
-                                                                 className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#3c50e0]"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div className="w-3/4 p-4">
+                                        <div className=" flex  px-7  justify-end">
+                                            <button onClick={onClose} className="text-[#3c50e0] font-medium">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                     viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"
+                                                     className="w-6 h-6 text-[#3c50e0]">
+                                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                                          d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        {renderSection()}
+                                        <div className="flex justify-end mt-5">
+                                            <button
+                                                type="button"
+                                                ref={focusElementRef}
+                                                onClick={updateHousingInFun}
+                                                disabled={isLoading}
+                                                className={`flex justify-center rounded  p-3 font-medium text-white ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
+                                            >
+                                                {isLoading ? <SpinnerUI/> : translation?.t('update')}
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
