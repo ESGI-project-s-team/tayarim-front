@@ -1,4 +1,6 @@
 {
+  "concierge": "Conciergerie",
+  "rental": "Location",
   "general": "Général",
   "pieces": "Pièces",
   "adresse": "Adresse",
@@ -19,6 +21,7 @@
   "nombres_de_salles_de_bains_placeholder": "Entrez le nombre de salles de bains",
   "pays_placeholder": "Choisissez un pays",
   "ville_placeholder": "Entrez la ville",
+  "adresse_placeholder": "Entrez l'adresse",
   "code_postal_placeholder": "Entrez le code postal",
   "rue_placeholder": "Entrez la rue",
   "numero_placeholder": "Entrez le numéro de la rue",

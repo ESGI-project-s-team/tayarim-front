@@ -1,4 +1,6 @@
 {
+  "concierge": "Concierge",
+  "rental": "Rental",
   "general": "General",
   "pieces": "Rooms",
   "adresse": "Address",
@@ -24,6 +26,7 @@
   "numero_placeholder": "Enter the number of the street",
   "suffixe_numero_placeholder": "Enter the number suffix",
   "etage_placeholder": "Enter the floor",
+  "adresse_placeholder": "Enter the address",
   "numero_de_porte_placeholder": "Enter the door number",
   "capacite_max_personne_placeholder": "Enter the max capacity",
   "nombres_nuits_min_placeholder": "Enter the minimum nights",

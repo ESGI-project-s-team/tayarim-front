@@ -22,9 +22,7 @@ interface FormValues {
     defaultCheckOut: string;
     intervalReservation: number | null;
     ville: string;
-    rue: string;
-    numero: number | null;
-    suffixeNumero: string;
+    adresse: string;
     codePostal: string;
     pays: string;
     etage: string;
@@ -59,9 +57,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
         defaultCheckOut: '',
         intervalReservation: 1,
         ville: '',
-        rue: '',
-        numero: null,
-        suffixeNumero: '',
+        adresse: '',
         codePostal: '',
         pays: '',
         etage: '',
@@ -179,15 +175,15 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
             case 1:
                 return formValues.titre && selectedOwner;
             case 2:
-                return formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0;
-            case 3:
                 return selectedCountry && formValues.ville && formValues.codePostal;
+            case 3:
+                return formValues.adresse !== null && formValues.adresse !== '';
             case 4:
-                return formValues.rue && formValues.numero !== null && formValues.numero > 0;
+                return formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0;
             case 5:
                 return formValues.capaciteMaxPersonne !== null && formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin !== null && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit !== null && formValues.prixParNuit > 0;
             case 6:
-                return formValues.description;
+                return formValues.description !== null && formValues.description !== '';
             default:
                 return false;
         }
@@ -261,47 +257,6 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
                             <label
-                                className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_de_chambres')}</label>
-                            <input
-                                placeholder={translation?.t('nombres_de_chambres_placeholder')}
-                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                type="number"
-                                min="1"
-                                value={formValues.nombresDeChambres || ''}
-                                onChange={(e) => handleInputChange('nombresDeChambres', parseInt(e.target.value))}
-                            />
-                        </div>
-                        <div className="w-full">
-                            <label
-                                className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_de_lits')}</label>
-                            <input
-                                placeholder={translation?.t('nombres_de_lits_placeholder')}
-                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                type="number"
-                                min="1"
-                                value={formValues.nombresDeLits || ''}
-                                onChange={(e) => handleInputChange('nombresDeLits', parseInt(e.target.value))}
-                            />
-                        </div>
-                        <div className="w-full">
-                            <label
-                                className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_de_salles_de_bains')}</label>
-                            <input
-                                placeholder={translation?.t('nombres_de_salles_de_bains_placeholder')}
-                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                type="number"
-                                min="1"
-                                value={formValues.nombresSallesDeBains || ''}
-                                onChange={(e) => handleInputChange('nombresSallesDeBains', parseInt(e.target.value))}
-                            />
-                        </div>
-                    </div>
-                );
-            case 3:
-                return (
-                    <div className="mb-5 flex flex-col gap-6">
-                        <div className="w-full">
-                            <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('pays')}</label>
                             <Combobox value={selectedCountry} onChange={(value: any) => {
                                 setSelectedCountry(value?.label);
@@ -369,43 +324,18 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                         </div>
                     </div>
                 );
-            case 4:
+            case 3:
                 return (
                     <div className="mb-5 flex flex-col gap-6">
-                        <div className="flex gap-6">
-                            <div className="w-1/3">
-                                <label
-                                    className="mb-3 block text-sm font-medium text-black">{translation?.t('numero')}</label>
-                                <input
-                                    placeholder={translation?.t('numero_placeholder')}
-                                    className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                    type="number"
-                                    min="1"
-                                    value={formValues.numero || ''}
-                                    onChange={(e) => handleInputChange('numero', parseInt(e.target.value))}
-                                />
-                            </div>
-                            <div className="w-3/4">
-                                <label
-                                    className="mb-3 block text-sm font-medium text-black">{translation?.t('rue')}</label>
-                                <input
-                                    placeholder={translation?.t('rue_placeholder')}
-                                    className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                    type="text"
-                                    value={formValues.rue}
-                                    onChange={(e) => handleInputChange('rue', e.target.value)}
-                                />
-                            </div>
-                        </div>
                         <div className="w-full">
                             <label
-                                className="mb-3 block text-sm font-medium text-black">{translation?.t('suffixe_numero')}</label>
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('adresse')}</label>
                             <input
-                                placeholder={translation?.t('suffixe_numero_placeholder')}
+                                placeholder={translation?.t('adresse_placeholder')}
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="text"
-                                value={formValues.suffixeNumero}
-                                onChange={(e) => handleInputChange('suffixeNumero', e.target.value)}
+                                value={formValues.adresse}
+                                onChange={(e) => handleInputChange('adresse', e.target.value)}
                             />
                         </div>
                         <div className="w-full">
@@ -428,6 +358,47 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 type="text"
                                 value={formValues.numeroDePorte}
                                 onChange={(e) => handleInputChange('numeroDePorte', e.target.value)}
+                            />
+                        </div>
+                    </div>
+                );
+            case 4:
+                return (
+                    <div className="mb-5 flex flex-col gap-6">
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_de_chambres')}</label>
+                            <input
+                                placeholder={translation?.t('nombres_de_chambres_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.nombresDeChambres || ''}
+                                onChange={(e) => handleInputChange('nombresDeChambres', parseInt(e.target.value))}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_de_lits')}</label>
+                            <input
+                                placeholder={translation?.t('nombres_de_lits_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.nombresDeLits || ''}
+                                onChange={(e) => handleInputChange('nombresDeLits', parseInt(e.target.value))}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_de_salles_de_bains')}</label>
+                            <input
+                                placeholder={translation?.t('nombres_de_salles_de_bains_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.nombresSallesDeBains || ''}
+                                onChange={(e) => handleInputChange('nombresSallesDeBains', parseInt(e.target.value))}
                             />
                         </div>
                     </div>
@@ -648,8 +619,10 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                                             type="button"
                                                             ref={focusElementRef}
                                                             onClick={createHousingInFun}
-                                                            disabled={isLoading}
-                                                            className={`flex justify-center rounded  p-3 font-medium text-white ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
+                                                            disabled={isLoading || !validateStep()}
+                                                            className={`flex justify-center rounded  p-3 font-medium text-white ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}
+                                                            ${!validateStep() ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}
+                                                            `}
                                                         >
                                                             {isLoading ?
                                                                 <SpinnerUI/> : translation?.t('form_add_housing')}
@@ -663,7 +636,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                                     <div className="relative pt-1">
                                                         <div
                                                             className="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
-                                                            <div style={{width: `${(currentStep / 6) * 100}%`}}
+                                                            <div style={{width: `${(currentStep / 6) * 100} % `}}
                                                                  className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#3c50e0]"></div>
                                                         </div>
                                                     </div>
