@@ -1,4 +1,5 @@
 {
+  "service": "Service",
   "concierge": "Concierge",
   "rental": "Rental",
   "general": "General",

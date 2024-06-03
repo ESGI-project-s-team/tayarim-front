@@ -154,9 +154,9 @@ const ListHousings: React.FC = () => {
                                     className="col-span-2  items-center flex-col text-[#3c50e0] hover:underline cursor-pointer">
                                     {
                                         house.isLouable ?
-                                            <p className="text-sm text-black ml-2">{translation?.t('rental')}</p>
+                                            <p className="text-sm text-black">{translation?.t('rental')}</p>
                                             :
-                                            <p className="text-sm text-black ml-2">{translation?.t('concierge')}</p>
+                                            <p className="text-sm text-black">{translation?.t('concierge')}</p>
                                     }
 
                                 </div>

@@ -28,6 +28,7 @@ interface FormValues {
     etage: string;
     numeroDePorte: string;
     idTypeLogement: number | null;
+    isLouable: boolean; // Ajouté pour différencier Location et Conciergerie
 }
 
 interface OwnerType {
@@ -63,6 +64,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
         etage: '',
         numeroDePorte: '',
         idTypeLogement: 1,
+        isLouable: true,
     });
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext();
@@ -179,7 +181,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
             case 3:
                 return formValues.adresse !== null && formValues.adresse !== '';
             case 4:
-                return formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0;
+                return formValues.isLouable ? (formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0) : formValues.description !== null && formValues.description !== '';
             case 5:
                 return formValues.capaciteMaxPersonne !== null && formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin !== null && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit !== null && formValues.prixParNuit > 0;
             case 6:
@@ -196,12 +198,26 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
                             <label className="mb-3 block text-sm font-medium text-black">
+                                {translation?.t('service')}
+                            </label>
+                            <select
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                value={formValues.isLouable ? 'Location' : 'Conciergerie'}
+                                onChange={(e) => handleInputChange('isLouable', e.target.value === 'Location')}
+                            >
+                                <option value="Location">{translation?.t('rental')}</option>
+                                <option value="Conciergerie">{translation?.t('concierge')}</option>
+                            </select>
+                        </div>
+                        <div className="w-full">
+                            <label className="mb-3 block text-sm font-medium text-black">
                                 {translation?.t('title_house')}
                             </label>
                             <input
                                 placeholder={translation?.t('title_house_placeholder')}
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="text"
+                                value={formValues.titre}
                                 onChange={(e) => handleInputChange('titre', e.target.value)}
                             />
                         </div>
@@ -363,7 +379,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                     </div>
                 );
             case 4:
-                return (
+                return formValues.isLouable ? (
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
                             <label
@@ -399,6 +415,19 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 min="1"
                                 value={formValues.nombresSallesDeBains || ''}
                                 onChange={(e) => handleInputChange('nombresSallesDeBains', parseInt(e.target.value))}
+                            />
+                        </div>
+                    </div>
+                ) : (
+                    <div className="mb-5 flex flex-col gap-6">
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('description')}</label>
+                            <textarea
+                                placeholder={translation?.t('description_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                value={formValues.description}
+                                onChange={(e) => handleInputChange('description', e.target.value)}
                             />
                         </div>
                     </div>
@@ -605,7 +634,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                                             {translation?.t('previous')}
                                                         </button>
                                                     )}
-                                                    {currentStep < 6 ? (
+                                                    {currentStep < (formValues.isLouable ? 6 : 4) ? (
                                                         <button
                                                             type="button"
                                                             onClick={handleNext}
@@ -631,13 +660,14 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                                 </div>
                                                 <div className="mt-4">
                                                     <div className="text-sm font-medium text-gray-500">
-                                                        {translation?.t('step')} {currentStep} {translation?.t('of')} 6
+                                                        {translation?.t('step')} {currentStep} {translation?.t('of')} {formValues.isLouable ? 6 : 4}
                                                     </div>
                                                     <div className="relative pt-1">
                                                         <div
                                                             className="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
-                                                            <div style={{width: `${(currentStep / 6) * 100} % `}}
-                                                                 className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#3c50e0]"></div>
+                                                            <div
+                                                                style={{width: `${(currentStep / (formValues.isLouable ? 6 : 4)) * 100}%`}}
+                                                                className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#3c50e0]"></div>
                                                         </div>
                                                     </div>
                                                 </div>
