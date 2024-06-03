@@ -28,7 +28,7 @@ interface FormValues {
     etage: string;
     numeroDePorte: string;
     idTypeLogement: number | null;
-    isLouable: boolean; // Ajouté pour différencier Location et Conciergerie
+    isLouable: boolean;
 }
 
 interface OwnerType {
@@ -175,17 +175,19 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const validateStep = () => {
         switch (currentStep) {
             case 1:
-                return formValues.titre && selectedOwner;
+                return formValues.titre.trim() && selectedOwner;
             case 2:
-                return selectedCountry && formValues.ville && formValues.codePostal;
+                return selectedCountry && formValues.ville.trim() && formValues.codePostal.trim();
             case 3:
-                return formValues.adresse !== null && formValues.adresse !== '';
+                return formValues.adresse !== null && formValues.adresse.trim() !== '';
             case 4:
-                return formValues.isLouable ? (formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0) : formValues.description !== null && formValues.description !== '';
+                return formValues.isLouable ?
+                    (formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0)
+                    : formValues.description !== null && formValues.description.trim() !== '';
             case 5:
                 return formValues.capaciteMaxPersonne !== null && formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin !== null && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit !== null && formValues.prixParNuit > 0;
             case 6:
-                return formValues.description !== null && formValues.description !== '';
+                return formValues.description !== null && formValues.description.trim() !== '';
             default:
                 return false;
         }
@@ -202,7 +204,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                             </label>
                             <select
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                value={formValues.isLouable ? 'Location' : 'Conciergerie'}
+                                defaultValue={formValues.isLouable ? 'Location' : 'Conciergerie'}
                                 onChange={(e) => handleInputChange('isLouable', e.target.value === 'Location')}
                             >
                                 <option value="Location">{translation?.t('rental')}</option>
@@ -259,7 +261,8 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                             >
                                                 <CheckIcon
                                                     className="invisible size-5 fill-black group-data-[selected]:visible"/>
-                                                <div className="text-sm/6 text-black">{person.prenom} {person.nom}</div>
+                                                <div
+                                                    className="text-sm/6 text-black">{person.prenom} {person.nom}</div>
                                             </ComboboxOption>
                                         ))}
                                     </ComboboxOptions>
@@ -610,7 +613,8 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
                                     <div className="flex flex-col gap-9">
                                         <div className="rounded-sm border stroke-1 bg-white shadow">
-                                            <div className="border-b border-[#dee4ee] py-4 flex justify-between px-7">
+                                            <div
+                                                className="border-b border-[#dee4ee] py-4 flex justify-between px-7">
                                                 <h3 className="font-medium text-black">{translation?.t('form_add_housing')}</h3>
                                                 <button onClick={onClose} className="text-[#3c50e0] font-medium">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"

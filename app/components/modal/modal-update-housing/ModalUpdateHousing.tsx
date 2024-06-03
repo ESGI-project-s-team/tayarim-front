@@ -89,8 +89,30 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
     }, [setError]);
 
     const updateHousingInFun = async () => {
-        // Code to update housing goes here
-        console.log(formValues);
+        const requiredFieldsLouable: Array<keyof FormValues> = [
+            'titre', 'idProprietaire', 'ville', 'adresse', 'codePostal', 'pays', 'description', 'defaultCheckIn', 'defaultCheckOut', 'capaciteMaxPersonne', 'nombresNuitsMin', 'prixParNuit', 'nombresDeChambres', 'nombresDeLits', 'nombresSallesDeBains'
+        ];
+        const requiredFieldsConciergerie: Array<keyof FormValues> = [
+            'titre', 'idProprietaire', 'ville', 'adresse', 'codePostal', 'pays', 'description'
+        ];
+
+        const missingFields: Array<keyof FormValues> = [];
+
+        const fieldsToCheck = formValues.isLouable ? requiredFieldsLouable : requiredFieldsConciergerie;
+
+        fieldsToCheck.forEach(field => {
+            const value = formValues[field];
+            if (value === null || value === undefined || (typeof value === 'string' && !value.trim())) {
+                missingFields.push(field);
+            }
+        });
+
+        if (missingFields.length > 0) {
+            console.log('Missing fields:', missingFields);
+            return;
+        }
+
+        // Your code to update housing goes here
     };
 
     const filteredPeople = query === ''
@@ -560,23 +582,10 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
                                                          viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
                                                          className="size-6 mr-2">
                                                         <path strokeLinecap="round" strokeLinejoin="round"
-                                                              d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+                                                              d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0 .621.504 1.125 1.125 1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
                                                     </svg>
 
                                                     {translation?.t('general')}
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button onClick={() => setCurrentSection('pieces')}
-                                                        className={`w-full flex items-center text-left p-2 hover:bg-gray-100 rounded-lg ${currentSection === 'pieces' ? 'bg-gray-100 text-black border-2 border-[#3c50e0]' : 'text-black'}`}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
-                                                         className="size-6 mr-2">
-                                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                                              d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z"/>
-                                                    </svg>
-
-                                                    {translation?.t('pieces')}
                                                 </button>
                                             </li>
                                             <li>
@@ -591,7 +600,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
                                                               d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>
                                                     </svg>
 
-                                                    {translation?.t('adresse')}
+                                                    {translation?.t('location')}
                                                 </button>
                                             </li>
                                             <li>
@@ -600,7 +609,20 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
 
                                                         className={`w-full flex items-center text-left p-2 hover:bg-gray-100 rounded-lg   ${currentSection === 'detailsAdresse' ? 'bg-gray-100 text-black border-2 border-[#3c50e0]' : 'text-black'}`}>
                                                     <MagnifyingGlassIcon className="w-5 h-5 mr-2"/>
-                                                    {translation?.t('detailsAdresse')}
+                                                    {translation?.t('adresse')}
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button onClick={() => setCurrentSection('pieces')}
+                                                        className={`w-full flex items-center text-left p-2 hover:bg-gray-100 rounded-lg ${currentSection === 'pieces' ? 'bg-gray-100 text-black border-2 border-[#3c50e0]' : 'text-black'}`}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
+                                                         className="size-6 mr-2">
+                                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                                              d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z"/>
+                                                    </svg>
+
+                                                    {translation?.t('pieces')}
                                                 </button>
                                             </li>
                                             <li>
