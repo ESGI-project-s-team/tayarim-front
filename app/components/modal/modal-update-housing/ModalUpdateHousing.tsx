@@ -33,6 +33,7 @@ interface FormValues {
     etage: string;
     numeroDePorte: string;
     idTypeLogement: number | null;
+    isLouable: boolean;
 }
 
 interface OwnerType {
@@ -137,7 +138,8 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
         switch (currentSection) {
             case 'general':
                 return (
-                    <div className="mb-5 flex flex-col gap-6">
+                    <div className="mb-5 flex flex-col gap-7">
+
                         <div className="w-full">
                             <label className="mb-3 block text-sm font-medium text-black">
                                 {translation?.t('title_house')}
@@ -149,6 +151,19 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
                                 value={formValues.titre}
                                 onChange={(e) => handleInputChange('titre', e.target.value)}
                             />
+                        </div>
+                        <div className="w-full">
+                            <label className="mb-3 block text-sm font-medium text-black">
+                                {translation?.t('service')}
+                            </label>
+                            <select
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                value={formValues.isLouable ? 'Location' : 'Conciergerie'}
+                                onChange={(e) => handleInputChange('isLouable', e.target.value === 'Location')}
+                            >
+                                <option value="Location">{translation?.t('rental')}</option>
+                                <option value="Conciergerie">{translation?.t('concierge')}</option>
+                            </select>
                         </div>
                         <div className="w-full">
                             <label className="mb-3 block text-sm font-medium text-black">

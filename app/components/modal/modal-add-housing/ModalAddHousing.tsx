@@ -629,7 +629,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                                         <button
                                                             type="button"
                                                             onClick={handleBack}
-                                                            className="flex justify-center rounded  p-3 font-medium text-white bg-[#3c50e0] hover:bg-opacity-90"
+                                                            className="flex justify-center rounded  text-sm px-3 py-2 font-medium text-white bg-[#3c50e0] hover:bg-opacity-90"
                                                         >
                                                             {translation?.t('previous')}
                                                         </button>
@@ -639,7 +639,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                                             type="button"
                                                             onClick={handleNext}
                                                             disabled={!validateStep()}
-                                                            className={`flex justify-center rounded  p-3 font-medium text-white ${!validateStep() ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
+                                                            className={`flex justify-center rounded text-sm px-3 py-2 font-medium text-white ${!validateStep() ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
                                                         >
                                                             {translation?.t('next')}
                                                         </button>
@@ -649,7 +649,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                                             ref={focusElementRef}
                                                             onClick={createHousingInFun}
                                                             disabled={isLoading || !validateStep()}
-                                                            className={`flex justify-center rounded  p-3 font-medium text-white ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}
+                                                            className={`flex justify-center rounded  text-sm px-3 py-2 font-medium text-white ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}
                                                             ${!validateStep() ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}
                                                             `}
                                                         >
