@@ -95,25 +95,43 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
         const requiredFieldsConciergerie: Array<keyof FormValues> = [
             'titre', 'idProprietaire', 'ville', 'adresse', 'codePostal', 'pays', 'description'
         ];
+        const errorMessages: any = {
+            'titre': 'titreError',
+            'idProprietaire': 'idProprietaireError',
+            'ville': 'villeError',
+            'adresse': 'adresseError',
+            'codePostal': 'codePostalError',
+            'pays': 'paysError',
+            'description': 'descriptionError',
+            'defaultCheckIn': 'defaultCheckInError',
+            'defaultCheckOut': 'defaultCheckOutError',
+            'capaciteMaxPersonne': 'capaciteMaxPersonneError',
+            'nombresNuitsMin': 'nombresNuitsMinError',
+            'prixParNuit': 'prixParNuitError',
+            'nombresDeChambres': 'nombresDeChambresError',
+            'nombresDeLits': 'nombresDeLitsError',
+            'nombresSallesDeBains': 'nombresSallesDeBainsError'
+        };
 
-        const missingFields: Array<keyof FormValues> = [];
+        const missingFields: string[] = [];
 
         const fieldsToCheck = formValues.isLouable ? requiredFieldsLouable : requiredFieldsConciergerie;
 
         fieldsToCheck.forEach(field => {
             const value = formValues[field];
             if (value === null || value === undefined || (typeof value === 'string' && !value.trim())) {
-                missingFields.push(field);
+                missingFields.push(errorMessages[field]);
             }
         });
 
         if (missingFields.length > 0) {
-            console.log('Missing fields:', missingFields);
+            setError(missingFields);
             return;
         }
 
         // Your code to update housing goes here
     };
+
 
     const filteredPeople = query === ''
         ? owners
