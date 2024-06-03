@@ -75,7 +75,7 @@ export async function deleteHousing(id: string): Promise<any> {
         }
         return data;
     } catch (error: any) {
-        return {errors: error};
+        return {errors: ["error_occurred"]};
     }
 }
 

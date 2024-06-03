@@ -55,7 +55,7 @@ export async function logout(): Promise<any> {
         cookies().delete("refreshToken");
         return true;
     } catch (error: any) {
-        return {error: error.message};
+        return {errors: ["error_occurred"]};
     }
 
 }
@@ -124,7 +124,7 @@ async function isAdminByTokenInFun(token: string) {
         }
         return data;
     } catch (error: any) {
-        return {error: error.message};
+        return {errors: ["error_occurred"]};
     }
 }
 

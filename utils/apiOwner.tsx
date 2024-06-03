@@ -56,7 +56,7 @@ export async function updateOwner(credentials: any) {
             if (data.errors) {
                 return {errors: data.errors};
             }
-            return {errors: "error_occurred"};
+            return {errors: ["error_occurred"]};
         }
         return data;
     } catch (error: any) {
@@ -80,7 +80,7 @@ export async function getAllOwners(): Promise<any> {
             if (data.errors) {
                 return {errors: data.errors};
             }
-            return {errors: "error_occurred"};
+            return {errors: ["error_occurred"]};
         }
         return data;
     } catch (error: any) {
@@ -108,7 +108,7 @@ export async function getByIdOwner(id: string): Promise<any> {
             if (data.errors) {
                 return {errors: data.errors};
             }
-            return {errors: "error_occurred"};
+            return {errors: ["error_occurred"]};
         }
         return data;
     } catch (error: any) {
@@ -132,7 +132,7 @@ export async function deleteOwner(id: any) {
             if (data.errors) {
                 return {errors: data.errors};
             }
-            return {errors: "error_occurred"};
+            return {errors: ["error_occurred"]};
         }
         return data;
     } catch (error: any) {

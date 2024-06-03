@@ -7,7 +7,6 @@ import {
     CheckIcon,
     ChevronDownIcon,
     MagnifyingGlassIcon,
-    MapPinIcon,
     CalendarIcon
 } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
@@ -28,9 +27,7 @@ interface FormValues {
     defaultCheckOut: string;
     intervalReservation: number | null;
     ville: string;
-    rue: string;
-    numero: number | null;
-    suffixeNumero: string;
+    adresse: string;
     codePostal: string;
     pays: string;
     etage: string;
@@ -92,6 +89,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
 
     const updateHousingInFun = async () => {
         // Code to update housing goes here
+        console.log(formValues);
     };
 
     const filteredPeople = query === ''
@@ -166,7 +164,11 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
                         <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('choose_owner')}</label>
-                            <Combobox value={selectedOwner} onChange={(value: OwnerType) => {
+                            <Combobox value={
+                                selectedOwner
+                                    ? selectedOwner
+                                    : owners.find((person) => person.id === formValues.idProprietaire)
+                            } onChange={(value: OwnerType) => {
                                 setSelectedOwner(value);
                                 handleInputChange('idProprietaire', value?.id);
                             }}>
@@ -257,7 +259,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
                         <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('pays')}</label>
-                            <Combobox value={selectedCountry} onChange={(value: any) => {
+                            <Combobox value={formValues.pays} onChange={(value: any) => {
                                 setSelectedCountry(value?.label);
                                 handleInputChange('pays', value?.label);
                             }}>
@@ -326,40 +328,15 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
             case 'detailsAdresse':
                 return (
                     <div className="mb-5 flex flex-col gap-6">
-                        <div className="flex gap-4">
-                            <div className="w-1/4">
-                                <label
-                                    className="mb-3 block text-sm font-medium text-black">{translation?.t('numero')}</label>
-                                <input
-                                    placeholder={translation?.t('numero_placeholder')}
-                                    className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                    type="number"
-                                    min="1"
-                                    value={formValues.numero || ''}
-                                    onChange={(e) => handleInputChange('numero', parseInt(e.target.value))}
-                                />
-                            </div>
-                            <div className="w-3/4">
-                                <label
-                                    className="mb-3 block text-sm font-medium text-black">{translation?.t('rue')}</label>
-                                <input
-                                    placeholder={translation?.t('rue_placeholder')}
-                                    className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                    type="text"
-                                    value={formValues.rue}
-                                    onChange={(e) => handleInputChange('rue', e.target.value)}
-                                />
-                            </div>
-                        </div>
                         <div className="w-full">
                             <label
-                                className="mb-3 block text-sm font-medium text-black">{translation?.t('suffixe_numero')}</label>
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('adresse')}</label>
                             <input
-                                placeholder={translation?.t('suffixe_numero_placeholder')}
+                                placeholder={translation?.t('adresse_placeholder')}
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="text"
-                                value={formValues.suffixeNumero}
-                                onChange={(e) => handleInputChange('suffixeNumero', e.target.value)}
+                                value={formValues.adresse}
+                                onChange={(e) => handleInputChange('adresse', e.target.value)}
                             />
                         </div>
                         <div className="w-full">
