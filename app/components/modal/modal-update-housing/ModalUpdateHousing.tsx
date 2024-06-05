@@ -12,6 +12,7 @@ import {
 import clsx from 'clsx';
 import {getAllOwnerInFun} from "@/app/components/modal/modal-add-housing/action";
 import countryList from 'react-select-country-list';
+import {updateHousingInFun} from "@/app/components/modal/modal-update-housing/action";
 
 interface FormValues {
     titre: string;
@@ -43,10 +44,11 @@ interface OwnerType {
     email: string;
 }
 
-export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
+export default function ModalUpdateHousing({isOpen, onClose, housingData, getAllHousing}: {
     isOpen: boolean;
     onClose: () => void;
     housingData: any;
+    getAllHousing: any;
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
     const [formValues, setFormValues] = useState<FormValues>(housingData);
@@ -88,7 +90,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
         handleGetAllOwner().then();
     }, [setError]);
 
-    const updateHousingInFun = async () => {
+    const updateHousing = async () => {
         const requiredFieldsLouable: Array<keyof FormValues> = [
             'titre', 'idProprietaire', 'ville', 'adresse', 'codePostal', 'pays', 'description', 'defaultCheckIn', 'defaultCheckOut', 'capaciteMaxPersonne', 'nombresNuitsMin', 'prixParNuit', 'nombresDeChambres', 'nombresDeLits', 'nombresSallesDeBains'
         ];
@@ -128,8 +130,22 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
             setError(missingFields);
             return;
         }
-
+        formValues.idTypeLogement = 1;
+        formValues.intervalReservation = 1;
+        setLoading(true);
         // Your code to update housing goes here
+        await updateHousingInFun(formValues).then(
+            async (response) => {
+                if (response.errors) {
+                    setError(response.errors);
+                } else {
+                    await getAllHousing();
+                    setSuccess('success');
+                    onClose();
+                }
+                setLoading(false);
+            }
+        );
     };
 
 
@@ -659,7 +675,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData}: {
                                             <button
                                                 type="button"
                                                 ref={focusElementRef}
-                                                onClick={updateHousingInFun}
+                                                onClick={updateHousing}
                                                 disabled={isLoading}
                                                 className={`flex justify-center rounded  p-3 font-medium text-white ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
                                             >

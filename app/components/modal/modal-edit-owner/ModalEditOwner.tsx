@@ -195,12 +195,6 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                                         onChange={(e) => handleInputChange('commission', e.target.value)} // Add onChange handler
                                                     />
                                                 </div>
-                                                <div className="mb-5">
-                                                    <label
-                                                        className="mb-3 block text-sm font-medium text-black">
-                                                        {translation?.t('house')}</label>
-                                                    <MultiSelectListbox/>
-                                                </div>
                                                 {isLoading ? <div className="flex justify-center">
                                                     <SpinnerUI/>
                                                 </div> : <button

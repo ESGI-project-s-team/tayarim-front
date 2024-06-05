@@ -148,7 +148,11 @@ const ListHousings: React.FC = () => {
                                     <p className="text-sm text-black">{house.adresse}</p>
                                 </div>
                                 <div className="col-span-2 items-center">
-                                    <p className="text-sm text-black ml-2">{house.prixParNuit} €</p>
+                                    {house.prixParNuit ?
+                                        <p className="text-sm text-black ml-2">{house.prixParNuit} €</p>
+                                        :
+                                        <p className="text-sm text-gray-400 ml-7">/</p>
+                                    }
                                 </div>
                                 <div
                                     className="col-span-2  items-center flex-col text-[#3c50e0] hover:underline cursor-pointer">
@@ -201,7 +205,8 @@ const ListHousings: React.FC = () => {
             }
             {
                 isOpenEdit &&
-                <ModalUpdateHousing isOpen={isOpenEdit} onClose={closeModal} housingData={allHousing}/>
+                <ModalUpdateHousing isOpen={isOpenEdit} onClose={closeModal} housingData={allHousing}
+                                    getAllHousing={getAllHousingFun}/>
             }
             {
                 isOpenDelete &&
