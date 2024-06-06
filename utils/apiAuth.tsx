@@ -29,7 +29,7 @@ export async function login(credentials: any) {
         cookies().set("refreshToken", refreshToken);
         return {...data, userID};
     } catch (error: any) {
-        return {error: error.message};
+        return {errors: ["error_occurred"]};
     }
 }
 

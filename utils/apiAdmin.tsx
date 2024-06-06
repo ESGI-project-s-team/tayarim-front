@@ -28,7 +28,7 @@ export async function updateAdmin(credentials: any) {
         }
         return data;
     } catch (error: any) {
-        return {errors: error};
+        return {errors: ["error_occurred"]};
     }
 }
 
