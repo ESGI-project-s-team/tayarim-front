@@ -3,7 +3,7 @@ import {Dialog, Transition} from '@headlessui/react';
 import {
     useAdminContext,
     useIsErrorContext,
-    useLoaderContext, useSuccessContext,
+    useSuccessContext,
     useTranslationContext,
     useUserInfoContext
 } from "@/app/[lng]/hooks";
@@ -73,6 +73,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                 updateAdminInFun(formValues).then((response) => {
                     if (response.errors) {
                         setError(response.errors)
+                        setFormValues({...userInfos})
                     } else {
                         setSuccess(true)
                         setIsAdmin(response.admin)
@@ -163,7 +164,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                                                             {translation?.t('form_firstname')}
                                                         </label>
                                                         <input
-                                                            placeholder="Enter your first name"
+                                                            placeholder={translation?.t('first_name_placeholder_form')}
                                                             className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 outline-none transition"
                                                             type="text"
                                                             value={formValues?.prenom}
@@ -176,7 +177,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                                                             className="mb-3 block text-sm font-medium text-black">
                                                             {translation?.t('form_lastname')}</label>
                                                         <input
-                                                            placeholder="Enter your last name"
+                                                            placeholder={translation?.t('last_name_placeholder_form')}
                                                             value={formValues?.nom}
                                                             className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                             type="text"
@@ -189,7 +190,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                                                     <label
                                                         className="mb-3 block text-sm font-medium text-black">Email</label>
                                                     <input
-                                                        placeholder="Enter your email address"
+                                                        placeholder={translation?.t('email_placeholder_form')}
                                                         value={formValues?.email}
                                                         className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                         type="email"
@@ -203,7 +204,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                                                         {translation?.t('phone')}
                                                     </label>
                                                     <input
-                                                        placeholder="Enter your phone number"
+                                                        placeholder={translation?.t('phone_placeholder_form')}
                                                         value={formValues?.numTel}
                                                         className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                         type="text"
@@ -220,7 +221,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                                                             description={translation?.t('password_requirements')}/>
                                                     </div>
                                                     <input
-                                                        placeholder="Enter your new password"
+                                                        placeholder={translation?.t('password_placeholder_form')}
                                                         className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                         type={showPassword ? "text" : "password"}
                                                         onChange={(e) => handleInputChange('motDePasse', e.target.value)} // Add onChange handler

@@ -4,6 +4,7 @@ import {cookies} from "next/headers";
 
 const loginUrl = `${BACKEND_API}/auth/login`
 const checkTokenUrl = `${BACKEND_API}/auth`
+const checkRefreshTokenUrl = `${BACKEND_API}/auth/refresh`
 const logoutUrl = `${BACKEND_API}/auth/logout`
 
 export async function login(credentials: any) {
@@ -22,8 +23,10 @@ export async function login(credentials: any) {
             }
         }
         const userID = data.id;
-        const token = data.token;
+        const token = data.accessToken;
+        const refreshToken = data.refreshToken;
         cookies().set("token", token);
+        cookies().set("refreshToken", refreshToken);
         return {...data, userID};
     } catch (error: any) {
         return {error: error.message};
@@ -49,37 +52,62 @@ export async function logout(): Promise<any> {
 
         }
         cookies().delete("token");
+        cookies().delete("refreshToken");
         return true;
     } catch (error: any) {
-        return {error: error.message};
+        return {errors: ["error_occurred"]};
     }
 
 }
 
-export async function checkToken() {
-    const token = cookies().get("token")?.value;
-    if (!token) {
-        return false;
-    }
+async function refreshToken(token: string) {
     try {
-        const response = await fetch(checkTokenUrl, {
-            method: "GET",
+        const response = await fetch(checkRefreshTokenUrl, {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
+            body: JSON.stringify({refreshToken: token}),
         });
-        return response.json();
+        const data = await response.json();
+        if (!response.ok) {
+            return false
+        }
+        return data;
     } catch (error: any) {
         return false;
     }
 }
 
 export async function isAdminByToken() {
-    const token = cookies().get("token")?.value;
-    if (!token) {
+    let token = cookies().get("token")?.value;
+    if (token === undefined || token === null) {
         return false;
     }
+    return await isAdminByTokenInFun(token).then(
+        async (responseToken) => {
+            if (responseToken.error) {
+                token = cookies().get("refreshToken")?.value;
+                if (token === undefined || token === null) {
+                    return false;
+                }
+                return await refreshToken(token).then(
+                    async (responseRefreshToken) => {
+                        if (!responseRefreshToken) {
+                            return false;
+                        }
+                        if (responseRefreshToken.accessToken) {
+                            cookies().set("token", responseRefreshToken.accessToken);
+                            return responseRefreshToken;
+                        }
+                    }
+                );
+            }
+            return responseToken;
+        });
+}
+
+async function isAdminByTokenInFun(token: string) {
     try {
         const response = await fetch(checkTokenUrl, {
             method: "GET",
@@ -96,7 +124,7 @@ export async function isAdminByToken() {
         }
         return data;
     } catch (error: any) {
-        return false;
+        return {errors: ["error_occurred"]};
     }
 }
 

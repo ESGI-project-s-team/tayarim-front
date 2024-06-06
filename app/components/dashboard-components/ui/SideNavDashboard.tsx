@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useAdminContext, useIsOpenSideBarContext, useTranslationContext} from "@/app/[lng]/hooks";
 import {getIconManagement, getIconMenu, getIconOthers} from "@/app/icon-export";
-import {getHrefManagement} from "@/app/href-export";
+import {getHrefManagement, getHrefMenu, getHrefOthers} from "@/app/href-export";
 
 const SideNavDashboard: React.FC = () => {
     const {isOpenSideBar, setIsOpenSideBar} = useIsOpenSideBarContext();
@@ -59,7 +59,7 @@ const SideNavDashboard: React.FC = () => {
                             {menu_sidenav.map((page: string, index: number) => (
                                 <li key={index}><a
                                     className=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-[#2b334a]"
-                                    href="">
+                                    href={getHrefMenu(index)}>
                                     {getIconMenu(index)}
                                     {page}
                                 </a>
@@ -90,7 +90,7 @@ const SideNavDashboard: React.FC = () => {
                             {others_sidenav.map((page: string, index: number) => (
                                 <li key={index}><a
                                     className=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-[#2b334a]"
-                                    href="">
+                                    href={getHrefOthers(index)}>
                                     {getIconOthers(index)}
                                     {page}
                                 </a>

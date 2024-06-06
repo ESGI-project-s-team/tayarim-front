@@ -11,7 +11,7 @@
     "start:test": "next start"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.18",
+    "@headlessui/react": "^2.0.4",
     "@heroicons/react": "^2.1.1",
     "accept-language": "^3.0.18",
     "i18next": "^23.10.1",
@@ -20,7 +20,9 @@
     "react": "^18",
     "react-datepicker": "^6.6.0",
     "react-dom": "^18",
-    "react-i18next": "^14.1.0"
+    "react-i18next": "^14.1.0",
+    "react-select-country-list": "^2.2.3",
+    "react-weekview": "^0.0.12"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
@@ -28,6 +30,7 @@
     "@types/react": "^18",
     "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^18",
+    "@types/react-select-country-list": "^2.2.3",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.3",

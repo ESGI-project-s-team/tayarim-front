@@ -34,6 +34,10 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
         const emailValid = emailRegex.test(formValues.email);
         const phoneValid = phoneRegex.test(formValues.numTel);
 
+        if (formValues.commission < 0 || formValues.commission > 100) {
+            setButtonDisabled(true)
+            return
+        }
         setButtonDisabled(!(emailValid && phoneValid));
     }, [formValues]);
 
@@ -55,6 +59,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
             updateOwnerInFun(formValues).then((response) => {
                 if (response.errors) {
                     setError(response.errors)
+                    setFormValues({...ownerDetails})
                 } else {
                     getAllOwners()
                     setError(null)
@@ -124,7 +129,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                                             {translation?.t('form_firstname')}
                                                         </label>
                                                         <input
-                                                            placeholder="Enter your first name"
+                                                            placeholder={translation?.t('first_name_placeholder_form')}
                                                             className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 outline-none transition"
                                                             type="text"
                                                             required={true}
@@ -139,7 +144,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                                             {translation?.t('form_lastname')}</label>
                                                         <input
                                                             required={true}
-                                                            placeholder="Enter your last name"
+                                                            placeholder={translation?.t('last_name_placeholder_form')}
                                                             className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                             type="text"
                                                             value={formValues.nom}
@@ -153,7 +158,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                                         className="mb-3 block text-sm font-medium text-black">Email</label>
                                                     <input
                                                         required={true}
-                                                        placeholder="Enter your email address"
+                                                        placeholder={translation?.t('email_placeholder_form')}
                                                         className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                         type="email"
                                                         value={formValues.email}
@@ -168,7 +173,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                                     </label>
                                                     <input
                                                         required={true}
-                                                        placeholder="Enter your phone number"
+                                                        placeholder={translation?.t('phone_placeholder_form')}
                                                         className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                                         type="text"
                                                         value={formValues.numTel}
@@ -179,8 +184,16 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                                 <div className="mb-5">
                                                     <label
                                                         className="mb-3 block text-sm font-medium text-black">
-                                                        {translation?.t('house')}</label>
-                                                    <MultiSelectListbox/>
+                                                        Commission
+                                                    </label>
+                                                    <input
+                                                        required={true}
+                                                        placeholder={translation?.t('phone_placeholder_form')}
+                                                        className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                                        type="number"
+                                                        value={formValues.commission}
+                                                        onChange={(e) => handleInputChange('commission', e.target.value)} // Add onChange handler
+                                                    />
                                                 </div>
                                                 {isLoading ? <div className="flex justify-center">
                                                     <SpinnerUI/>

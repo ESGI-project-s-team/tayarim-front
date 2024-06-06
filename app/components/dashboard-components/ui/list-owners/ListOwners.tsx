@@ -6,12 +6,15 @@ import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
 import ModalCreateOwner from "@/app/components/modal/modal-create-owner/ModalCreateOwner";
 import {useRouter} from "next/navigation";
 import {getAllOwners} from "@/utils/apiOwner";
+import ModalInfoHousing from "@/app/components/modal/modal-info-housing/ModalInfoHousing";
 
 
 const ListOwners: React.FC = () => {
+    const [ownerHousing, setOwnerHousing] = useState([] as any);
     const [owners, setOwners] = React.useState([]);
     const [isOpenEdit, setIsOpenEdit] = useState(false)
     const [isOpenDelete, setIsOpenDelete] = useState(false)
+    const [isOpenInfoHousing, setIsOpenInfoHousing] = useState(false)
     const [isOpenCreate, setIsOpenCreate] = useState(false)
     const [ownerDetails, setOwnerDetails] = useState({} as ProprietaireDTO)
     const {setError} = useIsErrorContext();
@@ -28,10 +31,16 @@ const ListOwners: React.FC = () => {
         setIsOpenDelete(true)
     }
 
+    function openModalInfoHousing(housingDetails: any) {
+        setIsOpenInfoHousing(true)
+        setOwnerHousing(housingDetails)
+    }
+
     function closeModal() {
         setIsOpenEdit(false)
         setIsOpenDelete(false)
         setIsOpenCreate(false)
+        setIsOpenInfoHousing(false)
     }
 
     const getAllOwnersInFun = useCallback(() => {
@@ -52,7 +61,7 @@ const ListOwners: React.FC = () => {
     }, [getAllOwnersInFun]);
 
     return (
-        <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0  ">
+        <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0">
             <div className="relative top-32 w-full flex justify-end mb-2 ">
                 <button
                     onClick={() => setIsOpenCreate(true)}
@@ -84,16 +93,19 @@ const ListOwners: React.FC = () => {
                             <div className="col-span-2  items-center ">
                                 <p className="font-medium">{translation?.t('house')}</p>
                             </div>
+                            <div className="col-span-2  items-center ">
+                                <p className="font-medium">Commission</p>
+                            </div>
                         </div>
                         {owners.map((owner: any, index: number) => (
                             <div
                                 className="grid  border-t  py-4 grid-cols-12 px-5 "
                                 key={index}>
-                                <div className="col-span-2  items-center">
+                                <div className="col-span-2 items-center flex max-w-36 overflow-auto no-scrollbar">
                                     <div className="flex gap-4 flex-row items-center">
                                         <p className="text-sm text-black">{owner.prenom} {owner.nom}</p></div>
                                 </div>
-                                <div className="col-span-2 items-center flex max-w-52 overflow-auto no-scrollbar">
+                                <div className="col-span-2 items-center flex max-w-36 overflow-auto no-scrollbar">
                                     <p className="text-sm text-black ">{owner.email}</p>
                                 </div>
                                 <div className="col-span-2 flex items-center"><p
@@ -101,23 +113,22 @@ const ListOwners: React.FC = () => {
                                 </div>
                                 {owner.logements.length > 0 ?
                                     <div
-                                        className="col-span-2  items-center flex-col text-[#3c50e0] hover:underline cursor-pointer">
-                                        {owner.logements.map((logement: any, index: number) => (
-                                            <p className="text-sm" key={index}>House {logement.id}</p>
-                                        ))}
+                                        className="col-span-2  items-center flex-col text-[#3c50e0] hover:underline cursor-pointer
+                                           max-w-36 overflow-auto no-scrollbar">
+                                        <p className="text-sm " key={index}
+                                           onClick={() => openModalInfoHousing(owner.logements)}>{owner.logements.length} {translation?.t('house')}{owner.logements.length > 1 ? 's' : ''}  </p>
                                     </div>
                                     :
-                                    <div className="col-span-2  items-center ml-3 flex cursor-pointer ">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             strokeWidth="1.5"
-                                             stroke="currentColor" className="w-6 h-6 text-[#3c50e0]">
-                                            <path strokeLinecap="round" strokeLinejoin="round"
-                                                  d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
+                                    <div
+                                        className="col-span-2 items-center text-gray-400 ml-7">
+                                        <p className="text-sm ">/</p>
                                     </div>
                                 }
+                                <div className="col-span-2 flex items-center ml-5 "><p
+                                    className="text-sm text-black">{owner.commission}%</p>
+                                </div>
                                 <div
-                                    className="col-span-2  items-center flex text-sm text-[#3c50e0] hover:underline cursor-pointer"
+                                    className="col-span-1 items-center flex text-sm text-[#3c50e0] hover:underline cursor-pointer"
                                     onClick={() =>
                                         openModalEdit({
                                             id: owner.id,
@@ -127,6 +138,7 @@ const ListOwners: React.FC = () => {
                                             numTel: owner.numTel,
                                             dateInscription: owner.dateInscription,
                                             logements: owner.logements,
+                                            commission: owner.commission
                                         })
                                     }
                                 >
@@ -139,7 +151,7 @@ const ListOwners: React.FC = () => {
                                     </svg>
                                 </div>
                                 <div
-                                    className="col-span-2  items-center flex text-sm text-red-600 hover:underline cursor-pointer"
+                                    className="col-span-1  items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10 "
                                     onClick={() =>
                                         openModalDelete(
                                             {
@@ -150,6 +162,7 @@ const ListOwners: React.FC = () => {
                                                 numTel: owner.numTel,
                                                 dateInscription: owner.dateInscription,
                                                 logements: owner.logements,
+                                                commission: owner.commission
                                             }
                                         )
                                     }
@@ -178,6 +191,10 @@ const ListOwners: React.FC = () => {
                 <ModalDeleteOwner isOpen={isOpenDelete} onClose={closeModal} id={ownerDetails.id.toString()
                 } getAllOwners={getAllOwnersInFun}/>
             }
+            {isOpenInfoHousing &&
+                <ModalInfoHousing isOpen={isOpenInfoHousing} onClose={closeModal} housings={ownerHousing}/>
+            }
+
         </div>
     );
 };

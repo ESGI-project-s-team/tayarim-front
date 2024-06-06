@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
-import {checkTokenInFun, checkTokenInFunIsAdmin} from "@/app/components/ui/signin/action";
+import {checkTokenInFunIsAdmin} from "@/app/components/ui/signin/action";
 import {useRouter} from "next/navigation";
-import ListOwners from "@/app/components/dashboard-components/ui/list-owners/ListOwners";
+import ListHousings from "@/app/components/dashboard-components/ui/list-housings/ListHousings";
 
-const OwnerManagement: React.FC = () => {
+const HousingManagement: React.FC = () => {
     const router = useRouter()
     useEffect(
         () => {
@@ -18,9 +18,9 @@ const OwnerManagement: React.FC = () => {
     )
     return (
         <>
-            <ListOwners/>
+            <ListHousings/>
         </>
     );
 };
 
-export default OwnerManagement;
+export default HousingManagement;

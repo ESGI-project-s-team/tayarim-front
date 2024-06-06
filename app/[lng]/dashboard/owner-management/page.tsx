@@ -3,9 +3,8 @@ import "../../../globals.css"
 import SideNavDashboard from "@/app/components/dashboard-components/ui/SideNavDashboard";
 import NavBarDashboard from "@/app/components/dashboard-components/ui/NavBarDashboard";
 import {NotificationContext, IsOpenSideBarContext} from "@/app/[lng]/contexts";
-import {useEffect, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 import OwnerManagement from "@/app/components/dashboard-components/OwnerManagement";
-import {useAdminContext} from "@/app/[lng]/hooks";
 
 export default function Page() {
     const itemsAll = useMemo(() => [
