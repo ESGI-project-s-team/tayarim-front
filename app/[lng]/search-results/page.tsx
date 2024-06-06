@@ -4,6 +4,7 @@ import {IsOpenSideBarContext} from "@/app/[lng]/contexts";
 import SideNavBarSerch from "@/app/components/search-results-components/ui/SideNavBarSerch";
 import NavBarSearch from "@/app/components/search-results-components/ui/NavBarSearch";
 import SearchRoomReservation from "@/app/components/ui/SearchRoomReservation";
+import ListResultsHousing from "@/app/components/search-results-components/ui/ListResultsHousing";
 
 
 export default function Page() {
@@ -13,8 +14,9 @@ export default function Page() {
             <IsOpenSideBarContext.Provider value={{isOpenSideBar, setIsOpenSideBar}}>
                 <NavBarSearch/>
                 <SideNavBarSerch/>
-                <div className="lg:ml-80 mt-32">
+                <div className="lg:ml-80 mt-32 ml-16">
                     <SearchRoomReservation/>
+                    <ListResultsHousing/>
                 </div>
             </IsOpenSideBarContext.Provider>
         </div>

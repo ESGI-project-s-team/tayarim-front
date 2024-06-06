@@ -1,6 +1,7 @@
 import {BACKEND_API} from "@/utils/constants";
 import {cookies} from "next/headers";
 
+
 const updateAdminUrl = `${BACKEND_API}/admin`
 
 
@@ -23,11 +24,11 @@ export async function updateAdmin(credentials: any) {
             if (data.errors) {
                 return {errors: data.errors};
             }
-            return {errors: "error_occurred"};
+            return {errors: ["error_occurred"]};
         }
         return data;
     } catch (error: any) {
-        return {errors: error};
+        return {errors: ["error_occurred"]};
     }
 }
 

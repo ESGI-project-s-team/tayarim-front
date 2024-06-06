@@ -3,23 +3,46 @@ import {BACKEND_API} from "@/utils/constants";
 import {cookies} from "next/headers";
 
 
-const getAllOwnersUrl = `${BACKEND_API}/proprietaires`
-const createOwnerUrl = `${BACKEND_API}/proprietaires`
-const getByIdOwnerUrl = `${BACKEND_API}/proprietaires`
-const updateOwnerUrl = `${BACKEND_API}/proprietaires`
-const deleteOwnerUrl = `${BACKEND_API}/proprietaires`
+const getAllHousingUrl = `${BACKEND_API}/logements`
+const createHousingUrl = `${BACKEND_API}/logements`
+const deleteHousingUrl = `${BACKEND_API}/logements`
+const updateHousingUrl = `${BACKEND_API}/logements`
 
-export async function createOwner(credentials: any) {
+
+export async function getAllHousing(): Promise<any> {
     const token = cookies().get("token")?.value;
-
     try {
-        const response: any = await fetch(createOwnerUrl, {
+        const response = await fetch(getAllHousingUrl, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: "error_occurred"};
+        }
+        return data;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
+
+export async function createHousing(body: any): Promise<any> {
+    const token = cookies().get("token")?.value;
+    try {
+        const response = await fetch(createHousingUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(credentials),
+            body: JSON.stringify(body),
         });
         const data = await response.json();
         if (!response.ok) {
@@ -34,98 +57,39 @@ export async function createOwner(credentials: any) {
     }
 }
 
-export async function updateOwner(credentials: any) {
-    const token = cookies().get("token")?.value;
-    const id = credentials.id.toString();
-    //remove logements from credentials
-    //TODO DO NOT DELETE LOGEMENTS
-    if (credentials.logements)
-        delete credentials.logements;
-    let url = updateOwnerUrl + "/" + id;
-    try {
-        const response = await fetch(url, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(credentials),
-        });
-        const data = await response.json();
-        if (!response.ok) {
-            if (data.errors) {
-                return {errors: data.errors};
-            }
-            return {errors: ["error_occurred"]};
-        }
-        return data;
-    } catch (error: any) {
-        return {errors: ["error_occurred"]};
-    }
-}
-
-export async function getAllOwners(): Promise<any> {
+export async function deleteHousing(id: string): Promise<any> {
     const token = cookies().get("token")?.value;
     try {
-        const response = await fetch(getAllOwnersUrl + "?logement=true", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        const data = await response.json();
-
-        if (!response.ok) {
-            if (data.errors) {
-                return {errors: data.errors};
-            }
-            return {errors: ["error_occurred"]};
-        }
-        return data;
-    } catch (error: any) {
-        return {errors: ["error_occurred"]};
-    }
-
-}
-
-export async function getByIdOwner(id: string): Promise<any> {
-    const token = cookies().get("token")?.value;
-    if (!token) {
-        return false;
-    }
-    const url = getByIdOwnerUrl + "/" + id;
-    try {
-        const response = await fetch(url, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        const data = await response.json();
-        if (!response.ok) {
-            if (data.errors) {
-                return {errors: data.errors};
-            }
-            return {errors: ["error_occurred"]};
-        }
-        return data;
-    } catch (error: any) {
-        return false;
-    }
-}
-
-export async function deleteOwner(id: any) {
-    const token = cookies().get("token")?.value;
-    const url = deleteOwnerUrl + "/" + id.id;
-    try {
-        const response = await fetch(url, {
+        const response = await fetch(`${deleteHousingUrl}/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: ["error_occurred"]};
+        }
+        return data;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
+
+export async function updateHousing(body: any): Promise<any> {
+    const token = cookies().get("token")?.value;
+    try {
+        const response = await fetch(`${updateHousingUrl}/${body.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(body),
         });
         const data = await response.json();
         if (!response.ok) {

@@ -1,14 +1,13 @@
 import {NextResponse} from 'next/server'
 import acceptLanguage from 'accept-language'
 import {fallbackLng, languages, cookieName} from './app/il8n/settings'
-import {checkToken} from "./utils/apiAuth";
+
 
 acceptLanguage.languages(languages)
 
 export const config = {
     matcher: "/((?!api|static|.*\\..*|_next).*)",
 };
-const protectedRoutes = ['/dashboard']
 
 export async function middleware(req) {
 
@@ -41,18 +40,6 @@ export async function middleware(req) {
     }
     // Get the token from the cookie and check the routes
     //remove ${lng} of the path
-    const pathname = req.nextUrl.pathname
-    const path = pathname
-        .replace(`/${lng}`, '')
-        .replace(/\/$/, '')
-    const isProtectedRoute = protectedRoutes.includes(`${path}`)
-    if (isProtectedRoute) {
-        return await checkToken().then((response) => {
-            if (response === false) {
-                return NextResponse.redirect(new URL('/owner-connection', req.nextUrl))
-            }
-        })
-    }
 
     return NextResponse.next()
 }

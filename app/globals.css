@@ -8,6 +8,11 @@
 
 @layer utilities {
 
+
+    .grid-cols-25 {
+        grid-template-columns: repeat(25, minmax(0, 1fr));
+    }
+
     .tooltip {
         @apply invisible absolute;
     }
@@ -19,11 +24,13 @@
     .no-scrollbar::-webkit-scrollbar {
         display: none;
     }
+
     /* Hide scrollbar for IE, Edge and Firefox */
     .no-scrollbar {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
     }
+
     .bg-custom {
         background-color: rgba(255, 255, 255, 0.8);
     }

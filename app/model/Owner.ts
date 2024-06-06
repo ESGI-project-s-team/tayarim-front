@@ -4,6 +4,7 @@ export interface ProprietaireDTO {
     prenom: string;
     email: string;
     numTel: string;
+    commission: number;
     dateInscription: string;
     logements: any[];
 }

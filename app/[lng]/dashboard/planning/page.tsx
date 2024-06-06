@@ -1,5 +1,5 @@
 "use client";
-import "../../globals.css"
+import "../../../globals.css"
 import SideNavDashboard from "@/app/components/dashboard-components/ui/SideNavDashboard";
 import HomeDashboard from "@/app/components/dashboard-components/HomeDashboard";
 import NavBarDashboard from "@/app/components/dashboard-components/ui/NavBarDashboard";
@@ -8,6 +8,7 @@ import {useEffect, useMemo, useState} from "react";
 import {useRouter} from 'next/navigation';
 import {checkTokenInFun} from "@/app/components/ui/signin/action";
 import Loader from "@/app/components/ui/Loader";
+import PlanningDashboard from "@/app/components/dashboard-components/PlanningDashboard";
 
 export default function Page() {
     const itemsAll = useMemo(() => [
@@ -64,7 +65,7 @@ export default function Page() {
                                 <NavBarDashboard/>
                             </NotificationContext.Provider>
                             <SideNavDashboard/>
-                            <HomeDashboard/>
+                            <PlanningDashboard/>
                         </IsOpenSideBarContext.Provider>
                     </div>
             }
