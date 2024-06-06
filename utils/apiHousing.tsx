@@ -29,7 +29,7 @@ export async function getAllHousing(): Promise<any> {
         }
         return data;
     } catch (error: any) {
-        return {errors: error};
+        return {errors: ["error_occurred"]};
     }
 }
 
@@ -53,7 +53,7 @@ export async function createHousing(body: any): Promise<any> {
         }
         return data;
     } catch (error: any) {
-        return {errors: error};
+        return {errors: ["error_occurred"]};
     }
 }
 

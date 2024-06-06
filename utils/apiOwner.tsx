@@ -30,7 +30,7 @@ export async function createOwner(credentials: any) {
         }
         return data;
     } catch (error: any) {
-        return Promise.reject(Error(error));
+        return {errors: ["error_occurred"]};
     }
 }
 
@@ -60,7 +60,7 @@ export async function updateOwner(credentials: any) {
         }
         return data;
     } catch (error: any) {
-        return {errors: error};
+        return {errors: ["error_occurred"]};
     }
 }
 
@@ -84,7 +84,7 @@ export async function getAllOwners(): Promise<any> {
         }
         return data;
     } catch (error: any) {
-        return {errors: error};
+        return {errors: ["error_occurred"]};
     }
 
 }
@@ -136,7 +136,7 @@ export async function deleteOwner(id: any) {
         }
         return data;
     } catch (error: any) {
-        return {errors: error};
+        return {errors: ["error_occurred"]};
     }
 }
 
