@@ -9,6 +9,7 @@ import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
 import ModalCalendar from "@/app/components/modal/modal-calendar-housing/ModalCalendar";
 import {getAllHousing} from "@/utils/apiHousing";
 import {getAllHousingInFun} from "@/app/components/dashboard-components/ui/planning/action";
+import SpinnerDashboard from "@/app/components/ui/SpinnerDashboard";
 
 const PlanningDashboard: React.FC = () => {
     const router = useRouter();
@@ -207,10 +208,7 @@ const PlanningDashboard: React.FC = () => {
                                         </div>
                                     </div>
                                     :
-                                    <div className="flex justify-center items-center h-96">
-                                        <div
-                                            className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-[#3b82f6]"></div>
-                                    </div>
+                                    <SpinnerDashboard/>
                             }
                         </div>
                     </div>

@@ -13,9 +13,9 @@ import ShowPasswordEye from "@/app/components/ui/ShowPasswordEye";
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
     const [isLoading, setLoading] = useState(false)
-    const {setIsAdmin} = useAdminContext();
+    // const {setIsAdmin} = useAdminContext();
     const {setError} = useIsErrorContext();
-    const {setUserInfos} = useUserInfoContext();
+    //const {setUserInfos} = useUserInfoContext();
     const router = useRouter()
 
     useEffect(
@@ -61,8 +61,8 @@ const FormConnection: React.FC = () => {
                         localStorage.setItem("prenom", user.prenom)
                         localStorage.setItem("email", user.email)
                         localStorage.setItem("numTel", user.numTel)
-                        setUserInfos(user);
-                        setIsAdmin(response.admin)
+                        //setUserInfos(user);
+                        // setIsAdmin(response.admin)
                         if (response.isPasswordUpdated === true) {
                             router.push("/dashboard")
                         } else {
