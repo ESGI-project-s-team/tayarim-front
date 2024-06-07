@@ -1,30 +1,89 @@
 import React from 'react';
 import {useTranslationContext} from "@/app/[lng]/hooks";
+import {PiBathtub} from "react-icons/pi";
+import {HiOutlineUserGroup} from "react-icons/hi";
+import {LiaBedSolid} from "react-icons/lia";
+import {MdOutlineHomeWork} from "react-icons/md";
 
 const ListResultsHousing: React.FC = () => {
     const housing = [
         {
-            id: 1,
-            title: "Housing 1",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            price: 100,
-            image: "https://via.placeholder.com/150"
+            "image": "https://web-api.maveriks.com/image/company/7b24d8d8-9347-4a83-8dbc-b260549a4f5e/unit/002883f1-7b9e-4de6-b05f-4a3cdaec4b6e/ba17bde0-eee0-11ee-a1c6-67fad5491db5.jpg?w=1920",
+            "id": 1,
+            "titre": "Jolies petit endroit",
+            "idProprietaire": 1,
+            "isLouable": false,
+            "nombresDeChambres": 1,
+            "nombresDeLits": 1,
+            "nombresSallesDeBains": 1,
+            "capaciteMaxPersonne": 1,
+            "nombresNuitsMin": 6,
+            "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n" +
+                "\n" +
+                "Why do we use it?\n" +
+                "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+            "note": 2.5,
+            "prixParNuit": 100,
+            "defaultCheckIn": "07:00",
+            "defaultCheckOut": "08:00",
+            "adresseComplete": "85 rue de la république, Etampes, 91150, France",
+            "adresse": "85 rue de la république",
+            "ville": "Etampes",
+            "codePostal": "91150",
+            "pays": "France",
+            "etage": "1",
+            "numeroDePorte": "1",
+            "typeLogement": "Appartement"
         },
         {
-            id: 2,
-            title: "Housing 2",
-            description: "bla bla Description 2",
-            price: 200,
-            image: "https://via.placeholder.com/150"
+            "image": "https://web-api.maveriks.com/image/company/7b24d8d8-9347-4a83-8dbc-b260549a4f5e/unit/0034cd6c-f355-4bbd-b673-5e3d44c44607/fcd3d270-eee0-11ee-88b9-c9790903585d.jpg?w=1920",
+            "id": 4,
+            "titre": "fze",
+            "idProprietaire": 1,
+            "isLouable": false,
+            "nombresDeChambres": null,
+            "nombresDeLits": null,
+            "nombresSallesDeBains": null,
+            "capaciteMaxPersonne": null,
+            "nombresNuitsMin": null,
+            "description": "fzezfe",
+            "prixParNuit": 160,
+            "defaultCheckIn": "07:00",
+            "defaultCheckOut": "08:00",
+            "adresseComplete": "85 rue de la république, Etampes, 91150, France",
+            "adresse": "85 rue de la république",
+            "ville": "Etampes",
+            "codePostal": "91150",
+            "pays": "France",
+            "etage": "1",
+            "numeroDePorte": "1",
+            "typeLogement": "Appartement"
         },
         {
-            id: 3,
-            title: "Housing 3",
-            description: "Description 3",
-            price: 300,
-            image: "https://via.placeholder.com/150"
+            "image": "https://web-api.maveriks.com/image/company/7b24d8d8-9347-4a83-8dbc-b260549a4f5e/unit/01bc3da0-3941-4edf-8182-b6022490eb02/c4835930-eee9-11ee-b61a-1df12bf1ffdb.jpg?w=1920",
+            "id": 6,
+            "titre": "zara",
+            "idProprietaire": 2,
+            "isLouable": false,
+            "nombresDeChambres": null,
+            "nombresDeLits": null,
+            "nombresSallesDeBains": null,
+            "capaciteMaxPersonne": null,
+            "nombresNuitsMin": null,
+            "description": "fzfze",
+            "prixParNuit": 200,
+            "defaultCheckIn": "07:00",
+            "defaultCheckOut": "08:00",
+            "adresseComplete": "85 rue de la république, Etampes, 91150, France",
+            "adresse": "85 rue de la république",
+            "ville": "Etampes",
+            "codePostal": "91150",
+            "pays": "France",
+            "etage": "1",
+            "numeroDePorte": "1",
+            "typeLogement": "Appartement"
         }
-    ];
+    ]
 
     const {translation} = useTranslationContext();
 
@@ -34,24 +93,44 @@ const ListResultsHousing: React.FC = () => {
                 <div className="flex flex-col gap-2 w-full">
                     {housing.map(item => (
                         <div key={item.id}
-                             className="flex flex-col sm:flex-row border border-gray-300 rounded-lg p-4 mb-5 bg-white">
-                            <img src={item.image} alt={item.title}
-                                 className="w-full md:w-48 h-48 object-cover rounded-lg mb-4 sm:mb-0 sm:mr-4"/>
-                            <div className="flex flex-col  w-full">
+                             className="flex flex-col sm:flex-row border border-gray-300
+                             rounded-lg p-4 mb-5 h-auto sm:h-64 relative cursor-pointer
+                             transition-shadow">
+
+                            <img
+                                src={item.image}
+                                alt={item.titre}
+                                className="w-full sm:w-64 h-48 sm:h-full object-cover rounded-lg mb-4 sm:mb-0 sm:mr-4"/>
+                            <div className="flex flex-col w-full">
                                 <div className="flex justify-between">
-                                    <h2 className="text-lg font-bold mb-2">{item.title}</h2>
-                                    <button
-                                        className="hidden sm:block bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 self-start">
-                                        Voir les details
-                                    </button>
+                                    <h2 className="text-lg font-bold mb-2">{item.titre}</h2>
+                                    <p className="hidden sm:block text-lg font-bold">{item.prixParNuit ? `${item.prixParNuit} €/nuit` : 'N/A'}</p>
                                 </div>
-                                <div className="max-h-20 overflow-y-auto mb-4 sm:mb-0 sm:mt-5">
+                                <div className="h-10 max-w-2xl overflow-y-auto mt-2 sm:mt-5">
                                     <p className="text-sm text-gray-600">{item.description}</p>
                                 </div>
-                                <button
-                                    className="block sm:hidden bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 self-start  ">
-                                    Voir les details
-                                </button>
+                                <div className="flex flex-wrap mt-10">
+                                    <MdOutlineHomeWork size="20"/>
+                                    <p className="text-sm text-gray-600 ml-2 underline">{item.typeLogement},</p>
+                                    <p className="text-sm text-gray-600 ml-2">{item.ville},</p>
+                                    <p className="text-sm text-gray-600 ml-2">{item.codePostal},</p>
+                                    <p className="text-sm text-gray-600 ml-2">{item.pays}</p>
+                                </div>
+                                <div className="flex flex-wrap mt-10 sm:justify-around justify-between">
+                                    <div className="flex items-center">
+                                        <HiOutlineUserGroup size="20"/>
+                                        <p className="text-sm text-gray-600 ml-2">{item.capaciteMaxPersonne} Guests</p>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <LiaBedSolid size="20"/>
+                                        <p className="text-sm text-gray-600 ml-2">{item.nombresDeChambres} Bedrooms</p>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <PiBathtub size="20"/>
+                                        <p className="text-sm text-gray-600 ml-2">{item.nombresSallesDeBains} Bathrooms</p>
+                                    </div>
+                                </div>
+                                <p className="block sm:hidden text-lg font-bold mt-10">{item.prixParNuit ? `${item.prixParNuit} €/nuit` : 'N/A'}</p>
                             </div>
                         </div>
                     ))}
