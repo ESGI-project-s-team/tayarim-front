@@ -5,16 +5,22 @@ import 'react-datepicker/dist/react-datepicker.css';
 import {addDays, format, startOfWeek, subDays} from 'date-fns';
 import {fr} from 'date-fns/locale';
 import ModalInfoReservation from "@/app/components/modal/modal-info-reservation/ModalInfoReservation";
-import {useTranslationContext} from "@/app/[lng]/hooks";
-import ModalCalendar from "@/app/components/modal/modal-calendar-housing/ModalCalendar";  // Importer le locale français si nécessaire
+import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
+import ModalCalendar from "@/app/components/modal/modal-calendar-housing/ModalCalendar";
+import {getAllHousing} from "@/utils/apiHousing";
+import {getAllHousingInFun} from "@/app/components/dashboard-components/ui/planning/action";
 
 const PlanningDashboard: React.FC = () => {
     const router = useRouter();
     const [currentWeekStart, setCurrentWeekStart] = useState<Date>(startOfWeek(new Date(), {weekStartsOn: 1}));
     const [modalInfoReservationIsOpen, setInfoReservationIsOpen] = useState(false);
     const [reservation, setReservations] = useState<[]>([]);
-    const [isOpenCalendar, setIsOpenCalendar] = useState(false)
+    const [isOpenCalendar, setIsOpenCalendar] = useState(false);
     const {translation} = useTranslationContext();
+    const {setError} = useIsErrorContext();
+    const [housing, setHousing] = useState<HouseDTO[]>([]);
+    const planning_calendar = translation?.t('planning_calendar', {returnObjects: true}) ?? [];
+    const month_complete = translation?.t('month_complete', {returnObjects: true}) ?? [];
 
     const nextWeek = () => {
         setCurrentWeekStart(addDays(currentWeekStart, 7));
@@ -42,15 +48,7 @@ const PlanningDashboard: React.FC = () => {
     }
 
     const days = Array.from({length: 7}).map((_, index) => addDays(currentWeekStart, index));
-    const people = [
-        "Diana Jackson",
-        "Blake Shields",
-        "Isabel Perez",
-        "Ahmed (AJ) Ayad",
-        "Finn Halonen",
-        "June Lee",
-        "Bruce Garrison"
-    ];
+
     const schedules = [
         [" ", "#3b82f6", "#3b82f6", "", "", "", ""], // Diana Jackson
         [" ", "#8b5cf6", "#8b5cf6", "#8b5cf6", "#8b5cf6", "#8b5cf6", ""], // Blake Shields
@@ -92,6 +90,28 @@ const PlanningDashboard: React.FC = () => {
         return merged;
     };
 
+    useEffect(() => {
+        getAllHousingInFun().then((response) => {
+            if (response.errors) {
+                setError(response.errors);
+                router.push("/dashboard");
+            } else {
+                setError(null);
+                setHousing(response);
+            }
+        });
+    }, [setError, router]);
+
+    const formatMonth = (date: Date) => {
+        const monthIndex = date.getMonth();
+        return month_complete[monthIndex];
+    };
+
+    const formatDay = (date: Date) => {
+        const dayIndex = date.getDay();
+        return planning_calendar[(dayIndex + 6) % 7]; // Adjust the day index to start from Monday
+    };
+
     return (
         <div>
             <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0 overflow-auto bg-gray-100">
@@ -108,7 +128,7 @@ const PlanningDashboard: React.FC = () => {
                             </button>
                             <div className="text-center">
                                 <h2 className="text-base sm:text-lg md:text-xl font-medium">
-                                    {format(currentWeekStart, 'MMMM yyyy', {locale: fr})}
+                                    {formatMonth(currentWeekStart)} {currentWeekStart.getFullYear()}
                                 </h2>
                                 <button onClick={goToToday} className="text-[#3c50e0] underline text-sm">
                                     {translation?.t('today')}
@@ -129,22 +149,20 @@ const PlanningDashboard: React.FC = () => {
                                     <div className="col-span-2 flex flex-col border-r border-gray-300">
                                         <div className="h-14 border-b border-gray-300"></div>
 
-                                        {people.map((person, index) => (
+                                        {housing.map((house, index) => (
                                             <div key={index}
                                                  className="border-b border-gray-300 p-2 flex-1 flex items-center justify-between  ">
-                                                <h4 className="text-xs sm:text-xs md:text-sm lg:text-sm font-normal truncate">{person}</h4>
+                                                <h4 className="text-xs sm:text-xs md:text-sm lg:text-sm font-normal truncate">{house.titre}</h4>
                                                 <div
                                                     className="border border-[#DDDDDD] p-1 rounded-full cursor-pointer w-fit hover:border-black
                                                     bg-gray-100 mb-4"
-                                                    onClick={
-                                                        () => openCalendar()
-                                                    }>
+                                                    onClick={() => openCalendar()}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24"
                                                          strokeWidth="1.5" stroke="currentColor"
                                                          className="sm:size-4 size-3">
                                                         <path strokeLinecap="round" strokeLinejoin="round"
-                                                              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"/>
+                                                              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 5.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"/>
                                                     </svg>
                                                 </div>
                                             </div>
@@ -155,25 +173,24 @@ const PlanningDashboard: React.FC = () => {
                                             {days.map((day, dayIndex) => (
                                                 <div key={dayIndex}
                                                      className="border-r border-b border-gray-300 p-2 h-14 flex items-center justify-center">
-                                                    <h3 className="text-xs sm:text-xs md:text-sm lg:text-sm font-medium truncate">{format(day, 'EEE dd', {locale: fr})}</h3>
+                                                    <h3 className="text-xs sm:text-xs md:text-sm lg:text-sm font-medium truncate">
+                                                        {formatDay(day)} {day.getDate()}
+                                                    </h3>
                                                 </div>
                                             ))}
                                         </div>
-                                        {people.map((person, personIndex) => (
+                                        {housing.map((house, personIndex) => (
                                             <div key={personIndex} className="grid grid-cols-7 gap-0">
                                                 {getMergedSchedules(schedules[personIndex]).map((block, blockIndex, array) => (
-
                                                     <div
                                                         key={blockIndex}
                                                         className={`border-r border-gray-300 border-b  p-2 flex items-center justify-center`}
                                                         style={{gridColumn: `span ${block.span}`}}
                                                     >
-                                     
                                                         <div className="h-12 w-full rounded-md cursor-pointer "
                                                              onClick={() => openModal(reservation[personIndex])}
                                                              style={{backgroundColor: block.color}}></div>
                                                     </div>
-
                                                 ))}
                                                 {Array.from({length: 7 - getMergedSchedules(schedules[personIndex]).reduce((acc, block) => acc + block.span, 0)}).map((_, i) => (
                                                     <div key={i}

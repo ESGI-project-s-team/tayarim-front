@@ -218,6 +218,20 @@
     "Nov",
     "Déc"
   ],
+  "month_complete": [
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre"
+  ],
   "days": [
     "Dim",
     "Lun",
@@ -235,6 +249,15 @@
     "Ven",
     "Sam",
     "Dim"
+  ],
+  "planning_calendar": [
+    "lun.",
+    "mar.",
+    "mer.",
+    "jeu.",
+    "ven.",
+    "sam.",
+    "dim."
   ],
   "days_all": [
     "Lundi",

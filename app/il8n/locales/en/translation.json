@@ -110,7 +110,6 @@
   "form_multi_select": "Select values",
   "logout": "Log out",
   "menu_placeholder": "MENU",
-
   "menu_sidenav": [
     "Analytics",
     "Planning",
@@ -218,6 +217,20 @@
     "Nov",
     "Dec"
   ],
+  "month_complete": [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ],
   "days": [
     "Sun",
     "Mon",
@@ -235,6 +248,15 @@
     "Fri",
     "Sat",
     "Sun"
+  ],
+  "planning_calendar": [
+    "mon.",
+    "tue.",
+    "wed.",
+    "thu.",
+    "fri.",
+    "sat.",
+    "sun."
   ],
   "days_all": [
     "Monday",

@@ -126,7 +126,8 @@ export default function ModalCalendar({isOpen, onClose, id}: {
                                         locale="fr"
                                         className="ml-6 border-1 border-solid border-gray-300 rounded-md cursor-pointer mt-5"
                                     />
-                                    <div className="absolute mt-5 ml-48" onClick={() => document.getElementById('datePicker')?.focus()}>
+                                    <div className="absolute mt-5 ml-48"
+                                         onClick={() => document.getElementById('datePicker')?.focus()}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"

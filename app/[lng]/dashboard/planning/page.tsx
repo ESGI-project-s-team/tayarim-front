@@ -8,7 +8,7 @@ import {useEffect, useMemo, useState} from "react";
 import {useRouter} from 'next/navigation';
 import {checkTokenInFun} from "@/app/components/ui/signin/action";
 import Loader from "@/app/components/ui/Loader";
-import PlanningDashboard from "@/app/components/dashboard-components/PlanningDashboard";
+import PlanningDashboard from "@/app/components/dashboard-components/ui/planning/PlanningDashboard";
 
 export default function Page() {
     const itemsAll = useMemo(() => [
