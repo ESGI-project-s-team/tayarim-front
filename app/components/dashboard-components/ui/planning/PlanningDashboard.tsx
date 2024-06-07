@@ -21,6 +21,7 @@ const PlanningDashboard: React.FC = () => {
     const [housing, setHousing] = useState<HouseDTO[]>([]);
     const planning_calendar = translation?.t('planning_calendar', {returnObjects: true}) ?? [];
     const month_complete = translation?.t('month_complete', {returnObjects: true}) ?? [];
+    const [loading, setLoading] = useState(false);
 
     const nextWeek = () => {
         setCurrentWeekStart(addDays(currentWeekStart, 7));
@@ -91,6 +92,7 @@ const PlanningDashboard: React.FC = () => {
     };
 
     useEffect(() => {
+        setLoading(true);
         getAllHousingInFun().then((response) => {
             if (response.errors) {
                 setError(response.errors);
@@ -99,6 +101,7 @@ const PlanningDashboard: React.FC = () => {
                 setError(null);
                 setHousing(response);
             }
+            setLoading(false);
         });
     }, [setError, router]);
 
@@ -144,63 +147,71 @@ const PlanningDashboard: React.FC = () => {
                             </button>
                         </div>
                         <div className="overflow-x-auto">
-                            <div className="inline-block min-w-full">
-                                <div className="grid grid-cols-10 gap-0 bg-white shadow rounded">
-                                    <div className="col-span-2 flex flex-col border-r border-gray-300">
-                                        <div className="h-14 border-b border-gray-300"></div>
+                            {
+                                !loading ?
+                                    <div className="inline-block min-w-full">
+                                        <div className="grid grid-cols-10 gap-0 bg-white shadow rounded">
+                                            <div className="col-span-2 flex flex-col border-r border-gray-300">
+                                                <div className="h-14 border-b border-gray-300"></div>
 
-                                        {housing.map((house, index) => (
-                                            <div key={index}
-                                                 className="border-b border-gray-300 p-2 flex-1 flex items-center justify-between  ">
-                                                <h4 className="text-xs sm:text-xs md:text-sm lg:text-sm font-normal truncate">{house.titre}</h4>
-                                                <div
-                                                    className="border border-[#DDDDDD] p-1 rounded-full cursor-pointer w-fit hover:border-black
+                                                {housing.map((house, index) => (
+                                                    <div key={index}
+                                                         className="border-b border-gray-300 p-2 flex-1 flex items-center justify-between  ">
+                                                        <h4 className="text-xs sm:text-xs md:text-sm lg:text-sm font-normal truncate">{house.titre}</h4>
+                                                        <div
+                                                            className="border border-[#DDDDDD] p-1 rounded-full cursor-pointer w-fit hover:border-black
                                                     bg-gray-100 mb-4"
-                                                    onClick={() => openCalendar()}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24"
-                                                         strokeWidth="1.5" stroke="currentColor"
-                                                         className="sm:size-4 size-3">
-                                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                                              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 5.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div className="col-span-8">
-                                        <div className="grid grid-cols-7 gap-0">
-                                            {days.map((day, dayIndex) => (
-                                                <div key={dayIndex}
-                                                     className="border-r border-b border-gray-300 p-2 h-14 flex items-center justify-center">
-                                                    <h3 className="text-xs sm:text-xs md:text-sm lg:text-sm font-medium truncate">
-                                                        {formatDay(day)} {day.getDate()}
-                                                    </h3>
-                                                </div>
-                                            ))}
-                                        </div>
-                                        {housing.map((house, personIndex) => (
-                                            <div key={personIndex} className="grid grid-cols-7 gap-0">
-                                                {getMergedSchedules(schedules[personIndex]).map((block, blockIndex, array) => (
-                                                    <div
-                                                        key={blockIndex}
-                                                        className={`border-r border-gray-300 border-b  p-2 flex items-center justify-center`}
-                                                        style={{gridColumn: `span ${block.span}`}}
-                                                    >
-                                                        <div className="h-12 w-full rounded-md cursor-pointer "
-                                                             onClick={() => openModal(reservation[personIndex])}
-                                                             style={{backgroundColor: block.color}}></div>
+                                                            onClick={() => openCalendar()}>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 strokeWidth="1.5" stroke="currentColor"
+                                                                 className="sm:size-4 size-3">
+                                                                <path strokeLinecap="round" strokeLinejoin="round"
+                                                                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 5.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"/>
+                                                            </svg>
+                                                        </div>
                                                     </div>
                                                 ))}
-                                                {Array.from({length: 7 - getMergedSchedules(schedules[personIndex]).reduce((acc, block) => acc + block.span, 0)}).map((_, i) => (
-                                                    <div key={i}
-                                                         className="border-r border-b border-gray-300 p-2 flex items-center justify-center"></div>
+                                            </div>
+                                            <div className="col-span-8">
+                                                <div className="grid grid-cols-7 gap-0">
+                                                    {days.map((day, dayIndex) => (
+                                                        <div key={dayIndex}
+                                                             className="border-r border-b border-gray-300 p-2 h-14 flex items-center justify-center">
+                                                            <h3 className="text-xs sm:text-xs md:text-sm lg:text-sm font-medium truncate">
+                                                                {formatDay(day)} {day.getDate()}
+                                                            </h3>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                {housing.map((house, personIndex) => (
+                                                    <div key={personIndex} className="grid grid-cols-7 gap-0">
+                                                        {getMergedSchedules(schedules[personIndex]).map((block, blockIndex, array) => (
+                                                            <div
+                                                                key={blockIndex}
+                                                                className={`border-r border-gray-300 border-b  p-2 flex items-center justify-center`}
+                                                                style={{gridColumn: `span ${block.span}`}}
+                                                            >
+                                                                <div className="h-12 w-full rounded-md cursor-pointer "
+                                                                     onClick={() => openModal(reservation[personIndex])}
+                                                                     style={{backgroundColor: block.color}}></div>
+                                                            </div>
+                                                        ))}
+                                                        {Array.from({length: 7 - getMergedSchedules(schedules[personIndex]).reduce((acc, block) => acc + block.span, 0)}).map((_, i) => (
+                                                            <div key={i}
+                                                                 className="border-r border-b border-gray-300 p-2 flex items-center justify-center"></div>
+                                                        ))}
+                                                    </div>
                                                 ))}
                                             </div>
-                                        ))}
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                    :
+                                    <div className="flex justify-center items-center h-96">
+                                        <div
+                                            className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-[#3b82f6]"></div>
+                                    </div>
+                            }
                         </div>
                     </div>
                 </div>
