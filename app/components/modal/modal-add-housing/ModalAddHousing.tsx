@@ -5,7 +5,11 @@ import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import {Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions} from '@headlessui/react';
 import {CheckIcon, ChevronDownIcon} from '@heroicons/react/20/solid';
 import clsx from 'clsx';
-import {createHouseInFun, getAllOwnerInFun} from "@/app/components/modal/modal-add-housing/action";
+import {
+    createHouseInFun,
+    getAllOwnerInFun,
+    getHousingTypesInFun
+} from "@/app/components/modal/modal-add-housing/action";
 import countryList from 'react-select-country-list';
 
 interface FormValues {
@@ -73,6 +77,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const [query, setQuery] = useState('');
     const [selectedOwner, setSelectedOwner] = useState<OwnerType | null>(null);
     const [owners, setOwners] = useState<OwnerType[]>([]);
+    const [housingTypes, setHousingTypes] = useState<any[]>([]);
     const [currentStep, setCurrentStep] = useState(1);
     const [countries] = useState(countryList().getData());
     const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
@@ -97,11 +102,28 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 setError(error);
             }
         };
+        const handleGetAllHousingType = async () => {
+            setLoading(true);
+            try {
+                const response = await getHousingTypesInFun();
+                if (response.errors) {
+                    setError(response.errors);
+                } else {
+                    setHousingTypes(response);
+                    setError(null);
+                }
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                setError(error);
+            }
+        };
 
         if (focusElementRef.current) {
             focusElementRef.current.focus();
         }
         handleGetAllOwner().then();
+        handleGetAllHousingType().then();
     }, [setError]);
 
     const createHousingInFun = async () => {
@@ -345,6 +367,21 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
             case 3:
                 return (
                     <div className="mb-5 flex flex-col gap-6">
+                        <div className="w-full">
+                            <label className="mb-3 block text-sm font-medium text-black">
+                                {translation?.t('housing_type')}
+                            </label>
+                            <select
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                onChange={(e) => handleInputChange('idTypeLogement', parseInt(e.target.value))}
+                            >
+                                {housingTypes.map((type) => (
+                                    <option key={type.id} value={type.id}>
+                                        {translation?.t(type.nom)}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                         <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('adresse')}</label>

@@ -72,7 +72,7 @@
   "step": "Step",
   "of": "of",
   "housing_titre": "Title",
-  "housing_type": "Type",
+  "housing_type": "Housing type",
   "price_per_night": "Price per night",
   "today": "Today",
   "choose_owner": "Choose an owner",
@@ -110,6 +110,7 @@
   "form_multi_select": "Select values",
   "logout": "Log out",
   "menu_placeholder": "MENU",
+
   "menu_sidenav": [
     "Analytics",
     "Planning",
@@ -130,6 +131,8 @@
   ],
   "email_placeholder_form": "Enter your email address",
   "first_name_placeholder_form": "Enter your first name",
+  "housing_type_placeholder": "Select a housing type",
+  "Appartement": "Apartment",
   "last_name_placeholder_form": "Enter your last name",
   "phone_placeholder_form": "Enter your phone number",
   "password_placeholder_form": "Enter your new password",
