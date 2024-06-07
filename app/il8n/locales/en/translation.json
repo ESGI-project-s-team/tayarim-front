@@ -1,4 +1,5 @@
 {
+  "amenities": "Amenities",
   "night": "night",
   "titreError": "The title is invalid",
   "idProprietaireError": "The owner ID is invalid",

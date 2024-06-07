@@ -4,6 +4,11 @@ import {MdOutlinePhotoLibrary} from "react-icons/md";
 import "../../../globals.css";
 import NavBarSearch from "@/app/components/search-results-components/ui/NavBarSearch";
 import ModalPhotos from "@/app/components/details-result/ModalPhotos";
+import {IoLocationOutline} from "react-icons/io5";
+import {HiOutlineUserGroup} from "react-icons/hi";
+import {LiaBedSolid} from "react-icons/lia";
+import {PiBathtub} from "react-icons/pi";
+import {useTranslationContext} from "@/app/[lng]/hooks";
 
 const housing = {
     id: 1,
@@ -34,7 +39,7 @@ const housing = {
 const ListingPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [initialImage, setInitialImage] = useState(null);
-
+    const {translation} = useTranslationContext();
     const handleOpenModal = (image: any = null) => {
         setInitialImage(image);
         setIsModalOpen(true);
@@ -82,7 +87,47 @@ const ListingPage = () => {
                         </div>
                     </div>
                 </div>
-                <h1 className="text-3xl font-bold mb-4 mt-20">{housing.titre}</h1>
+                <h1 className="text-3xl font-bold mb-4 mt-16">{housing.titre}</h1>
+                <div className="flex">
+                    <IoLocationOutline size={20}/>
+                    <p className="text-sm  text-gray-950 ml-2">{housing.adresseComplete}</p>
+                </div>
+                <div className="flex flex-wrap mt-10 sm:justify-around justify-between">
+                    <div className="flex items-center">
+                        <HiOutlineUserGroup size="20"/>
+                        <p className="text-sm text-gray-600 ml-2">{housing.capaciteMaxPersonne} {translation?.t('guest')}</p>
+                    </div>
+                    <div className="flex items-center">
+                        <LiaBedSolid size="20"/>
+                        <p className="text-sm text-gray-600 ml-2">{housing.nombresDeChambres} {translation?.t('beds')}</p>
+                    </div>
+                    <div className="flex items-center">
+                        <PiBathtub size="20"/>
+                        <p className="text-sm text-gray-600 ml-2">{housing.nombresSallesDeBains} {translation?.t('bathrooms')}</p>
+                    </div>
+                </div>
+                <br/>
+                <hr/>
+                <h1 className="text-2xl font-bold mb-4 mt-16">Description</h1>
+                <div className={
+                    "max-h-32 max-w-4xl overflow-y-auto mt-2 sm:mt-5 no-scrollbar"
+
+                }>
+                    <p className="text-sm text-gray-600">{housing.description}</p>
+                </div>
+                <h1 className="text-2xl font-bold mb-4 mt-16">{translation?.t('amenities')}</h1>
+                <div className={
+                    "max-h-32 max-w-4xl overflow-y-auto mt-2 sm:mt-5 no-scrollbar"
+
+                }>
+                    <p className="text-sm text-gray-600">Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+                        1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+                        book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                        remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
+                        sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                        Aldus PageMaker including versions of Lorem Ipsum.</p>
+                </div>
             </div>
             {isModalOpen &&
                 <ModalPhotos images={housing.images} initialImage={initialImage} onClose={handleCloseModal}/>}

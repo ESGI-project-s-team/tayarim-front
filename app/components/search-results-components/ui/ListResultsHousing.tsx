@@ -88,14 +88,15 @@ const ListResultsHousing: React.FC = () => {
     const {translation} = useTranslationContext();
 
     return (
-        <div className="lg:mr-7 mr-2 z-0 overflow-scroll mt-10">
+        <div className="lg:mr-7 mr-2 z-0 overflow-scroll mt-10 no-scrollbar">
             <div className="relative w-full flex">
-                <div className="flex flex-col gap-2 w-full">
+                <div className="flex flex-col gap-2 w-full ">
                     {housing.map(item => (
                         <div key={item.id}
                              className="flex flex-col sm:flex-row border border-gray-300
                              rounded-lg p-4 mb-5 h-auto sm:h-64 relative cursor-pointer
-                             transition-shadow">
+                             transition-shadow
+                             bg-white">
                             <img
                                 src={item.image}
                                 alt={item.titre}
@@ -105,7 +106,7 @@ const ListResultsHousing: React.FC = () => {
                                     <h2 className="text-lg font-bold mb-2">{item.titre}</h2>
                                     <p className="hidden sm:block text-lg font-bold">{item.prixParNuit ? `${item.prixParNuit} €/${translation?.t('night')}` : 'N/A'}</p>
                                 </div>
-                                <div className="h-10 max-w-2xl overflow-y-auto mt-2 sm:mt-5">
+                                <div className="h-10 max-w-2xl overflow-y-auto mt-2 sm:mt-5 no-scrollbar">
                                     <p className="text-sm text-gray-600">{item.description}</p>
                                 </div>
                                 <div className="flex flex-wrap mt-10">

@@ -1,4 +1,5 @@
 {
+  "amenities": "Équipements",
   "night": "nuit",
   "titreError": "Le titre est invalide",
   "idProprietaireError": "L'identifiant du propriétaire est invalide",

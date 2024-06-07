@@ -23,7 +23,7 @@ const ModalPhotos = ({images, initialImage, onClose}: {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
             <div className="w-full h-full bg-white px-4 pb-4 relative overflow-y-auto ">
-                <div className="sticky top-0   flex justify-between items-center  pb-4 z-0  mt-5">
+                <div className="sticky top-0   flex justify-between items-center   z-0  mt-5 bg-white align-middle">
                     <h2 className="text-lg font-bold">Photos</h2>
                     <IoIosClose onClick={onClose} size={35} className="cursor-pointer"/>
                 </div>
