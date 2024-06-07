@@ -1,4 +1,5 @@
 {
+  "night": "night",
   "titreError": "The title is invalid",
   "idProprietaireError": "The owner ID is invalid",
   "villeError": "The city is invalid",

@@ -96,7 +96,6 @@ const ListResultsHousing: React.FC = () => {
                              className="flex flex-col sm:flex-row border border-gray-300
                              rounded-lg p-4 mb-5 h-auto sm:h-64 relative cursor-pointer
                              transition-shadow">
-
                             <img
                                 src={item.image}
                                 alt={item.titre}
@@ -104,14 +103,14 @@ const ListResultsHousing: React.FC = () => {
                             <div className="flex flex-col w-full">
                                 <div className="flex justify-between">
                                     <h2 className="text-lg font-bold mb-2">{item.titre}</h2>
-                                    <p className="hidden sm:block text-lg font-bold">{item.prixParNuit ? `${item.prixParNuit} €/nuit` : 'N/A'}</p>
+                                    <p className="hidden sm:block text-lg font-bold">{item.prixParNuit ? `${item.prixParNuit} €/${translation?.t('night')}` : 'N/A'}</p>
                                 </div>
                                 <div className="h-10 max-w-2xl overflow-y-auto mt-2 sm:mt-5">
                                     <p className="text-sm text-gray-600">{item.description}</p>
                                 </div>
                                 <div className="flex flex-wrap mt-10">
                                     <MdOutlineHomeWork size="20"/>
-                                    <p className="text-sm text-gray-600 ml-2 underline">{item.typeLogement},</p>
+                                    <p className="text-sm text-gray-600 ml-2 underline">{translation?.t(item.typeLogement)},</p>
                                     <p className="text-sm text-gray-600 ml-2">{item.ville},</p>
                                     <p className="text-sm text-gray-600 ml-2">{item.codePostal},</p>
                                     <p className="text-sm text-gray-600 ml-2">{item.pays}</p>
@@ -119,15 +118,15 @@ const ListResultsHousing: React.FC = () => {
                                 <div className="flex flex-wrap mt-10 sm:justify-around justify-between">
                                     <div className="flex items-center">
                                         <HiOutlineUserGroup size="20"/>
-                                        <p className="text-sm text-gray-600 ml-2">{item.capaciteMaxPersonne} Guests</p>
+                                        <p className="text-sm text-gray-600 ml-2">{item.capaciteMaxPersonne} {translation?.t('guest')}</p>
                                     </div>
                                     <div className="flex items-center">
                                         <LiaBedSolid size="20"/>
-                                        <p className="text-sm text-gray-600 ml-2">{item.nombresDeChambres} Bedrooms</p>
+                                        <p className="text-sm text-gray-600 ml-2">{item.nombresDeChambres} {translation?.t('beds')}</p>
                                     </div>
                                     <div className="flex items-center">
                                         <PiBathtub size="20"/>
-                                        <p className="text-sm text-gray-600 ml-2">{item.nombresSallesDeBains} Bathrooms</p>
+                                        <p className="text-sm text-gray-600 ml-2">{item.nombresSallesDeBains} {translation?.t('bathrooms')}</p>
                                     </div>
                                 </div>
                                 <p className="block sm:hidden text-lg font-bold mt-10">{item.prixParNuit ? `${item.prixParNuit} €/nuit` : 'N/A'}</p>
