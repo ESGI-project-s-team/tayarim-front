@@ -286,7 +286,6 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                         className={clsx(
                                             "text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                         )}
-                                        displayValue={(country: string) => country}
                                         onChange={(event) => setCountryQuery(event.target.value)}
                                         placeholder={translation?.t('pays_placeholder')}
                                     />

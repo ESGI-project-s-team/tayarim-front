@@ -74,7 +74,6 @@ const ListHousings: React.FC = () => {
                     router.push("/dashboard");
                 } else {
                     setError(null);
-                    console.log(response)
                     setHousing(response);
                     for (let i = 0; i < response.length; i++) {
                         let ownerDetailsUnique = await getOwnerByIdFun(response[i].idProprietaire);
@@ -119,7 +118,7 @@ const ListHousings: React.FC = () => {
                             <div className="col-span-2 items-center">
                                 <p className="font-medium">{translation?.t('owner')}</p>
                             </div>
-                            <div className="col-span-2 items-center">
+                            <div className="col-span-2 items-center ">
                                 <p className="font-medium">{translation?.t('adresse')}</p>
                             </div>
                             <div className="col-span-2 items-center">
@@ -144,7 +143,7 @@ const ListHousings: React.FC = () => {
                                        onClick={() => openModalInfoOwner(index)}>{ownerDetailsList[index]?.prenom} {ownerDetailsList[index]?.nom}</p>
                                 </div>
                                 <div
-                                    className="col-span-2 items-center  max-w-32 overflow-x-auto flex no-scrollba text-nowrap">
+                                    className="col-span-2 items-center  max-w-32 overflow-x-auto flex no-scrollbar text-nowrap">
                                     <p className="text-sm text-black">{house.adresse}</p>
                                 </div>
                                 <div className="col-span-2 items-center">

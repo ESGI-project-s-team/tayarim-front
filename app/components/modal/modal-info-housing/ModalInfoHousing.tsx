@@ -20,6 +20,7 @@ export default function ModalInfoHousing({isOpen, onClose, housings}: {
         setCurrentIndex((prevIndex) => (prevIndex - 1 + housings.length) % housings.length);
     };
 
+
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-40" onClose={onClose}>
@@ -105,7 +106,9 @@ export default function ModalInfoHousing({isOpen, onClose, housings}: {
                                                                 {translation?.t('price')}:
                                                             </span>
                                                             <span className="text-gray-600">
-                                                                {currentHousing.prixParNuit}
+                                                                {currentHousing.prixParNuit &&
+                                                                    <p className="text-sm text-black ml-2">{currentHousing.prixParNuit} €</p>
+                                                                }
                                                             </span>
                                                         </div>
                                                         <div className="flex justify-between items-center">
