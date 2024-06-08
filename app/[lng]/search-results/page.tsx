@@ -1,7 +1,7 @@
 "use client";
 import React, {useState} from "react";
 import {IsOpenSideBarContext} from "@/app/[lng]/contexts";
-import SideNavBarSerch from "@/app/components/search-results-components/ui/SideNavBarSerch";
+import SideNavBarSerch from "@/app/components/search-results-components/ui/side-nav-search/SideNavBarSerch";
 import NavBarSearch from "@/app/components/search-results-components/ui/NavBarSearch";
 import SearchRoomReservation from "@/app/components/ui/SearchRoomReservation";
 import ListResultsHousing from "@/app/components/search-results-components/ui/ListResultsHousing";

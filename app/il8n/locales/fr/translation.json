@@ -1,4 +1,5 @@
 {
+  "no_result": "Désolé, nous n'avons trouvé aucun résultat pour votre recherche",
   "amenities": "Équipements",
   "night": "nuit",
   "titreError": "Le titre est invalide",
@@ -163,6 +164,7 @@
   "btn_guest": "Combien de personnes ?",
   "location": "Emplacement",
   "check": "Date d'arrivée - Date de départ",
+  "guest_max": "Nombre de personnes maximum",
   "guest": "Nombre de personnes",
   "bedrooms": "Chambres",
   "search": "Rechercher",

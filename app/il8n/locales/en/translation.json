@@ -1,4 +1,5 @@
 {
+  "no_result": "Sorry, we couldn't find any results for your search",
   "amenities": "Amenities",
   "night": "night",
   "titreError": "The title is invalid",
@@ -163,6 +164,7 @@
   "btn_guest": "How many guests ?",
   "location": "Location",
   "check": "Check in - Check out",
+  "guest_max": "Maximum guests",
   "guest": "Guests",
   "owner": "Owners",
   "owner-description": "We guarantee complete rent management of your property in order to offer you peace of mind and profits",

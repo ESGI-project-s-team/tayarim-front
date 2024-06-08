@@ -1,11 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useTranslationContext} from "@/app/[lng]/hooks";
 import {PiBathtub} from "react-icons/pi";
 import {HiOutlineUserGroup} from "react-icons/hi";
 import {LiaBedSolid} from "react-icons/lia";
 import {MdOutlineHomeWork} from "react-icons/md";
+import SideNavBarSerch from "@/app/components/search-results-components/ui/side-nav-search/SideNavBarSerch";
+import {MdSearchOff} from "react-icons/md";
 
 const ListResultsHousing: React.FC = () => {
+    const {translation} = useTranslationContext();
+    const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+
     const housing = [
         {
             "image": "https://web-api.maveriks.com/image/company/7b24d8d8-9347-4a83-8dbc-b260549a4f5e/unit/002883f1-7b9e-4de6-b05f-4a3cdaec4b6e/ba17bde0-eee0-11ee-a1c6-67fad5491db5.jpg?w=1920",
@@ -57,7 +62,7 @@ const ListResultsHousing: React.FC = () => {
             "pays": "France",
             "etage": "1",
             "numeroDePorte": "1",
-            "typeLogement": "Appartement"
+            "typeLogement": "Maison"
         },
         {
             "image": "https://web-api.maveriks.com/image/company/7b24d8d8-9347-4a83-8dbc-b260549a4f5e/unit/01bc3da0-3941-4edf-8182-b6022490eb02/c4835930-eee9-11ee-b61a-1df12bf1ffdb.jpg?w=1920",
@@ -81,17 +86,27 @@ const ListResultsHousing: React.FC = () => {
             "pays": "France",
             "etage": "1",
             "numeroDePorte": "1",
-            "typeLogement": "Appartement"
+            "typeLogement": "Maison"
         }
-    ]
+    ];
 
-    const {translation} = useTranslationContext();
+    const filteredHousing = selectedTypes.length > 0
+        ? housing.filter(item => selectedTypes.includes(item.typeLogement))
+        : housing;
 
     return (
         <div className="lg:mr-7 mr-2 z-0 overflow-scroll mt-10 no-scrollbar">
+            <SideNavBarSerch onFilterChange={setSelectedTypes}/>
             <div className="relative w-full flex">
                 <div className="flex flex-col gap-2 w-full ">
-                    {housing.map(item => (
+                    {
+                        filteredHousing.length === 0 &&
+                        <div className="flex justify-center items-center h-96">
+                            <MdSearchOff size={40}/>
+                            <p className="text-xl font-bold ml-5">{translation?.t('no_result')}</p>
+                        </div>
+                    }
+                    {filteredHousing.map(item => (
                         <div key={item.id}
                              className="flex flex-col sm:flex-row border border-gray-300
                              rounded-lg p-4 mb-5 h-auto sm:h-64 relative cursor-pointer
@@ -119,7 +134,7 @@ const ListResultsHousing: React.FC = () => {
                                 <div className="flex flex-wrap mt-10 sm:justify-around justify-between">
                                     <div className="flex items-center">
                                         <HiOutlineUserGroup size="20"/>
-                                        <p className="text-sm text-gray-600 ml-2">{item.capaciteMaxPersonne} {translation?.t('guest')}</p>
+                                        <p className="text-sm text-gray-600 ml-2">{item.capaciteMaxPersonne} {translation?.t('guest_max')}</p>
                                     </div>
                                     <div className="flex items-center">
                                         <LiaBedSolid size="20"/>
