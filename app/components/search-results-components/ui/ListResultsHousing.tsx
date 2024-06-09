@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useTranslationContext} from "@/app/[lng]/hooks";
 import {PiBathtub} from "react-icons/pi";
 import {HiOutlineUserGroup} from "react-icons/hi";
 import {LiaBedSolid} from "react-icons/lia";
 import {MdOutlineHomeWork} from "react-icons/md";
-import SideNavBarSerch from "@/app/components/search-results-components/ui/side-nav-search/SideNavBarSerch";
 import {MdSearchOff} from "react-icons/md";
+import SideNavBarSearch from "@/app/components/search-results-components/ui/side-nav-search/SideNavBarSerch";
+
 
 const ListResultsHousing: React.FC = () => {
     const {translation} = useTranslationContext();
-    const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
     const housing = [
         {
@@ -90,28 +90,45 @@ const ListResultsHousing: React.FC = () => {
         }
     ];
 
-    const filteredHousing = selectedTypes.length > 0
-        ? housing.filter(item => selectedTypes.includes(item.typeLogement))
-        : housing;
+    const minHousingPrice = Math.min(...housing.map(h => h.prixParNuit));
+    const maxHousingPrice = Math.max(...housing.map(h => h.prixParNuit));
+
+    const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+    const [maxPrice] = useState<number>(maxHousingPrice);
+    const [minPrice] = useState<number>(minHousingPrice);
+    const [currentMaxPrice, setCurrentMaxPrice] = useState<number>(maxPrice);
+    const [currentMinPrice, setCurrentMinPrice] = useState<number>(minPrice);
+
+    const handleFilterChange = (types: string[], maxPrice: number, minPrice: number) => {
+        setSelectedTypes(types);
+        setCurrentMaxPrice(maxPrice);
+        setCurrentMinPrice(minPrice);
+    };
+
+    const filteredHousing = housing.filter(item => {
+        const inSelectedTypes = selectedTypes.length > 0 ? selectedTypes.includes(item.typeLogement) : true;
+        const inPriceRange = item.prixParNuit >= currentMinPrice && item.prixParNuit <= currentMaxPrice;
+        return inSelectedTypes && inPriceRange;
+    });
 
     return (
         <div className="lg:mr-7 mr-2 z-0 overflow-scroll mt-10 no-scrollbar">
-            <SideNavBarSerch onFilterChange={setSelectedTypes} housing={housing}/>
+            <SideNavBarSearch onFilterChange={handleFilterChange} minPrice={minPrice}
+                              currentMaxPrice={currentMaxPrice}
+                              currentMinPrice={currentMinPrice}
+                              maxPrice={maxPrice}
+            />
             <div className="relative w-full flex">
                 <div className="flex flex-col gap-2 w-full ">
-                    {
-                        filteredHousing.length === 0 &&
+                    {filteredHousing.length === 0 && (
                         <div className="flex justify-center items-center h-96">
                             <MdSearchOff size={40}/>
                             <p className="text-xl font-bold ml-5">{translation?.t('no_result')}</p>
                         </div>
-                    }
+                    )}
                     {filteredHousing.map(item => (
                         <div key={item.id}
-                             className="flex flex-col sm:flex-row border border-gray-300
-                             rounded-lg p-4 mb-5 h-auto sm:h-64 relative cursor-pointer
-                             transition-shadow
-                             bg-white">
+                             className="flex flex-col sm:flex-row border border-gray-300 rounded-lg p-4 mb-5 h-auto sm:h-64 relative cursor-pointer transition-shadow bg-white">
                             <img
                                 src={item.image}
                                 alt={item.titre}

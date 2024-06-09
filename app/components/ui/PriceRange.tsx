@@ -1,32 +1,91 @@
-import {useState} from 'react';
-import {useTranslationContext} from "@/app/[lng]/hooks";
+import React, {useState, useEffect, useCallback} from 'react';
 
-const PriceRange = ({maxPrice, minPrice}: { maxPrice: number, minPrice: number }) => {
-    const [maxPriceChange, setMaxPriceChange] = useState(maxPrice);
-    const {translation} = useTranslationContext();
+const PriceRange = ({
+                        maxPrice,
+                        minPrice,
+                        currentMaxPrice,
+                        currentMinPrice,
+                        onMaxPriceChange,
+                        onMinPriceChange
+                    }: {
+    maxPrice: number,
+    minPrice: number,
+    currentMaxPrice: number,
+    currentMinPrice: number,
+    onMaxPriceChange: (value: number) => void,
+    onMinPriceChange: (value: number) => void
+}) => {
 
-    const handleMaxPriceChange = (event: { target: { value: any; }; }) => {
-        setMaxPriceChange(Number(event.target.value));
+    const getVals = useCallback(() => {
+        const parent: any = document.querySelector('.range-slider');
+        if (!parent) return; // Ensure parent is present
+        const slides = parent.getElementsByTagName('input');
+        let slide1 = parseFloat(slides[0].value);
+        let slide2 = parseFloat(slides[1].value);
+        if (slide1 > slide2) {
+            const tmp = slide2;
+            slide2 = slide1;
+            slide1 = tmp;
+        }
+
+        const percentage1 = ((slide1 - minPrice) / (maxPrice - minPrice)) * 100;
+        const percentage2 = ((slide2 - minPrice) / (maxPrice - minPrice)) * 100;
+        parent.style.background = `linear-gradient(to right, #fff ${percentage1}%, blue ${percentage1}%, blue ${percentage2}%, #fff ${percentage2}%)`;
+    }, [minPrice, maxPrice]);
+
+    useEffect(() => {
+        // Initialize sliders on mount
+        const sliders: any = document.querySelectorAll('.range-slider input[type="range"]');
+        sliders.forEach((slider: { oninput: () => void; }) => {
+            slider.oninput = getVals;
+            slider.oninput(); // Trigger initial display
+        });
+    }, [getVals]);
+
+    const handleMaxPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(event.target.value);
+        if (value >= currentMinPrice) {
+            onMaxPriceChange(value);
+            getVals();
+        }
+    };
+
+    const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(event.target.value);
+        if (value <= currentMaxPrice) {
+            onMinPriceChange(value);
+            getVals();
+        }
     };
 
     return (
         <div className="w-[80%] ml-4">
-            <div className="flex flex-col gap-2">
-                <div className="flex">
-                    De <span className="text-sm text-white ml-2 mr-2">${minPrice} </span> à <span
-                    className="text-sm text-white ml-2">${maxPriceChange}</span>
+            <div className="flex flex-col">
+                <div className="flex mb-2">
+                    <span>
+                        {currentMinPrice} - {currentMaxPrice}
+                    </span>
                 </div>
-
-                <div className="flex items-center gap-2">
+                <section className="range-slider relative w-full">
                     <input
                         type="range"
                         min={minPrice}
                         max={maxPrice}
-                        value={maxPriceChange}
+                        value={currentMaxPrice}
+                        step="5"
                         onChange={handleMaxPriceChange}
-                        className="w-full"
+                        className="absolute pointer-events-auto"
                     />
-                </div>
+                    <input
+                        type="range"
+                        min={minPrice}
+                        max={maxPrice}
+                        value={currentMinPrice}
+                        step="5"
+                        onChange={handleMinPriceChange}
+                        className="absolute pointer-events-auto"
+                    />
+                </section>
             </div>
         </div>
     );
