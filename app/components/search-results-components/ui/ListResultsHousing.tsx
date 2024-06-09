@@ -96,7 +96,7 @@ const ListResultsHousing: React.FC = () => {
 
     return (
         <div className="lg:mr-7 mr-2 z-0 overflow-scroll mt-10 no-scrollbar">
-            <SideNavBarSerch onFilterChange={setSelectedTypes}/>
+            <SideNavBarSerch onFilterChange={setSelectedTypes} housing={housing}/>
             <div className="relative w-full flex">
                 <div className="flex flex-col gap-2 w-full ">
                     {
