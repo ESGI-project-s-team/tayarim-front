@@ -7,10 +7,11 @@ import {CheckIcon, ChevronDownIcon} from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import {
     createHouseInFun,
-    getAllOwnerInFun,
+    getAllOwnerInFun, getHousingRulesInFun,
     getHousingTypesInFun
 } from "@/app/components/modal/modal-add-housing/action";
 import countryList from 'react-select-country-list';
+import MultiSelectListbox from "@/app/components/modal/ui/MultiSelectListbox";
 
 interface FormValues {
     titre: string;
@@ -33,6 +34,8 @@ interface FormValues {
     numeroDePorte: string;
     idTypeLogement: number | null;
     isLouable: boolean;
+    reglesLogement: any[];
+
 }
 
 interface OwnerType {
@@ -69,6 +72,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
         numeroDePorte: '',
         idTypeLogement: 1,
         isLouable: true,
+        reglesLogement: [],
     });
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext();
@@ -78,13 +82,14 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const [selectedOwner, setSelectedOwner] = useState<OwnerType | null>(null);
     const [owners, setOwners] = useState<OwnerType[]>([]);
     const [housingTypes, setHousingTypes] = useState<any[]>([]);
+    const [housingRules, setHousingRules] = useState<any[]>([]);
+    const [selectedHousingRules, setSelectedHousingRules] = useState<any>([]);
     const [currentStep, setCurrentStep] = useState(1);
     const [countries] = useState(countryList().getData());
     const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
     const [countryQuery, setCountryQuery] = useState('');
     const [checkInQuery, setCheckInQuery] = useState('');
     const [checkOutQuery, setCheckOutQuery] = useState('');
-
     useEffect(() => {
         const handleGetAllOwner = async () => {
             setLoading(true);
@@ -119,11 +124,30 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
             }
         };
 
+        const handleGetAllHousingRules = async () => {
+            setLoading(true);
+            try {
+                const response = await getHousingRulesInFun();
+                if (response.errors) {
+                    setError(response.errors);
+                } else {
+                    setHousingRules(response);
+                    setError(null);
+                }
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                setError(error);
+            }
+        };
+
         if (focusElementRef.current) {
             focusElementRef.current.focus();
         }
         handleGetAllOwner().then();
         handleGetAllHousingType().then();
+        handleGetAllHousingRules().then();
+
     }, [setError]);
 
     const createHousingInFun = async () => {
@@ -183,6 +207,10 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const handleInputChange = (field: keyof FormValues, value: any) => {
         setFormValues((prev: FormValues) => ({...prev, [field]: value}));
     };
+    useEffect(() => {
+        let selectedHousingRulesIds = selectedHousingRules.map((rule: any) => rule.id);
+        handleInputChange('reglesLogement', selectedHousingRulesIds);
+    }, [selectedHousingRules]);
 
     const handleNext = () => {
         if (validateStep()) {
@@ -204,10 +232,11 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 return formValues.adresse !== null && formValues.adresse.trim() !== '';
             case 4:
                 return formValues.isLouable ?
-                    (formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0)
+                    (formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0 && selectedHousingRules.length > 0)
                     : formValues.description !== null && formValues.description.trim() !== '';
             case 5:
-                return formValues.capaciteMaxPersonne !== null && formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin !== null && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit !== null && formValues.prixParNuit > 0;
+                return formValues.capaciteMaxPersonne !== null && formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin !== null && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit !== null && formValues.prixParNuit > 0
+                    ;
             case 6:
                 return formValues.description !== null && formValues.description.trim() !== '';
             default:
@@ -422,6 +451,12 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
                             <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('housingRules')}</label>
+                            <MultiSelectListbox items={housingRules} setSelected={setSelectedHousingRules}
+                                                selected={selectedHousingRules}/>
+                        </div>
+                        <div className="w-full">
+                            <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_de_chambres')}</label>
                             <input
                                 placeholder={translation?.t('nombres_de_chambres_placeholder')}
@@ -473,7 +508,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 );
             case 5:
                 return (
-                    <div className="mb-5 flex flex-col gap-6">
+                    <div className="mb-5 flex flex-col gap-7">
                         <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('capacite_max_personne')}</label>

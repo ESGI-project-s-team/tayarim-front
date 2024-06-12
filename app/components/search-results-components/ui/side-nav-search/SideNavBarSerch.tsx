@@ -3,10 +3,13 @@ import {useIsErrorContext, useIsOpenSideBarContext, useTranslationContext} from 
 import {getHousingTypesInFun} from "@/app/components/modal/modal-add-housing/action";
 import SpinnerDashboard from "@/app/components/ui/SpinnerDashboard";
 import PriceRange from "@/app/components/ui/PriceRange";
-import {MdOutlinePets, MdApartment, MdVilla} from "react-icons/md";
+import {MdOutlinePets, MdApartment, MdVilla, MdElevator} from "react-icons/md";
 import {LuPartyPopper} from "react-icons/lu";
-import {PiWarehouseFill, PiStudent} from "react-icons/pi";
-import {FaChildren, FaSmoking, FaHouse, FaHouseUser, FaPeopleRoof} from "react-icons/fa6";
+import {PiWarehouseFill, PiStudent, PiSwimmingPool} from "react-icons/pi";
+import {FaChildren, FaSmoking, FaHouse, FaHouseUser, FaPeopleRoof,} from "react-icons/fa6";
+import {FaParking, FaWifi} from "react-icons/fa";
+import {TbAirConditioning} from "react-icons/tb";
+import {BiSolidWasher, BiHandicap} from "react-icons/bi";
 
 
 const SideNavBarSearch: React.FC<{
@@ -34,7 +37,6 @@ const SideNavBarSearch: React.FC<{
         FaHouse: FaHouse,
         FaHouseUser: FaHouseUser,
         FaPeopleRoof: FaPeopleRoof
-        // Ajoutez ici d'autres icônes que vous pourriez utiliser
     };
 
     const renderIcon = (iconName: string) => {
@@ -108,7 +110,7 @@ const SideNavBarSearch: React.FC<{
                     </svg>
                 </div>
             </div>
-            <div className="bg-[#1c2434] overflow-y-scroll no-scrollbar mt-24" style={{height: "auto"}}>
+            <div className="bg-[#1c2434] overflow-y-scroll no-scrollbar mt-24 max-h-screen" style={{height: "auto"}}>
                 <nav className="mt-9 px-6 text-[#dee4ee] ">
                     {loadingFiltre ?
                         <SpinnerDashboard color={"white"}/>

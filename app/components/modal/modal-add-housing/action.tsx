@@ -1,6 +1,6 @@
 "use server";
 import {getAllOwners} from "@/utils/apiOwner";
-import {createHousing, getHousingTypes} from "@/utils/apiHousing";
+import {createHousing, getHousingRules, getHousingTypes} from "@/utils/apiHousing";
 
 
 export async function getAllOwnerInFun() {
@@ -22,6 +22,14 @@ export async function createHouseInFun(body: any) {
 export async function getHousingTypesInFun() {
     try {
         return await getHousingTypes();
+    } catch (error: any) {
+        return {errors: error};
+    }
+}
+
+export async function getHousingRulesInFun() {
+    try {
+        return await getHousingRules();
     } catch (error: any) {
         return {errors: error};
     }
