@@ -10,9 +10,14 @@ import {
     CalendarIcon
 } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
-import {getAllOwnerInFun, getHousingTypesInFun} from "@/app/components/modal/modal-add-housing/action";
+import {
+    getAllOwnerInFun, getHousingAmenitiesInFun,
+    getHousingRulesInFun,
+    getHousingTypesInFun
+} from "@/app/components/modal/modal-add-housing/action";
 import countryList from 'react-select-country-list';
 import {updateHousingInFun} from "@/app/components/modal/modal-update-housing/action";
+import MultiSelectListboxUpdate from "@/app/components/modal/ui/MultiSelectListboxUpdate";
 
 interface FormValues {
     titre: string;
@@ -35,6 +40,8 @@ interface FormValues {
     numeroDePorte: string;
     idTypeLogement: number;
     isLouable: boolean;
+    reglesLogement: any[];
+    amenagements: any[];
 }
 
 interface OwnerType {
@@ -66,6 +73,30 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
     const [countryQuery, setCountryQuery] = useState('');
     const [checkInQuery, setCheckInQuery] = useState('');
     const [checkOutQuery, setCheckOutQuery] = useState('');
+    const [housingRules, setHousingRules] = useState<any[]>([]);
+    const [housingAmenities, setHousingAmenities] = useState<any[]>([]);
+    const [selectedHousingAmenities, setSelectedHousingAmenities] = useState<any>([]);
+    const [selectedHousingRules, setSelectedHousingRules] = useState<any>([]);
+
+    useEffect(() => {
+        if (housingData.amenagements) {
+            let keysAmenagements = Object.keys(housingData.amenagements);
+            let amenitiesArray = keysAmenagements.map(key => ({nom: translation?.t(key)}));
+            setSelectedHousingAmenities(amenitiesArray);
+        }
+        if (housingData.reglesLogement) {
+            const keysReglesLogement = Object.keys(housingData.reglesLogement);
+            let housingRulesArray = keysReglesLogement.map((key: any) => ({nom: translation?.t(key)}));
+            setSelectedHousingRules(housingRulesArray)
+        }
+    }, [housingData.amenagements, housingData.reglesLogement]);
+
+    useEffect(() => {
+        let selectedHousingRulesIds = selectedHousingRules.map((rule: any) => rule.id);
+        handleInputChange('reglesLogement', selectedHousingRulesIds);
+        let selectedHousingAmenitiesIds = selectedHousingAmenities.map((amenities: any) => amenities.id);
+        handleInputChange('amenagements', selectedHousingRulesIds);
+    }, [selectedHousingAmenities, selectedHousingRules]);
 
     useEffect(() => {
         const handleGetAllOwner = async () => {
@@ -100,11 +131,48 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                 setError(error);
             }
         };
+        const handleGetAllHousingRules = async () => {
+            setLoading(true);
+            try {
+                const response = await getHousingRulesInFun();
+                if (response.errors) {
+                    setError(response.errors);
+                } else {
+                    let rules = response.map((value: any) => ({nom: translation?.t(value.nom)}));
+                    setHousingRules(rules);
+                    setError(null);
+                }
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                setError(error);
+            }
+        };
+
+        const handleGetAllHousingAmenities = async () => {
+            setLoading(true);
+            try {
+                const response = await getHousingAmenitiesInFun();
+                if (response.errors) {
+                    setError(response.errors);
+                } else {
+                    let amenities = response.map((value: any) => ({nom: translation?.t(value.nom)}));
+                    setHousingAmenities(amenities);
+                    setError(null);
+                }
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                setError(error);
+            }
+        };
         if (focusElementRef.current) {
             focusElementRef.current.focus();
         }
         handleGetAllOwner().then();
         handleGetAllHousingType().then();
+        handleGetAllHousingRules().then();
+        handleGetAllHousingAmenities().then();
     }, [setError]);
 
     const updateHousing = async () => {
@@ -129,7 +197,9 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
             'prixParNuit': 'prixParNuitError',
             'nombresDeChambres': 'nombresDeChambresError',
             'nombresDeLits': 'nombresDeLitsError',
-            'nombresSallesDeBains': 'nombresSallesDeBainsError'
+            'nombresSallesDeBains': 'nombresSallesDeBainsError',
+            'reglesLogement': 'reglesLogementError',
+            'amenagements': 'amenagementsError',
         };
 
         const missingFields: string[] = [];
@@ -303,6 +373,21 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                 return (
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
+                            <div className="w-full">
+                                <label
+                                    className="mb-3 block text-sm font-medium text-black">{translation?.t('housingRules')}</label>
+                                <MultiSelectListboxUpdate items={housingRules} setSelected={setSelectedHousingRules}
+                                                          selectedItems={selectedHousingRules}/>
+                            </div>
+                            <br/>
+                            <div className="w-full">
+                                <label
+                                    className="mb-3 block text-sm font-medium text-black">{translation?.t('amenities')}</label>
+                                <MultiSelectListboxUpdate items={housingAmenities}
+                                                          setSelected={setSelectedHousingAmenities}
+                                                          selectedItems={selectedHousingAmenities}/>
+                            </div>
+                            <br/>
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_de_chambres')}</label>
                             <input

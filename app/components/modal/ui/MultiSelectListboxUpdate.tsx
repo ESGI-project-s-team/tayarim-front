@@ -1,15 +1,15 @@
-import {Listbox, Transition} from '@headlessui/react';
+import {Listbox, ListboxOption, ListboxOptions, Transition} from '@headlessui/react';
 import {Fragment, useState, useEffect} from 'react';
 import {CheckIcon, ChevronUpDownIcon} from '@heroicons/react/20/solid';
 import {useTranslationContext} from "@/app/[lng]/hooks";
 
 interface MultiSelectListboxProps {
     items: any[];
-    selected: any[];
+    selectedItems: any[];
     setSelected: any;
 }
 
-const MultiSelectListbox = ({items, setSelected, selected}: MultiSelectListboxProps) => {
+const MultiSelectListboxUpdate = ({items, setSelected, selectedItems}: MultiSelectListboxProps) => {
     const {translation} = useTranslationContext();
 
     const handleSelectionChange = (newSelected: any[]) => {
@@ -18,13 +18,13 @@ const MultiSelectListbox = ({items, setSelected, selected}: MultiSelectListboxPr
     };
 
     const getSelectedNames = () => {
-        if (selected.length === 0) return translation?.t('select_placeholder_form');
-        return selected.map((item) => translation?.t(item.nom)).join(', ');
+        if (selectedItems.length === 0) return translation?.t('select_placeholder_form');
+        return selectedItems.map((item) => translation?.t(item.nom)).join(', ');
     }
 
     return (
         <Listbox
-            value={selected}
+            value={items.filter((item) => selectedItems.some((selectedItem) => selectedItem.nom === item.nom))}
             onChange={(newSelected: any[]) => handleSelectionChange(newSelected)}
             multiple
         >
@@ -49,16 +49,18 @@ const MultiSelectListbox = ({items, setSelected, selected}: MultiSelectListboxPr
                     >
                         {items.map((item, itemIdx) => (
                             <Listbox.Option
+                                defaultValue={selectedItems}
                                 key={itemIdx}
-                                className={({active}) =>
-                                    `cursor-pointer relative select-none py-2 pl-10 pr-4 mb-2 ${active ? 'bg-[#f1f5f9]' : 'text-gray-900'}`
+                                className={({focus}) =>
+                                    `cursor-pointer relative select-none py-2 pl-10 pr-4 mb-2 ${focus ? 'bg-[#f1f5f9]' : 'text-gray-900'}`
                                 }
                                 value={item}
                             >
+
                                 {({selected}) => (
                                     <>
                                         <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
-                                            {translation?.t(item.nom)}
+                                            {item.nom}
                                         </span>
                                         {selected ? (
                                             <span
@@ -77,4 +79,4 @@ const MultiSelectListbox = ({items, setSelected, selected}: MultiSelectListboxPr
     );
 };
 
-export default MultiSelectListbox;
+export default MultiSelectListboxUpdate;

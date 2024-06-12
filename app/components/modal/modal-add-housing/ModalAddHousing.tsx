@@ -7,11 +7,12 @@ import {CheckIcon, ChevronDownIcon} from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import {
     createHouseInFun,
-    getAllOwnerInFun, getHousingRulesInFun,
+    getAllOwnerInFun, getHousingAmenitiesInFun, getHousingRulesInFun,
     getHousingTypesInFun
 } from "@/app/components/modal/modal-add-housing/action";
 import countryList from 'react-select-country-list';
 import MultiSelectListbox from "@/app/components/modal/ui/MultiSelectListbox";
+import {getHousingAmenities} from "@/utils/apiHousing";
 
 interface FormValues {
     titre: string;
@@ -35,6 +36,7 @@ interface FormValues {
     idTypeLogement: number | null;
     isLouable: boolean;
     reglesLogement: any[];
+    amenagements: any[];
 
 }
 
@@ -73,6 +75,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
         idTypeLogement: 1,
         isLouable: true,
         reglesLogement: [],
+        amenagements: [],
     });
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext();
@@ -83,6 +86,8 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const [owners, setOwners] = useState<OwnerType[]>([]);
     const [housingTypes, setHousingTypes] = useState<any[]>([]);
     const [housingRules, setHousingRules] = useState<any[]>([]);
+    const [housingAmenities, setHousingAmenities] = useState<any[]>([]);
+    const [selectedHousingAmenities, setSelectedHousingAmenities] = useState<any>([]);
     const [selectedHousingRules, setSelectedHousingRules] = useState<any>([]);
     const [currentStep, setCurrentStep] = useState(1);
     const [countries] = useState(countryList().getData());
@@ -141,12 +146,29 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
             }
         };
 
+        const handleGetAllHousingAmenities = async () => {
+            setLoading(true);
+            try {
+                const response = await getHousingAmenitiesInFun();
+                if (response.errors) {
+                    setError(response.errors);
+                } else {
+                    setHousingAmenities(response);
+                    setError(null);
+                }
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                setError(error);
+            }
+        };
         if (focusElementRef.current) {
             focusElementRef.current.focus();
         }
         handleGetAllOwner().then();
         handleGetAllHousingType().then();
         handleGetAllHousingRules().then();
+        handleGetAllHousingAmenities().then();
 
     }, [setError]);
 
@@ -210,7 +232,9 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     useEffect(() => {
         let selectedHousingRulesIds = selectedHousingRules.map((rule: any) => rule.id);
         handleInputChange('reglesLogement', selectedHousingRulesIds);
-    }, [selectedHousingRules]);
+        let selectedHousingAmenitiesIds = selectedHousingAmenities.map((amenities: any) => amenities.id);
+        handleInputChange('amenagements', selectedHousingRulesIds);
+    }, [selectedHousingAmenities, selectedHousingRules]);
 
     const handleNext = () => {
         if (validateStep()) {
@@ -232,7 +256,8 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 return formValues.adresse !== null && formValues.adresse.trim() !== '';
             case 4:
                 return formValues.isLouable ?
-                    (formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0 && selectedHousingRules.length > 0)
+                    (formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0 && selectedHousingRules.length > 0
+                        && selectedHousingAmenities.length > 0)
                     : formValues.description !== null && formValues.description.trim() !== '';
             case 5:
                 return formValues.capaciteMaxPersonne !== null && formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin !== null && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit !== null && formValues.prixParNuit > 0
@@ -454,6 +479,12 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('housingRules')}</label>
                             <MultiSelectListbox items={housingRules} setSelected={setSelectedHousingRules}
                                                 selected={selectedHousingRules}/>
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('amenities')}</label>
+                            <MultiSelectListbox items={housingAmenities} setSelected={setSelectedHousingAmenities}
+                                                selected={selectedHousingAmenities}/>
                         </div>
                         <div className="w-full">
                             <label
