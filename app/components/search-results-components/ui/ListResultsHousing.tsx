@@ -25,6 +25,7 @@ const ListResultsHousing: React.FC = () => {
                     setError(null);
                     response = response.filter((house: { isLouable: boolean; }) => house.isLouable);
                     setHousing(response);
+                    setFilteredHousing(response)
                 }
                 setLoading(false);
             });
@@ -36,9 +37,11 @@ const ListResultsHousing: React.FC = () => {
 
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedRules, setSelectedRules] = useState<string[]>([]);
+
+    const [maxPrice, setMaxPrice] = useState<number>(0);
+    const [minPrice, setMinPrice] = useState<number>(0);
     const [currentMaxPrice, setCurrentMaxPrice] = useState<number>(0);
     const [currentMinPrice, setCurrentMinPrice] = useState<number>(0);
-
 
     useEffect(() => {
         const filterHousing = () => {
@@ -51,14 +54,18 @@ const ListResultsHousing: React.FC = () => {
         };
         setFilteredHousing(filterHousing);
     }, [housing, selectedTypes, currentMinPrice, currentMaxPrice, selectedRules]);
+
     useEffect(() => {
         if (housing.length > 0) {
             const minHousingPrice = Math.min(...housing.map(h => h.prixParNuit));
             const maxHousingPrice = Math.max(...housing.map(h => h.prixParNuit));
+            setMinPrice(minHousingPrice);
+            setMaxPrice(maxHousingPrice);
             setCurrentMinPrice(minHousingPrice);
             setCurrentMaxPrice(maxHousingPrice);
         }
     }, [housing]);
+
     const handleFilterChange = (types: string[], maxPrice: number, minPrice: number, rules: string[]) => {
         setSelectedTypes(types);
         setCurrentMaxPrice(maxPrice);
@@ -68,10 +75,10 @@ const ListResultsHousing: React.FC = () => {
 
     return (
         <div className="lg:mr-7 mr-2 z-0 overflow-scroll mt-10 no-scrollbar">
-            <SideNavBarSearch onFilterChange={handleFilterChange} minPrice={currentMinPrice}
+            <SideNavBarSearch onFilterChange={handleFilterChange} minPrice={minPrice}
                               currentMaxPrice={currentMaxPrice}
                               currentMinPrice={currentMinPrice}
-                              maxPrice={currentMaxPrice}
+                              maxPrice={maxPrice}
             />
             <div className="relative w-full flex">
                 <div className="flex flex-col gap-2 w-full ">
