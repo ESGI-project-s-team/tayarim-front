@@ -37,7 +37,9 @@ const ListResultsHousing: React.FC = () => {
 
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedRules, setSelectedRules] = useState<string[]>([]);
-
+    const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+    const [currentBedrooms, setCurrentBedrooms] = useState<number>(0);
+    const [currentBathrooms, setCurrentBathrooms] = useState<number>(0);
     const [maxPrice, setMaxPrice] = useState<number>(0);
     const [minPrice, setMinPrice] = useState<number>(0);
     const [currentMaxPrice, setCurrentMaxPrice] = useState<number>(0);
@@ -48,12 +50,15 @@ const ListResultsHousing: React.FC = () => {
             return housing.filter(item => {
                 const inSelectedTypes = selectedTypes.length > 0 ? selectedTypes.includes(item.typeLogement) : true;
                 const inSelectedRules = selectedRules.length > 0 ? selectedRules.every(rule => rule in item.reglesLogement) : true;
+                const inSelectedAmenities = selectedAmenities.length > 0 ? selectedAmenities.every(amenity => amenity in item.amenagements) : true;
                 const inPriceRange = item.prixParNuit >= currentMinPrice && item.prixParNuit <= currentMaxPrice;
-                return inSelectedTypes && inPriceRange && inSelectedRules;
+                const inBedrooms = currentBedrooms === 0 ? true : item.nombresDeChambres >= currentBedrooms;
+                const inBathrooms = currentBathrooms === 0 ? true : item.nombresSallesDeBains >= currentBathrooms;
+                return inSelectedTypes && inPriceRange && inSelectedRules && inSelectedAmenities && inBedrooms && inBathrooms;
             });
         };
         setFilteredHousing(filterHousing);
-    }, [housing, selectedTypes, currentMinPrice, currentMaxPrice, selectedRules]);
+    }, [housing, selectedTypes, currentMinPrice, currentMaxPrice, selectedRules, selectedAmenities, currentBedrooms, currentBathrooms]);
 
     useEffect(() => {
         if (housing.length > 0) {
@@ -66,11 +71,15 @@ const ListResultsHousing: React.FC = () => {
         }
     }, [housing]);
 
-    const handleFilterChange = (types: string[], maxPrice: number, minPrice: number, rules: string[]) => {
+    const handleFilterChange = (types: string[], maxPrice: number, minPrice: number, rules: string[], amenities: string[],
+                                bedrooms: number, bathrooms: number) => {
         setSelectedTypes(types);
         setCurrentMaxPrice(maxPrice);
         setCurrentMinPrice(minPrice);
         setSelectedRules(rules)
+        setSelectedAmenities(amenities)
+        setCurrentBedrooms(bedrooms)
+        setCurrentBathrooms(bathrooms)
     };
 
     return (
