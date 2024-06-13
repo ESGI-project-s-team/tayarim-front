@@ -92,10 +92,14 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
     }, [housingData.amenagements, housingData.reglesLogement]);
 
     useEffect(() => {
-        let selectedHousingRulesIds = selectedHousingRules.map((rule: any) => rule.id);
+        let selectedHousingRulesIds = housingRules.filter((rule: any) =>
+            selectedHousingRules.some((selectedRule: any) => selectedRule.nom === translation?.t(rule.nom)))
+            .map((rule: any) => rule.id);
         handleInputChange('reglesLogement', selectedHousingRulesIds);
-        let selectedHousingAmenitiesIds = selectedHousingAmenities.map((amenities: any) => amenities.id);
-        handleInputChange('amenagements', selectedHousingRulesIds);
+        let selectedHousingAmenitiesIds = housingAmenities.filter((amenity: any) =>
+            selectedHousingAmenities.some((selectedAmenity: any) => selectedAmenity.nom === translation?.t(amenity.nom)))
+            .map((amenity: any) => amenity.id);
+        handleInputChange('amenagements', selectedHousingAmenitiesIds);
     }, [selectedHousingAmenities, selectedHousingRules]);
 
     useEffect(() => {
@@ -138,7 +142,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                 if (response.errors) {
                     setError(response.errors);
                 } else {
-                    let rules = response.map((value: any) => ({nom: translation?.t(value.nom)}));
+                    let rules = response.map((value: any) => ({nom: translation?.t(value.nom), id: value.id}));
                     setHousingRules(rules);
                     setError(null);
                 }
@@ -156,7 +160,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                 if (response.errors) {
                     setError(response.errors);
                 } else {
-                    let amenities = response.map((value: any) => ({nom: translation?.t(value.nom)}));
+                    let amenities = response.map((value: any) => ({nom: translation?.t(value.nom), id: value.id}));
                     setHousingAmenities(amenities);
                     setError(null);
                 }
@@ -177,7 +181,9 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
 
     const updateHousing = async () => {
         const requiredFieldsLouable: Array<keyof FormValues> = [
-            'titre', 'idProprietaire', 'ville', 'adresse', 'codePostal', 'pays', 'description', 'defaultCheckIn', 'defaultCheckOut', 'capaciteMaxPersonne', 'nombresNuitsMin', 'prixParNuit', 'nombresDeChambres', 'nombresDeLits', 'nombresSallesDeBains'
+            'titre', 'idProprietaire', 'ville', 'adresse', 'codePostal', 'pays', 'description', 'defaultCheckIn', 'defaultCheckOut', 'capaciteMaxPersonne', 'nombresNuitsMin',
+            'prixParNuit', 'nombresDeChambres', 'nombresDeLits', 'nombresSallesDeBains',
+            'reglesLogement', 'amenagements'
         ];
         const requiredFieldsConciergerie: Array<keyof FormValues> = [
             'titre', 'idProprietaire', 'ville', 'adresse', 'codePostal', 'pays', 'description'
@@ -205,7 +211,6 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
         const missingFields: string[] = [];
 
         const fieldsToCheck = formValues.isLouable ? requiredFieldsLouable : requiredFieldsConciergerie;
-
         fieldsToCheck.forEach(field => {
             const value = formValues[field];
             if (value === null || value === undefined || (typeof value === 'string' && !value.trim())) {

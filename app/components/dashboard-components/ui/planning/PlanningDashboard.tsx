@@ -100,6 +100,7 @@ const PlanningDashboard: React.FC = () => {
                 router.push("/dashboard");
             } else {
                 setError(null);
+                response = response.filter((house: { isLouable: boolean; }) => house.isLouable);
                 setHousing(response);
             }
             setLoading(false);
