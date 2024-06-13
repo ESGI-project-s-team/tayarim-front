@@ -89,7 +89,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
             let housingRulesArray = keysReglesLogement.map((key: any) => ({nom: translation?.t(key)}));
             setSelectedHousingRules(housingRulesArray)
         }
-    }, [housingData.amenagements, housingData.reglesLogement]);
+    }, [housingData.amenagements, housingData.reglesLogement, translation]);
 
     useEffect(() => {
         let selectedHousingRulesIds = housingRules.filter((rule: any) =>
@@ -100,7 +100,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
             selectedHousingAmenities.some((selectedAmenity: any) => selectedAmenity.nom === translation?.t(amenity.nom)))
             .map((amenity: any) => amenity.id);
         handleInputChange('amenagements', selectedHousingAmenitiesIds);
-    }, [selectedHousingAmenities, selectedHousingRules]);
+    }, [housingAmenities, housingRules, selectedHousingAmenities, selectedHousingRules, translation]);
 
     useEffect(() => {
         const handleGetAllOwner = async () => {
@@ -113,7 +113,6 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                     setOwners(response);
                     setError(null);
                 }
-                setLoading(false);
             } catch (error) {
                 setLoading(false);
                 setError(error);
@@ -129,7 +128,6 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                     setHousingTypes(response);
                     setError(null);
                 }
-                setLoading(false);
             } catch (error) {
                 setLoading(false);
                 setError(error);
@@ -146,7 +144,6 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                     setHousingRules(rules);
                     setError(null);
                 }
-                setLoading(false);
             } catch (error) {
                 setLoading(false);
                 setError(error);
@@ -164,7 +161,6 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                     setHousingAmenities(amenities);
                     setError(null);
                 }
-                setLoading(false);
             } catch (error) {
                 setLoading(false);
                 setError(error);
@@ -176,10 +172,13 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
         handleGetAllOwner().then();
         handleGetAllHousingType().then();
         handleGetAllHousingRules().then();
-        handleGetAllHousingAmenities().then();
+        handleGetAllHousingAmenities().then(
+            () => setLoading(false)
+        );
     }, [setError]);
 
     const updateHousing = async () => {
+        setLoading(true);
         const requiredFieldsLouable: Array<keyof FormValues> = [
             'titre', 'idProprietaire', 'ville', 'adresse', 'codePostal', 'pays', 'description', 'defaultCheckIn', 'defaultCheckOut', 'capaciteMaxPersonne', 'nombresNuitsMin',
             'prixParNuit', 'nombresDeChambres', 'nombresDeLits', 'nombresSallesDeBains',
@@ -223,7 +222,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
             return;
         }
         formValues.intervalReservation = 1;
-        setLoading(true);
+
         // Your code to update housing goes here
         await updateHousingInFun(formValues).then(
             async (response) => {
