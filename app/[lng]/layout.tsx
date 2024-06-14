@@ -11,7 +11,8 @@ import {
 import ErrorsManagement from "@/utils/alertErrors";
 import SuccessManagement from "@/utils/alertSuccess";
 import {pile} from "@/pile";
-
+import Loader from "@/app/components/ui/Loader";
+import "../globals.css";
 
 export default function RootLayout({children, params: {lng}}: { children: React.ReactNode; params: { lng: string } }) {
     const [theLanguage, setTheLanguage] = useState(lng);
@@ -19,6 +20,7 @@ export default function RootLayout({children, params: {lng}}: { children: React.
     const [isOpen, setIsOpen] = useState(false);
     const [isError, setError] = useState(null);
     const [isSuccess, setSuccess] = useState(null);
+    const [isLoading, setLoading] = useState(true);
 
 
     useEffect(() => {
@@ -46,15 +48,21 @@ export default function RootLayout({children, params: {lng}}: { children: React.
 
         replaceAlertSuccessOrError().then();
 
+
+    }, [isError, isSuccess]);
+
+    useEffect(() => {
         async function fetchTranslation() {
             const t = await doTranslation(theLanguage);
             setTranslation(t);
         }
 
-        fetchTranslation().then();
-
-
-    }, [theLanguage, isError, isSuccess]);
+        fetchTranslation().then(
+            () => {
+                setLoading(false);
+            }
+        );
+    }, [theLanguage]);
 
     return (
         <html lang={lng}>
@@ -70,7 +78,11 @@ export default function RootLayout({children, params: {lng}}: { children: React.
                             {isSuccess ? <SuccessManagement/> : null}
                             <body>
                             <main>
-                                {children}
+                                {isLoading ?
+                                    <Loader/>
+                                    :
+                                    children
+                                }
                             </main>
                             </body>
                         </IsOpenContext.Provider>
