@@ -1,4 +1,8 @@
 {
+  "done": "Terminée",
+  "payed": "Payée",
+  "canceled": "Annulée",
+  "in progress": "En cours",
   "versement": "Versement",
   "code_de_reservation": "Code",
   "reserved": "Réservée",
@@ -119,6 +123,7 @@
   "price": "Prix par nuit",
   "info_house": "Informations du logement",
   "info_owner": "Informations du propriétaire",
+  "info_client": "Informations du client",
   "info_reservation": "Informations de réservation",
   "calendar": "Calendrier",
   "my_profile": "Mon profil",

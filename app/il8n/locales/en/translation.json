@@ -1,4 +1,8 @@
 {
+  "done": "Done",
+  "payed": "Payed",
+  "Canceled": "Canceled",
+  "in progress": "In progress",
   "versement": "Payment",
   "code_de_reservation": "Code",
   "reserved": "Reserved",
@@ -113,6 +117,7 @@
   "info_house": "House information",
   "info_reservation": "Reservation information",
   "info_owner": "Owner information",
+  "info_client": "Client information",
   "calendar": "Calendar",
   "my_profile": "My profile",
   "success": "Your request has been successfully processed.",
