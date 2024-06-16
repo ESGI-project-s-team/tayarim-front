@@ -134,11 +134,6 @@ const FormConnection: React.FC = () => {
                         </div>
                     </form>
                     <div className="flex-wrap  justify-between ">
-                        <p className="mt-10 text-center text-sm text-gray-500">
-                            <a href="#" className="underline leading-6 text-black">
-                                {translation?.t('forgot_email')}
-                            </a>
-                        </p>
                         <p className="mt-5 text-center text-sm text-gray-500">
                             <a href="#" className="underline leading-6 text-black">
                                 {translation?.t('forgot_password')}
