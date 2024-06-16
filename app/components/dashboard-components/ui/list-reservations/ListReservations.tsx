@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import ModalEditOwner from "@/app/components/modal/modal-edit-owner/ModalEditOwner";
 import {ProprietaireDTO} from "@/app/model/Owner";
 import ModalDeleteOwner from "@/app/components/modal/modal-delete-owner/ModalDeleteOwner";
-import {useIsErrorContext, useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useAdminContext, useIsErrorContext, useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
 import ModalCreateOwner from "@/app/components/modal/modal-create-owner/ModalCreateOwner";
 import {useRouter} from "next/navigation";
 import ModalInfoHousing from "@/app/components/modal/modal-info-housing/ModalInfoHousing";
@@ -338,6 +338,8 @@ const ReservationRow = ({
                                     :
                                     any
                             }) => {
+    const {isAdmin} = useAdminContext();
+
     return (
         <div className="grid grid-cols-20 border-t px-5 py-4 gap-x-20 w-fit">
             <div className="col-span-2 flex items-center justify-center max-w-36 overflow-auto no-scrollbar">
@@ -379,7 +381,7 @@ const ReservationRow = ({
                 <p className="text-sm text-black">{reservation.montant}</p>
             </div>
             {
-                reservation.statut === 'payed' ?
+                reservation.statut === 'payed' && isAdmin ?
                     <>
                         <div
                             className="col-span-2 flex items-center justify-center text-sm text-[#3c50e0] hover:underline cursor-pointer"

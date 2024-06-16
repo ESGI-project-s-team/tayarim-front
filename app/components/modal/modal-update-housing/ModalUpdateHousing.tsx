@@ -219,6 +219,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
 
         if (missingFields.length > 0) {
             setError(missingFields);
+            setLoading(false);
             return;
         }
         formValues.intervalReservation = 1;
@@ -782,7 +783,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                                             </li>
                                             <li>
                                                 <button onClick={() => setCurrentSection('reservation')}
-                                                        className={`w-full flex items-center text-left p-2 hover:bg-gray-100 rounded-lg  ${currentSection === 'reservation' ? 'bg-gray-100 text-black border-2 border-[#3c50e0]' : 'text-black'}`}>
+                                                        className={`w-full flex items-center text-left p-2 hover:bg-gray-100 rounded-lg  ${currentSection === 'reservation' ? 'bg-gray-100 text-black border-2 border-[#3c50e0]' : 'text-black'} text-nowrap`}>
                                                     <CalendarIcon className="w-5 h-5 mr-2"/>
                                                     {translation?.t('critere_reservation')}
                                                 </button>
