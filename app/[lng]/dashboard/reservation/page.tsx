@@ -1,10 +1,10 @@
 "use client";
 import "../../../globals.css"
 import SideNavDashboard from "@/app/components/dashboard-components/ui/SideNavDashboard";
-import HomeDashboard from "@/app/components/dashboard-components/HomeDashboard";
 import NavBarDashboard from "@/app/components/dashboard-components/ui/NavBarDashboard";
 import {NotificationContext, IsOpenSideBarContext} from "@/app/[lng]/contexts";
 import {useMemo, useState} from "react";
+import ReservationDashboard from "@/app/components/dashboard-components/ReservationDashboard";
 
 
 export default function Page() {
@@ -44,7 +44,7 @@ export default function Page() {
                     <NavBarDashboard/>
                 </NotificationContext.Provider>
                 <SideNavDashboard/>
-                <HomeDashboard/>
+                <ReservationDashboard/>
             </IsOpenSideBarContext.Provider>
         </div>
     );
