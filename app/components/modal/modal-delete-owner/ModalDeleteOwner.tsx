@@ -1,15 +1,16 @@
 import {Fragment, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import {ExclamationTriangleIcon} from '@heroicons/react/24/outline'
-import {deleteOwnerInFun} from "@/app/components/modal/modal-delete-owner/action";
+import {deleteOwnerInFun, deleteReservationInFun} from "@/app/components/modal/modal-delete-owner/action";
 import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 
-export default function ModalDeleteOwner({isOpen, onClose, id, getAllOwners}: {
+export default function ModalDeleteOwner({isOpen, onClose, id, getAllOwners, resa}: {
     isOpen: boolean;
     onClose: () => void;
     getAllOwners: any;
     id: string;
+    resa?: boolean;
 }) {
     const {setError} = useIsErrorContext();
     const cancelButtonRef = useRef(null)
@@ -19,6 +20,21 @@ export default function ModalDeleteOwner({isOpen, onClose, id, getAllOwners}: {
     const handleDeleteOwner = async () => {
         setLoading(true)
         try {
+            if (resa) {
+                console.log(id)
+                deleteReservationInFun(id).then((response) => {
+                    if (response.errors) {
+                        setError(response.errors)
+                    } else {
+                        getAllOwners()
+                        setError(null)
+                        onClose(); // Close the modal
+                        setSuccess(true)
+                    }
+                    setLoading(false)
+                });
+                return
+            }
             deleteOwnerInFun({id}).then((response) => {
                 if (response.errors) {
                     setError(response.errors)

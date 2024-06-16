@@ -4,6 +4,7 @@ import {cookies} from "next/headers";
 
 
 const getAllReservationsUrl = `${BACKEND_API}/reservations`
+const deleteReservationsUrl = `${BACKEND_API}/reservations/cancel`
 
 
 export async function getAllReservations(): Promise<any> {
@@ -23,6 +24,30 @@ export async function getAllReservations(): Promise<any> {
                 return {errors: data.errors};
             }
             return {errors: "error_occurred"};
+        }
+        return data;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
+
+export async function deleteReservation(credential: any): Promise<any> {
+    const token = cookies().get("token")?.value;
+    let idString = credential.id.toString();
+    try {
+        const response = await fetch(`${deleteReservationsUrl}/${idString}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: ["error_occurred"]};
         }
         return data;
     } catch (error: any) {
