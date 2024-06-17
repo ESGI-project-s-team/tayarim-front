@@ -142,6 +142,8 @@
   "delete_housing": "Supprimer le logement",
   "warn_delete_owner": "Êtes-vous sûr de vouloir faire cette action ? Toutes les données associés seront définitivement supprimées. Cette action ne peut pas être annulée.",
   "warn_delete_housing": "Êtes-vous sûr de vouloir supprimer ce logement ? Toutes les données seront définitivement supprimées. Cette action ne peut pas être annulée.",
+  "warn_cancel_reservation": "Êtes-vous sûr de vouloir annuler cette réservation ? Un remboursement sera effectué si la réservation a été payée. Cette action ne peut pas être annulée.",
+  "remboursement": "Remboursement",
   "owner_name": "Nom du propriétaire",
   "phone": "Téléphone",
   "house": "Logement",

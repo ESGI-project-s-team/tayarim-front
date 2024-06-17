@@ -134,6 +134,8 @@
   "delete_housing": "Delete House",
   "warn_delete_owner": "Are you sure you want to deactivate this account? All of data will be permanently removed. This action cannot be undone.",
   "warn_delete_housing": "Are you sure you want to delete ? All of data will be permanently removed. This action cannot be undone.",
+  "warn_cancel_reservation": "Are you sure you want to cancel this reservation ? A refund will be made if the reservation has been paid. This action cannot be undone.",
+  "remboursement": "Refund",
   "owner_name": "Owner Name",
   "phone": "Phone",
   "house": "House",

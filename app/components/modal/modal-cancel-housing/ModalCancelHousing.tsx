@@ -1,11 +1,11 @@
 import {Fragment, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import {ExclamationTriangleIcon} from '@heroicons/react/24/outline'
-import {deleteOwnerInFun, deleteReservationInFun} from "@/app/components/modal/modal-delete-owner/action";
+import {deleteReservationInFun} from "@/app/components/modal/modal-delete-owner/action";
 import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 
-export default function ModalDeleteOwner({isOpen, onClose, id, getAllOwners}: {
+export default function ModalCancelHousing({isOpen, onClose, id, getAllOwners}: {
     isOpen: boolean;
     onClose: () => void;
     getAllOwners: any;
@@ -19,14 +19,13 @@ export default function ModalDeleteOwner({isOpen, onClose, id, getAllOwners}: {
     const handleDeleteOwner = async () => {
         setLoading(true)
         try {
-            deleteOwnerInFun({id}).then((response) => {
+            deleteReservationInFun(id).then((response) => {
                 if (response.errors) {
                     setError(response.errors)
                 } else {
                     getAllOwners()
                     setError(null)
                     onClose(); // Close the modal
-
                     setSuccess(true)
                 }
                 setLoading(false)
@@ -74,11 +73,11 @@ export default function ModalDeleteOwner({isOpen, onClose, id, getAllOwners}: {
                                         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                             <Dialog.Title as="h3"
                                                           className="text-base font-semibold leading-6 text-gray-900">
-                                                {translation?.t('delete')}
+                                                {translation?.t('remboursement')}
                                             </Dialog.Title>
                                             <div className="mt-2" ref={cancelButtonRef}>
                                                 <p className="text-sm text-gray-500">
-                                                    {translation?.t('warn_delete_owner')}
+                                                    {translation?.t('warn_cancel_reservation')}
                                                 </p>
                                             </div>
                                         </div>
@@ -92,7 +91,7 @@ export default function ModalDeleteOwner({isOpen, onClose, id, getAllOwners}: {
                                         className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                                         onClick={handleDeleteOwner}
                                     >
-                                        {translation?.t('delete')}
+                                        {translation?.t('remboursement')}
 
                                     </button>
                                     }

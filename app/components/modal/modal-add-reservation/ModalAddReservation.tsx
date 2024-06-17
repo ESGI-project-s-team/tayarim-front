@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useRef, useState} from 'react';
+import React, {Fragment, useEffect, useRef, useState} from 'react';
 import {
     Combobox,
     ComboboxButton,
@@ -13,12 +13,12 @@ import {
     useSuccessContext,
     useTranslationContext
 } from "@/app/[lng]/hooks";
-import {createOwnerInFun} from "@/app/components/modal/modal-create-owner/actions";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import {getAllHousingInFun} from "@/app/components/dashboard-components/ui/planning/action";
 import {CheckIcon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import {createReservationInFun} from "@/app/components/modal/modal-add-reservation/action";
+import DatePickerRangerCustomForm from "@/app/components/ui/DatePickerRangerCustomForm";
 
 interface FormValues {
     prenom: string;
@@ -56,7 +56,8 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
     const [housing, setHousing] = useState([]);
     const [query, setQuery] = useState('');
     const [selectedOwner, setSelectedOwner] = useState<HouseType | null>(null);
-
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
     useEffect(() => {
         if (focusElementRef.current) {
             focusElementRef.current.focus();
@@ -262,32 +263,17 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
                                                                 onChange={(e) => handleInputChange('nbPersonnes', e.target.value)}
                                                             />
                                                         </div>
-                                                        <div className="mb-5 flex  gap-6 flex-row">
-                                                            <div>
-
-                                                                <label
-                                                                    className="mb-3 block text-sm font-medium text-black">
-                                                                    {translation?.t('start_date')}
-                                                                </label>
-                                                                <input
-                                                                    placeholder={translation?.t('start_date')}
-                                                                    className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                                                    type="date"
-                                                                    onChange={(e) => handleInputChange('dateArrivee', e.target.value)}
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label
-                                                                    className="mb-3 block text-sm font-medium text-black">
-                                                                    {translation?.t('end_date')}
-                                                                </label>
-                                                                <input
-                                                                    placeholder={translation?.t('end_date')}
-                                                                    className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
-                                                                    type="date"
-                                                                    onChange={(e) => handleInputChange('dateDepart', e.target.value)}
-                                                                />
-                                                            </div>
+                                                        <div className="mb-5">
+                                                            <label
+                                                                className="mb-3 block text-sm font-medium text-black">
+                                                                {translation?.t('check')}
+                                                            </label>
+                                                            <DatePickerRangerCustomForm
+                                                                placeholder={translation?.t('btn_date')}
+                                                                days={translation?.t('days', {returnObjects: true})}
+                                                                months={translation?.t('months', {returnObjects: true})}
+                                                                handleInputChange={handleInputChange}
+                                                            />
                                                         </div>
                                                         <div className="w-full mb-5">
                                                             <label
