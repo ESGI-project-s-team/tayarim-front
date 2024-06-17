@@ -1,4 +1,5 @@
 {
+  "montant": "Montant",
   "done": "Terminée",
   "payed": "Payée",
   "canceled": "Annulée",
@@ -76,6 +77,8 @@
   "nombres_de_chambres_placeholder": "Entrez le nombre de chambres",
   "nombres_de_lits_placeholder": "Entrez le nombre de lits",
   "nombres_de_salles_de_bains_placeholder": "Entrez le nombre de salles de bains",
+  "number_of_people_placeholder_form": "Entrez le nombre de personnes",
+  "amount_placeholder_form": "Entrez le montant",
   "pays_placeholder": "Choisissez un pays",
   "ville_placeholder": "Entrez la ville",
   "adresse_placeholder": "Entrez l'adresse",
@@ -148,9 +151,14 @@
   "form_edit_housing": "Modifier le logement",
   "form_add_owner": "Ajouter un propriétaire",
   "form_add_housing": "Ajouter un logement",
+  "form_add_reservation": "Ajouter une réservation",
   "form_lastname": "Nom de famille",
   "form_firstname": "Prénom",
+  "form_lastname_client": "Nom de famille du client",
+  "form_firstname_client": "Prénom du client",
   "form_multi_select": "Sélection multiple",
+  "form_email_client": "Adresse e-mail du client",
+  "form_numTel_client": "Numéro de téléphone du client",
   "logout": "Déconnexion",
   "menu_placeholder": "MENU",
   "menu_sidenav": [
@@ -171,11 +179,11 @@
     "Virement Bancaire",
     "Achats"
   ],
-  "email_placeholder_form": "Entrez votre adresse email",
-  "first_name_placeholder_form": "Entrez votre prénom",
+  "email_placeholder_form": "Entrez adresse email",
+  "first_name_placeholder_form": "Entrez prénom",
   "housing_type_placeholder": "Sélectionnez le type de logement",
-  "last_name_placeholder_form": "Entrez votre nom de famille",
-  "phone_placeholder_form": "Entrez votre numéro de téléphone",
+  "last_name_placeholder_form": "Entrez nom de famille",
+  "phone_placeholder_form": "Entrez numéro de téléphone",
   "password_placeholder_form": "Entrez votre mot de passe",
   "confirm_password_placeholder_form": "Confirmez votre mot de passe",
   "select_placeholder_form": "Sélectionnez des options",
@@ -362,5 +370,6 @@
   "error_home_invalid_country": "Le pays saisie est invalide",
   "error_home_invalid_type_id": "L'id du type de logement est invalide",
   "error_home_invalid_title": "Le titre saisie est invalide",
-  "error_home_notExist": "Ce logement n'existe pas"
+  "error_home_notExist": "Ce logement n'existe pas",
+  "error_reservation_status_update": "Impossible de mettre à jour le statut de la réservation"
 }

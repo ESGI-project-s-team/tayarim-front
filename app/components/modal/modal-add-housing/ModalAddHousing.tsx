@@ -12,7 +12,6 @@ import {
 } from "@/app/components/modal/modal-add-housing/action";
 import countryList from 'react-select-country-list';
 import MultiSelectListbox from "@/app/components/modal/ui/MultiSelectListbox";
-import {getHousingAmenities} from "@/utils/apiHousing";
 
 interface FormValues {
     titre: string;

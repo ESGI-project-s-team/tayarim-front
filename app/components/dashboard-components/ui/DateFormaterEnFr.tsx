@@ -5,7 +5,7 @@ interface DateFormatterProps {
     theLanguage: string;
 }
 
-const DateFormatter: React.FC<DateFormatterProps> = ({date, theLanguage}) => {
+const DateFormatterEnFr: React.FC<DateFormatterProps> = ({date, theLanguage}) => {
     const [formattedDate, setFormattedDate] = useState('');
 
     const formatDate = (date: string, language: string) => {
@@ -29,4 +29,4 @@ const DateFormatter: React.FC<DateFormatterProps> = ({date, theLanguage}) => {
     return <span>{formattedDate}</span>;
 };
 
-export default DateFormatter;
+export default DateFormatterEnFr;

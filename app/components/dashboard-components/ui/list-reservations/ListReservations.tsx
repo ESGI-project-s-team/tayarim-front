@@ -12,6 +12,7 @@ import {getAllReservations} from "@/utils/apiReservation";
 import DateFormaterEnFr from "@/app/components/dashboard-components/ui/DateFormaterEnFr";
 import ModalInfoClient from "@/app/components/modal/modal-info-client/ModalInfoClient";
 import {getByIdHousingInFun} from "@/app/components/dashboard-components/ui/list-reservations/action";
+import ModalAddReservation from "@/app/components/modal/modal-add-reservation/ModalAddReservation";
 
 const ListReservations: React.FC = () => {
     const [ownerHousing, setOwnerHousing] = useState([] as any);
@@ -216,7 +217,7 @@ const ListReservations: React.FC = () => {
                                             d="M15 7H9V1C9 0.4 8.6 0 8 0C7.4 0 7 0.4 7 1V7H1C0.4 7 0 7.4 0 8C0 8.6 0.4 9 1 9H7V15C7 15.6 7.4 16 8 16C8.6 16 9 15.6 9 15V9H15C15.6 9 16 8.6 16 8C16 7.4 15.6 7 15 7Z"
                                             fill=""></path>
                                     </svg>
-                                    {translation?.t('form_add_owner')}
+                                    {translation?.t('form_add_reservation')}
                                 </button>
                             </div>
                             <div
@@ -289,8 +290,8 @@ const ListReservations: React.FC = () => {
                 <SpinnerDashboard/>
             }
             {isOpenCreate &&
-                <ModalCreateOwner isOpen={isOpenCreate} onClose={closeModal}
-                                  getAllOwners={getAllReservationsInFun}/>
+                <ModalAddReservation isOpen={isOpenCreate} onClose={closeModal}
+                                     getAllReservations={getAllReservationsInFun}/>
             }
             {isOpenEdit &&
                 <ModalEditOwner isOpen={isOpenEdit} onClose={closeModal} ownerDetails={""}
@@ -365,13 +366,8 @@ const ReservationRow = ({
             <div className="col-span-2 flex items-center justify-center text-nowrap">
                 <p className="text-sm text-[#3c50e0] hover:underline cursor-pointer"
                    onClick={() => openModalInfoHousing(reservation.idLogement)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                         stroke="currentColor" className="size-5">
-                        <path strokeLinecap="round" strokeLinejoin="round"
-                              d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
-                        <path strokeLinecap="round" strokeLinejoin="round"
-                              d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                    </svg>
+                    {/*cut reservation.titreLogement 10length*/}
+                    {reservation.titreLogement.length > 10 ? reservation.titreLogement.substring(0, 10) + '...' : ''}
                 </p>
             </div>
             <div className="col-span-2 flex items-center justify-center text-nowrap">
