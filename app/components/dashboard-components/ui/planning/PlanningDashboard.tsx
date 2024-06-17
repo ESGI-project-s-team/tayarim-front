@@ -1,21 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {checkTokenInFun} from "@/app/components/ui/signin/action";
+import React, {useCallback, useEffect, useState} from 'react';
 import {useRouter} from "next/navigation";
 import 'react-datepicker/dist/react-datepicker.css';
-import {addDays, format, startOfWeek, subDays} from 'date-fns';
-import {fr} from 'date-fns/locale';
+import {addDays, format, startOfWeek, subDays, startOfDay, endOfDay, eachDayOfInterval} from 'date-fns';
 import ModalInfoReservation from "@/app/components/modal/modal-info-reservation/ModalInfoReservation";
 import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
 import ModalCalendar from "@/app/components/modal/modal-calendar-housing/ModalCalendar";
-import {getAllHousing} from "@/utils/apiHousing";
 import {getAllHousingInFun} from "@/app/components/dashboard-components/ui/planning/action";
 import SpinnerDashboard from "@/app/components/ui/SpinnerDashboard";
+import {getAllReservations} from "@/utils/apiReservation";
+import {white} from "next/dist/lib/picocolors";
 
 const PlanningDashboard: React.FC = () => {
     const router = useRouter();
     const [currentWeekStart, setCurrentWeekStart] = useState<Date>(startOfWeek(new Date(), {weekStartsOn: 1}));
     const [modalInfoReservationIsOpen, setInfoReservationIsOpen] = useState(false);
-    const [reservation, setReservations] = useState<[]>([]);
+    const [reservations, setReservations] = useState<[]>([]);
     const [isOpenCalendar, setIsOpenCalendar] = useState(false);
     const {translation} = useTranslationContext();
     const {setError} = useIsErrorContext();
@@ -23,6 +22,7 @@ const PlanningDashboard: React.FC = () => {
     const planning_calendar = translation?.t('planning_calendar', {returnObjects: true}) ?? [];
     const month_complete = translation?.t('month_complete', {returnObjects: true}) ?? [];
     const [loading, setLoading] = useState(false);
+    const [reservationDate, setReservationDate] = useState([]);
 
     const nextWeek = () => {
         setCurrentWeekStart(addDays(currentWeekStart, 7));
@@ -36,11 +36,13 @@ const PlanningDashboard: React.FC = () => {
         setCurrentWeekStart(startOfWeek(new Date(), {weekStartsOn: 1}));
     };
 
-    function openModal(owner: any) {
+    function openModal(reservation: any) {
+        setReservationDate(reservation);
         setInfoReservationIsOpen(true);
     }
 
-    function openCalendar() {
+    function openCalendar(reservation: any) {
+        setReservationDate(reservation);
         setIsOpenCalendar(true);
     }
 
@@ -49,25 +51,53 @@ const PlanningDashboard: React.FC = () => {
         setIsOpenCalendar(false);
     }
 
-    const days = Array.from({length: 7}).map((_, index) => addDays(currentWeekStart, index));
-
-    const schedules = [
-        [" ", "#3b82f6", "#3b82f6", "", "", "", ""], // Diana Jackson
-        [" ", "#8b5cf6", "#8b5cf6", "#8b5cf6", "#8b5cf6", "#8b5cf6", ""], // Blake Shields
-        ["#f59e0b", "#f59e0b", "#f59e0b", "", "", "", ""], // Isabel Perez
-        ["#10b981", "#10b981", "#10b981", "#10b981", "#10b981", "#10b981", "#10b981"], // Ahmed (AJ) Ayad
-        ["#ef4444", "#ef4444", "#ef4444", "", "", "", ""], // Finn Halonen
-        ["#6366f1", "", "", "", "", "", ""], // June Lee
-        ["#3b82f6", "#3b82f6", "#3b82f6", "#3b82f6", "#3b82f6", "#3b82f6", ""], // Bruce Garrison
-    ];
+    const getAllReservationsInFun = useCallback(() => {
+        setLoading(true)
+        getAllReservations()
+            .then((response) => {
+                if (response.errors) {
+                    setError(response.errors);
+                } else {
+                    setError(null);
+                    response = response.filter((reservation: {
+                        statut: string;
+                    }) => reservation.statut === "payed" || reservation.statut === "in progress");
+                    setReservations(response);
+                }
+                setLoading(false)
+            });
+    }, [setError]);
 
     useEffect(() => {
-        checkTokenInFun().then((response) => {
-            if (!response) {
-                router.push("/owner-connection");
-            }
+        getAllReservationsInFun();
+    }, [getAllReservationsInFun]);
+
+    const days = Array.from({length: 7}).map((_, index) => startOfDay(addDays(currentWeekStart, index)));
+
+    const getSchedules = () => {
+        const schedules = housing.map(() => Array(7).fill(null));
+        reservations.forEach((reservation: any) => {
+            const arrivalDate = startOfDay(new Date(reservation.dateArrivee));
+            const departureDate = startOfDay(new Date(reservation.dateDepart));
+            const intervalDays = eachDayOfInterval({start: arrivalDate, end: departureDate});
+            intervalDays.forEach((intervalDay) => {
+                days.forEach((day, dayIndex) => {
+                    if (intervalDay.getTime() === day.getTime()) {
+                        schedules.forEach((schedule, houseIndex) => {
+                            if (housing[houseIndex].id === reservation.idLogement) {
+                                //compare the day of the week
+                                if (intervalDay.getDay() === day.getDay()) {
+                                    //random color for each reservation
+                                    schedule[dayIndex] = "#3b82f6";
+                                }// Replace with your desired color
+                            }
+                        });
+                    }
+                });
+            });
         });
-    }, [router]);
+        return schedules;
+    };
 
     const getMergedSchedules = (schedule: string[]) => {
         const merged = [];
@@ -78,9 +108,8 @@ const PlanningDashboard: React.FC = () => {
             if (schedule[i] === currentColor) {
                 span++;
             } else {
-                if (currentColor) {
-                    merged.push({color: currentColor, span});
-                }
+
+                merged.push({color: currentColor, span});
                 currentColor = schedule[i];
                 span = 1;
             }
@@ -91,6 +120,8 @@ const PlanningDashboard: React.FC = () => {
 
         return merged;
     };
+
+    const mergedSchedules = getSchedules().map(getMergedSchedules);
 
     useEffect(() => {
         setLoading(true);
@@ -158,18 +189,22 @@ const PlanningDashboard: React.FC = () => {
 
                                                 {housing.map((house, index) => (
                                                     <div key={index}
-                                                         className="border-b border-gray-300 p-2 flex-1 flex items-center justify-between  ">
+                                                         className="border-b border-gray-300 p-2 flex-1 flex items-center justify-between  min-h-16">
                                                         <h4 className="text-xs sm:text-xs md:text-sm lg:text-sm font-normal truncate">{house.titre}</h4>
                                                         <div
                                                             className="border border-[#DDDDDD] p-1 rounded-full cursor-pointer w-fit hover:border-black
-                                                    bg-gray-100 mb-4"
-                                                            onClick={() => openCalendar()}>
+                                            bg-gray-100 mb-4"
+                                                            onClick={() => openCalendar(
+                                                                reservations.filter((reservation: {
+                                                                    idLogement: number;
+                                                                }) => reservation.idLogement === house.id)
+                                                            )}>
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                  viewBox="0 0 24 24"
                                                                  strokeWidth="1.5" stroke="currentColor"
                                                                  className="sm:size-4 size-3">
                                                                 <path strokeLinecap="round" strokeLinejoin="round"
-                                                                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 5.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"/>
+                                                                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 5.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008V15Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"/>
                                                             </svg>
                                                         </div>
                                                     </div>
@@ -187,21 +222,22 @@ const PlanningDashboard: React.FC = () => {
                                                     ))}
                                                 </div>
                                                 {housing.map((house, personIndex) => (
-                                                    <div key={personIndex} className="grid grid-cols-7 gap-0">
-                                                        {getMergedSchedules(schedules[personIndex]).map((block, blockIndex, array) => (
+                                                    <div key={personIndex} className="grid grid-cols-7 gap-0 ">
+                                                        {mergedSchedules[personIndex].map((block, blockIndex, array) => (
                                                             <div
                                                                 key={blockIndex}
-                                                                className={`border-r border-gray-300 border-b  p-2 flex items-center justify-center`}
-                                                                style={{gridColumn: `span ${block.span}`}}
+                                                                className={`border-r border-gray-300 border-b p-1 flex items-center justify-center`}
+                                                                style={{gridColumn: `span ${block.span ?? 1} `}}
                                                             >
-                                                                <div className="h-12 w-full rounded-md cursor-pointer "
-                                                                     onClick={() => openModal(reservation[personIndex])}
-                                                                     style={{backgroundColor: block.color}}></div>
+                                                                <div
+                                                                    className="h-12 w-full rounded-md cursor-pointer "
+                                                                    onClick={() => openModal(reservations[personIndex])}
+                                                                    style={{backgroundColor: block.color ?? white}}></div>
                                                             </div>
                                                         ))}
-                                                        {Array.from({length: 7 - getMergedSchedules(schedules[personIndex]).reduce((acc, block) => acc + block.span, 0)}).map((_, i) => (
+                                                        {Array.from({length: 7 - mergedSchedules[personIndex].reduce((acc, block) => acc + block.span, 0)}).map((_, i) => (
                                                             <div key={i}
-                                                                 className="border-r border-b border-gray-300 p-2 flex items-center justify-center"></div>
+                                                                 className="border-b border-r  border-gray-300  flex items-center justify-center min-h-16 "></div>
                                                         ))}
                                                     </div>
                                                 ))}
@@ -218,11 +254,11 @@ const PlanningDashboard: React.FC = () => {
             {
                 modalInfoReservationIsOpen && (
                     <ModalInfoReservation isOpen={modalInfoReservationIsOpen} onClose={closeModal}
-                                          infosReservation={reservation}/>
+                                          infosReservation={reservationDate}/>
                 )
             }
             {isOpenCalendar &&
-                <ModalCalendar isOpen={isOpenCalendar} onClose={closeModal} id={"id"}/>
+                <ModalCalendar isOpen={isOpenCalendar} onClose={closeModal} reservations={reservationDate}/>
             }
         </div>
     );
