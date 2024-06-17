@@ -14,6 +14,7 @@ import ModalInfoClient from "@/app/components/modal/modal-info-client/ModalInfoC
 import {getByIdHousingInFun} from "@/app/components/dashboard-components/ui/list-reservations/action";
 import ModalAddReservation from "@/app/components/modal/modal-add-reservation/ModalAddReservation";
 import ModalCancelHousing from "@/app/components/modal/modal-cancel-housing/ModalCancelHousing";
+import ModalUpdateReservation from "@/app/components/modal/modal-update-reservation/ModalUpdateReservation";
 
 const ListReservations: React.FC = () => {
     const [ownerHousing, setOwnerHousing] = useState([] as any);
@@ -294,8 +295,8 @@ const ListReservations: React.FC = () => {
                                      getAllReservations={getAllReservationsInFun}/>
             }
             {isOpenEdit &&
-                <ModalEditOwner isOpen={isOpenEdit} onClose={closeModal} ownerDetails={""}
-                                getAllOwners={getAllReservationsInFun}/>
+                <ModalUpdateReservation isOpen={isOpenEdit} onClose={closeModal} reservationData={""}
+                                        getAllReservations={getAllReservationsInFun}/>
             }
             {isOpenDelete &&
                 <ModalCancelHousing isOpen={isOpenDelete} onClose={closeModal} id={reservationDetails}

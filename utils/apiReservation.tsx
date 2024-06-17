@@ -5,6 +5,7 @@ import {cookies} from "next/headers";
 
 const getAllReservationsUrl = `${BACKEND_API}/reservations`
 const createReservationsUrl = `${BACKEND_API}/reservations`
+const updateReservationsUrl = `${BACKEND_API}/reservations`
 const deleteReservationsUrl = `${BACKEND_API}/reservations/cancel`
 
 
@@ -61,6 +62,30 @@ export async function createReservation(credential: any): Promise<any> {
     try {
         const response = await fetch(createReservationsUrl, {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(credential),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: ["error_occurred"]};
+        }
+        return data;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
+
+export async function updateReservation(credential: any): Promise<any> {
+    const token = cookies().get("token")?.value;
+    try {
+        const response = await fetch(updateReservationsUrl, {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
