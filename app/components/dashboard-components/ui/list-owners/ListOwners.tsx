@@ -82,7 +82,7 @@ const ListOwners: React.FC = () => {
                         </button>
                     </div>
                     <div
-                        className="relative  border  bg-white   top-32   rounded-[10px] stroke-2 max-h-[70%] overflow-auto ">
+                        className="relative  border  bg-white   top-32   rounded-[10px] stroke-2 max-h-[70vh] overflow-auto ">
                         <div className="max-w-full">
                             <div className="min-w-[1170px]">
                                 <div className="grid grid-cols-12 bg-[#F9FAFB] px-5 py-4 ">
@@ -128,7 +128,7 @@ const ListOwners: React.FC = () => {
                                             </div>
                                             :
                                             <div
-                                                className="col-span-2 items-center text-gray-400 ml-7">
+                                                className="col-span-2 items-center text-gray-400 ml-3">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                      strokeWidth={1.5} stroke="currentColor" className="size-4">
                                                     <path strokeLinecap="round" strokeLinejoin="round"
@@ -163,7 +163,8 @@ const ListOwners: React.FC = () => {
                                             </svg>
                                         </div>
                                         <div
-                                            className="col-span-1  items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10 "
+                                            className="col-span-1  items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10
+                                            w-fit"
                                             onClick={() =>
                                                 openModalDelete(
                                                     {

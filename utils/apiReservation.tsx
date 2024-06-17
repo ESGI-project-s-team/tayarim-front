@@ -83,8 +83,9 @@ export async function createReservation(credential: any): Promise<any> {
 
 export async function updateReservation(credential: any): Promise<any> {
     const token = cookies().get("token")?.value;
+    let url = `${updateReservationsUrl}/${credential.id}`;
     try {
-        const response = await fetch(updateReservationsUrl, {
+        const response = await fetch(url, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

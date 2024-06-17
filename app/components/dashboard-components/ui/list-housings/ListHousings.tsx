@@ -114,7 +114,7 @@ const ListHousings: React.FC = () => {
                         </button>
                     </div>
                     <div
-                        className="relative  border  bg-white   top-32   rounded-[10px] stroke-2 max-h-[70%] overflow-auto ">
+                        className="relative  border  bg-white   top-32   rounded-[10px] stroke-2 max-h-[70vh] overflow-auto ">
                         <div className="max-w-full">
                             <div className="min-w-[1170px]">
                                 <div className="grid  bg-[#F9FAFB] px-5 py-4"
@@ -146,7 +146,7 @@ const ListHousings: React.FC = () => {
                                         </div>
                                         <div className="col-span-2 items-center  max-w-36 overflow-auto no-scrollbar flex
                                 text-[#3c50e0] hover:underline cursor-pointer">
-                                            <p className="text-sm ml-2"
+                                            <p className="text-sm "
                                                onClick={() => openModalInfoOwner(index)}>{ownerDetailsList[index]?.prenom} {ownerDetailsList[index]?.nom}</p>
                                         </div>
                                         <div

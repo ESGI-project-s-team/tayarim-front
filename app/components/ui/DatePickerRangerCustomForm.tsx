@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import {useNavbarContext} from "@/app/[lng]/hooks";
 
 interface DatePickerRangeCustomProps {
+    value?: string[];
     placeholder: string;
     days: { [key: string]: string };
     months: { [key: string]: string };
@@ -11,14 +12,28 @@ interface DatePickerRangeCustomProps {
 }
 
 const DatePickerRangerCustomForm: React.FC<DatePickerRangeCustomProps> = ({
+                                                                              value,
                                                                               placeholder,
                                                                               days,
                                                                               months,
                                                                               handleInputChange,
                                                                           }: DatePickerRangeCustomProps) => {
     const {theLanguage} = useNavbarContext();
-    const [startDateCurrent, setStartDateCurrent] = useState<Date | null>(null);
-    const [endDateCurrent, setEndDateCurrent] = useState<Date | null>(null);
+
+    const parseDate = (dateString: string) => {
+        const [year, month, day] = dateString.split('-').map(Number);
+        return new Date(year, month - 1, day);
+    };
+
+    const [startDateCurrent, setStartDateCurrent] = useState<Date | null>(value && value[0] ? parseDate(value[0]) : null);
+    const [endDateCurrent, setEndDateCurrent] = useState<Date | null>(value && value[1] ? parseDate(value[1]) : null);
+
+    useEffect(() => {
+        if (value) {
+            setStartDateCurrent(value[0] ? parseDate(value[0]) : null);
+            setEndDateCurrent(value[1] ? parseDate(value[1]) : null);
+        }
+    }, [value]);
 
     const locale: any = {
         localize: {
@@ -72,7 +87,7 @@ const DatePickerRangerCustomForm: React.FC<DatePickerRangeCustomProps> = ({
                 minDate={new Date()}
                 placeholderText={placeholder}
                 locale={locale}
-                dateFormat="dd MMM YYYY"
+                dateFormat="dd MMM yyyy"
                 onChangeRaw={handleFocus}
                 onFocus={handleFocus}
                 icon={

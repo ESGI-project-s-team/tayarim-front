@@ -103,8 +103,8 @@ const ListReservations: React.FC = () => {
         return classes.filter(Boolean).join(' ')
     }
 
-    function openModalEdit(owner: ProprietaireDTO) {
-
+    function openModalEdit(reservation: any) {
+        setReservationDetails(reservation)
         setIsOpenEdit(true)
     }
 
@@ -222,7 +222,8 @@ const ListReservations: React.FC = () => {
                                 </button>
                             </div>
                             <div
-                                className="relative border bg-white  rounded-[10px] stroke-2 max-h-[70%] overflow-auto">
+                                className="relative border rounded-[10px] stroke-2 bg-white max-h-[60vh]  overflow-auto"
+                            >
                                 <div className="max-w-full">
                                     <div className="min-w-[1170px]">
                                         <div
@@ -295,7 +296,7 @@ const ListReservations: React.FC = () => {
                                      getAllReservations={getAllReservationsInFun}/>
             }
             {isOpenEdit &&
-                <ModalUpdateReservation isOpen={isOpenEdit} onClose={closeModal} reservationData={""}
+                <ModalUpdateReservation isOpen={isOpenEdit} onClose={closeModal} reservationData={reservationDetails}
                                         getAllReservations={getAllReservationsInFun}/>
             }
             {isOpenDelete &&
@@ -382,16 +383,7 @@ const ReservationRow = ({
                     <>
                         <div
                             className="col-span-2 flex items-center justify-center text-sm text-[#3c50e0] hover:underline cursor-pointer"
-                            onClick={() => openModalEdit({
-                                id: reservation.id,
-                                nom: reservation.nom,
-                                prenom: reservation.prenom,
-                                email: reservation.email,
-                                numTel: reservation.numTel,
-                                dateInscription: reservation.dateInscription,
-                                logements: reservation.logements,
-                                commission: reservation.commission
-                            })}>
+                            onClick={() => openModalEdit(reservation)}>
                             {translation?.t('edit')}
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                                  stroke="currentColor" className="w-4 h-4 ml-1">

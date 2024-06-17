@@ -55,9 +55,8 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
     const {translation} = useTranslationContext();
     const [housing, setHousing] = useState([]);
     const [query, setQuery] = useState('');
-    const [selectedOwner, setSelectedOwner] = useState<HouseType | null>(null);
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [selectedHousing, setSelectedHousing] = useState<HouseType | null>(null);
+
     useEffect(() => {
         if (focusElementRef.current) {
             focusElementRef.current.focus();
@@ -65,7 +64,7 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
     }, []);
 
     useEffect(() => {
-        const handleGetAllOwner = async () => {
+        const handleGetAllHousing = async () => {
             setLoading(true);
             try {
                 const response = await getAllHousingInFun();
@@ -81,7 +80,7 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
                 setError(error);
             }
         };
-        handleGetAllOwner().then(
+        handleGetAllHousing().then(
             () => setLoading(false)
         );
     }, [setError]);
@@ -96,7 +95,8 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
             const phoneValid = phoneRegex.test(formValues.numTel);
             setButtonDisabled(!(allFieldsFilled && emailValid && phoneValid));
         } else {
-            const allFieldsFilled = [formValues.nbPersonnes, formValues.montant, formValues.dateArrivee, formValues.dateDepart, formValues.idLogement].every(value => value !== '' && value !== 0);
+            const allFieldsFilled = [formValues.nbPersonnes, formValues.montant, formValues.dateArrivee, formValues.dateDepart, formValues.idLogement].every(value => value !== '' && value !== 0 &&
+                value !== null);
             setButtonDisabled(!allFieldsFilled);
         }
     }, [formValues, step]);
@@ -278,9 +278,9 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
                                                         <div className="w-full mb-5">
                                                             <label
                                                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('house')}</label>
-                                                            <Combobox value={selectedOwner}
+                                                            <Combobox value={selectedHousing}
                                                                       onChange={(value: HouseType) => {
-                                                                          setSelectedOwner(value);
+                                                                          setSelectedHousing(value);
                                                                           handleInputChange('idLogement', value?.id);
                                                                       }}>
                                                                 <div className="relative">
