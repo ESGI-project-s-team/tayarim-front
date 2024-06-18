@@ -41,6 +41,11 @@ const Navbar: React.FC = () => {
 
     }
 
+    async function handleModificationReservationPage() {
+        router.push("/modification-reservation")
+        setIsOpen(false)
+    }
+
     async function handleLogout() {
         await logoutInFun().then(
             async (response) => {
@@ -123,7 +128,27 @@ const Navbar: React.FC = () => {
                                 showBackground={showBackground}
                             />
                         </div>
-
+                        <div className={isOpen ? "w-full  lg:ml-20" : "ml-20 w-full "}>
+                            <button
+                                style={{
+                                    borderColor: showBackground ? "black" : "",
+                                    color: showBackground ? "black" : ""
+                                }}
+                                onClick={handleModificationReservationPage}
+                                className={isOpen ? "bg-transparent font-semibold border border-black rounded h-10 mt-11 px-6 my-2 lg:text-white text-black lg:border-white text-nowrap"
+                                    : "bg-transparent font-semibold border border-white rounded h-10 mt-11 px-6 my-2 text-white text-nowrap"}>
+                                <div className="flex">
+                                    <span>{translation?.t('btn_modification_reservation')}</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                         viewBox="0 0 24 24"
+                                         strokeWidth={1.5} stroke="currentColor"
+                                         className="w-5 h-6 ml-2 mt-0.5">
+                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                              d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"/>
+                                    </svg>
+                                </div>
+                            </button>
+                        </div>
                         <div className={isOpen ? "w-full mb-5 lg:mb-0 lg:ml-20" : "ml-20 w-full "}>
                             {isFirstConnection ? (
                                 <button

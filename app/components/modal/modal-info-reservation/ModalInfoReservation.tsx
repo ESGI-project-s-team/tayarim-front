@@ -1,6 +1,5 @@
 import React, {Fragment} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
-import TooltipPersonalized from "@/app/components/ui/TooltipPersonalized";
 import {useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
 import DateFormaterEnFr from "@/app/components/dashboard-components/ui/DateFormaterEnFr";
 
