@@ -11,7 +11,6 @@ export default function ModalInfoReservation({isOpen, onClose, infosReservation}
 }) {
     const {translation} = useTranslationContext()
     const {currentLanguage} = useNavbarContext()
-    console.log('infosReservation', infosReservation)
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-40" onClose={

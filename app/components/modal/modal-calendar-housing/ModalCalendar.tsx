@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useCallback} from 'react';
+import React, {Fragment, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
@@ -22,6 +22,7 @@ export default function ModalCalendar({isOpen, onClose, reservations}: ModalCale
     const menu_days = translation?.t('days_calendar', {returnObjects: true}) ?? [];
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [modalInfoReservationIsOpen, setInfoReservationIsOpen] = useState(false);
+    const [reservationData, setReservation] = useState({});
 
     const generateMonthDays = (date: Date) => {
         const year = date.getFullYear();
@@ -65,10 +66,10 @@ export default function ModalCalendar({isOpen, onClose, reservations}: ModalCale
         e.target.blur();
     };
 
-    function openModal(date: any) {
+    function openModal(date: any, reservation: any) {
         if (isDateInReservations(date)) {
             setInfoReservationIsOpen(true);
-
+            setReservation(reservation);
         } else {
             setInfoReservationIsOpen(false);
         }
@@ -163,7 +164,7 @@ export default function ModalCalendar({isOpen, onClose, reservations}: ModalCale
                                                 <path
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
-                                                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
+                                                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008V15Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
                                                 />
                                             </svg>
                                         </div>
@@ -179,8 +180,8 @@ export default function ModalCalendar({isOpen, onClose, reservations}: ModalCale
                                                         {menu_days_all.map((page: string, index: number) => (
                                                             <th className="flex h-15 items-center justify-center p-1 text-xs font-semibold sm:text-base xl:p-5"
                                                                 key={index}>
-                                                                        <span
-                                                                            className="hidden lg:block"> {page} </span><span
+                                                                    <span
+                                                                        className="hidden lg:block"> {page} </span><span
                                                                 className="block lg:hidden"> {menu_days[index]} </span>
                                                             </th>
                                                         ))}
@@ -193,10 +194,19 @@ export default function ModalCalendar({isOpen, onClose, reservations}: ModalCale
                                                                 <td
                                                                     className={`ease relative h-20 cursor-pointer border border-stroke p-2 transition duration-500 ${isDateInReservations(date) ? 'bg-blue-200' : 'hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4'} md:h-25 md:p-6 xl:h-31`}
                                                                     key={dayIndex}
-                                                                    onClick={() => openModal(date)}
+                                                                    onClick={() => {
+                                                                        const reservation = reservations.find(reservation => {
+                                                                            const arrivee = new Date(new Date(reservation.dateArrivee).setDate(
+                                                                                new Date(reservation.dateArrivee).getDate() - 1
+                                                                            ));
+                                                                            const depart = new Date(reservation.dateDepart);
+                                                                            return date >= arrivee && date <= depart;
+                                                                        });
+                                                                        openModal(date, reservation);
+                                                                    }}
                                                                 >
-                                                    <span
-                                                        className="font-medium text-black">{date.getDate()}</span>
+                                                                    <span
+                                                                        className="font-medium text-black">{date.getDate()}</span>
                                                                 </td>
                                                             ))}
                                                         </tr>
@@ -215,7 +225,7 @@ export default function ModalCalendar({isOpen, onClose, reservations}: ModalCale
             {
                 modalInfoReservationIsOpen && (
                     <ModalInfoReservation isOpen={modalInfoReservationIsOpen} onClose={closeModal}
-                                          infosReservation={reservations[0]}/>
+                                          infosReservation={reservationData}/>
                 )
             }
         </div>
