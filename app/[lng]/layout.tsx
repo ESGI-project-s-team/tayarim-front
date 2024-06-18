@@ -13,6 +13,10 @@ import SuccessManagement from "@/utils/alertSuccess";
 import {pile} from "@/pile";
 import Loader from "@/app/components/ui/Loader";
 import "../globals.css";
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from "@stripe/stripe-js";
+
+const stripePromise = loadStripe('pk_test_51MV0btCKT0mt6g5QYamT5yDfyrku9XATDC3xSYgq4GBGTJopMZYKX5wSGlkGwhFjOYXy306hucFP8psxjtBQsxHk008MgdE8cx');
 
 export default function RootLayout({children, params: {lng}}: { children: React.ReactNode; params: { lng: string } }) {
     const [theLanguage, setTheLanguage] = useState(lng);
@@ -74,17 +78,19 @@ export default function RootLayout({children, params: {lng}}: { children: React.
                 <IsSuccessContext.Provider value={{isSuccess, setSuccess}}>
                     <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
                         <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
-                            {isError ? <ErrorsManagement data={isError}/> : null}
-                            {isSuccess ? <SuccessManagement/> : null}
-                            <body>
-                            <main>
-                                {isLoading ?
-                                    <Loader/>
-                                    :
-                                    children
-                                }
-                            </main>
-                            </body>
+                            <Elements stripe={stripePromise}>
+                                {isError ? <ErrorsManagement data={isError}/> : null}
+                                {isSuccess ? <SuccessManagement/> : null}
+                                <body>
+                                <main>
+                                    {isLoading ?
+                                        <Loader/>
+                                        :
+                                        children
+                                    }
+                                </main>
+                                </body>
+                            </Elements>
                         </IsOpenContext.Provider>
                     </NavbarContext.Provider>
                 </IsSuccessContext.Provider>
