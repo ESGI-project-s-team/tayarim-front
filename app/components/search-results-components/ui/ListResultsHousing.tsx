@@ -102,44 +102,47 @@ const ListResultsHousing: React.FC = () => {
                                 </div>
                             )}
                             {filteredHousing.map(item => (
-                                <div key={item.id}
-                                     className="flex flex-col sm:flex-row border border-gray-300 rounded-lg p-4 mb-5 h-auto sm:h-64 relative cursor-pointer transition-shadow bg-white">
-                                    <img
-                                        src={item.image ? item.image : "https://via.placeholder.com/150"}
-                                        alt={item.titre}
-                                        className="w-full sm:w-64 h-48 sm:h-full object-cover rounded-lg mb-4 sm:mb-0 sm:mr-4"/>
-                                    <div className="flex flex-col w-full">
-                                        <div className="flex justify-between">
-                                            <h2 className="text-lg font-bold mb-2">{item.titre}</h2>
-                                            <p className="hidden sm:block text-lg font-bold">{item.prixParNuit ? `${item.prixParNuit} €/${translation?.t('night')}` : 'N/A'}</p>
-                                        </div>
-                                        <div className="h-10 max-w-2xl overflow-y-auto mt-2 sm:mt-5 no-scrollbar">
-                                            <p className="text-sm text-gray-600">{item.description}</p>
-                                        </div>
-                                        <div className="flex flex-wrap mt-10">
-                                            <MdOutlineHomeWork size="20"/>
-                                            <p className="text-sm text-gray-600 ml-2 underline">{translation?.t(item.typeLogement)},</p>
-                                            <p className="text-sm text-gray-600 ml-2">{item.ville},</p>
-                                            <p className="text-sm text-gray-600 ml-2">{item.codePostal},</p>
-                                            <p className="text-sm text-gray-600 ml-2">{item.pays}</p>
-                                        </div>
-                                        <div className="flex flex-wrap mt-10 sm:justify-around justify-between">
-                                            <div className="flex items-center">
-                                                <HiOutlineUserGroup size="20"/>
-                                                <p className="text-sm text-gray-600 ml-2">{item.capaciteMaxPersonne} {translation?.t('guest_max')}</p>
+                                <a key={item.id} href={`search-results/details`} target={"_blank"}>
+                                    <div
+                                        className="flex flex-col sm:flex-row border border-gray-300 rounded-lg p-4 mb-5 h-auto sm:h-64 relative cursor-pointer transition-shadow bg-white"
+                                    >
+                                        <img
+                                            src={item.image ? item.image : "https://via.placeholder.com/150"}
+                                            alt={item.titre}
+                                            className="w-full sm:w-64 h-48 sm:h-full object-cover rounded-lg mb-4 sm:mb-0 sm:mr-4"/>
+                                        <div className="flex flex-col w-full">
+                                            <div className="flex justify-between">
+                                                <h2 className="text-lg font-bold mb-2">{item.titre}</h2>
+                                                <p className="hidden sm:block text-lg font-bold">{item.prixParNuit ? `${item.prixParNuit} €/${translation?.t('night')}` : 'N/A'}</p>
                                             </div>
-                                            <div className="flex items-center">
-                                                <LiaBedSolid size="20"/>
-                                                <p className="text-sm text-gray-600 ml-2">{item.nombresDeChambres} {translation?.t('beds')}</p>
+                                            <div className="h-10 max-w-2xl overflow-y-auto mt-2 sm:mt-5 no-scrollbar">
+                                                <p className="text-sm text-gray-600">{item.description}</p>
                                             </div>
-                                            <div className="flex items-center">
-                                                <PiBathtub size="20"/>
-                                                <p className="text-sm text-gray-600 ml-2">{item.nombresSallesDeBains} {translation?.t('bathrooms')}</p>
+                                            <div className="flex flex-wrap mt-10">
+                                                <MdOutlineHomeWork size="20"/>
+                                                <p className="text-sm text-gray-600 ml-2 underline">{translation?.t(item.typeLogement)},</p>
+                                                <p className="text-sm text-gray-600 ml-2">{item.ville},</p>
+                                                <p className="text-sm text-gray-600 ml-2">{item.codePostal},</p>
+                                                <p className="text-sm text-gray-600 ml-2">{item.pays}</p>
                                             </div>
+                                            <div className="flex flex-wrap mt-10 sm:justify-around justify-between">
+                                                <div className="flex items-center">
+                                                    <HiOutlineUserGroup size="20"/>
+                                                    <p className="text-sm text-gray-600 ml-2">{item.capaciteMaxPersonne} {translation?.t('guest_max')}</p>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <LiaBedSolid size="20"/>
+                                                    <p className="text-sm text-gray-600 ml-2">{item.nombresDeChambres} {translation?.t('beds')}</p>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <PiBathtub size="20"/>
+                                                    <p className="text-sm text-gray-600 ml-2">{item.nombresSallesDeBains} {translation?.t('bathrooms')}</p>
+                                                </div>
+                                            </div>
+                                            <p className="block sm:hidden text-lg font-bold mt-10">{item.prixParNuit ? `${item.prixParNuit} €/nuit` : 'N/A'}</p>
                                         </div>
-                                        <p className="block sm:hidden text-lg font-bold mt-10">{item.prixParNuit ? `${item.prixParNuit} €/nuit` : 'N/A'}</p>
                                     </div>
-                                </div>
+                                </a>
                             ))}
                         </>
                     }

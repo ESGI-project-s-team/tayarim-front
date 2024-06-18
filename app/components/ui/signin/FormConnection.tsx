@@ -135,7 +135,7 @@ const FormConnection: React.FC = () => {
                     </form>
                     <div className="flex-wrap  justify-between ">
                         <p className="mt-5 text-center text-sm text-gray-500">
-                            <a href="#" className="underline leading-6 text-black">
+                            <a href="/password-reset" className="underline leading-6 text-black">
                                 {translation?.t('forgot_password')}
                             </a>
                         </p>
