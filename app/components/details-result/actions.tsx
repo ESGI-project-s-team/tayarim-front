@@ -1,5 +1,6 @@
 import {capturePaymentIntent, capturePayment} from "@/utils/apiStripe";
 import {updatePaymentIntentReservation} from "@/utils/apiReservation";
+import {getDatesIndispoByIdHousing} from "@/utils/apiHousing";
 
 export async function capturePaymentIntentInFun(amount: any) {
     try {
@@ -20,6 +21,14 @@ export async function capturePaymentInFun(paymentIntentId: any) {
 export async function updatePaymentIntentReservationInFun(credential: any) {
     try {
         return await updatePaymentIntentReservation(credential);
+    } catch (error: any) {
+        return {errors: error};
+    }
+}
+
+export async function getDatesIndispoByIdHousingInFun(id: number) {
+    try {
+        return await getDatesIndispoByIdHousing(id);
     } catch (error: any) {
         return {errors: error};
     }

@@ -83,7 +83,7 @@ const SelectMenusCustom: React.FC<SelectMenusCustomProps> = ({
                                         key={person.id}
                                         className={({active}) =>
                                             classNames(
-                                                active ? 'bg-gray-300' : 'text-gray-900',
+                                                active ? 'bg-gray-200' : 'text-gray-900',
                                                 'relative cursor-default select-none py-2 pl-3 pr-9'
                                             )
                                         }

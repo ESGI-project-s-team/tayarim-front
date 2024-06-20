@@ -18,32 +18,45 @@ const ListResultsHousing: React.FC = () => {
     const [destination, setDestination] = useState<string | null>('');
     const [dateArrivee, setDateArrivee] = useState<string | null>(null);
     const [dateDepart, setDateDepart] = useState<string | null>(null);
-    const [nbPersonnes, setNbPersonnes] = useState<number | null>(null);
+    const [nbPersonnes, setNbPersonnes] = useState<number | null | string>(null);
 
-    const searchHousingFun = useCallback(() => {
+    const initializeStateFromLocalStorage = useCallback(() => {
         setDestination(localStorage.getItem('location'));
         setDateArrivee(localStorage.getItem('checkin'));
         setDateDepart(localStorage.getItem('checkout'));
-        setNbPersonnes(parseInt(localStorage.getItem('guest')!));
-        return
+        setNbPersonnes(localStorage.getItem('guest') || null);
+    }, []);
+
+    const searchHousingFun = useCallback(async () => {
         setLoading(true);
-        searchHousing({destination, dateArrivee, dateDepart, nbPersonnes})
+        //convert format date to yyyy-mm-dd
+        const body = {
+            destination: localStorage.getItem('location'),
+            dateArrivee: localStorage.getItem('checkin'),
+            dateDepart: localStorage.getItem('checkout'),
+            nbPersonnes: localStorage.getItem('guest') || null,
+        };
+        body.dateArrivee = body.dateArrivee ? new Date(body.dateArrivee).toISOString().split('T')[0] : null;
+        body.dateDepart = body.dateDepart ? new Date(body.dateDepart).toISOString().split('T')[0] : null;
+
+        await searchHousing(body)
             .then(async (response) => {
                 if (response.errors) {
-                    setError(response.errors);
+                    setError(null);
                 } else {
                     setError(null);
-                    response = response.filter((house: { isLouable: boolean; }) => house.isLouable);
-                    setHousing(response);
-                    setFilteredHousing(response)
+                    const newResponse = response.filter((house: { isLouable: boolean; }) => house.isLouable);
+                    setHousing(newResponse);
+                    setFilteredHousing(newResponse)
                 }
-                setLoading(false);
-            });
-    }, [dateArrivee, dateDepart, destination, nbPersonnes, setError]);
+            })
+            .finally(() => setLoading(false));
+    }, [setError]);
 
     useEffect(() => {
+        initializeStateFromLocalStorage();
         searchHousingFun();
-    }, [searchHousingFun]);
+    }, [initializeStateFromLocalStorage, searchHousingFun]);
 
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedRules, setSelectedRules] = useState<string[]>([]);
@@ -96,7 +109,7 @@ const ListResultsHousing: React.FC = () => {
         <div className="lg:mr-7 mr-2 z-0 overflow-scroll mt-10 no-scrollbar">
             <SearchRoomReservation
                 search={true}
-                searchHousing={searchHousingFun}
+                searchHousingCurrent={searchHousingFun}
             />
             <SideNavBarSearch onFilterChange={handleFilterChange} minPrice={minPrice}
                               currentMaxPrice={currentMaxPrice}
@@ -104,7 +117,7 @@ const ListResultsHousing: React.FC = () => {
                               maxPrice={maxPrice}
             />
             <div className="relative w-full flex">
-                <div className="flex flex-col gap-2 w-full ">
+                <div className="flex flex-col gap-2 w-full mt-10">
                     {loading ?
                         <SpinnerDashboard/>
                         :
@@ -118,7 +131,7 @@ const ListResultsHousing: React.FC = () => {
                             {filteredHousing.map(item => (
                                 <a key={item.id} href={`search-results/details`} target={"_blank"}>
                                     <div
-                                        className="flex flex-col sm:flex-row border border-gray-300 rounded-lg p-4 mb-5 h-auto sm:h-64 relative cursor-pointer transition-shadow bg-white"
+                                        className="flex flex-col sm:flex-row border border-gray-300 rounded-lg p-4 mb-5 h-auto sm:h-64 relative cursor-pointer transition-shadow bg-white "
                                     >
                                         <img
                                             src={item.image ? item.image : "https://via.placeholder.com/150"}

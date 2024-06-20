@@ -1,5 +1,5 @@
 "use client";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {MdOutlinePhotoLibrary} from "react-icons/md";
 import "../../globals.css";
 import ModalPhotos from "@/app/components/details-result/ModalPhotos";
@@ -7,7 +7,7 @@ import {IoLocationOutline} from "react-icons/io5";
 import {HiOutlineUserGroup} from "react-icons/hi";
 import {LiaBedSolid} from "react-icons/lia";
 import {PiBathtub} from "react-icons/pi";
-import {useIsErrorContext, useNavbarContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {useTranslationContext} from "@/app/[lng]/hooks";
 import {MdOutlinePets, MdApartment, MdVilla, MdElevator} from "react-icons/md";
 import {LuPartyPopper} from "react-icons/lu";
 import {PiWarehouseFill, PiStudent, PiSwimmingPool, PiOvenDuotone} from "react-icons/pi";
@@ -19,6 +19,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePickerRangerCustomForm from "@/app/components/ui/DatePickerRangerCustomForm";
 import {ModalPayment} from "@/app/components/modal/modal-payment/ModalPayment";
 import {getDaysDifference} from "@/utils/constants";
+import {getDatesIndispoByIdHousingInFun} from "@/app/components/details-result/actions";
 
 
 const DetailsResult = () => {
@@ -27,6 +28,11 @@ const DetailsResult = () => {
     const [initialImage, setInitialImage] = useState(null);
     const [minDayMessage, setMinDayMessage] = useState("");
     const {translation} = useTranslationContext();
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [guests, setGuests] = useState(1);
+    const [datesIndispo, setDatesIndispo] = useState([]);
+
     const handleOpenModal = (image = null) => {
         setInitialImage(image);
         setIsModalOpen(true);
@@ -37,10 +43,6 @@ const DetailsResult = () => {
         setInitialImage(null);
         setIsModalPayment(false);
     };
-
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-    const [guests, setGuests] = useState(1);
 
     const iconMap: any = {
         MdOutlinePets: MdOutlinePets,
@@ -117,6 +119,15 @@ const DetailsResult = () => {
         const IconComponent = iconMap[iconName];
         return IconComponent ? <IconComponent className="size-5"/> : null;
     };
+
+    useEffect(() => {
+        getDatesIndispoByIdHousingInFun(housing.id)
+            .then((res) => {
+                if (!res.errors) {
+                    setDatesIndispo(res)
+                }
+            });
+    }, [housing.id]);
     const handleInputChange = (field: string, value: React.SetStateAction<any>) => {
         if (value !== null) {
             if (field === 'dateArrivee') {
@@ -228,6 +239,7 @@ const DetailsResult = () => {
                                 <div>
                                     <h5 className={"mb-2 text-sm font-medium text-gray-950 mt-10"}>{translation?.t('check')}</h5>
                                     <DatePickerRangerCustomForm
+                                        datesIndispo={datesIndispo}
                                         placeholder={translation?.t('btn_date')}
                                         days={translation?.t('days', {returnObjects: true})}
                                         months={translation?.t('months', {returnObjects: true})}

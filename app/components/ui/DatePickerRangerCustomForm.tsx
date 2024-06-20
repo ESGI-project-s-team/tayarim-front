@@ -9,6 +9,7 @@ interface DatePickerRangeCustomProps {
     days: { [key: string]: string };
     months: { [key: string]: string };
     handleInputChange: (field: any, value: any) => void;
+    datesIndispo?: string[];
 }
 
 const DatePickerRangerCustomForm: React.FC<DatePickerRangeCustomProps> = ({
@@ -17,6 +18,7 @@ const DatePickerRangerCustomForm: React.FC<DatePickerRangeCustomProps> = ({
                                                                               days,
                                                                               months,
                                                                               handleInputChange,
+                                                                              datesIndispo
                                                                           }: DatePickerRangeCustomProps) => {
     const {theLanguage} = useNavbarContext();
 
@@ -90,7 +92,7 @@ const DatePickerRangerCustomForm: React.FC<DatePickerRangeCustomProps> = ({
                 dateFormat="dd MMM yyyy"
                 onChangeRaw={handleFocus}
                 onFocus={handleFocus}
-                //excludeDates={}
+                excludeDates={datesIndispo ? datesIndispo.map((date) => new Date(date)) : []}
 
                 icon={
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2"

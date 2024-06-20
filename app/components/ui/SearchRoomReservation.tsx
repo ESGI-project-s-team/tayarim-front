@@ -4,16 +4,15 @@ import DatePickerRangeCustom from "@/app/components/ui/DatePickerRangeCustom";
 import {useTranslationContext} from "@/app/[lng]/hooks";
 import "../../globals.css";
 import {useRouter} from 'next/navigation';
-import {getAllHousing} from "@/utils/apiHousing";
-import {any} from "prop-types";
+import {searchHousing} from "@/utils/apiHousing";
 
 
 export default function SearchRoomReservation({
                                                   search,
-                                                  searchHousing
+                                                  searchHousingCurrent
                                               }: {
                                                   search: boolean
-                                                  searchHousing?: any
+                                                  searchHousingCurrent?: any
                                               }
 ) {
     const {translation} = useTranslationContext();
@@ -38,16 +37,16 @@ export default function SearchRoomReservation({
             localStorage.setItem('checkout', checkout.toISOString());
         }
         if (search) {
-            await searchHousing();
+            await searchHousingCurrent();
         } else {
             router.push('/search-results');
         }
 
-    }, [location, guest, checkin, checkout, search, searchHousing, router]);
+    }, [location, guest, checkin, checkout, search, searchHousingCurrent, router]);
 
     useEffect(() => {
-        getAllHousing()
-            .then(async (response) => {
+        searchHousing({})
+            .then((response: any) => {
                 if (!response.errors) {
                     const villes = response.map((item: any) => item.ville);
                     const villesFiltre = villes.filter((item: any, index: any) => villes.indexOf(item) === index);
@@ -61,8 +60,9 @@ export default function SearchRoomReservation({
                     });
                     setGuestMax(guestMaxArray);
                 }
-            });
-    }, []);
+            })
+    });
+
     return (
         <div className="inset-0 flex justify-center items-center ">
             <div className="lg:flex py-5 bg-custom-search border border-gray-300 rounded-2xl shadow-sm ">
@@ -121,7 +121,8 @@ export default function SearchRoomReservation({
                         onClick={() => {
                             handleSearch();
                         }}
-                        className="bg-transparent font-semibold border border-gray-400 rounded h-9 text-black mt-7 lg:mr-7 w-32 flex justify-center items-center bg-white">
+                        className="bg-transparent font-semibold border border-gray-400 rounded h-9 text-black mt-7 lg:mr-7 w-32 flex justify-center items-center bg-white
+                        hover:bg-gray-100">
                         <div className="flex">
                                 <span
                                     className={"text-sm font-semibold text-gray-950"}>{translation?.t('search')}</span>
