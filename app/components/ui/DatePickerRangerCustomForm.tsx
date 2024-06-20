@@ -84,12 +84,14 @@ const DatePickerRangerCustomForm: React.FC<DatePickerRangeCustomProps> = ({
                 startDate={startDateCurrent}
                 endDate={endDateCurrent}
                 onChange={handleDateChange}
-                minDate={new Date()}
+                minDate={new Date(new Date().getTime() + 3 * 24 * 60 * 60 * 1000)}
                 placeholderText={placeholder}
                 locale={locale}
                 dateFormat="dd MMM yyyy"
                 onChangeRaw={handleFocus}
                 onFocus={handleFocus}
+                //excludeDates={}
+
                 icon={
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2"
                          stroke="currentColor"

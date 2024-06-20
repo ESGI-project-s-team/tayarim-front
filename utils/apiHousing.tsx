@@ -8,6 +8,7 @@ const createHousingUrl = `${BACKEND_API}/logements`
 const deleteHousingUrl = `${BACKEND_API}/logements`
 const updateHousingUrl = `${BACKEND_API}/logements`
 const getByIdHousingUrl = `${BACKEND_API}/logements`
+const searchHousingUrl = `${BACKEND_API}/logements/search`
 const getHousingTypesUrl = `${BACKEND_API}/logements/types`
 const getHousingRulesUrl = `${BACKEND_API}/reglesLogement`
 const getHousingAmenitiesUrl = `${BACKEND_API}/amenagements`
@@ -187,6 +188,28 @@ export async function getByIdHousing(id: number): Promise<any> {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: ["error_occurred"]};
+        }
+        return data;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
+
+export async function searchHousing(body: any): Promise<any> {
+    try {
+        const response = await fetch(searchHousingUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
         });
         const data = await response.json();
         if (!response.ok) {

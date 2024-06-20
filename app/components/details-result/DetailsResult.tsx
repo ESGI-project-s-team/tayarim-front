@@ -42,7 +42,7 @@ const DetailsResult = () => {
     const [endDate, setEndDate] = useState("");
     const [guests, setGuests] = useState(1);
 
-    const iconMap = {
+    const iconMap: any = {
         MdOutlinePets: MdOutlinePets,
         MdApartment: MdApartment,
         MdVilla: MdVilla,
@@ -113,7 +113,7 @@ const DetailsResult = () => {
             "Free Parking": "FaParking"
         }
     };
-    const renderIcon = (iconName: string) => {
+    const renderIcon = (iconName: any) => {
         const IconComponent = iconMap[iconName];
         return IconComponent ? <IconComponent className="size-5"/> : null;
     };

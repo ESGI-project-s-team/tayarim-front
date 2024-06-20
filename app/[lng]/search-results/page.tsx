@@ -13,9 +13,8 @@ export default function Page() {
         <div>
             <IsOpenSideBarContext.Provider value={{isOpenSideBar, setIsOpenSideBar}}>
                 <NavBarSearch/>
-                <SideNavBarSerch/>
+                <SideNavBarSerch />
                 <div className="lg:ml-80 mt-32 ml-16">
-                    <SearchRoomReservation/>
                     <ListResultsHousing/>
                 </div>
             </IsOpenSideBarContext.Provider>

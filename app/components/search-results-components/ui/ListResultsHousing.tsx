@@ -5,8 +5,9 @@ import {HiOutlineUserGroup} from "react-icons/hi";
 import {LiaBedSolid} from "react-icons/lia";
 import {MdOutlineHomeWork, MdSearchOff} from "react-icons/md";
 import SideNavBarSearch from "@/app/components/search-results-components/ui/side-nav-search/SideNavBarSerch";
-import {getAllHousing} from "@/utils/apiHousing";
+import {searchHousing} from "@/utils/apiHousing";
 import SpinnerDashboard from "@/app/components/ui/SpinnerDashboard";
+import SearchRoomReservation from "@/app/components/ui/SearchRoomReservation";
 
 const ListResultsHousing: React.FC = () => {
     const {translation} = useTranslationContext();
@@ -14,10 +15,19 @@ const ListResultsHousing: React.FC = () => {
     const {setError} = useIsErrorContext();
     const [loading, setLoading] = useState<boolean>(true);
     const [filteredHousing, setFilteredHousing] = useState<any[]>([]);
+    const [destination, setDestination] = useState<string | null>('');
+    const [dateArrivee, setDateArrivee] = useState<string | null>(null);
+    const [dateDepart, setDateDepart] = useState<string | null>(null);
+    const [nbPersonnes, setNbPersonnes] = useState<number | null>(null);
 
-    const getAllHousingFun = useCallback(() => {
+    const searchHousingFun = useCallback(() => {
+        setDestination(localStorage.getItem('location'));
+        setDateArrivee(localStorage.getItem('checkin'));
+        setDateDepart(localStorage.getItem('checkout'));
+        setNbPersonnes(parseInt(localStorage.getItem('guest')!));
+        return
         setLoading(true);
-        getAllHousing()
+        searchHousing({destination, dateArrivee, dateDepart, nbPersonnes})
             .then(async (response) => {
                 if (response.errors) {
                     setError(response.errors);
@@ -29,11 +39,11 @@ const ListResultsHousing: React.FC = () => {
                 }
                 setLoading(false);
             });
-    }, [setError]);
+    }, [dateArrivee, dateDepart, destination, nbPersonnes, setError]);
 
     useEffect(() => {
-        getAllHousingFun();
-    }, [getAllHousingFun]);
+        searchHousingFun();
+    }, [searchHousingFun]);
 
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedRules, setSelectedRules] = useState<string[]>([]);
@@ -84,6 +94,10 @@ const ListResultsHousing: React.FC = () => {
 
     return (
         <div className="lg:mr-7 mr-2 z-0 overflow-scroll mt-10 no-scrollbar">
+            <SearchRoomReservation
+                search={true}
+                searchHousing={searchHousingFun}
+            />
             <SideNavBarSearch onFilterChange={handleFilterChange} minPrice={minPrice}
                               currentMaxPrice={currentMaxPrice}
                               currentMinPrice={currentMinPrice}

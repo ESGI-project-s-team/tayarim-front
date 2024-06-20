@@ -41,11 +41,7 @@ const ListHousings: React.FC = () => {
         setOwnerDetails(ownerDetailsList[index])
         setIsOpenInfoOwner(true)
     }
-
-    function openModalCalendar() {
-        setIsOpenCalendar(true)
-    }
-
+    
     function closeModal() {
         setIsOpenEdit(false)
         setIsOpenDelete(false)
@@ -230,9 +226,7 @@ const ListHousings: React.FC = () => {
                 <ModalDeleteHousing isOpen={isOpenDelete} onClose={closeModal} id={allHousing.id}
                                     getAllHousing={getAllHousingFun}/>
             }
-            {isOpenCalendar &&
-                <ModalCalendar isOpen={isOpenCalendar} onClose={closeModal} id={"id"}/>
-            }
+
             {isOpenInfoOwner &&
                 <ModalInfoOwner isOpen={isOpenInfoOwner} onClose={closeModal} user={ownerDetails}/>
             }
