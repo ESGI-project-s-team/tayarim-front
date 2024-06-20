@@ -1,9 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import ModalEditOwner from "@/app/components/modal/modal-edit-owner/ModalEditOwner";
-import {ProprietaireDTO} from "@/app/model/Owner";
-import ModalDeleteOwner from "@/app/components/modal/modal-delete-owner/ModalDeleteOwner";
 import {useAdminContext, useIsErrorContext, useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
-import ModalCreateOwner from "@/app/components/modal/modal-create-owner/ModalCreateOwner";
 import {useRouter} from "next/navigation";
 import ModalInfoHousing from "@/app/components/modal/modal-info-housing/ModalInfoHousing";
 import SpinnerDashboard from '@/app/components/ui/SpinnerDashboard';
