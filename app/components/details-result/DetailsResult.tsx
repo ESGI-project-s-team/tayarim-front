@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {MdOutlinePhotoLibrary} from "react-icons/md";
 import "../../globals.css";
 import ModalPhotos from "@/app/components/details-result/ModalPhotos";
@@ -17,206 +17,15 @@ import {TbAirConditioning} from "react-icons/tb";
 import {BiSolidWasher, BiHandicap} from "react-icons/bi";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePickerRangerCustomForm from "@/app/components/ui/DatePickerRangerCustomForm";
-import {CardElement, useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
-import {
-    capturePaymentIntentInFun,
-    updatePaymentIntentReservationInFun
-} from "@/app/components/details-result/actions";
-import DateFormatterEnFr from "@/app/components/dashboard-components/ui/DateFormaterEnFr";
-import {getAmount} from "@/utils/constants";
-import {StripeCardElementChangeEvent} from "@stripe/stripe-js";
-import SpinnerDashboard from "@/app/components/ui/SpinnerDashboard";
-import SpinnerUI from "@/app/components/ui/SpinnerUI";
+import {ModalPayment} from "@/app/components/modal/modal-payment/ModalPayment";
+import {getDaysDifference} from "@/utils/constants";
 
-const ModalPayment = ({onClose, housing, startDate, endDate}: {
-    onClose: () => void,
-    housing: any,
-    startDate: string,
-    endDate: string
-}) => {
-    const stripe = useStripe();
-    const elements = useElements();
-    const {setError} = useIsErrorContext();
-    const [errorCard, setErrorCard] = useState<any>(undefined);
-    const {setSuccess} = useSuccessContext();
-    const {translation} = useTranslationContext();
-    const [clientSecret, setClientSecret] = useState('');
-    const {theLanguage} = useNavbarContext();
-    const [amount, setAmount] = useState(0);
-    const [isCardComplete, setIsCardComplete] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [formData, setFormData] = useState({
-        name: '',
-        surname: '',
-        email: '',
-        phone: ''
-    });
-
-    const isFormComplete = Object.values(formData).every((field) => field.trim() !== '');
-
-    const handleChange = (e: { target: { name: any; value: any; }; }) => {
-        const {name, value} = e.target;
-        setFormData({...formData, [name]: value});
-    };
-    const handleCardChange = (event: StripeCardElementChangeEvent) => {
-        setIsCardComplete(event.complete);
-    };
-    const handleSubmit = async (event: { preventDefault: () => void; }) => {
-        setIsLoading(true);
-        event.preventDefault();
-        const createPaymentIntent = async () => {
-            await capturePaymentIntentInFun(amount).then(
-                async (response) => {
-                    if (response.errors) {
-                        setErrorCard(response.errors);
-                    } else {
-                        setError(null);
-                        setErrorCard(null);
-                        setClientSecret(response.clientSecret);
-                        if (stripe && elements) {
-                            const cardElement = elements.getElement(CardElement);
-                            const {error, paymentIntent} = await stripe.confirmCardPayment(response.clientSecret, {
-                                payment_method: {
-                                    card: cardElement as any,
-                                    billing_details: {
-                                        name: `${formData.name} ${formData.surname}`,
-                                    },
-                                },
-                            });
-                            if (error) {
-                                setErrorCard(error.message);
-                            } else if (paymentIntent.status === 'requires_capture') {
-                                await updatePaymentIntentReservationInFun({
-                                    id: 1,
-                                    paymentIntent: paymentIntent.id
-                                }).then(
-                                    (response) => {
-                                        if (response.errors) {
-                                            setErrorCard(response.errors);
-                                        } else {
-                                            setSuccess(true);
-                                            setErrorCard(null)
-                                            setError(null);
-                                            onClose();
-                                        }
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
-            )
-        };
-        createPaymentIntent().then(
-            () => setIsLoading(false)
-        );
-    };
-    useEffect(() => {
-        setAmount(getAmount(housing.prixParNuit, startDate, endDate));
-    }, [endDate, housing.prixParNuit, startDate]);
-    return (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full flex relative">
-                <button onClick={onClose} className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl">
-                    &times;
-                </button>
-                <div className="w-1/2 p-4 flex flex-col justify-center pr-10">
-                    <form onSubmit={handleSubmit}>
-                        <div className={"flex gap-5"}>
-                            <div className="mb-4">
-                                <label className="block mb-1 text-sm">{translation?.t('form_firstname')}</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    className="p-2 rounded-lg w-full border-gray-300 border-1 "
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block mb-1 text-sm">{translation?.t('form_lastname')}</label>
-                                <input
-                                    type="text"
-                                    name="surname"
-                                    value={formData.surname}
-                                    onChange={handleChange}
-                                    className="p-2 rounded-lg w-full border-gray-300 border-1 "
-                                />
-                            </div>
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="block mb-1 text-sm">{translation?.t('email_placeholder')}</label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                className="p-2  rounded-lg w-full border-gray-300 border-1 "
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block mb-1 text-sm">{translation?.t('phone')}</label>
-                            <input
-                                type="tel"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                                className="p-2  rounded-lg w-full border-gray-300 border-1 "
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <CardElement className="p-3 border rounded-lg "
-                                         onChange={handleCardChange}/>
-                        </div>
-                        {
-                            isLoading ?
-                                <div className={"flex justify-center"}>
-                                    <SpinnerUI/>
-                                </div>
-                                :
-                                <>
-                                    <button
-                                        type="submit"
-                                        className={`w-full py-3 rounded-lg ${isFormComplete && isCardComplete ? 'bg-green-600 text-white' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
-                                        disabled={!isFormComplete && isCardComplete}
-                                    >
-                                        {translation?.t('confirm_and_pay')}
-                                    </button>
-                                    {errorCard ?
-                                        <p className={"text-red-600"}>{errorCard}</p>
-                                        :
-                                        null
-                                    }
-                                </>
-                        }
-
-                    </form>
-                </div>
-                <div className="w-1/2 p-4 border-l border-gray-300 pl-10 ">
-                    <div className="my-4">
-                        <img src={housing.images[0]} alt={housing.titre}
-                             className="rounded-lg w-full h-48 object-cover"/>
-                    </div>
-                    <p className="text-lg font-semibold">{housing.titre}</p>
-                    <p className="text-xs mt-2 text-gray-500">{housing.adresseComplete}</p>
-                    <p className={"text-xs mt-2 text-gray-500"}><DateFormatterEnFr date={startDate}
-                                                                                   theLanguage={theLanguage}/> - <DateFormatterEnFr
-                        date={endDate} theLanguage={theLanguage}/></p>
-                    <hr className={"mt-4"}/>
-                    <p className="text-sm font-bold mt-2">{`${translation?.t('montant')}: ${
-                        amount
-                    } €`}</p>
-                </div>
-            </div>
-        </div>
-    );
-};
 
 const DetailsResult = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalPayment, setIsModalPayment] = useState(false);
     const [initialImage, setInitialImage] = useState(null);
+    const [minDayMessage, setMinDayMessage] = useState("");
     const {translation} = useTranslationContext();
     const handleOpenModal = (image = null) => {
         setInitialImage(image);
@@ -275,6 +84,7 @@ const DetailsResult = () => {
         nombresDeLits: 1,
         nombresSallesDeBains: 1,
         capaciteMaxPersonne: 1,
+        nombresNuitsMin: 6,
         images: [
             "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTExNDMwMzYwMTI1NDgxMTkzNg%3D%3D/original/986f7910-d865-4d61-839a-f28237c6a9a5.jpeg?im_w=1200",
             "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTExNDMwMzYwMTI1NDgxMTkzNg%3D%3D/original/eadc511f-18e7-4419-8a8d-0e9eec52edc1.jpeg?im_w=720",
@@ -313,7 +123,14 @@ const DetailsResult = () => {
                 setStartDate(value);
             } else if (field === 'dateDepart') {
                 setEndDate(value);
+                if (getDaysDifference(startDate, value) < housing.nombresNuitsMin) {
+                    setMinDayMessage(`${translation?.t('minimum_nights_label')} ${housing.nombresNuitsMin}`);
+                    return;
+                } else {
+                    setMinDayMessage("");
+                }
             }
+
         }
     };
 
@@ -416,6 +233,7 @@ const DetailsResult = () => {
                                         months={translation?.t('months', {returnObjects: true})}
                                         handleInputChange={handleInputChange}
                                     />
+                                    <p className={"text-red-600"}>{minDayMessage}</p>
                                     <div>
                                         <h5 className={"mb-2 text-sm font-medium text-gray-950 mt-10"}>{translation?.t('guest')}</h5>
                                         <select
@@ -429,8 +247,8 @@ const DetailsResult = () => {
                                         </select>
                                     </div>
                                     <button
-                                        className={`w-full py-3 rounded-lg mt-10 ${!startDate || !endDate || !guests ? 'bg-gray-300 cursor-not-allowed' : 'bg-green-600 text-white'}`}
-                                        disabled={!startDate || !endDate || !guests}
+                                        className={`w-full py-3 rounded-lg mt-10 ${!startDate || !endDate || !guests || minDayMessage !== "" ? 'bg-gray-300 cursor-not-allowed' : 'bg-green-600 text-white'}`}
+                                        disabled={!startDate || !endDate || !guests || minDayMessage !== ""}
                                         onClick={() => setIsModalPayment(true)}
                                     >
                                         {translation?.t('book_now')}

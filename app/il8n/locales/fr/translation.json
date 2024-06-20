@@ -137,8 +137,8 @@
   "title_house": "Titre du logement",
   "start_date": "Date d'arrivée",
   "book_now": "Réserver maintenant",
-  "confirm_and_pay" :
-  "Confirmer et payer",
+  "confirm_and_pay": "Confirmer et payer",
+  "minimum_nights_label": "Nombre de nuits minimum ",
   "end_date": "Date de fin",
   "price": "Prix par nuit",
   "info_house": "Informations du logement",
