@@ -279,6 +279,7 @@ const DetailsResult = () => {
                     housing={housing}
                     startDate={startDate}
                     endDate={endDate}
+                    nbPersonnes={guests}
                 />}
         </>
     );

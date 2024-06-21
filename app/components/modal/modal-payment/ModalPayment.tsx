@@ -1,6 +1,6 @@
 import {CardElement, useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
 import {
-    capturePaymentIntentInFun,
+    capturePaymentIntentInFun, createReservationInFun,
     updatePaymentIntentReservationInFun
 } from "@/app/components/details-result/actions";
 import DateFormatterEnFr from "@/app/components/dashboard-components/ui/DateFormaterEnFr";
@@ -10,11 +10,12 @@ import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import {useIsErrorContext, useNavbarContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 import {useEffect, useState} from "react";
 
-export const ModalPayment = ({onClose, housing, startDate, endDate}: {
+export const ModalPayment = ({onClose, housing, startDate, endDate, nbPersonnes}: {
     onClose: () => void,
     housing: any,
     startDate: string,
     endDate: string
+    nbPersonnes: number
 }) => {
     const stripe = useStripe();
     const elements = useElements();
@@ -29,7 +30,7 @@ export const ModalPayment = ({onClose, housing, startDate, endDate}: {
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
-        surname: '',
+        lastname: '',
         email: '',
         phone: ''
     });
@@ -61,17 +62,28 @@ export const ModalPayment = ({onClose, housing, startDate, endDate}: {
                                 payment_method: {
                                     card: cardElement as any,
                                     billing_details: {
-                                        name: `${formData.name} ${formData.surname}`,
+                                        name: `${formData.name} ${formData.lastname}`,
                                     },
                                 },
                             });
                             if (error) {
                                 setErrorCard(error.message);
                             } else if (paymentIntent.status === 'requires_capture') {
-                                await updatePaymentIntentReservationInFun({
-                                    id: 1,
+                                let credential = {
+                                    email: formData.email,
+                                    numTel: formData.phone,
+                                    nom: formData.lastname,
+                                    prenom: formData.name,
+                                    nbPersonnes: nbPersonnes,
+                                    montant: amount,
+                                    dateArrivee: startDate,
+                                    dateDepart: endDate,
+                                    idLogement: housing.id,
                                     paymentIntent: paymentIntent.id
-                                }).then(
+                                }
+                                await createReservationInFun(
+                                    credential
+                                ).then(
                                     (response) => {
                                         if (response.errors) {
                                             setErrorCard(response.errors);
@@ -119,8 +131,8 @@ export const ModalPayment = ({onClose, housing, startDate, endDate}: {
                                 <label className="block mb-1 text-sm">{translation?.t('form_lastname')}</label>
                                 <input
                                     type="text"
-                                    name="surname"
-                                    value={formData.surname}
+                                    name="lastname"
+                                    value={formData.lastname}
                                     onChange={handleChange}
                                     className="p-2 rounded-lg w-full border-gray-300 border-1 "
                                 />
