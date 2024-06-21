@@ -39,16 +39,16 @@ export async function getAllHousing(): Promise<any> {
     }
 }
 
-export async function createHousing(body: any): Promise<any> {
-    const token = cookies().get("token")?.value;
+export async function createHousingApi(formData: any): Promise<any> {
     try {
+        const token = cookies().get("token")?.value;
+
         const response = await fetch(createHousingUrl, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(body),
+            body: formData,
         });
         const data = await response.json();
         if (!response.ok) {
@@ -62,6 +62,7 @@ export async function createHousing(body: any): Promise<any> {
         return {errors: ["error_occurred"]};
     }
 }
+
 
 export async function deleteHousing(id: string): Promise<any> {
     const token = cookies().get("token")?.value;
@@ -179,10 +180,9 @@ export async function getHousingAmenities(): Promise<any> {
     }
 }
 
-export async function getByIdHousing(id: number): Promise<any> {
-    let idString = id.toString();
+export async function getByIdHousing(id: string): Promise<any> {
     try {
-        const response = await fetch(`${getByIdHousingUrl}/${idString}`, {
+        const response = await fetch(`${getByIdHousingUrl}/${id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

@@ -11,6 +11,8 @@ import {getByIdHousingInFun} from "@/app/components/dashboard-components/ui/list
 import ModalAddReservation from "@/app/components/modal/modal-add-reservation/ModalAddReservation";
 import ModalCancelHousing from "@/app/components/modal/modal-cancel-housing/ModalCancelHousing";
 import ModalUpdateReservation from "@/app/components/modal/modal-update-reservation/ModalUpdateReservation";
+import {Popover, PopoverButton, PopoverPanel, Transition} from '@headlessui/react'
+import ModalValidateHousing from "@/app/components/modal/modal-validate-housing/ModalValidateHousing";
 
 const ListReservations: React.FC = () => {
     const [ownerHousing, setOwnerHousing] = useState([] as any);
@@ -18,6 +20,7 @@ const ListReservations: React.FC = () => {
     const [reservations, setReservations] = React.useState([] as any[]);
     const [isOpenEdit, setIsOpenEdit] = useState(false)
     const [isOpenDelete, setIsOpenDelete] = useState(false)
+    const [isOpenValidate, setIsOpenValidate] = useState(false)
     const [isOpenInfoHousing, setIsOpenInfoHousing] = useState(false)
     const [isOpenInfoClient, setIsOpenInfoClient] = useState(false)
     const [isOpenCreate, setIsOpenCreate] = useState(false)
@@ -39,7 +42,8 @@ const ListReservations: React.FC = () => {
                     <ReservationRow key={index} reservation={reservation} translation={translation}
                                     openModalInfoClient={openModalInfoClient} currentLanguage={currentLanguage}
                                     openModalInfoHousing={openModalInfoHousing} openModalEdit={openModalEdit}
-                                    openModalDelete={openModalDelete}/>
+                                    openModalDelete={openModalDelete}
+                                    openModalValidate={openModalValidate}/>
                 ))
                 }
             </>
@@ -52,7 +56,9 @@ const ListReservations: React.FC = () => {
                     <ReservationRow key={index} reservation={reservation} translation={translation}
                                     openModalInfoClient={openModalInfoClient} currentLanguage={currentLanguage}
                                     openModalInfoHousing={openModalInfoHousing} openModalEdit={openModalEdit}
-                                    openModalDelete={openModalDelete}/>
+                                    openModalDelete={openModalDelete}
+                                    openModalValidate={openModalValidate}/>
+
                 ))
                 }
             </>
@@ -65,7 +71,9 @@ const ListReservations: React.FC = () => {
                     <ReservationRow key={index} reservation={reservation} translation={translation}
                                     openModalInfoClient={openModalInfoClient} currentLanguage={currentLanguage}
                                     openModalInfoHousing={openModalInfoHousing} openModalEdit={openModalEdit}
-                                    openModalDelete={openModalDelete}/>
+                                    openModalDelete={openModalDelete}
+                                    openModalValidate={openModalValidate}/>
+
                 ))
                 }
             </>
@@ -78,7 +86,9 @@ const ListReservations: React.FC = () => {
                     <ReservationRow key={index} reservation={reservation} translation={translation}
                                     openModalInfoClient={openModalInfoClient} currentLanguage={currentLanguage}
                                     openModalInfoHousing={openModalInfoHousing} openModalEdit={openModalEdit}
-                                    openModalDelete={openModalDelete}/>
+                                    openModalDelete={openModalDelete}
+                                    openModalValidate={openModalValidate}/>
+
                 ))
                 }
             </>
@@ -89,7 +99,8 @@ const ListReservations: React.FC = () => {
                     <ReservationRow key={index} reservation={reservation} translation={translation}
                                     openModalInfoClient={openModalInfoClient} currentLanguage={currentLanguage}
                                     openModalInfoHousing={openModalInfoHousing} openModalEdit={openModalEdit}
-                                    openModalDelete={openModalDelete}/>
+                                    openModalDelete={openModalDelete}
+                                    openModalValidate={openModalValidate}/>
                 ))
                 }
             </>
@@ -108,6 +119,11 @@ const ListReservations: React.FC = () => {
     function openModalDelete(id: { id: number }) {
         setReservationDetails(id)
         setIsOpenDelete(true)
+    }
+
+    function openModalValidate(reservation: any) {
+        setReservationDetails(reservation)
+        setIsOpenValidate(true)
     }
 
     function openModalInfoHousing(id: number) {
@@ -142,6 +158,7 @@ const ListReservations: React.FC = () => {
         setIsOpenCreate(false)
         setIsOpenInfoHousing(false)
         setIsOpenInfoClient(false)
+        setIsOpenValidate(false)
     }
 
     const getAllReservationsInFun = useCallback(() => {
@@ -229,6 +246,11 @@ const ListReservations: React.FC = () => {
                                         <div
                                             className="grid grid-cols-20 bg-[#F9FAFB] px-5 py-4 gap-x-20 w-fit">
                                             <div
+                                                className="col-span-3 flex items-center justify-center">
+                                                <p
+                                                    className="font-medium">Action</p>
+                                            </div>
+                                            <div
                                                 className="col-span-2 flex items-center justify-center">
                                                 <p
                                                     className="font-medium">{translation?.t('statut')}</p>
@@ -303,6 +325,11 @@ const ListReservations: React.FC = () => {
                 <ModalCancelHousing isOpen={isOpenDelete} onClose={closeModal} id={reservationDetails}
                                     getAllOwners={getAllReservationsInFun}/>
             }
+            {isOpenValidate &&
+                <ModalValidateHousing isOpen={isOpenValidate} onClose={closeModal}
+                                      paymentIntent={reservationDetails.paymentIntent}
+                                      getAllOwners={getAllReservationsInFun}/>
+            }
             {isOpenInfoHousing &&
                 <ModalInfoHousing isOpen={isOpenInfoHousing} onClose={closeModal} housings={ownerHousing}/>
             }
@@ -320,7 +347,8 @@ const ReservationRow = ({
                             currentLanguage,
                             openModalInfoHousing,
                             openModalEdit,
-                            openModalDelete
+                            openModalDelete,
+                            openModalValidate
                         }:
                             {
                                 reservation: any,
@@ -339,12 +367,63 @@ const ReservationRow = ({
                                     any,
                                 openModalDelete
                                     :
+                                    any,
+                                openModalValidate
+                                    :
                                     any
                             }) => {
     const {isAdmin} = useAdminContext();
 
     return (
         <div className="grid grid-cols-20 border-t px-5 py-4 gap-x-20 w-fit">
+            {
+                reservation.statut === 'payed' && isAdmin ?
+                    <div className={"col-span-3 flex flex-row justify-center"}>
+                        <Popover className="relative">
+                            <PopoverButton
+                                className="px-2 py-1 bg-[#3c50e0] text-white rounded focus:outline-none text-sm flex">
+                                Actions
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     strokeWidth="1.5" stroke="currentColor" className="size-4  ml-2 mt-0.5">
+                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                          d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+                                </svg>
+
+                            </PopoverButton>
+                            <PopoverPanel anchor="bottom"
+                                          className="absolute mt-2 w-48 bg-white shadow-lg rounded-lg p-4 flex flex-col justify-center">
+                                <div
+                                    className="flex text-sm text-[#3c50e0] hover:underline cursor-pointer "
+                                    onClick={() => openModalEdit(reservation)}>
+                                    {translation?.t('edit')}
+                                </div>
+                                <hr className={"mt-1"}/>
+                                <div
+                                    className=" text-sm text-green-600 hover:underline cursor-pointer mt-2 "
+                                    onClick={() => openModalValidate(reservation)}>
+                                    {translation?.t('validate')}
+                                </div>
+                                <hr className={"mt-1"}/>
+                                <div
+                                    className=" text-sm text-red-600 hover:underline cursor-pointer mt-2 "
+                                    onClick={() => openModalDelete({
+                                        id: reservation.id,
+                                    })}>
+                                    {translation?.t('remboursement')}
+                                </div>
+                            </PopoverPanel>
+                        </Popover>
+                    </div>
+
+                    :
+                    <div
+                        className="col-span-3 flex items-center justify-center">
+                        <p
+                            className="font-medium text-sm">{translation?.t('no_action')}</p>
+                    </div>
+
+            }
+
             <div className="col-span-2 flex items-center justify-center max-w-36 overflow-auto no-scrollbar">
                 <p className="text-sm text-black text-nowrap">{translation?.t(reservation.statut)}</p>
             </div>
@@ -368,7 +447,6 @@ const ReservationRow = ({
             <div className="col-span-2 flex items-center justify-center text-nowrap">
                 <p className="text-sm text-[#3c50e0] hover:underline cursor-pointer"
                    onClick={() => openModalInfoHousing(reservation.idLogement)}>
-                    {/*cut reservation.titreLogement 10length*/}
                     {reservation.titreLogement.length > 10 ? reservation.titreLogement.substring(0, 10) + '...' : ''}
                 </p>
             </div>
@@ -378,31 +456,6 @@ const ReservationRow = ({
             <div className="col-span-2 flex items-center justify-center text-nowrap">
                 <p className="text-sm text-black">{reservation.montant}</p>
             </div>
-            {
-                reservation.statut === 'payed' && isAdmin ?
-                    <>
-                        <div
-                            className="col-span-2 flex items-center justify-center text-sm text-[#3c50e0] hover:underline cursor-pointer"
-                            onClick={() => openModalEdit(reservation)}>
-                            {translation?.t('edit')}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                                 stroke="currentColor" className="w-4 h-4 ml-1">
-                                <path strokeLinecap="round" strokeLinejoin="round"
-                                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
-                            </svg>
-                        </div>
-                        <div
-                            className="col-span-2 flex items-center justify-center max-w-fit text-sm text-red-600 hover:underline cursor-pointer
-                            pr-5"
-                            onClick={() => openModalDelete({
-                                id: reservation.id,
-                            })}>
-                            {translation?.t('remboursement')}
-                        </div>
-                    </>
-                    :
-                    <></>
-            }
         </div>
     )
         ;

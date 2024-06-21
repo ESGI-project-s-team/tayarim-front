@@ -1,9 +1,9 @@
-import {Fragment, useEffect, useRef, useState} from 'react';
+import {Fragment, Key, useEffect, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import {useIsErrorContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import {Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions} from '@headlessui/react';
-import {CheckIcon, ChevronDownIcon} from '@heroicons/react/20/solid';
+import {CheckIcon, ChevronDownIcon, XCircleIcon} from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import {
     createHouseInFun,
@@ -12,6 +12,7 @@ import {
 } from "@/app/components/modal/modal-add-housing/action";
 import countryList from 'react-select-country-list';
 import MultiSelectListbox from "@/app/components/modal/ui/MultiSelectListbox";
+import {createReservationInFun} from "@/app/components/modal/modal-add-reservation/action";
 
 interface FormValues {
     titre: string;
@@ -36,7 +37,7 @@ interface FormValues {
     isLouable: boolean;
     reglesLogement: any[];
     amenagements: any[];
-
+    files: any[];
 }
 
 interface OwnerType {
@@ -75,6 +76,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
         isLouable: true,
         reglesLogement: [],
         amenagements: [],
+        files: [],
     });
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext();
@@ -94,6 +96,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const [countryQuery, setCountryQuery] = useState('');
     const [checkInQuery, setCheckInQuery] = useState('');
     const [checkOutQuery, setCheckOutQuery] = useState('');
+
     useEffect(() => {
         const handleGetAllOwner = async () => {
             setLoading(true);
@@ -170,16 +173,51 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
         handleGetAllHousingAmenities().then();
 
     }, [setError]);
-
-    const createHousingInFun = async () => {
+    const handleActionCreateHousing = async () => {
         setLoading(true);
-        (Object.keys(formValues) as (keyof FormValues)[]).forEach((key) => (formValues[key] === "" || formValues[key] === null) && delete formValues[key]);
+
+        const formData = new FormData();
+        formData.append('titre', formValues.titre);
+        formData.append('idProprietaire', formValues.idProprietaire?.toString() || '');
+        formData.append('nombresDeChambres', formValues.nombresDeChambres?.toString() || '');
+        formData.append('nombresDeLits', formValues.nombresDeLits?.toString() || '');
+        formData.append('nombresSallesDeBains', formValues.nombresSallesDeBains?.toString() || '');
+        formData.append('capaciteMaxPersonne', formValues.capaciteMaxPersonne?.toString() || '');
+        formData.append('nombresNuitsMin', formValues.nombresNuitsMin?.toString() || '');
+        formData.append('description', formValues.description);
+        formData.append('prixParNuit', formValues.prixParNuit?.toString() || '');
+        formData.append('defaultCheckIn', formValues.defaultCheckIn);
+        formData.append('defaultCheckOut', formValues.defaultCheckOut);
+        formData.append('intervalReservation', formValues.intervalReservation?.toString() || '');
+        formData.append('ville', formValues.ville);
+        formData.append('adresse', formValues.adresse);
+        formData.append('codePostal', formValues.codePostal);
+        formData.append('pays', formValues.pays);
+        formData.append('etage', formValues.etage);
+        formData.append('numeroDePorte', formValues.numeroDePorte);
+        formData.append('idTypeLogement', formValues.idTypeLogement?.toString() || '');
+        formData.append('isLouable', formValues.isLouable.toString());
+
+
+        formValues.reglesLogement.forEach((regle, index) => {
+            formData.append(`reglesLogement[${index}]`, regle);
+        });
+
+        formValues.amenagements.forEach((amenagement, index) => {
+            formData.append(`amenagements[${index}]`, amenagement);
+        });
+
+        formValues.files.forEach((file, index) => {
+            formData.append(`files[${index}]`, file);
+        });
+
+
         try {
-            const response = await createHouseInFun(formValues);
+            const response = await createHouseInFun(formData);
             if (response.errors) {
                 setError(response.errors);
             } else {
-                await getAllHousing();
+                getAllHousing();
                 setError(null);
                 onClose();
                 setSuccess(true);
@@ -187,9 +225,11 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
             setLoading(false);
         } catch (error) {
             setLoading(false);
+            console.log(error);
             setError(error);
         }
-    }
+    };
+
 
     const filteredPeople = query === ''
         ? owners
@@ -228,11 +268,29 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const handleInputChange = (field: keyof FormValues, value: any) => {
         setFormValues((prev: FormValues) => ({...prev, [field]: value}));
     };
+
+    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const uploadedImages = Array.from(event.target.files);
+            setFormValues((prev) => ({
+                ...prev,
+                files: [...prev.files, ...uploadedImages]
+            }));
+        }
+    };
+
+    const handleImageDelete = (index: React.Key | null | undefined) => {
+        setFormValues((prev) => ({
+            ...prev,
+            files: prev.files.filter((_, i) => i !== index)
+        }));
+    };
+
     useEffect(() => {
         let selectedHousingRulesIds = selectedHousingRules.map((rule: any) => rule.id);
         handleInputChange('reglesLogement', selectedHousingRulesIds);
         let selectedHousingAmenitiesIds = selectedHousingAmenities.map((amenities: any) => amenities.id);
-        handleInputChange('amenagements', selectedHousingRulesIds);
+        handleInputChange('amenagements', selectedHousingAmenitiesIds);
     }, [selectedHousingAmenities, selectedHousingRules]);
 
     const handleNext = () => {
@@ -667,6 +725,35 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 return (
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
+                            <label className="mb-3 block text-sm font-medium text-black">
+                                {translation?.t('images')}
+                            </label>
+                            <input
+                                type="file"
+                                multiple
+                                onChange={handleImageUpload}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                            />
+                            <div className="mt-4 flex flex-wrap gap-4">
+                                {formValues.files.map((image: Blob | MediaSource, index: Key | null | undefined) => (
+                                    <div key={index} className="relative">
+                                        <img
+                                            src={URL.createObjectURL(image)}
+                                            alt={`Upload Preview ${index}`}
+                                            className="h-20 w-20 object-cover rounded"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => handleImageDelete(index)}
+                                            className="absolute top-0 right-0 p-0.5 text-white bg-red-500 rounded-full"
+                                        >
+                                            <XCircleIcon className="w-5 h-5"/>
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('description')}</label>
                             <textarea
@@ -752,7 +839,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                                         <button
                                                             type="button"
                                                             ref={focusElementRef}
-                                                            onClick={createHousingInFun}
+                                                            onClick={handleActionCreateHousing}
                                                             disabled={isLoading || !validateStep()}
                                                             className={`flex justify-center rounded  text-sm px-3 py-2 font-medium text-white ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}
                                                             ${!validateStep() ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}

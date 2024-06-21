@@ -1,6 +1,6 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import {useParams, useRouter} from 'next/navigation';
+import {useParams} from 'next/navigation';
 import {MdOutlinePhotoLibrary} from "react-icons/md";
 import "../../globals.css";
 import ModalPhotos from "@/app/components/details-result/ModalPhotos";
@@ -20,11 +20,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePickerRangerCustomForm from "@/app/components/ui/DatePickerRangerCustomForm";
 import {ModalPayment} from "@/app/components/modal/modal-payment/ModalPayment";
 import {getDaysDifference} from "@/utils/constants";
-import {getDatesIndispoByIdHousingInFun, getHousingById} from "@/app/components/details-result/actions";
+import {
+    getDatesIndispoByIdHousingInFun,
+    getHousingByIdInFun
+} from "@/app/components/details-result/actions";
 import SpinnerDashboard from "@/app/components/ui/SpinnerDashboard";
 
 const DetailsResult = () => {
-    const router = useRouter();
     const params = useParams()
     const id = params.id;
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -78,11 +80,9 @@ const DetailsResult = () => {
     };
 
     useEffect(() => {
-        console.log(id)
         if (id) {
-            getHousingById(id)
+            getHousingByIdInFun(id.toString())
                 .then((res: any) => {
-                    console.log(res)
                     if (!res.errors) {
                         setHousing(res);
                     }
@@ -123,20 +123,20 @@ const DetailsResult = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-4 relative">
                     <div className="sm:col-span-2 sm:row-span-2">
                         <img
-                            src={housing.images[0] ?? 'https://via.placeholder.com/720'}
+                            src={housing.images[0].url ?? 'https://via.placeholder.com/720'}
                             alt="Main Image"
                             className="w-full h-full object-cover rounded-lg cursor-pointer"
-                            onClick={() => handleOpenModal(housing.images[0])}
+                            onClick={() => handleOpenModal(housing.images[0].url)}
                         />
                     </div>
-                    {housing.images.slice(1).map((src: string, index: number) => (
+                    {housing.images.slice(1).map((image: any, index: number) => (
                         index < 4 && (
                             <div key={index} className="hidden sm:block">
                                 <img
-                                    src={src ?? 'https://via.placeholder.com/720'}
+                                    src={image.url ?? 'https://via.placeholder.com/720'}
                                     alt={`Image ${index + 2}`}
                                     className="w-full h-64 object-cover rounded-lg cursor-pointer"
-                                    onClick={() => handleOpenModal(src)}
+                                    onClick={() => handleOpenModal(image.url)}
                                 />
                             </div>
                         )

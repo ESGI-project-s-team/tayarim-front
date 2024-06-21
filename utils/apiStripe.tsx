@@ -7,13 +7,11 @@ const capturePaiementUrl = `${BACKEND_API}/api/payment/capture-payment`
 const intentPaiementUrl = `${BACKEND_API}/api/payment/create-payment-intent`
 
 export async function capturePayment(paymentIntentId: string) {
-    const token = cookies().get("token")?.value;
     try {
         const response = await fetch(capturePaiementUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({paymentIntentId}),
         });

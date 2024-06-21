@@ -42,7 +42,7 @@ export async function getDatesIndispoByIdHousingInFun(id: number) {
     }
 }
 
-export async function getHousingById(id: number) {
+export async function getHousingByIdInFun(id: string) {
     try {
         return await getByIdHousing(id);
     } catch (error: any) {

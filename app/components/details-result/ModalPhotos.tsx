@@ -28,13 +28,13 @@ const ModalPhotos = ({images, initialImage, onClose}: {
                     <IoIosClose onClick={onClose} size={35} className="cursor-pointer"/>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {images.map((src, index) => (
+                    {images.map((image: any, index) => (
                         <img
                             key={index}
-                            src={src}
+                            src={image.url}
                             alt={`Image ${index + 1}`}
                             className="w-full h-80 object-cover rounded-lg cursor-pointer"
-                            onClick={() => handlePhotoClick(src)}
+                            onClick={() => handlePhotoClick(image.url)}
                         />
                     ))}
                 </div>
