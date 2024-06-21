@@ -1,7 +1,6 @@
 import {CardElement, useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
 import {
     capturePaymentIntentInFun, createReservationInFun,
-    updatePaymentIntentReservationInFun
 } from "@/app/components/details-result/actions";
 import DateFormatterEnFr from "@/app/components/dashboard-components/ui/DateFormaterEnFr";
 import {getAmount} from "@/utils/constants";
@@ -9,6 +8,7 @@ import {StripeCardElementChangeEvent} from "@stripe/stripe-js";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import {useIsErrorContext, useNavbarContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 import {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
 
 export const ModalPayment = ({onClose, housing, startDate, endDate, nbPersonnes}: {
     onClose: () => void,
@@ -28,6 +28,7 @@ export const ModalPayment = ({onClose, housing, startDate, endDate, nbPersonnes}
     const [amount, setAmount] = useState(0);
     const [isCardComplete, setIsCardComplete] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
     const [formData, setFormData] = useState({
         name: '',
         lastname: '',
@@ -92,6 +93,8 @@ export const ModalPayment = ({onClose, housing, startDate, endDate, nbPersonnes}
                                             setErrorCard(null)
                                             setError(null);
                                             onClose();
+                                            //back to home page
+                                            router.push("/validation-reservation-client");
                                         }
                                     }
                                 )

@@ -82,6 +82,28 @@ export async function createReservation(credential: any): Promise<any> {
     }
 }
 
+export async function createReservationClient(credential: any): Promise<any> {
+    try {
+        const response = await fetch(createReservationsUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(credential),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: ["error_occurred"]};
+        }
+        return data;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
+
 export async function updateReservation(credential: any): Promise<any> {
     const token = cookies().get("token")?.value;
     let url = `${updateReservationsUrl}/${credential.id}`;
