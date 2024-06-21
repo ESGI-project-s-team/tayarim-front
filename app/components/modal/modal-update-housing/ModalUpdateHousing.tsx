@@ -7,7 +7,8 @@ import {
     CheckIcon,
     ChevronDownIcon,
     MagnifyingGlassIcon,
-    CalendarIcon
+    CalendarIcon,
+    XCircleIcon
 } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import {
@@ -42,6 +43,7 @@ interface FormValues {
     isLouable: boolean;
     reglesLogement: any[];
     amenagements: any[];
+    images: any[];
 }
 
 interface OwnerType {
@@ -58,7 +60,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
     getAllHousing: any;
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
-    const [formValues, setFormValues] = useState<FormValues>(housingData);
+    const [formValues, setFormValues] = useState<FormValues>({...housingData, files: []});
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext();
     const [isLoading, setLoading] = useState(false);
@@ -79,6 +81,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
     const [selectedHousingRules, setSelectedHousingRules] = useState<any>([]);
 
     useEffect(() => {
+        console.log(formValues)
         if (housingData.amenagements) {
             let keysAmenagements = Object.keys(housingData.amenagements);
             let amenitiesArray = keysAmenagements.map(key => ({nom: translation?.t(key)}));
@@ -239,7 +242,6 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
         );
     };
 
-
     const filteredPeople = query === ''
         ? owners
         : owners.filter((person: OwnerType) => {
@@ -281,12 +283,28 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
         setFormValues((prev: FormValues) => ({...prev, [field]: value}));
     };
 
+    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const uploadedImages = Array.from(event.target.files);
+            setFormValues((prev) => ({
+                ...prev,
+                files: [...prev.images, ...uploadedImages]
+            }));
+        }
+    };
+
+    const handleImageDelete = (index: React.Key | null | undefined) => {
+        setFormValues((prev) => ({
+            ...prev,
+            images: prev.images.filter((_, i) => i !== index)
+        }));
+    };
+
     const renderSection = () => {
         switch (currentSection) {
             case 'general':
                 return (
                     <div className="mb-5 flex flex-col gap-7">
-
                         <div className="w-full">
                             <label className="mb-3 block text-sm font-medium text-black">
                                 {translation?.t('title_house')}
@@ -683,6 +701,40 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                         </div>
                     </div>
                 );
+            case 'images':
+                return (
+                    <div className="mb-5 flex flex-col gap-6">
+                        <div className="w-full">
+                            <label className="mb-3 block text-sm font-medium text-black">
+                                {translation?.t('images')}
+                            </label>
+                            <input
+                                type="file"
+                                multiple
+                                onChange={handleImageUpload}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                            />
+                            <div className="mt-4 flex flex-wrap gap-4">
+                                {formValues.images.map((image: any, index: any) => (
+                                    <div key={index} className="relative">
+                                        <img
+                                            src={image.url}
+                                            alt={`Upload Preview ${index}`}
+                                            className="h-20 w-20 object-cover rounded"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => handleImageDelete(index)}
+                                            className="absolute top-0 right-0 p-0.5 text-white bg-red-500 rounded-full"
+                                        >
+                                            <XCircleIcon className="w-5 h-5"/>
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                );
             default:
                 return null;
         }
@@ -761,8 +813,6 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                                             </li>
                                             <li>
                                                 <button onClick={() => setCurrentSection('detailsAdresse')}
-
-
                                                         className={`w-full flex items-center text-left p-2 hover:bg-gray-100 rounded-lg   ${currentSection === 'detailsAdresse' ? 'bg-gray-100 text-black border-2 border-[#3c50e0]' : 'text-black'}`}>
                                                     <MagnifyingGlassIcon className="w-5 h-5 mr-2"/>
                                                     {translation?.t('adresse')}
@@ -786,6 +836,20 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                                                         className={`w-full flex items-center text-left p-2 hover:bg-gray-100 rounded-lg  ${currentSection === 'reservation' ? 'bg-gray-100 text-black border-2 border-[#3c50e0]' : 'text-black'} text-nowrap`}>
                                                     <CalendarIcon className="w-5 h-5 mr-2"/>
                                                     {translation?.t('critere_reservation')}
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button onClick={() => setCurrentSection('images')}
+                                                        className={`w-full flex items-center text-left p-2 hover:bg-gray-100 rounded-lg  ${currentSection === 'images' ? 'bg-gray-100 text-black border-2 border-[#3c50e0]' : 'text-black'} text-nowrap`}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
+                                                         className="size-6 mr-2">
+                                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                                              d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM4.5 18.75h15"/>
+                                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                                              d="M3 18.75a2.25 2.25 0 0 0 2.25 2.25h13.5A2.25 2.25 0 0 0 21 18.75v-9A2.25 2.25 0 0 0 18.75 7.5h-.568a2.25 2.25 0 0 1-1.591-.659l-2.365-2.366a2.25 2.25 0 0 0-1.591-.659H9.365a2.25 2.25 0 0 0-1.591.659L5.409 6.841a2.25 2.25 0 0 1-1.591.659H3.75A2.25 2.25 0 0 0 1.5 9v9Z"/>
+                                                    </svg>
+                                                    {translation?.t('images')}
                                                 </button>
                                             </li>
                                         </ul>

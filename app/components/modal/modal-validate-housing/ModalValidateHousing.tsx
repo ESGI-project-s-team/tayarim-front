@@ -6,11 +6,11 @@ import {useIsErrorContext, useSuccessContext, useTranslationContext} from "@/app
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import {capturePaymentInFun} from "@/app/components/modal/modal-validate-housing/actions";
 
-export default function ModalValidateHousing({isOpen, onClose, getAllOwners, paymentIntent}: {
+export default function ModalValidateHousing({isOpen, onClose, getAllOwners, id}: {
     isOpen: boolean;
     onClose: () => void;
     getAllOwners: any;
-    paymentIntent: string;
+    id: string;
 }) {
     const {setError} = useIsErrorContext();
     const cancelButtonRef = useRef(null)
@@ -20,7 +20,7 @@ export default function ModalValidateHousing({isOpen, onClose, getAllOwners, pay
     const handleCapturePayment = async () => {
         setLoading(true)
         try {
-            capturePaymentInFun(paymentIntent).then((response) => {
+            capturePaymentInFun(id).then((response) => {
                 if (response.errors) {
                     setError(response.errors)
                 } else {

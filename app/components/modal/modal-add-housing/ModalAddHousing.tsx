@@ -1,7 +1,6 @@
 import {Fragment, Key, useEffect, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import {useIsErrorContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
-import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import {Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions} from '@headlessui/react';
 import {CheckIcon, ChevronDownIcon, XCircleIcon} from '@heroicons/react/20/solid';
 import clsx from 'clsx';
@@ -13,6 +12,7 @@ import {
 import countryList from 'react-select-country-list';
 import MultiSelectListbox from "@/app/components/modal/ui/MultiSelectListbox";
 import {createReservationInFun} from "@/app/components/modal/modal-add-reservation/action";
+import SpinnerUI from "@/app/components/ui/SpinnerUI";
 
 interface FormValues {
     titre: string;
@@ -177,38 +177,46 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
         setLoading(true);
 
         const formData = new FormData();
-        formData.append('titre', formValues.titre);
-        formData.append('idProprietaire', formValues.idProprietaire?.toString() || '');
-        formData.append('nombresDeChambres', formValues.nombresDeChambres?.toString() || '');
-        formData.append('nombresDeLits', formValues.nombresDeLits?.toString() || '');
-        formData.append('nombresSallesDeBains', formValues.nombresSallesDeBains?.toString() || '');
-        formData.append('capaciteMaxPersonne', formValues.capaciteMaxPersonne?.toString() || '');
-        formData.append('nombresNuitsMin', formValues.nombresNuitsMin?.toString() || '');
-        formData.append('description', formValues.description);
-        formData.append('prixParNuit', formValues.prixParNuit?.toString() || '');
-        formData.append('defaultCheckIn', formValues.defaultCheckIn);
-        formData.append('defaultCheckOut', formValues.defaultCheckOut);
-        formData.append('intervalReservation', formValues.intervalReservation?.toString() || '');
-        formData.append('ville', formValues.ville);
-        formData.append('adresse', formValues.adresse);
-        formData.append('codePostal', formValues.codePostal);
-        formData.append('pays', formValues.pays);
-        formData.append('etage', formValues.etage);
-        formData.append('numeroDePorte', formValues.numeroDePorte);
-        formData.append('idTypeLogement', formValues.idTypeLogement?.toString() || '');
-        formData.append('isLouable', formValues.isLouable.toString());
 
+        const appendFormData = (key: string, value: string | number | boolean | null | undefined) => {
+            if (value !== null && value !== undefined && value !== '') {
+                formData.append(key, value.toString());
+            }
+        };
+
+        appendFormData('titre', formValues.titre);
+        appendFormData('idProprietaire', formValues.idProprietaire);
+        appendFormData('nombresDeChambres', formValues.nombresDeChambres);
+        appendFormData('nombresDeLits', formValues.nombresDeLits);
+        appendFormData('nombresSallesDeBains', formValues.nombresSallesDeBains);
+        appendFormData('capaciteMaxPersonne', formValues.capaciteMaxPersonne);
+        appendFormData('nombresNuitsMin', formValues.nombresNuitsMin);
+        appendFormData('description', formValues.description);
+        appendFormData('prixParNuit', formValues.prixParNuit);
+        appendFormData('defaultCheckIn', formValues.defaultCheckIn);
+        appendFormData('defaultCheckOut', formValues.defaultCheckOut);
+        appendFormData('intervalReservation', formValues.intervalReservation);
+        appendFormData('ville', formValues.ville);
+        appendFormData('adresse', formValues.adresse);
+        appendFormData('codePostal', formValues.codePostal);
+        appendFormData('pays', formValues.pays);
+        appendFormData('etage', formValues.etage);
+        appendFormData('numeroDePorte', formValues.numeroDePorte);
+        appendFormData('idTypeLogement', formValues.idTypeLogement);
+        appendFormData('isLouable', formValues.isLouable);
 
         formValues.reglesLogement.forEach((regle, index) => {
-            formData.append(`reglesLogement[${index}]`, regle);
+            appendFormData(`reglesLogement[${index}]`, regle);
         });
 
         formValues.amenagements.forEach((amenagement, index) => {
-            formData.append(`amenagements[${index}]`, amenagement);
+            appendFormData(`amenagements[${index}]`, amenagement);
         });
 
         formValues.files.forEach((file, index) => {
-            formData.append(`files[${index}]`, file);
+            if (file) {
+                formData.append(`files[${index}]`, file);
+            }
         });
 
 

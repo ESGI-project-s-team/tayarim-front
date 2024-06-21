@@ -5,7 +5,7 @@ import {useTranslationContext} from "@/app/[lng]/hooks";
 import "../../globals.css";
 import {useRouter} from 'next/navigation';
 import {searchHousing} from "@/utils/apiHousing";
-
+import SpinnerUI from "@/app/components/ui/SpinnerUI";
 
 export default function SearchRoomReservation({
                                                   search,
@@ -27,24 +27,34 @@ export default function SearchRoomReservation({
     const [checkout, setCheckout] = useState<Date | null>(
         localStorage.getItem('checkout') ? new Date(localStorage.getItem('checkout')!) : null
     );
+    const [loading, setLoading] = useState(false);
+    const [loadingPerman, setLoadingPerman] = useState(false);
+
     const router = useRouter();
 
     const handleSearch = useCallback(async () => {
+        setLoading(true);
+
         localStorage.setItem('location', location);
         localStorage.setItem('guest', guest.toString());
         if (checkin && checkout) {
             localStorage.setItem('checkin', checkin.toISOString());
             localStorage.setItem('checkout', checkout.toISOString());
         }
-        if (search) {
-            await searchHousingCurrent();
-        } else {
-            router.push('/search-results');
+        try {
+            if (search) {
+                await searchHousingCurrent();
+            } else {
+                setLoadingPerman(true);
+                router.push('/search-results');
+            }
+        } finally {
+            setLoading(false);
         }
-
     }, [location, guest, checkin, checkout, search, searchHousingCurrent, router]);
 
     useEffect(() => {
+        setLoadingPerman(false);
         searchHousing({})
             .then((response: any) => {
                 if (!response)
@@ -66,15 +76,15 @@ export default function SearchRoomReservation({
     }, []);
 
     return (
-        <div className="inset-0 flex justify-center items-center ">
-            <div className="lg:flex py-5 bg-custom-search border border-gray-300 rounded-2xl shadow-sm ">
+        <div className="inset-0 flex justify-center items-center">
+            <div className="lg:flex py-5 bg-custom-search border border-gray-300 rounded-2xl shadow-sm">
                 <div className={"lg mx-8 mb-2"}>
                     <h5 className={"mb-2 text-sm font-semibold text-gray-950"}>{translation?.t('location')}</h5>
                     <SelectMenusCustom value={villes} placeholder={translation?.t('btn_location')}
                                        valueSelected={{id: 1, name: location}}
                                        onChange={(value) => {
-                                           localStorage.setItem('location', value.name)
-                                           setLocation(value.name)
+                                           localStorage.setItem('location', value.name);
+                                           setLocation(value.name);
                                        }}
                                        icon={<svg
                                            xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -106,8 +116,8 @@ export default function SearchRoomReservation({
                     <h5 className={"mb-2 text-sm font-semibold text-gray-950"}>{translation?.t('guest')}</h5>
                     <SelectMenusCustom value={guestMax} placeholder={translation?.t('btn_guest')}
                                        onChange={(value) => {
-                                           localStorage.setItem('guest', value.name)
-                                           setGuest(value.name)
+                                           localStorage.setItem('guest', value.name);
+                                           setGuest(value.name);
                                        }}
                                        valueSelected={{id: 1, name: guest}}
                                        icon={<svg
@@ -119,26 +129,39 @@ export default function SearchRoomReservation({
                                        }/>
                 </div>
                 <div className={"w-full flex justify-center"}>
-                    <button
-                        onClick={() => {
-                            handleSearch().then();
-                        }}
-                        className="bg-transparent font-semibold border border-gray-400 rounded h-9 text-black mt-7 lg:mr-7 w-32 flex justify-center items-center bg-white
+                    {loadingPerman ?
+                        <div className={"mt-7 mr-7"}>
+                            <SpinnerUI/>
+                        </div>
+                        :
+                        <>
+                            {loading ?
+                                <div className={"mt-7 mr-7"}>
+                                    <SpinnerUI/>
+                                </div>
+                                :
+                                <button
+                                    onClick={() => {
+                                        handleSearch().then();
+                                    }}
+                                    className="bg-transparent font-semibold border border-gray-400 rounded h-9 text-black mt-7 lg:mr-7 w-32 flex justify-center items-center bg-white
                         hover:bg-gray-100">
-                        <div className="flex">
+                                    <div className="flex">
                                 <span
                                     className={"text-sm font-semibold text-gray-950"}>{translation?.t('search')}</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                 strokeWidth="1.5" stroke="currentColor" className="w-4 h-5 ml-2">
-                                <path strokeLinecap="round" strokeLinejoin="round"
-                                      d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
-                            </svg>
-                        </div>
-                    </button>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             strokeWidth="1.5" stroke="currentColor" className="w-4 h-5 ml-2">
+                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+                                        </svg>
+                                    </div>
+                                </button>
+                            }
+                        </>
+                    }
                 </div>
             </div>
         </div>
     );
 }
-
 

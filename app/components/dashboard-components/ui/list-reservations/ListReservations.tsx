@@ -38,7 +38,7 @@ const ListReservations: React.FC = () => {
             <>
                 {reservations.filter((reservation: {
                     statut: string;
-                }) => reservation.statut === 'payed').map((reservation: any, index: React.Key | null | undefined) => (
+                }) => reservation.statut === 'reserved' || reservation.statut === 'payed').map((reservation: any, index: React.Key | null | undefined) => (
                     <ReservationRow key={index} reservation={reservation} translation={translation}
                                     openModalInfoClient={openModalInfoClient} currentLanguage={currentLanguage}
                                     openModalInfoHousing={openModalInfoHousing} openModalEdit={openModalEdit}
@@ -327,7 +327,7 @@ const ListReservations: React.FC = () => {
             }
             {isOpenValidate &&
                 <ModalValidateHousing isOpen={isOpenValidate} onClose={closeModal}
-                                      paymentIntent={reservationDetails.paymentIntent}
+                                      id={reservationDetails.id.toString()}
                                       getAllOwners={getAllReservationsInFun}/>
             }
             {isOpenInfoHousing &&
@@ -377,7 +377,7 @@ const ReservationRow = ({
     return (
         <div className="grid grid-cols-20 border-t px-5 py-4 gap-x-20 w-fit">
             {
-                reservation.statut === 'payed' && isAdmin ?
+                reservation.statut === 'reserved' && isAdmin ?
                     <div className={"col-span-3 flex flex-row justify-center"}>
                         <Popover className="relative">
                             <PopoverButton

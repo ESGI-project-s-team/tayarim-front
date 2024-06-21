@@ -6,14 +6,16 @@ import {cookies} from "next/headers";
 const capturePaiementUrl = `${BACKEND_API}/api/payment/capture-payment`
 const intentPaiementUrl = `${BACKEND_API}/api/payment/create-payment-intent`
 
-export async function capturePayment(paymentIntentId: string) {
+export async function capturePayment(id: string) {
+    const token = cookies().get("token")?.value;
+    let url = `${capturePaiementUrl}/${id}`;
     try {
-        const response = await fetch(capturePaiementUrl, {
-            method: "POST",
+        const response = await fetch(url, {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({paymentIntentId}),
         });
         const data = await response.json();
         if (!response.ok) {
