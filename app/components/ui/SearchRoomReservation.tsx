@@ -47,7 +47,9 @@ export default function SearchRoomReservation({
     useEffect(() => {
         searchHousing({})
             .then((response: any) => {
-                if (!response.errors) {
+                if (!response)
+                    return;
+                if (!response?.errors) {
                     const villes = response.map((item: any) => item.ville);
                     const villesFiltre = villes.filter((item: any, index: any) => villes.indexOf(item) === index);
                     const villesFiltre2 = villesFiltre.map((item: any, index: any) => {

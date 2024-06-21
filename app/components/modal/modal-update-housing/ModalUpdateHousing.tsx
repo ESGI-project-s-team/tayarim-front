@@ -175,7 +175,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
         handleGetAllHousingAmenities().then(
             () => setLoading(false)
         );
-    }, [setError]);
+    }, [setError, translation]);
 
     const updateHousing = async () => {
         setLoading(true);

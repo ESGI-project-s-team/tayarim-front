@@ -25,7 +25,7 @@ import {getDatesIndispoByIdHousingInFun} from "@/app/components/details-result/a
 const DetailsResult = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalPayment, setIsModalPayment] = useState(false);
-    const [initialImage, setInitialImage] = useState(null);
+    const [initialImage, setInitialImage] = useState<any>();
     const [minDayMessage, setMinDayMessage] = useState("");
     const {translation} = useTranslationContext();
     const [startDate, setStartDate] = useState("");
@@ -33,7 +33,7 @@ const DetailsResult = () => {
     const [guests, setGuests] = useState(1);
     const [datesIndispo, setDatesIndispo] = useState([]);
 
-    const handleOpenModal = (image = null) => {
+    const handleOpenModal = (image: string | null) => {
         setInitialImage(image);
         setIsModalOpen(true);
     };
@@ -174,7 +174,7 @@ const DetailsResult = () => {
                             className="bg-white px-7 py-2 pl-8 rounded-lg font-bold text-sm cursor-pointer border border-black"
                             type="button"
                             value="Voir toutes les photos"
-                            onClick={() => handleOpenModal()}
+                            onClick={() => handleOpenModal(null)}
                         />
                         <div className="absolute top-2.5 left-2">
                             <MdOutlinePhotoLibrary/>
