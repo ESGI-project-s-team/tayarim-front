@@ -180,14 +180,12 @@ export async function getHousingAmenities(): Promise<any> {
 }
 
 export async function getByIdHousing(id: number): Promise<any> {
-    const token = cookies().get("token")?.value;
     let idString = id.toString();
     try {
         const response = await fetch(`${getByIdHousingUrl}/${idString}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
         });
         const data = await response.json();

@@ -129,12 +129,12 @@ const ListResultsHousing: React.FC = () => {
                                 </div>
                             )}
                             {filteredHousing.map(item => (
-                                <a key={item.id} href={`search-results/details`} target={"_blank"}>
+                                <a key={item.id} href={`search-results/details/${item.id}`} target={"_blank"}>
                                     <div
                                         className="flex flex-col sm:flex-row border border-gray-300 rounded-lg p-4 mb-5 h-auto sm:h-64 relative cursor-pointer transition-shadow bg-white "
                                     >
                                         <img
-                                            src={item.image ? item.image : "https://via.placeholder.com/150"}
+                                            src={item.images[0].url}
                                             alt={item.titre}
                                             className="w-full sm:w-64 h-48 sm:h-full object-cover rounded-lg mb-4 sm:mb-0 sm:mr-4"/>
                                         <div className="flex flex-col w-full">

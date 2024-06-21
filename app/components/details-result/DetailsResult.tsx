@@ -1,5 +1,6 @@
 "use client";
 import React, {useEffect, useState} from "react";
+import {useParams, useRouter} from 'next/navigation';
 import {MdOutlinePhotoLibrary} from "react-icons/md";
 import "../../globals.css";
 import ModalPhotos from "@/app/components/details-result/ModalPhotos";
@@ -19,10 +20,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePickerRangerCustomForm from "@/app/components/ui/DatePickerRangerCustomForm";
 import {ModalPayment} from "@/app/components/modal/modal-payment/ModalPayment";
 import {getDaysDifference} from "@/utils/constants";
-import {getDatesIndispoByIdHousingInFun} from "@/app/components/details-result/actions";
-
+import {getDatesIndispoByIdHousingInFun, getHousingById} from "@/app/components/details-result/actions";
+import SpinnerDashboard from "@/app/components/ui/SpinnerDashboard";
 
 const DetailsResult = () => {
+    const router = useRouter();
+    const params = useParams()
+    const id = params.id;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalPayment, setIsModalPayment] = useState(false);
     const [initialImage, setInitialImage] = useState<any>();
@@ -32,6 +36,7 @@ const DetailsResult = () => {
     const [endDate, setEndDate] = useState("");
     const [guests, setGuests] = useState(1);
     const [datesIndispo, setDatesIndispo] = useState([]);
+    const [housing, setHousing] = useState<any>(null);
 
     const handleOpenModal = (image: string | null) => {
         setInitialImage(image);
@@ -66,84 +71,51 @@ const DetailsResult = () => {
         PiOvenDuotone: PiOvenDuotone,
         MdElevator: MdElevator,
     };
-    const housing = {
-        id: 1,
-        titre: "Jolies petit endroit",
-        description: "Lorem Ipsum is simply dummy text of the printing and" +
-            "typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the" +
-            "1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen" +
-            "book. It has survived not only five centuries, but also the leap into electronic typesetting," +
-            "remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset" +
-            "sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like" +
-            "Aldus PageMaker including versions of Lorem Ipsum.",
-        prixParNuit: 100,
-        adresseComplete: "85 rue de la république, Etampes, 91150, France",
-        ville: "Etampes",
-        codePostal: "91150",
-        pays: "France",
-        typeLogement: "Appartement",
-        nombresDeChambres: 1,
-        nombresDeLits: 1,
-        nombresSallesDeBains: 1,
-        capaciteMaxPersonne: 1,
-        nombresNuitsMin: 6,
-        images: [
-            "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTExNDMwMzYwMTI1NDgxMTkzNg%3D%3D/original/986f7910-d865-4d61-839a-f28237c6a9a5.jpeg?im_w=1200",
-            "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTExNDMwMzYwMTI1NDgxMTkzNg%3D%3D/original/eadc511f-18e7-4419-8a8d-0e9eec52edc1.jpeg?im_w=720",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1114303601254811936/original/8a3a720a-c852-4141-a57b-b2028522756d.jpeg?im_w=720",
-            "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTExNDMwMzYwMTI1NDgxMTkzNg%3D%3D/original/01533603-194a-4109-beec-a288cfd67627.jpeg?im_w=720",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1114303601254811936/original/ea0bc1a5-19fe-426b-af35-786347e4f1bb.jpeg?im_w=720",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1114303601254811936/original/e05cf3ce-3d5b-4783-8b56-8824f157ef0d.jpeg?im_w=720",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1114303601254811936/original/c2dc8f05-7bb0-4937-bdc7-47cf49399060.jpeg?im_w=720",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1114303601254811936/original/de7132f2-23c6-478a-8369-5817be4b76d1.jpeg?im_w=720",
-        ],
-        reglesLogement: {
-            "Events allowed": "LuPartyPopper",
-            "Children allowed": "FaChild",
-            "Pets allowed": "MdOutlinePets",
-            "Infants allowed": "FaBaby",
-            "Smoking allowed": "FaSmoking"
-        },
-        amenagements: {
-            "Air Conditioning": "TbAirConditioning",
-            "Handicap Accessible": "BiHandicap",
-            "Oven": "PiOvenDuotone",
-            "Elevator": "MdElevator",
-            "Swimming Pool": "PiSwimmingPool",
-            "Internet": "FaWifi",
-            "Washer": "BiSolidWasher",
-            "Free Parking": "FaParking"
-        }
-    };
+
     const renderIcon = (iconName: any) => {
         const IconComponent = iconMap[iconName];
         return IconComponent ? <IconComponent className="size-5"/> : null;
     };
 
     useEffect(() => {
-        getDatesIndispoByIdHousingInFun(housing.id)
-            .then((res) => {
-                if (!res.errors) {
-                    setDatesIndispo(res)
-                }
-            });
-    }, [housing.id]);
+        console.log(id)
+        if (id) {
+            getHousingById(id)
+                .then((res: any) => {
+                    console.log(res)
+                    if (!res.errors) {
+                        setHousing(res);
+                    }
+                });
+            getDatesIndispoByIdHousingInFun(parseInt(id.toString()))
+                .then((res) => {
+                    if (!res.errors) {
+                        setDatesIndispo(res)
+                    }
+                });
+        }
+    }, [id]);
+
     const handleInputChange = (field: string, value: React.SetStateAction<any>) => {
         if (value !== null) {
             if (field === 'dateArrivee') {
                 setStartDate(value);
             } else if (field === 'dateDepart') {
                 setEndDate(value);
-                if (getDaysDifference(startDate, value) < housing.nombresNuitsMin) {
-                    setMinDayMessage(`${translation?.t('minimum_nights_label')} ${housing.nombresNuitsMin}`);
-                    return;
-                } else {
-                    setMinDayMessage("");
-                }
+                if (housing)
+                    if (getDaysDifference(startDate, value) < housing.nombresNuitsMin) {
+                        setMinDayMessage(`${translation?.t('minimum_nights_label')} ${housing.nombresNuitsMin}`);
+                        return;
+                    } else {
+                        setMinDayMessage("");
+                    }
             }
-
         }
     };
+
+    if (!housing) {
+        return <SpinnerDashboard/>;
+    }
 
     return (
         <>
@@ -157,7 +129,7 @@ const DetailsResult = () => {
                             onClick={() => handleOpenModal(housing.images[0])}
                         />
                     </div>
-                    {housing.images.slice(1).map((src, index) => (
+                    {housing.images.slice(1).map((src: string, index: number) => (
                         index < 4 && (
                             <div key={index} className="hidden sm:block">
                                 <img

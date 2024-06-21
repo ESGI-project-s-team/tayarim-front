@@ -63,7 +63,7 @@ export default function SearchRoomReservation({
                     setGuestMax(guestMaxArray);
                 }
             })
-    });
+    }, []);
 
     return (
         <div className="inset-0 flex justify-center items-center ">
@@ -121,7 +121,7 @@ export default function SearchRoomReservation({
                 <div className={"w-full flex justify-center"}>
                     <button
                         onClick={() => {
-                            handleSearch();
+                            handleSearch().then();
                         }}
                         className="bg-transparent font-semibold border border-gray-400 rounded h-9 text-black mt-7 lg:mr-7 w-32 flex justify-center items-center bg-white
                         hover:bg-gray-100">
