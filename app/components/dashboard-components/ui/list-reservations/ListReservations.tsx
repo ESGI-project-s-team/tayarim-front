@@ -170,6 +170,7 @@ const ListReservations: React.FC = () => {
                     router.push("/dashboard");
                 } else {
                     setError(null);
+                    console.log(response)
                     setReservations(response);
                 }
                 setLoading(false)
@@ -447,7 +448,7 @@ const ReservationRow = ({
             <div className="col-span-2 flex items-center justify-center text-nowrap">
                 <p className="text-sm text-[#3c50e0] hover:underline cursor-pointer"
                    onClick={() => openModalInfoHousing(reservation.idLogement)}>
-                    {reservation.titreLogement.length > 10 ? reservation.titreLogement.substring(0, 10) + '...' : ''}
+                    {reservation.titreLogement.length > 10 ? reservation.titreLogement.substring(0, 10) + '...' : reservation.titreLogement}
                 </p>
             </div>
             <div className="col-span-2 flex items-center justify-center text-nowrap">
