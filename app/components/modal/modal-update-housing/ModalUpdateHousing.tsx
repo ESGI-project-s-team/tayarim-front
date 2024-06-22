@@ -44,6 +44,7 @@ interface FormValues {
     reglesLogement: any[];
     amenagements: any[];
     images: any[];
+    files: any[];
 }
 
 interface OwnerType {
@@ -81,7 +82,6 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
     const [selectedHousingRules, setSelectedHousingRules] = useState<any>([]);
 
     useEffect(() => {
-        console.log(formValues)
         if (housingData.amenagements) {
             let keysAmenagements = Object.keys(housingData.amenagements);
             let amenitiesArray = keysAmenagements.map(key => ({nom: translation?.t(key)}));
@@ -227,8 +227,63 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
         }
         formValues.intervalReservation = 1;
 
+        const formData = new FormData();
+
+        const appendFormData = (key: string, value: string | number | boolean | null | undefined) => {
+            if (value !== null && value !== undefined && value !== '') {
+                formData.append(key, value.toString());
+            }
+        };
+
+        appendFormData('titre', formValues.titre);
+        appendFormData('idProprietaire', formValues.idProprietaire);
+        appendFormData('nombresDeChambres', formValues.nombresDeChambres);
+        appendFormData('nombresDeLits', formValues.nombresDeLits);
+        appendFormData('nombresSallesDeBains', formValues.nombresSallesDeBains);
+        appendFormData('capaciteMaxPersonne', formValues.capaciteMaxPersonne);
+        appendFormData('nombresNuitsMin', formValues.nombresNuitsMin);
+        appendFormData('description', formValues.description);
+        appendFormData('prixParNuit', formValues.prixParNuit);
+        appendFormData('defaultCheckIn', formValues.defaultCheckIn);
+        appendFormData('defaultCheckOut', formValues.defaultCheckOut);
+        appendFormData('intervalReservation', formValues.intervalReservation);
+        appendFormData('ville', formValues.ville);
+        appendFormData('adresse', formValues.adresse);
+        appendFormData('codePostal', formValues.codePostal);
+        appendFormData('pays', formValues.pays);
+        appendFormData('etage', formValues.etage);
+        appendFormData('numeroDePorte', formValues.numeroDePorte);
+        appendFormData('idTypeLogement', formValues.idTypeLogement);
+        appendFormData('isLouable', formValues.isLouable);
+        appendFormData('id', housingData.id);
+
+        formValues.reglesLogement.forEach((regle, index) => {
+            appendFormData(`reglesLogement[${index}]`, regle);
+        });
+
+        formValues.amenagements.forEach((amenagement, index) => {
+            appendFormData(`amenagements[${index}]`, amenagement);
+        });
+
+        formValues.files.forEach((file, index) => {
+            if (file) {
+                formData.append(`files[${index}]`, file);
+            }
+        });
+
+        formValues.images.forEach((image, index) => {
+            if (image) {
+                formData.append(`currentImages[${index}]`, image.id);
+            }
+        });
+
+
+        console.log(formValues)
+        formData.forEach((value, key) => {
+            console.log(key, value);
+        });
         // Your code to update housing goes here
-        await updateHousingInFun(formValues).then(
+        await updateHousingInFun(formData).then(
             async (response) => {
                 if (response.errors) {
                     setError(response.errors);
@@ -288,7 +343,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
             const uploadedImages = Array.from(event.target.files);
             setFormValues((prev) => ({
                 ...prev,
-                files: [...prev.images, ...uploadedImages]
+                files: [...prev.files, ...uploadedImages]
             }));
         }
     };
@@ -297,6 +352,13 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
         setFormValues((prev) => ({
             ...prev,
             images: prev.images.filter((_, i) => i !== index)
+        }));
+    };
+
+    const handleImageDeleteFiles = (index: React.Key | null | undefined) => {
+        setFormValues((prev) => ({
+            ...prev,
+            files: prev.files.filter((_, i) => i !== index)
         }));
     };
 
@@ -725,6 +787,22 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                                         <button
                                             type="button"
                                             onClick={() => handleImageDelete(index)}
+                                            className="absolute top-0 right-0 p-0.5 text-white bg-red-500 rounded-full"
+                                        >
+                                            <XCircleIcon className="w-5 h-5"/>
+                                        </button>
+                                    </div>
+                                ))}
+                                {formValues.files.map((file: any, index: any) => (
+                                    <div key={index} className="relative">
+                                        <img
+                                            src={URL.createObjectURL(file)}
+                                            alt={`Upload Preview ${index}`}
+                                            className="h-20 w-20 object-cover rounded"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => handleImageDeleteFiles(index)}
                                             className="absolute top-0 right-0 p-0.5 text-white bg-red-500 rounded-full"
                                         >
                                             <XCircleIcon className="w-5 h-5"/>

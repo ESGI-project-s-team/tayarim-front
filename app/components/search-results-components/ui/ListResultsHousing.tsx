@@ -136,7 +136,7 @@ const ListResultsHousing: React.FC = () => {
                                         <img
                                             src={item.images[0].url}
                                             alt={item.titre}
-                                            className="w-full sm:w-64 h-48 sm:h-full object-cover rounded-lg mb-4 sm:mb-0 sm:mr-4"/>
+                                            className="w-full sm:w-72 h-48 sm:h-full object-cover rounded-lg mb-4 sm:mb-0 sm:mr-4"/>
                                         <div className="flex flex-col w-full">
                                             <div className="flex justify-between">
                                                 <h2 className="text-lg font-bold mb-2">{item.titre}</h2>

@@ -120,8 +120,9 @@ const DetailsResult = () => {
     return (
         <>
             <div className="max-w-7xl mx-auto p-4 mt-28 bg-white rounded mb-5">
-                <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-4 relative">
-                    <div className="sm:col-span-2 sm:row-span-2">
+                <div
+                    className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-4 relative overflow-hidden  max-h-[500px]">
+                    <div className="sm:col-span-2 sm:row-span-2  overflow-hidden ">
                         <img
                             src={housing.images[0].url ?? 'https://via.placeholder.com/720'}
                             alt="Main Image"

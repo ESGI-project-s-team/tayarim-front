@@ -87,16 +87,16 @@ export async function deleteHousing(id: string): Promise<any> {
     }
 }
 
-export async function updateHousing(body: any): Promise<any> {
+export async function updateHousing(formData: any): Promise<any> {
     const token = cookies().get("token")?.value;
     try {
-        const response = await fetch(`${updateHousingUrl}/${body.id}`, {
+        let url = updateHousingUrl + "/" + formData.get("id");
+        const response = await fetch(url, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(body),
+            body: formData,
         });
         const data = await response.json();
         if (!response.ok) {
