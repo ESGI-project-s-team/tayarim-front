@@ -9,6 +9,7 @@ import {checkTokenInFun, signInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from 'next/navigation'
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import ShowPasswordEye from "@/app/components/ui/ShowPasswordEye";
+import WebSocketConnection from '../../../../socket/webSocketConnection';
 
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
@@ -17,6 +18,8 @@ const FormConnection: React.FC = () => {
     const {setError} = useIsErrorContext();
     //const {setUserInfos} = useUserInfoContext();
     const router = useRouter()
+    const {messages, sendMessage} = WebSocketConnection(`http://localhost:8080/socket`);
+
 
     useEffect(
         () => {
@@ -61,8 +64,11 @@ const FormConnection: React.FC = () => {
                         localStorage.setItem("prenom", user.prenom)
                         localStorage.setItem("email", user.email)
                         localStorage.setItem("numTel", user.numTel)
-                        //setUserInfos(user);
-                        // setIsAdmin(response.admin)
+                        console.log(response.accessToken)
+                        if (response.accessToken) {
+                            sendMessage(`Connect : Bearer ${response.accessToken}`);
+                            console.log(messages)
+                        }
                         if (response.isPasswordUpdated === true) {
                             router.push("/dashboard")
                         } else {
