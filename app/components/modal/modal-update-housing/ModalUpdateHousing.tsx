@@ -276,13 +276,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                 formData.append(`currentImages[${index}]`, image.id);
             }
         });
-
-
-        console.log(formValues)
-        formData.forEach((value, key) => {
-            console.log(key, value);
-        });
-        // Your code to update housing goes here
+        
         await updateHousingInFun(formData).then(
             async (response) => {
                 if (response.errors) {

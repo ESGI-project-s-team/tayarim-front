@@ -14,9 +14,10 @@ interface ModalCalendarProps {
     isOpen: boolean;
     onClose: () => void;
     reservations: Reservation[];
+    datesIndispo: any;
 }
 
-export default function ModalCalendar({isOpen, onClose, reservations}: ModalCalendarProps) {
+export default function ModalCalendar({isOpen, onClose, reservations, datesIndispo}: ModalCalendarProps) {
     const {translation} = useTranslationContext();
     const menu_days_all = translation?.t('days_all', {returnObjects: true}) ?? [];
     const menu_days = translation?.t('days_calendar', {returnObjects: true}) ?? [];
@@ -97,6 +98,17 @@ export default function ModalCalendar({isOpen, onClose, reservations}: ModalCale
             ));
             const depart = new Date(reservation.dateDepart);
             return date >= arrivee && date <= depart;
+        });
+    };
+
+    const isDateInIndispo = (date: Date) => {
+        return datesIndispo.some((indispo: any) => {
+            //date debut - 1
+            const dateDebut = new Date(new Date(indispo.dateDebut).setDate(
+                new Date(indispo.dateDebut).getDate() - 1
+            ));
+            const dateFin = new Date(indispo.dateFin);
+            return date >= dateDebut && date <= dateFin;
         });
     };
 
@@ -192,7 +204,9 @@ export default function ModalCalendar({isOpen, onClose, reservations}: ModalCale
                                                         <tr className="grid grid-cols-7" key={weekIndex}>
                                                             {monthDays.slice(weekIndex * 7, (weekIndex + 1) * 7).map((date, dayIndex) => (
                                                                 <td
-                                                                    className={`ease relative h-20 cursor-pointer border border-stroke p-2 transition duration-500 ${isDateInReservations(date) ? 'bg-blue-200' : 'hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4'} md:h-25 md:p-6 xl:h-31`}
+                                                                    className={`ease relative h-20 cursor-pointer border border-stroke p-2 transition duration-500 ${isDateInReservations(date) ? 'bg-blue-200' : 'hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4'} 
+                                                                    ${isDateInIndispo(date) ? 'bg-red-200' : 'hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4'}
+                                                                    md:h-25 md:p-6 xl:h-31`}
                                                                     key={dayIndex}
                                                                     onClick={() => {
                                                                         const reservation = reservations.find(reservation => {

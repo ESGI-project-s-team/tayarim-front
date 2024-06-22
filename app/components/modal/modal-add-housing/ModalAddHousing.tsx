@@ -233,7 +233,6 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            console.log(error);
             setError(error);
         }
     };

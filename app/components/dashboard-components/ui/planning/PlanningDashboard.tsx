@@ -5,10 +5,11 @@ import {addDays, startOfWeek, subDays, startOfDay, eachDayOfInterval} from 'date
 import ModalInfoReservation from "@/app/components/modal/modal-info-reservation/ModalInfoReservation";
 import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
 import ModalCalendar from "@/app/components/modal/modal-calendar-housing/ModalCalendar";
-import {getAllHousingInFun} from "@/app/components/dashboard-components/ui/planning/action";
+import {getAllHousingInFun, getIndispoInFun} from "@/app/components/dashboard-components/ui/planning/action";
 import SpinnerDashboard from "@/app/components/ui/SpinnerDashboard";
 import {getAllReservations} from "@/utils/apiReservation";
 import {LuCalendarX2, LuCalendarRange} from "react-icons/lu";
+import ModalAddIndispo from "@/app/components/modal/modal-add-date-indispo/ModalAddIndispo";
 
 
 const PlanningDashboard: React.FC = () => {
@@ -17,6 +18,7 @@ const PlanningDashboard: React.FC = () => {
     const [modalInfoReservationIsOpen, setInfoReservationIsOpen] = useState(false);
     const [reservations, setReservations] = useState<any[]>([]);
     const [isOpenCalendar, setIsOpenCalendar] = useState(false);
+    const [isOpenDateIndispo, setIsOpenDateIndispo] = useState(false);
     const {translation} = useTranslationContext();
     const {setError} = useIsErrorContext();
     const [housing, setHousing] = useState<any[]>([]);
@@ -24,6 +26,7 @@ const PlanningDashboard: React.FC = () => {
     const month_complete = translation?.t('month_complete', {returnObjects: true}) ?? [];
     const [loading, setLoading] = useState(false);
     const [reservationDate, setReservationDate] = useState<any>([]);
+    const [indispo, setIndispo] = useState<any>([]);
 
     const nextWeek = () => {
         setCurrentWeekStart(addDays(currentWeekStart, 7));
@@ -61,9 +64,15 @@ const PlanningDashboard: React.FC = () => {
         setIsOpenCalendar(true);
     }
 
+    function openDateIndispo(houseId: any) {
+        setReservationDate(houseId);
+        setIsOpenDateIndispo(true);
+    }
+
     function closeModal() {
         setInfoReservationIsOpen(false);
         setIsOpenCalendar(false);
+        setIsOpenDateIndispo(false);
     }
 
     const getAllReservationsInFun = useCallback(() => {
@@ -82,6 +91,20 @@ const PlanningDashboard: React.FC = () => {
                 setLoading(false)
             });
     }, [setError]);
+
+    const getIndispoInFunCallBack = useCallback(() => {
+        getIndispoInFun().then((response) => {
+            if (response.errors) {
+                setError(response.errors);
+            } else {
+                setIndispo(response)
+            }
+        });
+    }, [setError]);
+
+    useEffect(() => {
+        getIndispoInFunCallBack();
+    }, [getIndispoInFunCallBack]);
 
     useEffect(() => {
         getAllReservationsInFun();
@@ -125,9 +148,26 @@ const PlanningDashboard: React.FC = () => {
                 });
             });
         });
+        days.forEach((day, dayIndex) => {
+            housing.forEach((house, houseIndex) => {
+                indispo.forEach((indispo: {
+                    idLogement: number;
+                    dateDebut: string;
+                    dateFin: string;
+                }) => {
+                    const startDate = startOfDay(new Date(indispo.dateDebut));
+                    const endDate = startOfDay(new Date(indispo.dateFin));
+                    if (house.id === indispo.idLogement && day >= startDate && day <= endDate) {
+                        schedules[houseIndex][dayIndex] = {
+                            color: "#f87171",
+                            reservationId: 0,
+                        };
+                    }
+                });
+            });
+        });
         return schedules;
     };
-
     const schedules = getSchedules();
 
     const formatMonth = (date: Date) => {
@@ -183,11 +223,7 @@ const PlanningDashboard: React.FC = () => {
                                                     <div className={"flex"}>
                                                         <div
                                                             className="border border-[#DDDDDD] p-1 rounded-full cursor-pointer w-fit hover:border-black bg-gray-100 mb-4"
-                                                            onClick={() => openCalendar(
-                                                                reservations.filter((reservation: {
-                                                                    idLogement: number;
-                                                                }) => reservation.idLogement === house.id)
-                                                            )}>
+                                                            onClick={() => openDateIndispo(house.id)}>
                                                             <LuCalendarX2/>
                                                         </div>
                                                         <div
@@ -271,7 +307,12 @@ const PlanningDashboard: React.FC = () => {
                                       infosReservation={reservationDate}/>
             )}
             {isOpenCalendar &&
-                <ModalCalendar isOpen={isOpenCalendar} onClose={closeModal} reservations={reservationDate}/>
+                <ModalCalendar isOpen={isOpenCalendar} onClose={closeModal} reservations={reservationDate}
+                               datesIndispo={indispo}/>
+            }
+            {isOpenDateIndispo &&
+                <ModalAddIndispo isOpen={isOpenDateIndispo} onClose={closeModal}
+                                 id={reservationDate} getAllIndispo={getIndispoInFunCallBack} datesBloquer={indispo}/>
             }
         </div>
     );
