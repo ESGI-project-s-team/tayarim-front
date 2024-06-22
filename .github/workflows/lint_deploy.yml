@@ -36,7 +36,7 @@ jobs:
         with:
           file: ./Dockerfile
           push: true
-          tags: eu.gcr.io/tayarim-project/tayarim_front:${{ github.sha }}, eu.gcr.io/tayarim-project/tayarim_front:latest
+          tags: tayarim-repo/tayarim_front:${{ github.sha }}, tayarim-repo/tayarim_front:latest
 
   trigger_deploy_workflow:
     runs-on: ubuntu-latest
