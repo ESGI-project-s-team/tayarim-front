@@ -13,7 +13,7 @@ export async function getAllReservationsInFun() {
 
 export async function getByIdHousingInFun(id: number) {
     try {
-        return await getByIdHousing(id);
+        return await getByIdHousing(id.toString());
     } catch (error: any) {
         return {errors: ["error_occurred"]};
     }
