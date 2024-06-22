@@ -30,7 +30,7 @@ export default function ModalAddIndispo({isOpen, onClose, id, getAllIndispo, dat
 
             getDatesIndispoByIdHousingInFun(parseInt(id.toString()))
                 .then((res) => {
-                    if (!res.errors) {
+                    if (!res?.errors) {
                         setDatesIndispo(res)
                     }
                 });
@@ -136,10 +136,11 @@ export default function ModalAddIndispo({isOpen, onClose, id, getAllIndispo, dat
                                                 <h5 className={"mb-2 text-sm font-medium text-gray-950 mt-2"}>{translation?.t('add_indispo')}</h5>
                                                 <div>
                                                     {datesBloquer?.length > 0 ?
-                                                        <div className="flex flex-wrap gap-2 text-sm">
+                                                        <div
+                                                            className="flex flex-wrap gap-2 text-sm  max-h-32 overflow-y-auto no-scrollbar ">
                                                             {datesBloquer.map((date: any, index: number) => (
                                                                 <div key={index}
-                                                                     className={"flex max-h-32 overflow-y-auto no-scrollbar cursor-pointer"}
+                                                                     className={"flex max-h-32 overflow-y-auto  cursor-pointer "}
                                                                      onClick={() => {
                                                                          handleDeleteIndispo(date.id)
                                                                      }}

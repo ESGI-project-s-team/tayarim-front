@@ -170,6 +170,8 @@
   "warn_validate_reservation": "Êtes-vous sûr de vouloir valider cette réservation ? Cette action ne peut pas être annulée.",
   "add_indispo": "Dates indisponibles",
   "no_indispo": "Aucune date indisponible",
+  "alert_notify": "Nouvelle notification !",
+  "alert_notify_description_indispo": "De nouvelles dates indisponibles ont été ajoutées à votre logement.",
   "indispo_dates": "Date début - Date fin",
   "owner_name": "Nom du propriétaire",
   "phone": "Téléphone",
