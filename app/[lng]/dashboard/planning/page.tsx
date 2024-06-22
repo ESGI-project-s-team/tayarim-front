@@ -1,14 +1,11 @@
 "use client";
 import "../../../globals.css"
 import SideNavDashboard from "@/app/components/dashboard-components/ui/SideNavDashboard";
-import HomeDashboard from "@/app/components/dashboard-components/HomeDashboard";
 import NavBarDashboard from "@/app/components/dashboard-components/ui/NavBarDashboard";
 import {NotificationContext, IsOpenSideBarContext} from "@/app/[lng]/contexts";
-import {useEffect, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 import {useRouter} from 'next/navigation';
-import {checkTokenInFun} from "@/app/components/ui/signin/action";
-import Loader from "@/app/components/ui/Loader";
-import PlanningDashboard from "@/app/components/dashboard-components/PlanningDashboard";
+import PlanningDashboard from "@/app/components/dashboard-components/ui/planning/PlanningDashboard";
 
 export default function Page() {
     const itemsAll = useMemo(() => [
@@ -40,35 +37,18 @@ export default function Page() {
     const [items, setItems] = useState(itemsAll);
     const [isOpenSideBar, setIsOpenSideBar] = useState(true);
     const router = useRouter();
-    const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        checkTokenInFun().then(
-            async (response) => {
-                if (response.isPasswordUpdated === false) {
-                    router.push("/dashboard/first-connection")
-                } else if (response === false) {
-                    router.push("/owner-connection")
-                }
-                setIsLoading(false);
-            }
-        )
-    });
     return (
-        <>
-            {
-                isLoading ? <Loader/>
-                    :
-                    <div>
-                        <IsOpenSideBarContext.Provider value={{isOpenSideBar, setIsOpenSideBar}}>
-                            <NotificationContext.Provider value={{items, setItems}}>
-                                <NavBarDashboard/>
-                            </NotificationContext.Provider>
-                            <SideNavDashboard/>
-                            <PlanningDashboard/>
-                        </IsOpenSideBarContext.Provider>
-                    </div>
-            }
-        </>
+
+        <div>
+            <IsOpenSideBarContext.Provider value={{isOpenSideBar, setIsOpenSideBar}}>
+                <NotificationContext.Provider value={{items, setItems}}>
+                    <NavBarDashboard/>
+                </NotificationContext.Provider>
+                <SideNavDashboard/>
+                <PlanningDashboard/>
+            </IsOpenSideBarContext.Provider>
+        </div>
+
     );
 };

@@ -9,14 +9,17 @@ import {checkTokenInFun, signInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from 'next/navigation'
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import ShowPasswordEye from "@/app/components/ui/ShowPasswordEye";
+import WebSocketConnection from '../../../../socket/webSocketConnection';
 
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
     const [isLoading, setLoading] = useState(false)
-    const {setIsAdmin} = useAdminContext();
+    // const {setIsAdmin} = useAdminContext();
     const {setError} = useIsErrorContext();
-    const {setUserInfos} = useUserInfoContext();
+    //const {setUserInfos} = useUserInfoContext();
     const router = useRouter()
+    const {messages, sendMessage} = WebSocketConnection(`http://localhost:8080/socket`);
+
 
     useEffect(
         () => {
@@ -61,8 +64,11 @@ const FormConnection: React.FC = () => {
                         localStorage.setItem("prenom", user.prenom)
                         localStorage.setItem("email", user.email)
                         localStorage.setItem("numTel", user.numTel)
-                        setUserInfos(user);
-                        setIsAdmin(response.admin)
+                        console.log(response.accessToken)
+                        if (response.accessToken) {
+                            sendMessage(`Connect : Bearer ${response.accessToken}`);
+                            console.log(messages)
+                        }
                         if (response.isPasswordUpdated === true) {
                             router.push("/dashboard")
                         } else {
@@ -134,13 +140,8 @@ const FormConnection: React.FC = () => {
                         </div>
                     </form>
                     <div className="flex-wrap  justify-between ">
-                        <p className="mt-10 text-center text-sm text-gray-500">
-                            <a href="#" className="underline leading-6 text-black">
-                                {translation?.t('forgot_email')}
-                            </a>
-                        </p>
                         <p className="mt-5 text-center text-sm text-gray-500">
-                            <a href="#" className="underline leading-6 text-black">
+                            <a href="/password-reset" className="underline leading-6 text-black">
                                 {translation?.t('forgot_password')}
                             </a>
                         </p>

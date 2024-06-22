@@ -83,7 +83,7 @@ export default function ModalInfoOwner({isOpen, onClose, user}: {
                                                     <div>
                                                         <label htmlFor="numTel"
                                                                className="block text-sm font-medium text-gray-700">
-                                                            Numéro de Téléphone
+                                                            {translation?.t('phone')}
                                                         </label>
                                                         <input type="tel" id="numTel" name="numTel" value={user.numTel}
                                                                readOnly

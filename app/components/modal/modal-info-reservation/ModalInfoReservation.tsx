@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
-import TooltipPersonalized from "@/app/components/ui/TooltipPersonalized";
-import {useTranslationContext} from "@/app/[lng]/hooks";
+import {useNavbarContext, useTranslationContext} from "@/app/[lng]/hooks";
+import DateFormaterEnFr from "@/app/components/dashboard-components/ui/DateFormaterEnFr";
 
 export default function ModalInfoReservation({isOpen, onClose, infosReservation}: {
     isOpen: boolean;
@@ -9,7 +9,7 @@ export default function ModalInfoReservation({isOpen, onClose, infosReservation}
     infosReservation: any;
 }) {
     const {translation} = useTranslationContext()
-
+    const {currentLanguage} = useNavbarContext()
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-40" onClose={
@@ -57,43 +57,51 @@ export default function ModalInfoReservation({isOpen, onClose, infosReservation}
                                                 </button>
                                             </div>
                                             <div className="p-7">
-                                                <div className="flex justify-center">
-                                                    <img src="https://via.placeholder.com/150" alt="Photo de Profil"
-                                                         className="w-24 h-24 rounded-full shadow-md"/>
-                                                </div>
                                                 <div className="text-center mt-4">
-                                                    <h2 className="text-xl font-semibold">Nom de la Personne</h2>
+                                                    <h2 className="text-xl font-semibold">
+                                                        {infosReservation.prenom + ' '}
+
+                                                        {infosReservation.nom}
+                                                    </h2>
+                                                    <div className={"flex w-full justify-center mt-5"}>
+                                                        <p className="text-sm text-gray-500">
+                                                            {infosReservation.email} - {infosReservation.numTel}
+                                                        </p>
+                                                    </div>
+
                                                 </div>
-                                                <form className="mt-8 space-y-6">
-                                                    <div>
+                                                <div className="mt-8 space-y-6">
+                                                    <div className={"flex flex-row"}>
                                                         <label htmlFor="start-date"
-                                                               className="block text-sm font-medium text-gray-700">
+                                                               className="block text-md font-medium text-gray-700 mr-2">
                                                             {
                                                                 translation?.t('start_date')
+                                                                + ' : '
                                                             }
                                                         </label>
-                                                        <input type="date" id="start-date" name="start-date"
-                                                               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                                                        <DateFormaterEnFr date={infosReservation.dateArrivee}
+                                                                          theLanguage={currentLanguage}/>
                                                     </div>
-                                                    <div>
+                                                    <div className={"flex flex-row"}>
                                                         <label htmlFor="end-date"
-                                                               className="block text-sm font-medium text-gray-700">
+                                                               className="block text-md font-medium text-gray-700 mr-2">
                                                             {
                                                                 translation?.t('end_date')
+                                                                + ' : '
                                                             }
                                                         </label>
-                                                        <input type="date" id="end-date" name="end-date"
-                                                               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                                                        <DateFormaterEnFr date={infosReservation.dateDepart}
+                                                                          theLanguage={currentLanguage}/>
                                                     </div>
-                                                    <div>
+                                                    <div className={"flex flex-row"}>
                                                         <label htmlFor="price"
-                                                               className="block text-sm font-medium text-gray-700">{
-                                                            translation?.t('price')
+                                                               className="block text-md font-medium text-gray-700 mr-2">{
+                                                            translation?.t('montant') + ' : '
                                                         }</label>
-                                                        <input type="number" id="price" name="price" step="0.01"
-                                                               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                                                        <span>{infosReservation.montant}</span>
                                                     </div>
-                                                </form>
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
