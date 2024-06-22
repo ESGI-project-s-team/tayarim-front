@@ -124,7 +124,7 @@ const DetailsResult = () => {
                     className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-4 relative overflow-hidden  max-h-[500px]">
                     <div className="sm:col-span-2 sm:row-span-2  overflow-hidden ">
                         <img
-                            src={housing.images[0].url ?? 'https://via.placeholder.com/720'}
+                            src={housing.images[0]?.url ?? '/no-image.png'}
                             alt="Main Image"
                             className="w-full h-full object-cover rounded-lg cursor-pointer"
                             onClick={() => handleOpenModal(housing.images[0].url)}
@@ -134,10 +134,10 @@ const DetailsResult = () => {
                         index < 4 && (
                             <div key={index} className="hidden sm:block">
                                 <img
-                                    src={image.url ?? 'https://via.placeholder.com/720'}
+                                    src={image.url ?? '/no-image.png'}
                                     alt={`Image ${index + 2}`}
                                     className="w-full h-64 object-cover rounded-lg cursor-pointer"
-                                    onClick={() => handleOpenModal(image.url)}
+                                    onClick={() => handleOpenModal(image.url ?? '/no-image.png')}
                                 />
                             </div>
                         )
