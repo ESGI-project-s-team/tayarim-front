@@ -153,6 +153,8 @@
   "no_indispo": "No unavailable period",
   "alert_notify": "New notification !",
   "alert_notify_description_indispo": "New unavailable dates have been added to your accommodation.",
+  "alert_notify_description_reservation": "A new reservation has been made for your accommodation.",
+  "alert_notify_description_depense": "A new expense has been added to your accommodation.",
   "indispo_dates": "Start and - End dates",
   "owner_name": "Owner Name",
   "phone": "Phone",

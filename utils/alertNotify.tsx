@@ -23,7 +23,10 @@ const NotifyManagement: React.FC = () => {
                         <strong className="font-bold mr-5">{translation?.t('alert_notify')}</strong>
                         <div>
                             <div className="block sm:inline">
-                                {popupNotify == "Indisponibilite" ? translation?.t('alert_notify_description_indispo') : null
+                                {popupNotify == "Indisponibilite" ? translation?.t('alert_notify_description_indispo') :
+                                    popupNotify == "Reservation" ? translation?.t('alert_notify_description_reservation') :
+                                        popupNotify == "Depense" ? translation?.t('alert_notify_description_depense') :
+                                            null
                                 }
                             </div>
                         </div>
