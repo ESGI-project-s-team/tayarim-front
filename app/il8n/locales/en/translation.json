@@ -287,6 +287,10 @@
   "question-4": "How is the price of accommodations determined?",
   "answer-4": "The price of accommodations is determined based on various factors such as location, size, amenities, and services offered. We offer exclusive rates for our customers to provide them with the best value for their money.",
   "new_password_label": "Please enter your new password",
+  "Indisponibilite": "Unavailable",
+  "Reservation": "Reservation",
+  "Depense": "Expense",
+  "no_notifications": "Nothing to report...",
   "months": [
     "Jan",
     "Feb",

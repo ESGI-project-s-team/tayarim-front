@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState, useRef, useMemo} from "react";
 import {checkTokenInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from "next/navigation";
 import Loader from "@/app/components/ui/Loader";
@@ -7,9 +7,11 @@ import {isAdminByToken} from "@/utils/apiAuth";
 import {
     IsAdminContext,
     UserInfoContext,
-    LoaderContext
+    LoaderContext,
+    NotificationContext,
 } from "../contexts";
 import {usePopupNotify} from "@/app/[lng]/hooks";
+import {getAllNotificationsInFun} from "@/app/components/dashboard-components/ui/notifications/actions";
 
 export default function RootLayout({children}: { children: React.ReactNode; params: { lng: string } }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -20,8 +22,7 @@ export default function RootLayout({children}: { children: React.ReactNode; para
     const socketRef = useRef<any>(null);
     const [messages, setMessages] = useState<any>([]);
     const {setPopupNotify} = usePopupNotify();
-    const [token, setToken] = useState("");
-
+    const [items, setItems] = useState([]);
     useEffect(() => {
         const newSocket = new WebSocket(`${process.env.NEXT_PUBLIC_URL_SOCKET}/socket`);
         socketRef.current = newSocket;
@@ -100,6 +101,17 @@ export default function RootLayout({children}: { children: React.ReactNode; para
             setUserInfos(user);
         }
 
+        async function getAllNotifications() {
+            getAllNotificationsInFun().then((data) => {
+                if (data.errors) {
+                    setItems([]);
+                    return;
+                }
+                setItems(data);
+            });
+        }
+
+        getAllNotifications().then();
         fetchInfoUser().then();
         isAdmin().then(
             () => {
@@ -114,7 +126,9 @@ export default function RootLayout({children}: { children: React.ReactNode; para
             <IsAdminContext.Provider value={{isAdmin, setIsAdmin}}>
                 <UserInfoContext.Provider value={{userInfos, setUserInfos}}>
                     <LoaderContext.Provider value={{loading, setLoading}}>
-                        {children}
+                        <NotificationContext.Provider value={{items, setItems}}>
+                            {children}
+                        </NotificationContext.Provider>
                     </LoaderContext.Provider>
                 </UserInfoContext.Provider>
             </IsAdminContext.Provider>

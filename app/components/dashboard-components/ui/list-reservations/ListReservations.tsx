@@ -170,7 +170,6 @@ const ListReservations: React.FC = () => {
                     router.push("/dashboard");
                 } else {
                     setError(null);
-                    console.log(response)
                     setReservations(response);
                 }
                 setLoading(false)

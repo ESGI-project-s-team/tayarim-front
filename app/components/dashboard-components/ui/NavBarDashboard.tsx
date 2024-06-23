@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import DropProfileItems from "@/app/components/dashboard-components/ui/drop-profile-items/DropProfileItems";
-import DropNotificationItems from "@/app/components/dashboard-components/ui/DropNotificationItems";
+import DropNotificationItems from "@/app/components/dashboard-components/ui/notifications/DropNotificationItems";
 import {
     useAdminContext,
     useNotificationContext,
@@ -10,12 +10,13 @@ import {
 } from "@/app/[lng]/hooks";
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
 import ModalInfoUser from "@/app/components/modal/modal-info-user/ModalInfoUser";
+import {getAllNotificationsInFun} from "@/app/components/dashboard-components/ui/notifications/actions";
 
 const NavBarDashboard: React.FC = () => {
     const [isOpenProfile, setIsOpenProfile] = useState(false);
     const [isOpenNotification, setIsOpenNotification] = useState(false);
     const [isOpenNotificationPing, setIsOpenNotificationPing] = useState(false);
-    const {items} = useNotificationContext();
+    const {items, setItems} = useNotificationContext();
     const profileRef = useRef<HTMLDivElement>(null);
     const notificationRef = useRef<HTMLDivElement>(null);
     const {translation} = useTranslationContext();
@@ -23,7 +24,7 @@ const NavBarDashboard: React.FC = () => {
     const {userInfos} = useUserInfoContext();
     const [isOpenInfo, setIsOpenInfo] = useState(false);
     const {popupNotify} = usePopupNotify();
-    const [popupPing, setPopupPing] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleOpenProfile = () => {
         setIsOpenProfile(!isOpenProfile);
@@ -31,11 +32,16 @@ const NavBarDashboard: React.FC = () => {
     };
 
     const handleOpenNotification = () => {
+        setIsLoading(true);
+        getAllNotificationsInFun().then((response) => {
+            if (response) {
+                setItems(response);
+            }
+            setIsLoading(false);
+        });
         setIsOpenNotification(!isOpenNotification);
         setIsOpenProfile(false);
-        if (popupNotify == null) {
-            setIsOpenNotificationPing(false);
-        }
+
     };
 
     const handleOpenLanguage = () => {
@@ -48,12 +54,20 @@ const NavBarDashboard: React.FC = () => {
     }
 
     useEffect(() => {
-        const hasOpenNotification = items.some((item: { state: boolean; }) => item.state);
-        if (popupNotify != null) {
-            setPopupPing(true);
-            setIsOpenNotificationPing(true);
-        } else {
-            setPopupPing(false);
+        if (popupNotify) {
+            setIsLoading(true);
+            getAllNotificationsInFun().then((response) => {
+                setItems(response);
+                setIsLoading(false);
+            });
+        }
+    }, [popupNotify, setItems]);
+
+    useEffect(() => {
+
+        if (items) {
+            const hasOpenNotification = items.some((item: any) => !item.isRead);
+            setIsOpenNotificationPing(hasOpenNotification);
         }
 
         const handleClickOutside = (event: MouseEvent) => {
@@ -71,7 +85,7 @@ const NavBarDashboard: React.FC = () => {
         return () => {
             document.removeEventListener('click', handleClickOutside);
         };
-    }, [items, popupNotify]);
+    }, [items, popupNotify, setItems]);
 
     return (
         <div className="fixed bg-white w-screen top-0 drop-shadow-xl z-10">
@@ -114,7 +128,9 @@ const NavBarDashboard: React.FC = () => {
                                 fill=""></path>
                         </svg>
                     </a>
-                    {isOpenNotification && <DropNotificationItems/>}
+                    {isOpenNotification &&
+                        <DropNotificationItems isLoading={isLoading}/>
+                    }
                 </div>
                 <div onClick={handleOpenLanguage}>
                     <LanguageDropdown isOpen={false}/>

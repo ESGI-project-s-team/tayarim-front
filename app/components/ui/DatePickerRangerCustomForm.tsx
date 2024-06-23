@@ -93,7 +93,6 @@ const DatePickerRangerCustomForm: React.FC<DatePickerRangeCustomProps> = ({
                 onChangeRaw={handleFocus}
                 onFocus={handleFocus}
                 excludeDates={datesIndispo ? datesIndispo.map((date) => new Date(date)) : []}
-
                 icon={
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2"
                          stroke="currentColor"
