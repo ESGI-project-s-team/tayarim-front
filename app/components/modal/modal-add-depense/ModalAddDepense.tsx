@@ -83,7 +83,6 @@ export default function ModalAddDepense({isOpen, onClose, getAllDepense}: {
 
     const handleActionCreateDepense = async () => {
         setLoading(true)
-        console.log(formValues)
         try {
             createReservationInFun(formValues).then((response) => {
                 if (response.errors) {
