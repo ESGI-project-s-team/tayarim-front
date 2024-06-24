@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {checkTokenInFun, checkTokenInFunIsAdmin} from "@/app/components/ui/signin/action";
+import {checkTokenInFunIsAdmin} from "@/app/components/ui/signin/action";
 import {useRouter} from "next/navigation";
 import ListOwners from "@/app/components/dashboard-components/ui/list-owners/ListOwners";
 

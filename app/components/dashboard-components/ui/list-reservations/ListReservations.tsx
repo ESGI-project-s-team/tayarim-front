@@ -187,14 +187,17 @@ const ListReservations: React.FC = () => {
         <div className="h-full lg:ml-80 lg:mr-7 mr-2 ml-14 z-0">
             {!loading ?
                 <>
-                    <div className=" relative  mx-auto my-auto top-32 ">
+                    <div className="mb-10  relative top-32"><h2
+                        className="text-2xl font-semibold text-black dark:text-white ml-2">{translation?.t('Reservation')}</h2>
+                    </div>
+                    <div className=" relative my-auto top-32 ">
                         <Tab.Group
                             selectedIndex={selectedIndex}
                             onChange={setSelectedIndex}
                         >
                             <Tab.List
                                 className="flex gap-5  w-full rounded-xl bg-custom-search  p-1  max-w-xl
-                                float-start overflow-x-auto no-scrollbar mb-10
+                                float-start overflow-x-auto no-scrollbar mb-2
                            ">
                                 {Object.keys(categories).map((category) => (
                                     <Tab

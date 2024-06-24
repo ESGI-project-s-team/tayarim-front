@@ -121,7 +121,7 @@
   "Indisponibilite": "Indisponibilité",
   "Reservation": "Reservation",
   "no_notifications": "Aucune notification...",
-  "Depense": "Expense",
+  "Depense": "Dépenses",
   "numero_de_porte": "Numero de Porte (optionnel)",
   "capacite_max_personne": "Capacite maximum de personne",
   "nombres_nuits_min": "Nombres de nuits minimum",
@@ -215,7 +215,7 @@
   "others_sidenav": [
     "Réservations",
     "Virement Bancaire",
-    "Achats"
+    "Dépenses"
   ],
   "email_placeholder_form": "Entrez adresse email",
   "first_name_placeholder_form": "Entrez prénom",
@@ -415,6 +415,7 @@
   "error_reservation_invalid_departure": "L'heure de départ saisie est invalide",
   "error_reservation_status_update": "Impossible de mettre à jour le statut de la réservation",
   "error_reservation_date_conflict": "Il y a un conflit de date avec une autre réservation",
+  "owner_management": "Gestion des propriétaires",
   "error_reservation_people_capacity_invalid": "Le nombre de personnes dépasse la capacité du logement",
   "error_reservation_date_invalide": "La date de départ est inférieure à la date d'arrivée",
   "error_indisponibilite_invalid_start_date": "La date de début est invalide",

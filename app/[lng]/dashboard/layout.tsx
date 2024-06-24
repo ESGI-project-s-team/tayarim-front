@@ -111,8 +111,10 @@ export default function RootLayout({children}: { children: React.ReactNode; para
             });
         }
 
+
         getAllNotifications().then();
         fetchInfoUser().then();
+
         isAdmin().then(
             () => {
                 setIsLoading(false);

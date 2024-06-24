@@ -10,7 +10,7 @@ import {
     IsAdminContext,
     UserInfoContext,
     IsSuccessContext,
-    PopupNotifyContext
+    PopupNotifyContext, ExpenseStatContext
 } from "./contexts";
 
 export function useNavbarContext() {
@@ -55,5 +55,9 @@ export function useSuccessContext() {
 
 export function usePopupNotify() {
     return useContext(PopupNotifyContext);
+}
+
+export function useExpenseStatContext() {
+    return useContext(ExpenseStatContext);
 }
 
