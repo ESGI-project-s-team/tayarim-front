@@ -1,9 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
-import ReactApexChart from "react-apexcharts";
-import {ApexOptions} from "apexcharts";
+import dynamic from "next/dynamic";
 import {
     useAdminContext,
-    useExpenseStatContext,
     useIsErrorContext,
     useNavbarContext,
     useTranslationContext
@@ -14,6 +12,10 @@ import {getByIdHousingInFun} from "@/app/components/dashboard-components/ui/list
 import ModalInfoHousing from "@/app/components/modal/modal-info-housing/ModalInfoHousing";
 import ModalAddDepense from "@/app/components/modal/modal-add-depense/ModalAddDepense";
 import SpinnerDashboard from "@/app/components/ui/SpinnerDashboard";
+import {ApexOptions} from "apexcharts";
+import ModalUpdateDepense from "@/app/components/modal/modal-update-depense/ModalUpdateDepense";
+
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {ssr: false});
 
 const DepenseDashboard: React.FC = () => {
     const {translation} = useTranslationContext();
@@ -21,16 +23,17 @@ const DepenseDashboard: React.FC = () => {
     const month_complete = translation?.t('month_complete', {returnObjects: true}) ?? [];
     const [data, setData] = useState<any>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const [depenses, setDepenses] = useState<any>([]);
+    const [depenseCurrent, setDepenseCurrent] = useState<any>(null);
     const {setError} = useIsErrorContext();
     const [housing, setHousing] = useState<any>([]);
     const [isOpenInfoHousing, setIsOpenInfoHousing] = useState(false);
     const [isOpenCreate, setIsOpenCreate] = useState(false);
+    const [isOpenUpdate, setIsOpenUpdate] = useState(false);
     const {isAdmin} = useAdminContext();
     const [isLoading, setLoading] = useState(false);
 
-
     const getAllDep = useCallback(() => {
-        setLoading(true)
+        setLoading(true);
         getAllDepensesInFun()
             .then((response) => {
                 let depensesMonth = Array(12).fill(0);
@@ -43,8 +46,8 @@ const DepenseDashboard: React.FC = () => {
                     depensesMonth[month] += response.prix;
                 });
                 setData(depensesMonth);
-                setDepenses(response)
-                setLoading(false)
+                setDepenses(response);
+                setLoading(false);
             });
     }, []);
 
@@ -59,26 +62,35 @@ const DepenseDashboard: React.FC = () => {
                     setError(response.errors);
                 } else {
                     setError(null);
-                    setHousing([response])
-                    setIsOpenInfoHousing(true)
+                    setHousing([response]);
+                    setIsOpenInfoHousing(true);
                 }
             }
-        )
+        );
     }
 
     function openModalCreate() {
-        setIsOpenCreate(true)
+        setIsOpenCreate(true);
+    }
+
+    function openModalUpdate(depense: any) {
+        setDepenseCurrent(depense)
+        setIsOpenUpdate(true);
     }
 
     function closeModal() {
-        setIsOpenInfoHousing(false)
-        setIsOpenCreate(false)
+        setIsOpenInfoHousing(false);
+        setIsOpenCreate(false);
+        setIsOpenUpdate(false);
     }
 
     const options: ApexOptions = {
         chart: {
             animations: {
-
+                enabled: true,
+                animateGradually: {
+                    enabled: true,
+                },
                 dynamicAnimation: {
                     enabled: true,
                     speed: 2000
@@ -87,7 +99,7 @@ const DepenseDashboard: React.FC = () => {
             height: 350,
             type: 'bar',
         },
-        colors: ["#0080ff"],
+        colors: ["#3c50e0"],
         plotOptions: {
             bar: {
                 columnWidth: '45%',
@@ -104,7 +116,7 @@ const DepenseDashboard: React.FC = () => {
             categories: month_complete,
             labels: {
                 style: {
-                    colors: "#0080ff",
+                    colors: "#3c50e0",
                     fontSize: '12px'
                 }
             }
@@ -120,9 +132,9 @@ const DepenseDashboard: React.FC = () => {
 
     return (
         <>
-            <div className="bg-[#f1f5f9] h-screen ">
+            <div className="bg-[#f1f5f9] h-screen">
                 <div className="h-full lg:ml-80 lg:mr-7 mr-2 ml-14 z-0">
-                    <div className="mb-4  relative top-32">
+                    <div className="mb-4 relative top-32">
                         <h2 className="text-2xl font-semibold text-black dark:text-white ml-2">
                             {translation?.t('Depense')}
                         </h2>
@@ -225,7 +237,9 @@ const DepenseDashboard: React.FC = () => {
                                                         </p>
                                                     </div>
                                                     <div
-                                                        className="col-span-1 items-center flex text-sm text-[#3c50e0] hover:underline cursor-pointer">
+                                                        className="col-span-1 items-center flex text-sm text-[#3c50e0] hover:underline cursor-pointer"
+                                                        onClick={() => openModalUpdate(depense)}
+                                                    >
                                                         {translation?.t('edit')}
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
@@ -283,10 +297,17 @@ const DepenseDashboard: React.FC = () => {
                         getAllDepense={getAllDep}
                     />
                 )}
+                {isOpenUpdate && (
+                    <ModalUpdateDepense
+                        isOpen={isOpenUpdate}
+                        onClose={closeModal}
+                        getAllDepense={getAllDep}
+                        depense={depenseCurrent}
+                    />
+                )}
             </div>
         </>
     );
 };
 
 export default DepenseDashboard;
-

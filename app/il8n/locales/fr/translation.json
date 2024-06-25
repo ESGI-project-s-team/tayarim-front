@@ -45,6 +45,7 @@
   "dateDepartError": "La date de départ est invalide",
   "idLogementError": "Le logement est invalide",
   "btn_modification_reservation": "Modifier ma réservation",
+  "modification_depense": "Modifier ma dépense",
   "code_reservation": "Code de réservation",
   "validate": "Valider",
   "email_or_numTel": "Adresse email ou numéro de téléphone",
