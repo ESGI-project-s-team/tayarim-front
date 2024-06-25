@@ -94,7 +94,7 @@ const ListHousings: React.FC = () => {
             {!loading ?
                 <>
                     <div className="mb-4  relative top-32"><h2
-                        className="text-2xl font-semibold text-black dark:text-white ml-2">{translation?.t('house')}</h2>
+                        className="text-2xl font-semibold text-black ml-2">{translation?.t('house')}</h2>
                     </div>
                     <div className="relative top-32 w-full flex justify-end mb-2 ">
                         <button

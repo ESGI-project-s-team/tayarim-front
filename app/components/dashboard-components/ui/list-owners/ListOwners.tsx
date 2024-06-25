@@ -67,7 +67,7 @@ const ListOwners: React.FC = () => {
     return (
         <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0">
             <div className="mb-4  relative top-32"><h2
-                className="text-2xl font-semibold text-black dark:text-white ml-2">{translation?.t('owner')}</h2>
+                className="text-2xl font-semibold text-black  ml-2">{translation?.t('owner')}</h2>
             </div>
             {!loading ?
                 <>
