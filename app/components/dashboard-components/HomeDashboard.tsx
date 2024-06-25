@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {checkTokenInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from "next/navigation";
-import WebSocketComponent from "@/app/components/socket-components/WebSocketComponent";
 
 const HomeDashboard: React.FC = () => {
     const router = useRouter()

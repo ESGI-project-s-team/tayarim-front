@@ -170,6 +170,7 @@
   "form_add_owner": "Add owner",
   "form_add_housing": "Add housing",
   "form_add_depense": "Add expense",
+  "modification_depense": "Edit expense",
   "form_lastname": "Last Name",
   "form_firstname": "First Name",
   "form_lastname_client": "Last Name of the client",
