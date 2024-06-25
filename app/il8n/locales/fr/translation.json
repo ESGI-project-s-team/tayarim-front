@@ -168,6 +168,7 @@
   "cancelled": "Annulée",
   "cancel": "Annuler",
   "delete_owner": "Supprimer le propriétaire",
+  "delete_depense": "Supprimer la dépense",
   "delete_housing": "Supprimer le logement",
   "warn_delete_owner": "Êtes-vous sûr de vouloir faire cette action ? Toutes les données associés seront définitivement supprimées. Cette action ne peut pas être annulée.",
   "warn_delete_housing": "Êtes-vous sûr de vouloir supprimer ce logement ? Toutes les données seront définitivement supprimées. Cette action ne peut pas être annulée.",

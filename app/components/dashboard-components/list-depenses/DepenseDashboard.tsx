@@ -14,6 +14,8 @@ import ModalAddDepense from "@/app/components/modal/modal-add-depense/ModalAddDe
 import SpinnerDashboard from "@/app/components/ui/SpinnerDashboard";
 import {ApexOptions} from "apexcharts";
 import ModalUpdateDepense from "@/app/components/modal/modal-update-depense/ModalUpdateDepense";
+import ModalDeleteDepense from "@/app/components/modal/modal-delete-depense/ModalDeleteDepense";
+import {de} from "date-fns/locale";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {ssr: false});
 
@@ -29,6 +31,7 @@ const DepenseDashboard: React.FC = () => {
     const [isOpenInfoHousing, setIsOpenInfoHousing] = useState(false);
     const [isOpenCreate, setIsOpenCreate] = useState(false);
     const [isOpenUpdate, setIsOpenUpdate] = useState(false);
+    const [isOpenDelete, setIsOpenDelete] = useState(false);
     const {isAdmin} = useAdminContext();
     const [isLoading, setLoading] = useState(false);
 
@@ -73,6 +76,11 @@ const DepenseDashboard: React.FC = () => {
         setIsOpenCreate(true);
     }
 
+    function openModalDelete(depense: any) {
+        setIsOpenDelete(true);
+        setDepenseCurrent(depense)
+    }
+
     function openModalUpdate(depense: any) {
         setDepenseCurrent(depense)
         setIsOpenUpdate(true);
@@ -82,6 +90,7 @@ const DepenseDashboard: React.FC = () => {
         setIsOpenInfoHousing(false);
         setIsOpenCreate(false);
         setIsOpenUpdate(false);
+        setIsOpenDelete(false);
     }
 
     const options: ApexOptions = {
@@ -257,7 +266,11 @@ const DepenseDashboard: React.FC = () => {
                                                         </svg>
                                                     </div>
                                                     <div
-                                                        className="col-span-1 items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10 w-fit">
+                                                        className="col-span-1 items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10 w-fit"
+                                                        onClick={() => {
+                                                            openModalDelete(depense);
+                                                        }}
+                                                    >
                                                         {translation?.t('delete')}
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
@@ -303,6 +316,14 @@ const DepenseDashboard: React.FC = () => {
                         onClose={closeModal}
                         getAllDepense={getAllDep}
                         depense={depenseCurrent}
+                    />
+                )}
+                {isOpenDelete && (
+                    <ModalDeleteDepense
+                        isOpen={isOpenDelete}
+                        onClose={closeModal}
+                        getAllDepense={getAllDep}
+                        id={depenseCurrent.id}
                     />
                 )}
             </div>

@@ -5,6 +5,7 @@ import {cookies} from "next/headers";
 const getAllDepensesUrl = `${BACKEND_API}/depenses`
 const createDepensesUrl = `${BACKEND_API}/depenses`
 const updateDepensesUrl = `${BACKEND_API}/depenses`
+const deleteDepensesUrl = `${BACKEND_API}/depenses`
 
 
 export async function getAllDepenses() {
@@ -65,6 +66,30 @@ export async function updateDepenses(data: any) {
                 Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(data),
+        });
+        const responseData = await response.json();
+        if (!response.ok) {
+            if (responseData.errors) {
+                return {errors: responseData.errors};
+            }
+            return {errors: ["error_occurred"]};
+        }
+        return responseData;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
+
+export async function deleteDepenses(id: any) {
+    const token = cookies().get("token")?.value;
+    let url = `${deleteDepensesUrl}/${id.toString()}`
+    try {
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         });
         const responseData = await response.json();
         if (!response.ok) {
