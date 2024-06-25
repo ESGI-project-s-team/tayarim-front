@@ -6,6 +6,7 @@ import {
     TranslationContext,
     IsOpenContext,
     IsErrorContext,
+    PopupNotifyContext,
     IsSuccessContext
 } from "./contexts";
 import ErrorsManagement from "@/utils/alertErrors";
@@ -15,6 +16,8 @@ import Loader from "@/app/components/ui/Loader";
 import "../globals.css";
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from "@stripe/stripe-js";
+import NotifyManagement from "@/utils/alertNotify";
+
 
 const stripePromise = loadStripe('pk_test_51MV0btCKT0mt6g5QYamT5yDfyrku9XATDC3xSYgq4GBGTJopMZYKX5wSGlkGwhFjOYXy306hucFP8psxjtBQsxHk008MgdE8cx');
 
@@ -24,6 +27,7 @@ export default function RootLayout({children, params: {lng}}: { children: React.
     const [isOpen, setIsOpen] = useState(false);
     const [isError, setError] = useState(null);
     const [isSuccess, setSuccess] = useState(null);
+    const [popupNotify, setPopupNotify] = useState(null);
     const [isLoading, setLoading] = useState(true);
 
 
@@ -33,27 +37,40 @@ export default function RootLayout({children, params: {lng}}: { children: React.
         async function replaceAlertSuccessOrError() {
             if (isError == null || isSuccess == null) {
                 if (isError != null) {
-                    pile.push(false)
+                    pile.push(false);
                 }
                 if (isSuccess != null) {
-                    pile.push(true)
+                    pile.push(true);
                 }
             } else {
                 let lastValueIndex = pile[pile.length - 1];
                 if (lastValueIndex) {
                     pile[pile.length - 1] = false;
-                    setSuccess(null)
+                    setSuccess(null);
                 } else {
                     pile[pile.length - 1] = true;
-                    setError(null)
+                    setError(null);
+                }
+            }
+
+            // Ajout de la logique pour popupNotify
+            if (popupNotify != null) {
+                if (popupNotify) {
+                    pile.push('popup');
+                } else {
+                    let lastValueIndex = pile[pile.length - 1];
+                    if (lastValueIndex === 'popup') {
+                        pile.pop();
+                    }
                 }
             }
         }
 
+
         replaceAlertSuccessOrError().then();
 
 
-    }, [isError, isSuccess]);
+    }, [isError, isSuccess, popupNotify]);
 
     useEffect(() => {
         async function fetchTranslation() {
@@ -76,23 +93,26 @@ export default function RootLayout({children, params: {lng}}: { children: React.
         <TranslationContext.Provider value={{translation}}>
             <IsErrorContext.Provider value={{isError, setError}}>
                 <IsSuccessContext.Provider value={{isSuccess, setSuccess}}>
-                    <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
-                        <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
-                            <Elements stripe={stripePromise}>
-                                {isError ? <ErrorsManagement data={isError}/> : null}
-                                {isSuccess ? <SuccessManagement/> : null}
-                                <body>
-                                <main>
-                                    {isLoading ?
-                                        <Loader/>
-                                        :
-                                        children
-                                    }
-                                </main>
-                                </body>
-                            </Elements>
-                        </IsOpenContext.Provider>
-                    </NavbarContext.Provider>
+                    <PopupNotifyContext.Provider value={{popupNotify, setPopupNotify}}>
+                        <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
+                            <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
+                                <Elements stripe={stripePromise}>
+                                    {isError ? <ErrorsManagement data={isError}/> : null}
+                                    {isSuccess ? <SuccessManagement/> : null}
+                                    {popupNotify ? <NotifyManagement/> : null}
+                                    <body>
+                                    <main>
+                                        {isLoading ?
+                                            <Loader/>
+                                            :
+                                            children
+                                        }
+                                    </main>
+                                    </body>
+                                </Elements>
+                            </IsOpenContext.Provider>
+                        </NavbarContext.Provider>
+                    </PopupNotifyContext.Provider>
                 </IsSuccessContext.Provider>
             </IsErrorContext.Provider>
         </TranslationContext.Provider>

@@ -22,23 +22,8 @@ const Navbar: React.FC = () => {
     };
 
     async function handleLoginPage() {
-        checkTokenInFun().then(
-            async (response) => {
-                if (response.errors) {
-                    router.push("/owner-connection")
-                } else {
-                    if (response.isPasswordUpdated === true) {
-                        router.push("/dashboard")
-                    } else if (response.isPasswordUpdated === false) {
-                        router.push("/dashboard/first-connection")
-                    } else {
-                        router.push("/owner-connection")
-                    }
-                }
-            }
-        )
+        router.push("/owner-connection")
         setIsOpen(false)
-
     }
 
     async function handleModificationReservationPage() {

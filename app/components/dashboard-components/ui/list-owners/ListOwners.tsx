@@ -66,12 +66,15 @@ const ListOwners: React.FC = () => {
 
     return (
         <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0">
+            <div className="mb-4  relative top-32"><h2
+                className="text-2xl font-semibold text-black dark:text-white ml-2">{translation?.t('owner')}</h2>
+            </div>
             {!loading ?
                 <>
-                    <div className="relative top-32 w-full flex justify-end mb-2 ">
+                    <div className="relative top-32 w-full flex justify-end mb-2  ">
                         <button
                             onClick={() => setIsOpenCreate(true)}
-                            className="flex items-center gap-2 rounded bg-[#3c50e0] px-4 py-2 font-medium text-sm text-white hover:bg-opacity-80">
+                            className="flex items-center gap-2 rounded bg-[#3c50e0] px-4 py-2 font-medium text-sm text-white hover:bg-opacity-80 mr-2">
                             <svg className="fill-current" width="13" height="13" viewBox="0 0 16 16" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path

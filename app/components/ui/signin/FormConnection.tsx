@@ -1,24 +1,18 @@
 import React, {FormEvent, useEffect, useState} from "react";
 import {
-    useAdminContext,
     useIsErrorContext,
     useTranslationContext,
-    useUserInfoContext
 } from "@/app/[lng]/hooks";
 import {checkTokenInFun, signInFun} from "@/app/components/ui/signin/action";
 import {useRouter} from 'next/navigation'
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import ShowPasswordEye from "@/app/components/ui/ShowPasswordEye";
-import WebSocketConnection from '../../../../socket/webSocketConnection';
 
 const FormConnection: React.FC = () => {
     const {translation} = useTranslationContext();
     const [isLoading, setLoading] = useState(false)
-    // const {setIsAdmin} = useAdminContext();
     const {setError} = useIsErrorContext();
-    //const {setUserInfos} = useUserInfoContext();
     const router = useRouter()
-    const {messages, sendMessage} = WebSocketConnection(`http://localhost:8080/socket`);
 
 
     useEffect(
@@ -37,53 +31,47 @@ const FormConnection: React.FC = () => {
         }, [router, setLoading]
     )
 
-    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault()
-        const formData = new FormData(event.currentTarget)
-        const email = formData.get('email')
-        const password = formData.get('password')
-        const credentials = {"email": email, "motDePasse": password}
+    const handleSubmit = async (event: any) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const email = formData.get('email');
+        const password = formData.get('password');
+        const credentials = {email, motDePasse: password};
 
-        setLoading(true)
-        await signInFun(credentials).then(
-            async (response) => {
-                if (response !== false) {
-                    if (response.error) {
-                        setError(response.error)
+        setLoading(true);
+        try {
+            const response = await signInFun(credentials);
+            if (response !== false) {
+                if (response.error) {
+                    setError(response.error);
+                } else {
+                    setError(null);
+                    const user = {
+                        id: response.id,
+                        nom: response.nom,
+                        prenom: response.prenom,
+                        email: response.email,
+                        numTel: response.numTel,
+                    };
+                    localStorage.setItem("id", user.id);
+                    localStorage.setItem("nom", user.nom);
+                    localStorage.setItem("prenom", user.prenom);
+                    localStorage.setItem("email", user.email);
+                    localStorage.setItem("numTel", user.numTel);
+
+                    if (response.isPasswordUpdated === true) {
+                        router.push("/dashboard");
                     } else {
-                        setError(null)
-                        const user = {
-                            id: response.id,
-                            nom: response.nom,
-                            prenom: response.prenom,
-                            email: response.email,
-                            numTel: response.numTel,
-                        }
-                        localStorage.setItem("id", user.id)
-                        localStorage.setItem("nom", user.nom)
-                        localStorage.setItem("prenom", user.prenom)
-                        localStorage.setItem("email", user.email)
-                        localStorage.setItem("numTel", user.numTel)
-                        console.log(response.accessToken)
-                        if (response.accessToken) {
-                            sendMessage(`Connect : Bearer ${response.accessToken}`);
-                            console.log(messages)
-                        }
-                        if (response.isPasswordUpdated === true) {
-                            router.push("/dashboard")
-                        } else {
-                            router.push("/dashboard/first-connection")
-                        }
+                        router.push("/dashboard/first-connection");
                     }
                 }
-                setLoading(false);
             }
-        )
-            .catch((error) => {
-                setError(error)
-                setLoading(false)
-            })
-    }
+        } catch (error) {
+            setError(error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="fixed xxs-mtop inset-x-0 max-w-max mx-auto flex shadow-2xl ">

@@ -1,9 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {ProprietaireDTO} from "@/app/model/Owner";
-import ModalDeleteOwner from "@/app/components/modal/modal-delete-owner/ModalDeleteOwner";
 import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
 import {useRouter} from "next/navigation";
-import ModalCalendar from "@/app/components/modal/modal-calendar-housing/ModalCalendar";
 import ModalAddHousing from "@/app/components/modal/modal-add-housing/ModalAddHousing";
 import {getAllHousing} from "@/utils/apiHousing";
 import {getOwnerById} from "@/app/components/dashboard-components/ui/list-housings/action";
@@ -41,7 +38,7 @@ const ListHousings: React.FC = () => {
         setOwnerDetails(ownerDetailsList[index])
         setIsOpenInfoOwner(true)
     }
-    
+
     function closeModal() {
         setIsOpenEdit(false)
         setIsOpenDelete(false)
@@ -96,6 +93,9 @@ const ListHousings: React.FC = () => {
         <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0  ">
             {!loading ?
                 <>
+                    <div className="mb-4  relative top-32"><h2
+                        className="text-2xl font-semibold text-black dark:text-white ml-2">{translation?.t('house')}</h2>
+                    </div>
                     <div className="relative top-32 w-full flex justify-end mb-2 ">
                         <button
                             onClick={() => setIsOpenCreate(true)}
