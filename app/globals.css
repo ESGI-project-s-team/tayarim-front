@@ -7,7 +7,12 @@
 }
 
 @layer utilities {
-
+    .bg-image {
+        background-image: url("/bg-home-body.webp");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 
     .grid-cols-25 {
         grid-template-columns: repeat(25, minmax(0, 1fr));
