@@ -153,7 +153,8 @@ const ListOwners: React.FC = () => {
                                                     numTel: owner.numTel,
                                                     dateInscription: owner.dateInscription,
                                                     logements: owner.logements,
-                                                    commission: owner.commission
+                                                    commission: owner.commission,
+                                                    adresse: owner.adresse
                                                 })
                                             }
                                         >
@@ -178,7 +179,8 @@ const ListOwners: React.FC = () => {
                                                         numTel: owner.numTel,
                                                         dateInscription: owner.dateInscription,
                                                         logements: owner.logements,
-                                                        commission: owner.commission
+                                                        commission: owner.commission,
+                                                        adresse: owner.adresse
                                                     }
                                                 )
                                             }

@@ -151,7 +151,18 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                                         />
                                                     </div>
                                                 </div>
-
+                                                <div className="mb-5">
+                                                    <label
+                                                        className="mb-3 block text-sm font-medium text-black">{translation?.t('adresse')}</label>
+                                                    <input
+                                                        required={true}
+                                                        placeholder={translation?.t('adresse')}
+                                                        className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                                        type="text"
+                                                        value={formValues.adresse}
+                                                        onChange={(e) => handleInputChange('adresse', e.target.value)} // Add onChange handler
+                                                    />
+                                                </div>
                                                 <div className="mb-5">
                                                     <label
                                                         className="mb-3 block text-sm font-medium text-black">Email</label>
