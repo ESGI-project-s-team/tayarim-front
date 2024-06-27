@@ -8,6 +8,7 @@ const createHousingUrl = `${BACKEND_API}/logements`
 const deleteHousingUrl = `${BACKEND_API}/logements`
 const updateHousingUrl = `${BACKEND_API}/logements`
 const getByIdHousingUrl = `${BACKEND_API}/logements`
+const createCandidateHousingUrl = `${BACKEND_API}/proprietaires/candidate`
 const getDatesIndispoByIdHousingUrl = `${BACKEND_API}/logements/dates`
 const searchHousingUrl = `${BACKEND_API}/logements/search`
 const getHousingTypesUrl = `${BACKEND_API}/logements/types`
@@ -66,6 +67,24 @@ export async function createHousingApi(formData: any): Promise<any> {
     }
 }
 
+export async function createCandidateHouse(formData: any): Promise<any> {
+    try {
+        const response = await fetch(createCandidateHousingUrl, {
+            method: "POST",
+            body: formData,
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: ["error_occurred"]};
+        }
+        return data;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
 
 export async function deleteHousing(id: string): Promise<any> {
     const token = cookies().get("token")?.value;
@@ -323,3 +342,4 @@ export async function deleteIndispo(id: number): Promise<any> {
         return {errors: ["error_occurred"]};
     }
 }
+

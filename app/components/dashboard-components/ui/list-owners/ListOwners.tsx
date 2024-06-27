@@ -54,6 +54,8 @@ const ListOwners: React.FC = () => {
                     router.push("/dashboard");
                 } else {
                     setError(null);
+                    //filtre only owners isValidate = true
+                    response = response.filter((owner: any) => owner.isValidated === true);
                     setOwners(response);
                 }
                 setLoading(false)

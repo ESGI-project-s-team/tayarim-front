@@ -5,6 +5,7 @@ import {Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions
 import {CheckIcon, ChevronDownIcon, XCircleIcon} from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import {
+    createCandidateHouseInFun,
     createHouseInFun,
     getHousingAmenitiesInFun, getHousingRulesInFun,
     getHousingTypesInFun
@@ -18,6 +19,7 @@ interface FormValues {
     nombresDeChambres: number | null;
     nombresDeLits: number | null;
     nombresSallesDeBains: number | null;
+    capaciteMaxPersonne: number | null;
     description: string;
     ville: string;
     adresse: string;
@@ -50,6 +52,7 @@ export default function ModalAddCandidateHousing({isOpen, onClose, owner}: {
         nombresDeChambres: null,
         nombresDeLits: null,
         nombresSallesDeBains: null,
+        capaciteMaxPersonne: null,
         description: '',
         ville: '',
         adresse: '',
@@ -155,13 +158,21 @@ export default function ModalAddCandidateHousing({isOpen, onClose, owner}: {
         appendFormData('nombresSallesDeBains', formValues.nombresSallesDeBains);
         appendFormData('description', formValues.description);
         appendFormData('ville', formValues.ville);
-        appendFormData('adresse', formValues.adresse);
+        appendFormData('addressLogement', formValues.adresse);
         appendFormData('codePostal', formValues.codePostal);
         appendFormData('pays', formValues.pays);
-        appendFormData('etage', formValues.etage);
-        appendFormData('numeroDePorte', formValues.numeroDePorte);
+        if (formValues.etage !== null && formValues.etage !== undefined && formValues.etage !== '')
+            appendFormData('etage', formValues.etage);
+        if (formValues.numeroDePorte !== null && formValues.numeroDePorte !== undefined && formValues.numeroDePorte !== '')
+            appendFormData('numeroDePorte', formValues.numeroDePorte);
         appendFormData('idTypeLogement', formValues.idTypeLogement);
         appendFormData('isLouable', formValues.isLouable);
+        appendFormData('capaciteMaxPersonne', formValues.capaciteMaxPersonne);
+        appendFormData('nom', owner.nom);
+        appendFormData('prenom', owner.prenom);
+        appendFormData('email', owner.email);
+        appendFormData('numTel', owner.numTel);
+        appendFormData('adresse', owner.adresse);
 
         formValues.reglesLogement.forEach((regle, index) => {
             appendFormData(`reglesLogement[${index}]`, regle);
@@ -177,9 +188,8 @@ export default function ModalAddCandidateHousing({isOpen, onClose, owner}: {
             }
         });
 
-
         try {
-            const response = await createHouseInFun(formData);
+            const response = await createCandidateHouseInFun(formData);
             if (response.errors) {
                 setError(response.errors);
             } else {
@@ -270,7 +280,7 @@ export default function ModalAddCandidateHousing({isOpen, onClose, owner}: {
             case 4:
                 return formValues.isLouable ?
                     (formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0 && selectedHousingRules.length > 0
-                        && selectedHousingAmenities.length > 0)
+                        && selectedHousingAmenities.length > 0 && formValues.capaciteMaxPersonne !== null && formValues.capaciteMaxPersonne > 0)
                     : formValues.description !== null && formValues.description.trim() !== '';
             case 5:
                 return formValues.description !== null && formValues.description.trim() !== '';
@@ -484,6 +494,18 @@ export default function ModalAddCandidateHousing({isOpen, onClose, owner}: {
                                 min="1"
                                 value={formValues.nombresSallesDeBains || ''}
                                 onChange={(e) => handleInputChange('nombresSallesDeBains', parseInt(e.target.value))}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('capacite_max_personne')}</label>
+                            <input
+                                placeholder={translation?.t('capacite_max_personne_placeholder')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.capaciteMaxPersonne || ''}
+                                onChange={(e) => handleInputChange('capaciteMaxPersonne', parseInt(e.target.value))}
                             />
                         </div>
                     </div>

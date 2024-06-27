@@ -276,7 +276,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                 formData.append(`currentImages[${index}]`, image.id);
             }
         });
-        
+
         await updateHousingInFun(formData).then(
             async (response) => {
                 if (response.errors) {
@@ -745,13 +745,13 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                         </div>
                         <div className="w-full">
                             <label
-                                className="mb-3 block text-sm font-medium text-black">{translation?.t('prix_par_nuit')}</label>
+                                className="mb-3 block text-sm font-medium text-black">{formValues.isLouable ? translation?.t('prix_par_nuit') : translation?.t('montant')}</label>
                             <input
-                                placeholder={translation?.t('prix_par_nuit_placeholder')}
+                                placeholder={translation?.t('montant')}
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="number"
                                 min="1"
-                                value={formValues.prixParNuit || ''}
+                                value={formValues.prixParNuit === 1 ? '' : formValues.prixParNuit ?? ''}
                                 onChange={(e) => handleInputChange('prixParNuit', parseFloat(e.target.value))}
                             />
                         </div>
