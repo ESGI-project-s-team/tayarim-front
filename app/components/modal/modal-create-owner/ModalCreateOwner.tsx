@@ -9,6 +9,7 @@ interface FormValues {
     nom: string;
     email: string;
     numTel: string;
+    adresse: string;
 }
 
 export default function ModalCreateOwner({isOpen, onClose, getAllOwners}: {
@@ -17,7 +18,7 @@ export default function ModalCreateOwner({isOpen, onClose, getAllOwners}: {
     getAllOwners: any
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
-    const [formValues, setFormValues] = useState<FormValues>({prenom: '', nom: '', email: '', numTel: ''});
+    const [formValues, setFormValues] = useState<FormValues>({prenom: '', nom: '', email: '', numTel: '', adresse: ''});
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext()
     const [isLoading, setLoading] = useState(false)

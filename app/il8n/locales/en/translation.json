@@ -1,4 +1,6 @@
 {
+  "candidate_desc": "Would you like to benefit from our services ?",
+  "start_now": "Start now !",
   "montant": "Amount",
   "done": "Done",
   "payed": "Payed",
@@ -239,7 +241,7 @@
   "nav_about": "About us",
   "nav_properties": "Properties",
   "nav_faq": "FAQ",
-  "btn_owner": "To log in",
+  "btn_owner": "I am an owner",
   "btn_modification_reservation": "Modify my reservation",
   "code_reservation": "Reservation code",
   "validate": "Validate",

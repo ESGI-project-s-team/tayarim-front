@@ -1,4 +1,6 @@
 {
+  "candidate_desc": "Vous souhaitez bénéficier de nos services ?",
+  "start_now": "Commencez dès maintenant !",
   "montant": "Montant",
   "done": "Terminée",
   "payed": "Payée",
@@ -248,7 +250,7 @@
   "nav_about": "A propos",
   "nav_properties": "Logements",
   "nav_faq": "FAQ",
-  "btn_owner": "Se connecter",
+  "btn_owner": "Je suis propriétaire",
   "btn_owner_log_out": "Se déconnecter",
   "btn_location": "Choisissez votre emplacement",
   "btn_date": "Date d'arrivée et de départ",
