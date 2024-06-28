@@ -133,7 +133,7 @@ const ListHousings: React.FC = () => {
                                 </div>
                                 {housing.map((house: any, index: number) => (
                                     <div
-                                        className={`grid border-t py-4 grid-cols-12 px-5 ${ownerDetailsList[index]?.isValidated ? "bg-white" : "bg-gray-300"}`}
+                                        className={`grid border-t py-4 grid-cols-12 px-5 `}
                                         style={{gridTemplateColumns: "repeat(14, minmax(0, 1fr))"}}
                                         key={index}>
                                         <div

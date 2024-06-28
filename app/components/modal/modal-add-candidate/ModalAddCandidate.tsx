@@ -1,6 +1,10 @@
 import {Fragment, useEffect, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
-import {useTranslationContext} from "@/app/[lng]/hooks";
+import {useIsErrorContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {deleteIndispoInFun} from "@/app/components/modal/modal-add-date-indispo/actions";
+import {createCandidate} from "@/utils/apiOwner";
+import {createCandidateInFun} from "@/app/components/modal/modal-add-candidate/actions";
+import SpinnerUI from "@/app/components/ui/SpinnerUI";
 
 
 interface FormValues {
@@ -11,16 +15,17 @@ interface FormValues {
     adresse: string;
 }
 
-export default function ModalAddCandidate({isOpen, onClose, setIsOpenModalHousing, setOwner}: {
+export default function ModalAddCandidate({isOpen, onClose, setIsModalEmailSend}: {
     isOpen: boolean;
     onClose: () => void;
-    setIsOpenModalHousing: any
-    setOwner: any
+    setIsModalEmailSend: any;
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
     const [formValues, setFormValues] = useState<FormValues>({prenom: '', nom: '', email: '', numTel: '', adresse: ''});
     const [isButtonDisabled, setButtonDisabled] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const {translation} = useTranslationContext();
+    const {setError} = useIsErrorContext();
 
     useEffect(() => {
         if (focusElementRef.current) {
@@ -44,9 +49,19 @@ export default function ModalAddCandidate({isOpen, onClose, setIsOpenModalHousin
     };
 
     const handleActionCreateOwner = async () => {
-        setOwner(formValues)
+        setIsLoading(true);
+        setIsModalEmailSend(true);
         onClose()
-        setIsOpenModalHousing(true)
+        createCandidateInFun(formValues)
+            .then((res) => {
+                if (!res.errors) {
+                    setIsModalEmailSend(true);
+                    onClose();
+                } else {
+                    setError(res.errors);
+                }
+                setIsLoading(false);
+            });
     };
 
     return (
@@ -87,7 +102,7 @@ export default function ModalAddCandidate({isOpen, onClose, setIsOpenModalHousin
                                             <div className="rounded-sm border stroke-1 bg-white shadow">
                                                 <div
                                                     className="border-b border-[#dee4ee] py-4 flex justify-between px-7">
-                                                    <h3 className="font-medium text-black">{translation?.t('form_add_owner')}</h3>
+                                                    <h3 className="font-medium text-black">{translation?.t('ask_submit')}</h3>
                                                     <button onClick={onClose} className="text-[#3c50e0] font-medium">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                              viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"
@@ -158,15 +173,20 @@ export default function ModalAddCandidate({isOpen, onClose, setIsOpenModalHousin
                                                             onChange={(e) => handleInputChange('numTel', e.target.value)} // Add onChange handler
                                                         />
                                                     </div>
-                                                    <button
-                                                        type="button"
-                                                        ref={focusElementRef}
-                                                        onClick={handleActionCreateOwner}
-                                                        disabled={isButtonDisabled}
-                                                        className={`flex w-full justify-center rounded  p-3 font-medium text-white ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
-                                                    >
-                                                        {translation?.t('next')}
-                                                    </button>
+                                                    {
+                                                        isLoading ?
+                                                            <SpinnerUI/>
+                                                            :
+                                                            <button
+                                                                type="button"
+                                                                ref={focusElementRef}
+                                                                onClick={handleActionCreateOwner}
+                                                                disabled={isButtonDisabled}
+                                                                className={`flex w-full justify-center rounded  p-3 font-medium text-white ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
+                                                            >
+                                                                {translation?.t('send')}
+                                                            </button>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>

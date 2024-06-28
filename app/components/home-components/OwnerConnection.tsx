@@ -1,19 +1,17 @@
 import React, {useState} from "react";
 import FormConnection from "@/app/components/ui/signin/FormConnection";
-import ModalCreateOwner from "@/app/components/modal/modal-create-owner/ModalCreateOwner";
 import {useTranslationContext} from "@/app/[lng]/hooks";
 import ModalAddCandidate from "@/app/components/modal/modal-add-candidate/ModalAddCandidate";
-import ModalAddCandidateHousing from "@/app/components/modal/modal-add-candidate/ModalAddCandidateHousing";
+import ModalEmailSend from "@/app/components/modal/modal-email-send/ModalEmailSend";
 
 const OwnerConnection: React.FC = () => {
     const [isOpenCreate, setIsOpenCreate] = React.useState(false);
     const {translation} = useTranslationContext();
-    const [isOpenModalHousing, setIsOpenModalHousing] = useState(false);
+    const [isModalEmailSend, setIsModalEmailSend] = useState(false);
     const [owner, setOwner] = useState<any>(null);
 
     function closeModal() {
         setIsOpenCreate(false)
-        setIsOpenModalHousing(false)
     }
 
     return (
@@ -54,14 +52,12 @@ const OwnerConnection: React.FC = () => {
             <div className="absolute inset-0 bg-black opacity-70"></div>
             {isOpenCreate &&
                 <ModalAddCandidate isOpen={isOpenCreate} onClose={closeModal}
-                                   setIsOpenModalHousing={setIsOpenModalHousing}
-                                   setOwner={setOwner}
+                                   setIsModalEmailSend={setIsModalEmailSend}
                 />
             }
-            {
-                isOpenModalHousing &&
-                <ModalAddCandidateHousing isOpen={isOpenModalHousing} onClose={closeModal}
-                                          owner={owner}/>
+
+            {isModalEmailSend &&
+                <ModalEmailSend isOpen={isModalEmailSend} onClose={closeModal}/>
             }
         </div>
     );

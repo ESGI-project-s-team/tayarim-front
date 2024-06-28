@@ -54,8 +54,6 @@ const ListOwners: React.FC = () => {
                     router.push("/dashboard");
                 } else {
                     setError(null);
-                    //filtre only owners isValidate = true
-                    response = response.filter((owner: any) => owner.isValidated === true);
                     setOwners(response);
                 }
                 setLoading(false)
@@ -110,7 +108,7 @@ const ListOwners: React.FC = () => {
                                 </div>
                                 {owners.map((owner: any, index: number) => (
                                     <div
-                                        className="grid  border-t  py-4 grid-cols-12 px-5 "
+                                        className={`grid  border-t  py-4 grid-cols-12 px-5 ${owner.isValidated ? "bg-white" : "bg-gray-300"}`}
                                         key={index}>
                                         <div
                                             className="col-span-2 items-center flex max-w-36 overflow-auto no-scrollbar">
