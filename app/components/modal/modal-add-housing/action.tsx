@@ -4,8 +4,7 @@ import {
     createHousingApi,
     getHousingAmenities,
     getHousingRules,
-    getHousingTypes,
-    createCandidateHouse
+    getHousingTypes
 } from "@/utils/apiHousing";
 
 
@@ -20,14 +19,6 @@ export async function getAllOwnerInFun() {
 export async function createHouseInFun(formData: any) {
     try {
         return await createHousingApi(formData);
-    } catch (error: any) {
-        return {errors: error};
-    }
-}
-
-export async function createCandidateHouseInFun(formData: any) {
-    try {
-        return await createCandidateHouse(formData);
     } catch (error: any) {
         return {errors: error};
     }
