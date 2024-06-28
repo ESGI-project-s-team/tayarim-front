@@ -111,7 +111,6 @@ export default function ModalAddCandidate({isOpen, onClose, setIsModalEmailSend}
                                                         </svg>
                                                     </button>
                                                 </div>
-
                                                 <div className="p-7">
                                                     <div className="mb-5 flex flex-col gap-6 xl:flex-row">
                                                         <div className="w-full xl:w-1/2">

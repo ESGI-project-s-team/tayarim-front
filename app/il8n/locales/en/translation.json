@@ -245,6 +245,7 @@
   "send": "Send",
   "ask_submit": "Subscription request",
   "thanks": "Thank you !",
+  "form_validate_owner": "Validate owner",
   "send_email": "Your request has been successfully processed",
   "send_email_confirmation": "You will be informed by email of the follow-up given to your request",
   "btn_modification_reservation": "Modify my reservation",

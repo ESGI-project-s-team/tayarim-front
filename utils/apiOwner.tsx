@@ -9,6 +9,7 @@ const getByIdOwnerUrl = `${BACKEND_API}/proprietaires`
 const updateOwnerUrl = `${BACKEND_API}/proprietaires`
 const deleteOwnerUrl = `${BACKEND_API}/proprietaires`
 const createCandidateUrl = `${BACKEND_API}/proprietaires/candidate`
+const updateCandidateUrl = `${BACKEND_API}/proprietaires/candidate`
 
 export async function createOwner(credentials: any) {
     const token = cookies().get("token")?.value;
@@ -66,6 +67,31 @@ export async function updateOwner(credentials: any) {
     if (credentials.logements)
         delete credentials.logements;
     let url = updateOwnerUrl + "/" + id;
+    try {
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(credentials),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: ["error_occurred"]};
+        }
+        return data;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
+
+export async function updateCandidate(credentials: any) {
+    let url = updateCandidateUrl + "/" + credentials.id;
+    let token = cookies().get("token")?.value;
     try {
         const response = await fetch(url, {
             method: "PUT",

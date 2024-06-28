@@ -108,7 +108,7 @@ const ListOwners: React.FC = () => {
                                 </div>
                                 {owners.map((owner: any, index: number) => (
                                     <div
-                                        className={`grid  border-t  py-4 grid-cols-12 px-5 ${owner.isValidated ? "bg-white" : "bg-gray-300"}`}
+                                        className={`grid  border-t  py-4 grid-cols-12 px-5  ${owner.isValidated ? "bg-white" : "bg-gray-200"}`}
                                         key={index}>
                                         <div
                                             className="col-span-2 items-center flex max-w-36 overflow-auto no-scrollbar">
@@ -139,11 +139,12 @@ const ListOwners: React.FC = () => {
                                                 </svg>
                                             </div>
                                         }
-                                        <div className="col-span-2 flex items-center ml-5 "><p
+                                        <div className="col-span-1 flex items-center ml-5 "><p
                                             className="text-sm text-black">{owner.commission}%</p>
                                         </div>
                                         <div
-                                            className="col-span-1 items-center flex text-sm text-[#3c50e0] hover:underline cursor-pointer"
+                                            className="col-span-1 items-center flex text-sm text-[#3c50e0] hover:underline cursor-pointer
+                                            ml-10 w-fit"
                                             onClick={() =>
                                                 openModalEdit({
                                                     id: owner.id,
@@ -154,11 +155,12 @@ const ListOwners: React.FC = () => {
                                                     dateInscription: owner.dateInscription,
                                                     logements: owner.logements,
                                                     commission: owner.commission,
-                                                    adresse: owner.adresse
+                                                    adresse: owner.adresse,
+                                                    isValidated: owner.isValidated
                                                 })
                                             }
                                         >
-                                            {translation?.t('edit')}
+                                            {owner.isValidated ? translation?.t('edit') : translation?.t('validate')}
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  strokeWidth="1.5"
                                                  stroke="currentColor" className="w-4 h-4 ml-1">
@@ -167,7 +169,7 @@ const ListOwners: React.FC = () => {
                                             </svg>
                                         </div>
                                         <div
-                                            className="col-span-1  items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10
+                                            className="col-span-1 items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10
                                             w-fit"
                                             onClick={() =>
                                                 openModalDelete(
@@ -180,7 +182,8 @@ const ListOwners: React.FC = () => {
                                                         dateInscription: owner.dateInscription,
                                                         logements: owner.logements,
                                                         commission: owner.commission,
-                                                        adresse: owner.adresse
+                                                        adresse: owner.adresse,
+                                                        isValidated: owner.isValidated
                                                     }
                                                 )
                                             }
