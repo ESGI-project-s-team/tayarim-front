@@ -1,6 +1,11 @@
 "use server";
 import {getAllOwners} from "@/utils/apiOwner";
-import {createHousingApi, getHousingAmenities, getHousingRules, getHousingTypes} from "@/utils/apiHousing";
+import {
+    createHousingApi,
+    getHousingAmenities,
+    getHousingRules,
+    getHousingTypes
+} from "@/utils/apiHousing";
 
 
 export async function getAllOwnerInFun() {

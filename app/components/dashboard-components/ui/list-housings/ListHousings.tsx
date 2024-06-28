@@ -94,7 +94,7 @@ const ListHousings: React.FC = () => {
             {!loading ?
                 <>
                     <div className="mb-4  relative top-32"><h2
-                        className="text-2xl font-semibold text-black dark:text-white ml-2">{translation?.t('house')}</h2>
+                        className="text-2xl font-semibold text-black ml-2">{translation?.t('house')}</h2>
                     </div>
                     <div className="relative top-32 w-full flex justify-end mb-2 ">
                         <button
@@ -110,7 +110,7 @@ const ListHousings: React.FC = () => {
                         </button>
                     </div>
                     <div
-                        className="relative  border  bg-white   top-32   rounded-[10px] stroke-2 max-h-[70vh] overflow-auto ">
+                        className="relative  border  bg-white   top-32   rounded-[10px] stroke-2 max-h-[70vh] overflow-auto  ">
                         <div className="max-w-full">
                             <div className="min-w-[1170px]">
                                 <div className="grid  bg-[#F9FAFB] px-5 py-4"
@@ -125,7 +125,7 @@ const ListHousings: React.FC = () => {
                                         <p className="font-medium">{translation?.t('adresse')}</p>
                                     </div>
                                     <div className="col-span-2 items-center">
-                                        <p className="font-medium">{translation?.t('price_per_night')}</p>
+                                        <p className="font-medium">{translation?.t('montant')}</p>
                                     </div>
                                     <div className="col-span-2 items-center">
                                         <p className="font-medium">Service</p>
@@ -133,7 +133,7 @@ const ListHousings: React.FC = () => {
                                 </div>
                                 {housing.map((house: any, index: number) => (
                                     <div
-                                        className="grid border-t py-4 grid-cols-12 px-5"
+                                        className={`grid border-t py-4 grid-cols-12 px-5 `}
                                         style={{gridTemplateColumns: "repeat(14, minmax(0, 1fr))"}}
                                         key={index}>
                                         <div
@@ -150,7 +150,7 @@ const ListHousings: React.FC = () => {
                                             <p className="text-sm text-black">{house.adresse}</p>
                                         </div>
                                         <div className="col-span-2 items-center">
-                                            {house.prixParNuit ?
+                                            {house.prixParNuit !== 1 ?
                                                 <p className="text-sm text-black ml-2">{house.prixParNuit} €</p>
                                                 :
                                                 <p className="text-sm text-gray-400 ml-7">

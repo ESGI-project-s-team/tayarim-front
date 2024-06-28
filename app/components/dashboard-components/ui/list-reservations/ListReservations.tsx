@@ -188,7 +188,7 @@ const ListReservations: React.FC = () => {
             {!loading ?
                 <>
                     <div className="mb-10  relative top-32"><h2
-                        className="text-2xl font-semibold text-black dark:text-white ml-2">{translation?.t('Reservation')}</h2>
+                        className="text-2xl font-semibold text-black  ml-2">{translation?.t('Reservation')}</h2>
                     </div>
                     <div className=" relative my-auto top-32 ">
                         <Tab.Group

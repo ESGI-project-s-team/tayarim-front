@@ -50,7 +50,7 @@ export default function ModalAddDepense({isOpen, onClose, getAllDepense}: {
     }, []);
 
     useEffect(() => {
-        const allFieldsFilled = Object.values(formValues).every(value => value.toString().trim() !== '');
+        const allFieldsFilled = Object.values(formValues).every(value => value?.toString().trim() !== '');
         setButtonDisabled(!allFieldsFilled);
     }, [formValues]);
 

@@ -16,7 +16,7 @@ import {getAllNotificationsInFun} from "@/app/components/dashboard-components/ui
 export default function RootLayout({children}: { children: React.ReactNode; params: { lng: string } }) {
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
-    const [isAdmin, setIsAdmin] = useState(undefined);
+    const [isAdmin, setIsAdmin] = useState<any>(undefined);
     const [userInfos, setUserInfos] = useState({});
     const [loading, setLoading] = useState(false);
     const socketRef = useRef<any>(null);
@@ -81,11 +81,14 @@ export default function RootLayout({children}: { children: React.ReactNode; para
         );
 
         async function isAdmin() {
-            await isAdminByToken().then(
-                async (response) => {
+            isAdminByToken().then(
+                (response) => {
                     if (!response.error && response !== false && response !== undefined) {
                         setIsAdmin(response.admin);
+                    } else {
+                        setIsAdmin(false)
                     }
+                    setLoading(false)
                 }
             );
         }
@@ -111,15 +114,9 @@ export default function RootLayout({children}: { children: React.ReactNode; para
             });
         }
 
-
         getAllNotifications().then();
         fetchInfoUser().then();
-
-        isAdmin().then(
-            () => {
-                setIsLoading(false);
-            }
-        );
+        isAdmin().then(() => setIsLoading(false));
     }, [router]);
 
     return (

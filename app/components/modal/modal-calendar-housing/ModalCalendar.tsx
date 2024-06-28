@@ -185,7 +185,7 @@ export default function ModalCalendar({isOpen, onClose, reservations, datesIndis
                                     <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
                                         <div className="mx-auto max-w-7xl">
                                             <div
-                                                className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                                                className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default ">
                                                 <table className="w-full">
                                                     <thead>
                                                     <tr className="grid grid-cols-7 rounded-t-sm bg-[#3c50e0] text-white">
@@ -204,8 +204,8 @@ export default function ModalCalendar({isOpen, onClose, reservations, datesIndis
                                                         <tr className="grid grid-cols-7" key={weekIndex}>
                                                             {monthDays.slice(weekIndex * 7, (weekIndex + 1) * 7).map((date, dayIndex) => (
                                                                 <td
-                                                                    className={`ease relative h-20 cursor-pointer border border-stroke p-2 transition duration-500 ${isDateInReservations(date) ? 'bg-blue-200' : 'hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4'} 
-                                                                    ${isDateInIndispo(date) ? 'bg-red-200' : 'hover:bg-gray dark:border-strokedark dark:hover:bg-meta-4'}
+                                                                    className={`ease relative h-20 cursor-pointer border border-stroke p-2 transition duration-500 ${isDateInReservations(date) ? 'bg-blue-200' : 'hover:bg-gray'} 
+                                                                    ${isDateInIndispo(date) ? 'bg-red-200' : 'hover:bg-gray'}
                                                                     md:h-25 md:p-6 xl:h-31`}
                                                                     key={dayIndex}
                                                                     onClick={() => {

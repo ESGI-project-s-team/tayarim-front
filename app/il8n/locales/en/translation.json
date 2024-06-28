@@ -1,4 +1,6 @@
 {
+  "candidate_desc": "Would you like to benefit from our services ?",
+  "start_now": "Start now !",
   "montant": "Amount",
   "done": "Done",
   "payed": "Payed",
@@ -145,6 +147,8 @@
   "cancel": "Cancel",
   "delete_owner": "Delete Owner",
   "delete_housing": "Delete House",
+  "delete_depense": "Delete Expense",
+  "all_expenses": "See all expenses",
   "warn_delete_owner": "Are you sure you want to deactivate this account? All of data will be permanently removed. This action cannot be undone.",
   "warn_delete_housing": "Are you sure you want to delete ? All of data will be permanently removed. This action cannot be undone.",
   "warn_cancel_reservation": "Are you sure you want to cancel this reservation ? A refund will be made if the reservation has been paid. This action cannot be undone.",
@@ -237,7 +241,13 @@
   "nav_about": "About us",
   "nav_properties": "Properties",
   "nav_faq": "FAQ",
-  "btn_owner": "To log in",
+  "btn_owner": "I am an owner",
+  "send": "Send",
+  "ask_submit": "Subscription request",
+  "thanks": "Thank you !",
+  "form_validate_owner": "Validate owner",
+  "send_email": "Your request has been successfully processed",
+  "send_email_confirmation": "You will be informed by email of the follow-up given to your request",
   "btn_modification_reservation": "Modify my reservation",
   "code_reservation": "Reservation code",
   "validate": "Validate",
@@ -441,5 +451,6 @@
   "error_expense_invalid_prix": "The price entered is invalid",
   "error_expense_invalid_date": "The date entered is invalid",
   "error_expense_invalid_idLogement": "The id of the housing is invalid",
-  "error_home_invalid_numTel": "The phone number is invalid"
+  "error_home_invalid_numTel": "The phone number is invalid",
+  "error_owner_invalid_address": "The address entered is invalid"
 }

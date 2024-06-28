@@ -74,7 +74,7 @@ const FormConnection: React.FC = () => {
     };
 
     return (
-        <div className="fixed xxs-mtop inset-x-0 max-w-max mx-auto flex shadow-2xl ">
+        <div className="align-middle">
             <div className="bg-white rounded-xl p-14">
                 <div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}

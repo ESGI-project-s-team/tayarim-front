@@ -66,7 +66,6 @@ export async function createHousingApi(formData: any): Promise<any> {
     }
 }
 
-
 export async function deleteHousing(id: string): Promise<any> {
     const token = cookies().get("token")?.value;
     try {
@@ -323,3 +322,4 @@ export async function deleteIndispo(id: number): Promise<any> {
         return {errors: ["error_occurred"]};
     }
 }
+

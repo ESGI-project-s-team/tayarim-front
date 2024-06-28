@@ -1,4 +1,6 @@
 {
+  "candidate_desc": "Vous souhaitez bénéficier de nos services ?",
+  "start_now": "Commencez dès maintenant !",
   "montant": "Montant",
   "done": "Terminée",
   "payed": "Payée",
@@ -168,6 +170,8 @@
   "cancelled": "Annulée",
   "cancel": "Annuler",
   "delete_owner": "Supprimer le propriétaire",
+  "delete_depense": "Supprimer la dépense",
+  "all_expenses": "Voir toutes les dépenses",
   "delete_housing": "Supprimer le logement",
   "warn_delete_owner": "Êtes-vous sûr de vouloir faire cette action ? Toutes les données associés seront définitivement supprimées. Cette action ne peut pas être annulée.",
   "warn_delete_housing": "Êtes-vous sûr de vouloir supprimer ce logement ? Toutes les données seront définitivement supprimées. Cette action ne peut pas être annulée.",
@@ -246,7 +250,13 @@
   "nav_about": "A propos",
   "nav_properties": "Logements",
   "nav_faq": "FAQ",
-  "btn_owner": "Se connecter",
+  "btn_owner": "Je suis propriétaire",
+  "send": "Envoyer",
+  "ask_submit": "Demande d'inscription",
+  "thanks": "Merci !",
+  "send_email": "Votre demande a bien été prise en compte",
+  "send_email_confirmation": "Vous serez informé par email de la suite de votre demande",
+  "form_validate_owner": "Valider le propriétaire",
   "btn_owner_log_out": "Se déconnecter",
   "btn_location": "Choisissez votre emplacement",
   "btn_date": "Date d'arrivée et de départ",
@@ -444,5 +454,6 @@
   "error_expense_invalid_libelle": "Le libellé est invalide",
   "error_expense_invalid_prix": "Le prix est invalide",
   "error_expense_invalid_date": "La date est invalide",
-  "error_expense_invalid_idLogement": "L'id du logement est invalide"
+  "error_expense_invalid_idLogement": "L'id du logement est invalide",
+  "error_owner_invalid_address": "L'adresse saisie est invalide"
 }

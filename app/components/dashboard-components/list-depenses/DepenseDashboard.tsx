@@ -14,6 +14,7 @@ import ModalAddDepense from "@/app/components/modal/modal-add-depense/ModalAddDe
 import SpinnerDashboard from "@/app/components/ui/SpinnerDashboard";
 import {ApexOptions} from "apexcharts";
 import ModalUpdateDepense from "@/app/components/modal/modal-update-depense/ModalUpdateDepense";
+import ModalDeleteDepense from "@/app/components/modal/modal-delete-depense/ModalDeleteDepense";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {ssr: false});
 
@@ -23,15 +24,18 @@ const DepenseDashboard: React.FC = () => {
     const month_complete = translation?.t('month_complete', {returnObjects: true}) ?? [];
     const [data, setData] = useState<any>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const [depenses, setDepenses] = useState<any>([]);
+    const [filteredDepenses, setFilteredDepenses] = useState<any>([]);
     const [depenseCurrent, setDepenseCurrent] = useState<any>(null);
     const {setError} = useIsErrorContext();
     const [housing, setHousing] = useState<any>([]);
     const [isOpenInfoHousing, setIsOpenInfoHousing] = useState(false);
     const [isOpenCreate, setIsOpenCreate] = useState(false);
     const [isOpenUpdate, setIsOpenUpdate] = useState(false);
+    const [isOpenDelete, setIsOpenDelete] = useState(false);
     const {isAdmin} = useAdminContext();
     const [isLoading, setLoading] = useState(false);
-
+    const [isFilterActive, setIsFilterActive] = useState(false);
+    const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
     const getAllDep = useCallback(() => {
         setLoading(true);
         getAllDepensesInFun()
@@ -47,6 +51,7 @@ const DepenseDashboard: React.FC = () => {
                 });
                 setData(depensesMonth);
                 setDepenses(response);
+                setFilteredDepenses(response);
                 setLoading(false);
             });
     }, []);
@@ -73,8 +78,13 @@ const DepenseDashboard: React.FC = () => {
         setIsOpenCreate(true);
     }
 
+    function openModalDelete(depense: any) {
+        setIsOpenDelete(true);
+        setDepenseCurrent(depense);
+    }
+
     function openModalUpdate(depense: any) {
-        setDepenseCurrent(depense)
+        setDepenseCurrent(depense);
         setIsOpenUpdate(true);
     }
 
@@ -82,7 +92,22 @@ const DepenseDashboard: React.FC = () => {
         setIsOpenInfoHousing(false);
         setIsOpenCreate(false);
         setIsOpenUpdate(false);
+        setIsOpenDelete(false);
     }
+
+    const filterDepensesByMonth = (month: number) => {
+        const filtered = depenses.filter((depense: any) => {
+            let date = new Date(depense.date);
+            return date.getMonth() === month;
+        });
+        setFilteredDepenses(filtered);
+        setIsFilterActive(true);
+    };
+
+    const resetFilter = () => {
+        setFilteredDepenses(depenses);
+        setIsFilterActive(false);
+    };
 
     const options: ApexOptions = {
         chart: {
@@ -98,6 +123,19 @@ const DepenseDashboard: React.FC = () => {
             },
             height: 350,
             type: 'bar',
+            events: {
+                dataPointSelection: (event, chartContext, config) => {
+                    const month = config.dataPointIndex;
+                    if (selectedMonth === month) {
+                        resetFilter();
+                        setSelectedMonth(null);
+                    } else {
+                        // If a new month is clicked, apply the filter
+                        filterDepensesByMonth(month);
+                        setSelectedMonth(month)
+                    }
+                }
+            }
         },
         colors: ["#3c50e0"],
         plotOptions: {
@@ -135,7 +173,7 @@ const DepenseDashboard: React.FC = () => {
             <div className="bg-[#f1f5f9] h-screen">
                 <div className="h-full lg:ml-80 lg:mr-7 mr-2 ml-14 z-0">
                     <div className="mb-4 relative top-32">
-                        <h2 className="text-2xl font-semibold text-black dark:text-white ml-2">
+                        <h2 className="text-2xl font-semibold text-black ml-2">
                             {translation?.t('Depense')}
                         </h2>
                     </div>
@@ -147,11 +185,20 @@ const DepenseDashboard: React.FC = () => {
                             <SpinnerDashboard/>
                         ) : (
                             <>
-                                <div className="relative w-full flex justify-end mb-2 top-32">
+                                <div
+                                    className={`relative w-full flex mb-2 top-32 ${isFilterActive ? 'justify-between' : 'justify-end'}`}>
+                                    {isFilterActive && (
+                                        <button
+                                            onClick={resetFilter}
+                                            className="flex items-center gap-2 rounded bg-gray-200 px-2 py-1 ml-1 text-xs text-black hover:bg-opacity-80"
+                                        >
+                                            {translation?.t('all_expenses')}
+                                        </button>
+                                    )}
                                     {isAdmin && (
                                         <button
                                             onClick={openModalCreate}
-                                            className="flex items-center gap-2 rounded bg-[#3c50e0] px-4 py-2 font-medium text-sm text-white hover:bg-opacity-80"
+                                            className="flex items-center gap-2 rounded bg-[#3c50e0] px-4 py-2 mr-1 font-medium text-sm text-white hover:bg-opacity-80"
                                         >
                                             <svg
                                                 className="fill-current"
@@ -194,7 +241,7 @@ const DepenseDashboard: React.FC = () => {
                                                     </p>
                                                 </div>
                                             </div>
-                                            {depenses.map((depense: any, index: number) => (
+                                            {filteredDepenses.map((depense: any, index: number) => (
                                                 <div
                                                     className="grid border-t py-4 grid-cols-12 px-5"
                                                     key={index}
@@ -257,7 +304,11 @@ const DepenseDashboard: React.FC = () => {
                                                         </svg>
                                                     </div>
                                                     <div
-                                                        className="col-span-1 items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10 w-fit">
+                                                        className="col-span-1 items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10 w-fit"
+                                                        onClick={() => {
+                                                            openModalDelete(depense);
+                                                        }}
+                                                    >
                                                         {translation?.t('delete')}
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
@@ -303,6 +354,14 @@ const DepenseDashboard: React.FC = () => {
                         onClose={closeModal}
                         getAllDepense={getAllDep}
                         depense={depenseCurrent}
+                    />
+                )}
+                {isOpenDelete && (
+                    <ModalDeleteDepense
+                        isOpen={isOpenDelete}
+                        onClose={closeModal}
+                        getAllDepense={getAllDep}
+                        id={depenseCurrent.id}
                     />
                 )}
             </div>

@@ -1,7 +1,7 @@
 import {Fragment, useEffect, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
-import {updateOwnerInFun} from '@/app/components/modal/modal-edit-owner/action';
-import {useIsErrorContext, useLoaderContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
+import {updateCandidateInFun, updateOwnerInFun} from '@/app/components/modal/modal-edit-owner/action';
+import {useIsErrorContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 
 
@@ -45,33 +45,52 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
     };
 
     const handleActionUpdateOwner = async () => {
-        setLoading(true)
-        //remove from formValues sames values between owner and formValues
-        Object.keys(ownerDetails).forEach((key) => {
-            if (ownerDetails[key] === formValues[key]) {
-                if (key !== 'id')
-                    delete formValues[key]
-            }
-        })
-        try {
+        setLoading(true);
 
-            updateOwnerInFun(formValues).then((response) => {
+        // Remove from formValues the same values between ownerDetails and formValues
+        const updatedFormValues = {...formValues};
+        Object.keys(ownerDetails).forEach((key) => {
+            if (ownerDetails[key] === formValues[key] && key !== 'id') {
+                delete updatedFormValues[key];
+            }
+        });
+        try {
+            if (Object.keys(updatedFormValues).length > 1) {
+                const response = await updateOwnerInFun(updatedFormValues);
                 if (response.errors) {
-                    setError(response.errors)
-                    setFormValues({...ownerDetails})
-                } else {
-                    getAllOwners()
-                    setError(null)
-                    onClose(); // Close the modal
-                    setSuccess(true)
+                    setError(response.errors);
+                    setFormValues({...ownerDetails});
+                    setLoading(false);
+                    return;
                 }
-                setLoading(false)
-            }); // Pass the updated form values
+            }
+            if (ownerDetails.isValidated) {
+                await getAllOwners();
+                setError(null);
+                setSuccess(true);
+            } else {
+                const candidateResponse = await updateCandidateInFun({id: ownerDetails.id});
+
+                if (candidateResponse.errors) {
+                    setError(candidateResponse.errors);
+                    setFormValues({...ownerDetails});
+                    setLoading(false);
+                    return;
+                }
+
+                await getAllOwners();
+                setError(null);
+                setSuccess(true);
+            }
+
+            onClose(); // Close the modal
         } catch (error) {
-            setLoading(false)
-            setError(error)
+            setError(error);
+        } finally {
+            setLoading(false);
         }
     };
+
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
@@ -109,7 +128,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                     <div className="flex flex-col gap-9">
                                         <div className="rounded-sm border stroke-1 bg-white shadow">
                                             <div className="border-b border-[#dee4ee] py-4 flex justify-between px-7">
-                                                <h3 className="font-medium text-black">{translation?.t('form_edit_owner')}</h3>
+                                                <h3 className="font-medium text-black">{ownerDetails.isValidated ? translation?.t('form_edit_owner') : translation?.t('form_validate_owner')}</h3>
                                                 <button onClick={onClose} className="text-[#3c50e0] font-medium">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"
@@ -151,7 +170,18 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                                         />
                                                     </div>
                                                 </div>
-
+                                                <div className="mb-5">
+                                                    <label
+                                                        className="mb-3 block text-sm font-medium text-black">{translation?.t('adresse')}</label>
+                                                    <input
+                                                        required={true}
+                                                        placeholder={translation?.t('adresse')}
+                                                        className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                                        type="text"
+                                                        value={formValues.adresse}
+                                                        onChange={(e) => handleInputChange('adresse', e.target.value)} // Add onChange handler
+                                                    />
+                                                </div>
                                                 <div className="mb-5">
                                                     <label
                                                         className="mb-3 block text-sm font-medium text-black">Email</label>
@@ -202,7 +232,7 @@ export default function ModalEditOwner({isOpen, onClose, ownerDetails, getAllOwn
                                                     disabled={isButtonDisabled}
                                                     className={`flex w-full justify-center rounded  p-3 font-medium text-white  ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
                                                 >
-                                                    {translation?.t('form_edit_owner')}
+                                                    {ownerDetails.isValidated ? translation?.t('form_edit_owner') : translation?.t('form_validate_owner')}
                                                 </button>
                                                 }
                                             </div>
