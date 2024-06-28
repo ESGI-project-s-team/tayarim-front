@@ -50,7 +50,6 @@ export default function ModalAddCandidate({isOpen, onClose, setIsModalEmailSend}
 
     const handleActionCreateOwner = async () => {
         setIsLoading(true);
-        setIsModalEmailSend(true);
         onClose()
         createCandidateInFun(formValues)
             .then((res) => {

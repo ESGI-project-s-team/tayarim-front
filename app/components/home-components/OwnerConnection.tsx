@@ -14,6 +14,11 @@ const OwnerConnection: React.FC = () => {
         setIsOpenCreate(false)
     }
 
+    function closeModalEmailSend() {
+        setIsModalEmailSend(false)
+    }
+
+
     return (
         <div className="overflow-hidden ">
             <div
@@ -55,9 +60,8 @@ const OwnerConnection: React.FC = () => {
                                    setIsModalEmailSend={setIsModalEmailSend}
                 />
             }
-
             {isModalEmailSend &&
-                <ModalEmailSend isOpen={isModalEmailSend} onClose={closeModal}/>
+                <ModalEmailSend isOpen={isModalEmailSend} onClose={closeModalEmailSend}/>
             }
         </div>
     );
