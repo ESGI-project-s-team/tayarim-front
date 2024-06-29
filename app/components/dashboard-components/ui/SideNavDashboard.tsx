@@ -37,7 +37,7 @@ const SideNavDashboard: React.FC = () => {
                  isOpenSideBar ? '' : '-translate-x-60'
              }`}
         >
-            <div className=" fixed w-72 z-10 flex pt-10 pb-7 bg-[#1c2434] justify-around lg:justify-start ">
+            <div className=" fixed w-72 z-10 flex pt-10 pb-7 bg-[#1c2434] justify-around lg:justify-start">
                 <div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className="h-8 w-auto justify-center lg:ml-10" src="/logo-contour.png" alt="logo"/>
@@ -51,7 +51,7 @@ const SideNavDashboard: React.FC = () => {
                     </svg>
                 </div>
             </div>
-            <div className="bg-[#1c2434] overflow-y-scroll no-scrollbar mt-24" style={{height: "auto"}}>
+            <div className="bg-[#1c2434] overflow-y-scroll no-scrollbar mt-24 " style={{height: "auto"}}>
                 <nav className="mt-9 px-6 text-[#dee4ee] ">
                     <div>
                         <h3 className="mb-4 ml-4 text-sm font-semibold text-[#8a99af]">{translation?.t('menu_placeholder')}</h3>

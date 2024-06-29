@@ -7,4 +7,6 @@ export interface ProprietaireDTO {
     commission: number;
     dateInscription: string;
     logements: any[];
+    adresse: string;
+    isValidated: boolean;
 }

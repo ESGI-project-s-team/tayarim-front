@@ -2,5 +2,8 @@
 module.exports = {
     // ... rest of the configuration.
     output: "standalone",
+    reactStrictMode: false,
 };
-module.exports = {};
+module.exports = {
+    reactStrictMode: false,
+};

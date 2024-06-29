@@ -1,12 +1,17 @@
-import {Fragment, useEffect, useRef, useState} from 'react';
+import {Fragment, Key, useEffect, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import {useIsErrorContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
-import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import {Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions} from '@headlessui/react';
-import {CheckIcon, ChevronDownIcon} from '@heroicons/react/20/solid';
+import {CheckIcon, ChevronDownIcon, XCircleIcon} from '@heroicons/react/20/solid';
 import clsx from 'clsx';
-import {createHouseInFun, getAllOwnerInFun} from "@/app/components/modal/modal-add-housing/action";
+import {
+    createHouseInFun,
+    getAllOwnerInFun, getHousingAmenitiesInFun, getHousingRulesInFun,
+    getHousingTypesInFun
+} from "@/app/components/modal/modal-add-housing/action";
 import countryList from 'react-select-country-list';
+import MultiSelectListbox from "@/app/components/modal/ui/MultiSelectListbox";
+import SpinnerUI from "@/app/components/ui/SpinnerUI";
 
 interface FormValues {
     titre: string;
@@ -29,6 +34,9 @@ interface FormValues {
     numeroDePorte: string;
     idTypeLogement: number | null;
     isLouable: boolean;
+    reglesLogement: any[];
+    amenagements: any[];
+    files: any[];
 }
 
 interface OwnerType {
@@ -65,6 +73,9 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
         numeroDePorte: '',
         idTypeLogement: 1,
         isLouable: true,
+        reglesLogement: [],
+        amenagements: [],
+        files: [],
     });
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext();
@@ -73,6 +84,11 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
     const [query, setQuery] = useState('');
     const [selectedOwner, setSelectedOwner] = useState<OwnerType | null>(null);
     const [owners, setOwners] = useState<OwnerType[]>([]);
+    const [housingTypes, setHousingTypes] = useState<any[]>([]);
+    const [housingRules, setHousingRules] = useState<any[]>([]);
+    const [housingAmenities, setHousingAmenities] = useState<any[]>([]);
+    const [selectedHousingAmenities, setSelectedHousingAmenities] = useState<any>([]);
+    const [selectedHousingRules, setSelectedHousingRules] = useState<any>([]);
     const [currentStep, setCurrentStep] = useState(1);
     const [countries] = useState(countryList().getData());
     const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
@@ -97,22 +113,118 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 setError(error);
             }
         };
+        const handleGetAllHousingType = async () => {
+            setLoading(true);
+            try {
+                const response = await getHousingTypesInFun();
+                if (response.errors) {
+                    setError(response.errors);
+                } else {
+                    setHousingTypes(response);
+                    setError(null);
+                }
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                setError(error);
+            }
+        };
 
+        const handleGetAllHousingRules = async () => {
+            setLoading(true);
+            try {
+                const response = await getHousingRulesInFun();
+                if (response.errors) {
+                    setError(response.errors);
+                } else {
+                    setHousingRules(response);
+                    setError(null);
+                }
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                setError(error);
+            }
+        };
+
+        const handleGetAllHousingAmenities = async () => {
+            setLoading(true);
+            try {
+                const response = await getHousingAmenitiesInFun();
+                if (response.errors) {
+                    setError(response.errors);
+                } else {
+                    setHousingAmenities(response);
+                    setError(null);
+                }
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                setError(error);
+            }
+        };
         if (focusElementRef.current) {
             focusElementRef.current.focus();
         }
         handleGetAllOwner().then();
-    }, [setError]);
+        handleGetAllHousingType().then();
+        handleGetAllHousingRules().then();
+        handleGetAllHousingAmenities().then();
 
-    const createHousingInFun = async () => {
+    }, [setError]);
+    const handleActionCreateHousing = async () => {
         setLoading(true);
-        (Object.keys(formValues) as (keyof FormValues)[]).forEach((key) => (formValues[key] === "" || formValues[key] === null) && delete formValues[key]);
+
+        const formData = new FormData();
+
+        const appendFormData = (key: string, value: string | number | boolean | null | undefined) => {
+            if (value !== null && value !== undefined && value !== '') {
+                formData.append(key, value.toString());
+            }
+        };
+
+        appendFormData('titre', formValues.titre);
+        appendFormData('idProprietaire', formValues.idProprietaire);
+        appendFormData('nombresDeChambres', formValues.nombresDeChambres);
+        appendFormData('nombresDeLits', formValues.nombresDeLits);
+        appendFormData('nombresSallesDeBains', formValues.nombresSallesDeBains);
+        appendFormData('capaciteMaxPersonne', formValues.capaciteMaxPersonne);
+        appendFormData('nombresNuitsMin', formValues.nombresNuitsMin);
+        appendFormData('description', formValues.description);
+        appendFormData('prixParNuit', formValues.prixParNuit);
+        appendFormData('defaultCheckIn', formValues.defaultCheckIn);
+        appendFormData('defaultCheckOut', formValues.defaultCheckOut);
+        appendFormData('intervalReservation', formValues.intervalReservation);
+        appendFormData('ville', formValues.ville);
+        appendFormData('adresse', formValues.adresse);
+        appendFormData('codePostal', formValues.codePostal);
+        appendFormData('pays', formValues.pays);
+        appendFormData('etage', formValues.etage);
+        appendFormData('numeroDePorte', formValues.numeroDePorte);
+        appendFormData('idTypeLogement', formValues.idTypeLogement);
+        appendFormData('isLouable', formValues.isLouable);
+
+        formValues.reglesLogement.forEach((regle, index) => {
+            appendFormData(`reglesLogement[${index}]`, regle);
+        });
+
+        formValues.amenagements.forEach((amenagement, index) => {
+            appendFormData(`amenagements[${index}]`, amenagement);
+        });
+
+        formValues.files.forEach((file, index) => {
+            if (file) {
+                formData.append(`files[${index}]`, file);
+            }
+        });
+
+
         try {
-            const response = await createHouseInFun(formValues);
+            const response = await createHouseInFun(formData);
             if (response.errors) {
                 setError(response.errors);
             } else {
-                await getAllHousing();
+                getAllHousing();
                 setError(null);
                 onClose();
                 setSuccess(true);
@@ -122,7 +234,8 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
             setLoading(false);
             setError(error);
         }
-    }
+    };
+
 
     const filteredPeople = query === ''
         ? owners
@@ -162,6 +275,30 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
         setFormValues((prev: FormValues) => ({...prev, [field]: value}));
     };
 
+    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const uploadedImages = Array.from(event.target.files);
+            setFormValues((prev) => ({
+                ...prev,
+                files: [...prev.files, ...uploadedImages]
+            }));
+        }
+    };
+
+    const handleImageDelete = (index: React.Key | null | undefined) => {
+        setFormValues((prev) => ({
+            ...prev,
+            files: prev.files.filter((_, i) => i !== index)
+        }));
+    };
+
+    useEffect(() => {
+        let selectedHousingRulesIds = selectedHousingRules.map((rule: any) => rule.id);
+        handleInputChange('reglesLogement', selectedHousingRulesIds);
+        let selectedHousingAmenitiesIds = selectedHousingAmenities.map((amenities: any) => amenities.id);
+        handleInputChange('amenagements', selectedHousingAmenitiesIds);
+    }, [selectedHousingAmenities, selectedHousingRules]);
+
     const handleNext = () => {
         if (validateStep()) {
             setCurrentStep((prev) => prev + 1);
@@ -182,12 +319,14 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 return formValues.adresse !== null && formValues.adresse.trim() !== '';
             case 4:
                 return formValues.isLouable ?
-                    (formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0)
-                    : formValues.description !== null && formValues.description.trim() !== '';
+                    (formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0 && selectedHousingRules.length > 0
+                        && selectedHousingAmenities.length > 0)
+                    : formValues.description !== null && formValues.description.trim() !== '' && formValues.prixParNuit !== null && formValues.prixParNuit > 0;
             case 5:
-                return formValues.capaciteMaxPersonne !== null && formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin !== null && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit !== null && formValues.prixParNuit > 0;
+                return formValues.capaciteMaxPersonne !== null && formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin !== null && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit !== null && formValues.prixParNuit > 0
+                    ;
             case 6:
-                return formValues.description !== null && formValues.description.trim() !== '';
+                return formValues.description !== null && formValues.description.trim() !== '' && formValues.files.length > 0;
             default:
                 return false;
         }
@@ -286,7 +425,6 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                         className={clsx(
                                             "text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                         )}
-                                        displayValue={(country: string) => country}
                                         onChange={(event) => setCountryQuery(event.target.value)}
                                         placeholder={translation?.t('pays_placeholder')}
                                     />
@@ -347,6 +485,21 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 return (
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
+                            <label className="mb-3 block text-sm font-medium text-black">
+                                {translation?.t('housing_type')}
+                            </label>
+                            <select
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                onChange={(e) => handleInputChange('idTypeLogement', parseInt(e.target.value))}
+                            >
+                                {housingTypes.map((type) => (
+                                    <option key={type.id} value={type.id}>
+                                        {translation?.t(type.nom)}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('adresse')}</label>
                             <input
@@ -384,6 +537,18 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
             case 4:
                 return formValues.isLouable ? (
                     <div className="mb-5 flex flex-col gap-6">
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('housingRules')}</label>
+                            <MultiSelectListbox items={housingRules} setSelected={setSelectedHousingRules}
+                                                selected={selectedHousingRules}/>
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('amenities')}</label>
+                            <MultiSelectListbox items={housingAmenities} setSelected={setSelectedHousingAmenities}
+                                                selected={selectedHousingAmenities}/>
+                        </div>
                         <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('nombres_de_chambres')}</label>
@@ -424,6 +589,47 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 ) : (
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
+                            <label className="mb-3 block text-sm font-medium text-black">
+                                {translation?.t('Images')}
+                            </label>
+                            <input
+                                type="file"
+                                multiple
+                                onChange={handleImageUpload}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                            />
+                            <div className="mt-4 flex flex-wrap gap-4">
+                                {formValues.files.map((image: Blob | MediaSource, index: Key | null | undefined) => (
+                                    <div key={index} className="relative">
+                                        <img
+                                            src={URL.createObjectURL(image)}
+                                            alt={`Upload Preview ${index}`}
+                                            className="h-20 w-20 object-cover rounded"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => handleImageDelete(index)}
+                                            className="absolute top-0 right-0 p-0.5 text-white bg-red-500 rounded-full"
+                                        >
+                                            <XCircleIcon className="w-5 h-5"/>
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('montant')}</label>
+                            <input
+                                placeholder={translation?.t('montant')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.prixParNuit || ''}
+                                onChange={(e) => handleInputChange('prixParNuit', parseFloat(e.target.value))}
+                            />
+                        </div>
+                        <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('description')}</label>
                             <textarea
@@ -437,7 +643,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 );
             case 5:
                 return (
-                    <div className="mb-5 flex flex-col gap-6">
+                    <div className="mb-5 flex flex-col gap-7">
                         <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('capacite_max_personne')}</label>
@@ -566,6 +772,35 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 return (
                     <div className="mb-5 flex flex-col gap-6">
                         <div className="w-full">
+                            <label className="mb-3 block text-sm font-medium text-black">
+                                {translation?.t('images')}
+                            </label>
+                            <input
+                                type="file"
+                                multiple
+                                onChange={handleImageUpload}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                            />
+                            <div className="mt-4 flex flex-wrap gap-4">
+                                {formValues.files.map((image: Blob | MediaSource, index: Key | null | undefined) => (
+                                    <div key={index} className="relative">
+                                        <img
+                                            src={URL.createObjectURL(image)}
+                                            alt={`Upload Preview ${index}`}
+                                            className="h-20 w-20 object-cover rounded"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => handleImageDelete(index)}
+                                            className="absolute top-0 right-0 p-0.5 text-white bg-red-500 rounded-full"
+                                        >
+                                            <XCircleIcon className="w-5 h-5"/>
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('description')}</label>
                             <textarea
@@ -651,7 +886,7 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                                                         <button
                                                             type="button"
                                                             ref={focusElementRef}
-                                                            onClick={createHousingInFun}
+                                                            onClick={handleActionCreateHousing}
                                                             disabled={isLoading || !validateStep()}
                                                             className={`flex justify-center rounded  text-sm px-3 py-2 font-medium text-white ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}
                                                             ${!validateStep() ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}

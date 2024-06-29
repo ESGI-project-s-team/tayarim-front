@@ -1,51 +1,63 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronUpDownIcon} from "@heroicons/react/16/solid";
 
 function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ');
 }
 
 interface SelectMenusCustomProps {
     value: { id: number, name: string }[];
+    valueSelected: { id: number | null, name: string | null };
     placeholder: string;
     icon: React.ReactNode | null;
+    onChange: (selected: { id: number | null, name: string }) => void;
 }
 
 const SelectMenusCustom: React.FC<SelectMenusCustomProps> = ({
+                                                                 valueSelected,
                                                                  value,
                                                                  placeholder,
-                                                                 icon
-                                                             }: SelectMenusCustomProps) => {
+                                                                 icon,
+                                                                 onChange
+                                                             }) => {
+    const [selected, setSelected] = useState<{ id: number | null, name: string | null }>(valueSelected);
 
-    const [selected, setSelected] = useState<{ id: number | null, name: string | null }>({id: null, name: null});
+    useEffect(() => {
+        setSelected(valueSelected);
+    }, [valueSelected]);
+
+    const handleSelection = (value: { id: number, name: string }) => {
+        setSelected(value);
+        onChange(value);
+    };
 
     const clearSelection = () => {
         setSelected({id: null, name: null});
+        onChange({id: null, name: ""});
     };
 
     return (
-        <Listbox value={selected} onChange={setSelected}>
+        <Listbox value={selected} onChange={handleSelection}>
             {({open}) => (
                 <>
                     <div className="relative rounded border border-gray-400">
                         <Listbox.Button
-                            className="cursor-pointer rounded bg-white py-1.5 pl-3 pr-10 text-left
-                            text-black focus:outline-none text-sm w-60">
-                             <span className="flex items-center">
+                            className="cursor-pointer rounded bg-white py-1.5 pl-3 pr-10 text-left text-black focus:outline-none text-sm w-60">
+                            <span className="flex items-center">
                                 {icon}
-                                 <span
-                                     className={selected.name ? "ml-3 truncate" : "ml-3 truncate text-gray-400"}>{selected.name ? selected.name : placeholder}</span>
-                             </span>
+                                <span className={selected?.name ? "ml-3 truncate" : "ml-3 truncate text-gray-400"}>
+                                    {selected?.name ? selected?.name : placeholder}
+                                </span>
+                            </span>
                             <span
                                 className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                            <ChevronUpDownIcon className="h-5 w-5 text-gray-400"
-                                               aria-hidden="true"/>
+                                <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true"/>
                             </span>
                         </Listbox.Button>
-                        {selected.name && (
+                        {selected?.name && (
                             <button
-                                className="absolute top-1/2 right-9 transform -translate-y-1/2 focus:outline-none "
+                                className="absolute top-1/2 right-9 transform -translate-y-1/2 focus:outline-none"
                                 onClick={clearSelection}
                                 tabIndex={0}
                             >
@@ -65,13 +77,13 @@ const SelectMenusCustom: React.FC<SelectMenusCustomProps> = ({
                             leaveTo="opacity-0"
                         >
                             <Listbox.Options
-                                className="absolute z-10 mt-1 w-full overflow-auto rounded bg-white py-1  sm:text-sm ">
+                                className="absolute z-10 mt-1 w-full overflow-auto rounded bg-white py-1 sm:text-sm">
                                 {value.map((person: any) => (
                                     <Listbox.Option
                                         key={person.id}
                                         className={({active}) =>
                                             classNames(
-                                                active ? 'bg-gray-300' : 'text-gray-900',
+                                                active ? 'bg-gray-200' : 'text-gray-900',
                                                 'relative cursor-default select-none py-2 pl-3 pr-9'
                                             )
                                         }
@@ -79,10 +91,10 @@ const SelectMenusCustom: React.FC<SelectMenusCustomProps> = ({
                                     >
                                         {({selected, active}) => (
                                             <>
-                                                <div className="flex items-center ">
+                                                <div className="flex items-center">
                                                     <span
-                                                        className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block ')}>
-                                                    {person.name}
+                                                        className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block')}>
+                                                        {person.name}
                                                     </span>
                                                 </div>
                                                 {selected ? (

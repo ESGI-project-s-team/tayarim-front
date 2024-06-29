@@ -5,29 +5,30 @@ import {
     NavbarContext,
     TranslationContext,
     IsOpenContext,
-    LoaderContext,
     IsErrorContext,
-    IsAdminContext,
-    UserInfoContext,
+    PopupNotifyContext,
     IsSuccessContext
 } from "./contexts";
-import Loader from "@/app/components/ui/Loader";
 import ErrorsManagement from "@/utils/alertErrors";
-import {isAdminByToken} from "@/utils/apiAuth";
 import SuccessManagement from "@/utils/alertSuccess";
 import {pile} from "@/pile";
-import {useRouter} from 'next/navigation';
+import Loader from "@/app/components/ui/Loader";
+import "../globals.css";
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from "@stripe/stripe-js";
+import NotifyManagement from "@/utils/alertNotify";
+
+
+const stripePromise = loadStripe('pk_test_51MV0btCKT0mt6g5QYamT5yDfyrku9XATDC3xSYgq4GBGTJopMZYKX5wSGlkGwhFjOYXy306hucFP8psxjtBQsxHk008MgdE8cx');
 
 export default function RootLayout({children, params: {lng}}: { children: React.ReactNode; params: { lng: string } }) {
     const [theLanguage, setTheLanguage] = useState(lng);
     const [translation, setTranslation] = useState<{ t: any, i18n: any } | null>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [isAdmin, setIsAdmin] = useState(undefined);
     const [isError, setError] = useState(null);
     const [isSuccess, setSuccess] = useState(null);
-    const router = useRouter();
-    const [userInfos, setUserInfos] = useState({});
+    const [popupNotify, setPopupNotify] = useState(null);
+    const [isLoading, setLoading] = useState(true);
 
 
     useEffect(() => {
@@ -36,65 +37,53 @@ export default function RootLayout({children, params: {lng}}: { children: React.
         async function replaceAlertSuccessOrError() {
             if (isError == null || isSuccess == null) {
                 if (isError != null) {
-                    pile.push(false)
+                    pile.push(false);
                 }
                 if (isSuccess != null) {
-                    pile.push(true)
+                    pile.push(true);
                 }
             } else {
                 let lastValueIndex = pile[pile.length - 1];
                 if (lastValueIndex) {
                     pile[pile.length - 1] = false;
-                    setSuccess(null)
+                    setSuccess(null);
                 } else {
                     pile[pile.length - 1] = true;
-                    setError(null)
+                    setError(null);
+                }
+            }
+
+            // Ajout de la logique pour popupNotify
+            if (popupNotify != null) {
+                if (popupNotify) {
+                    pile.push('popup');
+                } else {
+                    let lastValueIndex = pile[pile.length - 1];
+                    if (lastValueIndex === 'popup') {
+                        pile.pop();
+                    }
                 }
             }
         }
 
+
         replaceAlertSuccessOrError().then();
 
+
+    }, [isError, isSuccess, popupNotify]);
+
+    useEffect(() => {
         async function fetchTranslation() {
             const t = await doTranslation(theLanguage);
             setTranslation(t);
         }
 
-        fetchTranslation().then();
-
-        async function isAdmin() {
-            await isAdminByToken().then(
-                async (response) => {
-                    if (!response.error && response !== false && response !== undefined) {
-                        setIsAdmin(response.admin)
-                    }
-                }
-            )
-        }
-
-        isAdmin().then();
-
-        async function loader() {
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            setLoading(false);
-        }
-
-        loader().then();
-
-        async function fetchInfoUser() {
-            const user = {
-                id: localStorage.getItem("id"),
-                nom: localStorage.getItem("nom"),
-                prenom: localStorage.getItem("prenom"),
-                email: localStorage.getItem("email"),
-                numTel: localStorage.getItem("numTel"),
+        fetchTranslation().then(
+            () => {
+                setLoading(false);
             }
-            setUserInfos(user);
-        }
-
-        fetchInfoUser().then();
-
-    }, [theLanguage, loading, isAdmin, isError, isSuccess, router]);
+        );
+    }, [theLanguage]);
 
     return (
         <html lang={lng}>
@@ -104,28 +93,29 @@ export default function RootLayout({children, params: {lng}}: { children: React.
         <TranslationContext.Provider value={{translation}}>
             <IsErrorContext.Provider value={{isError, setError}}>
                 <IsSuccessContext.Provider value={{isSuccess, setSuccess}}>
-                    <IsAdminContext.Provider value={{isAdmin, setIsAdmin}}>
-                        <UserInfoContext.Provider value={{userInfos, setUserInfos}}>
-                            <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
-                                <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
-                                    <LoaderContext.Provider value={{loading, setLoading}}>
-                                        {isError ? <ErrorsManagement data={isError}/> : null}
-                                        {isSuccess ? <SuccessManagement/> : null}
-                                        <body>
-                                        <main>
-                                            {loading ? <Loader/> : null}
-                                            {children}
-                                        </main>
-                                        </body>
-                                    </LoaderContext.Provider>
-                                </IsOpenContext.Provider>
-                            </NavbarContext.Provider>
-                        </UserInfoContext.Provider>
-                    </IsAdminContext.Provider>
+                    <PopupNotifyContext.Provider value={{popupNotify, setPopupNotify}}>
+                        <NavbarContext.Provider value={{theLanguage, setTheLanguage}}>
+                            <IsOpenContext.Provider value={{isOpen, setIsOpen}}>
+                                <Elements stripe={stripePromise}>
+                                    {isError ? <ErrorsManagement data={isError}/> : null}
+                                    {isSuccess ? <SuccessManagement/> : null}
+                                    {popupNotify ? <NotifyManagement/> : null}
+                                    <body>
+                                    <main>
+                                        {isLoading ?
+                                            <Loader/>
+                                            :
+                                            children
+                                        }
+                                    </main>
+                                    </body>
+                                </Elements>
+                            </IsOpenContext.Provider>
+                        </NavbarContext.Provider>
+                    </PopupNotifyContext.Provider>
                 </IsSuccessContext.Provider>
             </IsErrorContext.Provider>
         </TranslationContext.Provider>
         </html>
-    )
-        ;
+    );
 }
