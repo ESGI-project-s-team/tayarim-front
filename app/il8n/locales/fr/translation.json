@@ -220,14 +220,11 @@
   "management_placeholder": "GESTION",
   "management_sidenav": [
     "Propriétaires",
-    "Logements",
-    "Annonces",
-    "Tâches"
+    "Logements"
   ],
   "others_placeholder": "AUTRES",
   "others_sidenav": [
     "Réservations",
-    "Virement Bancaire",
     "Dépenses"
   ],
   "email_placeholder_form": "Entrez adresse email",

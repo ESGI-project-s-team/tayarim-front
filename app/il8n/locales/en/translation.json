@@ -197,14 +197,11 @@
   "management_placeholder": "MANAGEMENT",
   "management_sidenav": [
     "Owners",
-    "Housing",
-    "Announcements",
-    "Tasks"
+    "Housing"
   ],
   "others_placeholder": "OTHERS",
   "others_sidenav": [
     "Reservations",
-    "Bank Transfer",
     "Expenses"
   ],
   "email_placeholder_form": "Enter email address",

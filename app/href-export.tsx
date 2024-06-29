@@ -9,7 +9,6 @@ const icon_management: string[] = [
 ]
 const icon_others: string[] = [
     "/dashboard/reservation",
-    "",
     "/dashboard/expense",
 ]
 
