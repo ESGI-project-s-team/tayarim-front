@@ -1,4 +1,6 @@
 {
+  "Images": "Images (optional)",
+  "filter_by": "Filter by",
   "candidate_desc": "Would you like to benefit from our services ?",
   "start_now": "Start now !",
   "montant": "Amount",
@@ -223,7 +225,7 @@
   "minimum_nights_label": "Minimum number of nights is ",
   "merci": "Thank you for your reservation !",
   "merci_description": "You will receive a confirmation email shortly.",
-  "merci_reclamation": "For any claim, you can go to the \"My reservation\" page with your reservation code.",
+  "merci_reclamation": "For any claim, you can go to the \"Modify my reservation\" page with your reservation code.",
   "retour_home": "Back to home",
   "no_action": "No action possible",
   "new_password_placeholder": "New password",

@@ -227,7 +227,7 @@ const SideNavBarSearch: React.FC<{
                         :
                         <>
                             <div className={"py-2 rounded-t-md"}>
-                                <h3 className="ml-4 text-base font-semibold text-white">Filtrer par </h3>
+                                <h3 className="ml-4 text-base font-semibold text-white">{translation?.t('filter_by')} </h3>
                             </div>
                             <div className="rounded-b-md">
                                 <h3 className="mb-4 ml-4 text-sm font-semibold text-[#8a99af] mt-5">{translation?.t('price')}</h3>

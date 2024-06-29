@@ -247,7 +247,7 @@ const ListReservations: React.FC = () => {
                                 <div className="max-w-full">
                                     <div className="min-w-[1170px]">
                                         <div
-                                            className="grid grid-cols-20 bg-[#F9FAFB] px-5 py-4 gap-x-20 w-fit">
+                                            className="grid grid-cols-20 bg-[#F9FAFB] px-5 py-4 gap-x-20 min-w-fit ">
                                             <div
                                                 className="col-span-3 flex items-center justify-center">
                                                 <p
@@ -378,13 +378,13 @@ const ReservationRow = ({
     const {isAdmin} = useAdminContext();
 
     return (
-        <div className="grid grid-cols-20 border-t px-5 py-4 gap-x-20 w-fit">
+        <div className="grid grid-cols-20 border-t px-5 py-4 gap-x-20 min-w-fit ">
             {
                 reservation.statut === 'reserved' && isAdmin ?
                     <div className={"col-span-3 flex flex-row justify-center"}>
                         <Popover className="relative">
                             <PopoverButton
-                                className="px-2 py-1 bg-[#3c50e0] text-white rounded focus:outline-none text-sm flex">
+                                className="px-2 py-1 bg-[#3c50e0] text-white rounded focus:outline-none text-sm flex ">
                                 Actions
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      strokeWidth="1.5" stroke="currentColor" className="size-4  ml-2 mt-0.5">

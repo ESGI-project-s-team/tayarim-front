@@ -80,7 +80,11 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
     const [housingAmenities, setHousingAmenities] = useState<any[]>([]);
     const [selectedHousingAmenities, setSelectedHousingAmenities] = useState<any>([]);
     const [selectedHousingRules, setSelectedHousingRules] = useState<any>([]);
-
+    useEffect(() => {
+        if (housingData.prixParNuit === 1) {
+            handleInputChange('prixParNuit', null);
+        }
+    }, [housingData.prixParNuit]);
     useEffect(() => {
         if (housingData.amenagements) {
             let keysAmenagements = Object.keys(housingData.amenagements);
@@ -751,7 +755,7 @@ export default function ModalUpdateHousing({isOpen, onClose, housingData, getAll
                                 className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
                                 type="number"
                                 min="1"
-                                value={formValues.prixParNuit === 1 ? '' : formValues.prixParNuit ?? ''}
+                                value={formValues.prixParNuit ?? ''}
                                 onChange={(e) => handleInputChange('prixParNuit', parseFloat(e.target.value))}
                             />
                         </div>

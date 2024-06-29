@@ -321,12 +321,12 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                 return formValues.isLouable ?
                     (formValues.nombresDeChambres !== null && formValues.nombresDeChambres > 0 && formValues.nombresDeLits !== null && formValues.nombresDeLits > 0 && formValues.nombresSallesDeBains !== null && formValues.nombresSallesDeBains > 0 && selectedHousingRules.length > 0
                         && selectedHousingAmenities.length > 0)
-                    : formValues.description !== null && formValues.description.trim() !== '';
+                    : formValues.description !== null && formValues.description.trim() !== '' && formValues.prixParNuit !== null && formValues.prixParNuit > 0;
             case 5:
                 return formValues.capaciteMaxPersonne !== null && formValues.capaciteMaxPersonne > 0 && formValues.nombresNuitsMin !== null && formValues.nombresNuitsMin > 0 && formValues.defaultCheckIn && formValues.defaultCheckOut && formValues.prixParNuit !== null && formValues.prixParNuit > 0
                     ;
             case 6:
-                return formValues.description !== null && formValues.description.trim() !== '';
+                return formValues.description !== null && formValues.description.trim() !== '' && formValues.files.length > 0;
             default:
                 return false;
         }
@@ -588,6 +588,47 @@ export default function ModalAddHousing({isOpen, onClose, getAllHousing}: {
                     </div>
                 ) : (
                     <div className="mb-5 flex flex-col gap-6">
+                        <div className="w-full">
+                            <label className="mb-3 block text-sm font-medium text-black">
+                                {translation?.t('Images')}
+                            </label>
+                            <input
+                                type="file"
+                                multiple
+                                onChange={handleImageUpload}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                            />
+                            <div className="mt-4 flex flex-wrap gap-4">
+                                {formValues.files.map((image: Blob | MediaSource, index: Key | null | undefined) => (
+                                    <div key={index} className="relative">
+                                        <img
+                                            src={URL.createObjectURL(image)}
+                                            alt={`Upload Preview ${index}`}
+                                            className="h-20 w-20 object-cover rounded"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => handleImageDelete(index)}
+                                            className="absolute top-0 right-0 p-0.5 text-white bg-red-500 rounded-full"
+                                        >
+                                            <XCircleIcon className="w-5 h-5"/>
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="w-full">
+                            <label
+                                className="mb-3 block text-sm font-medium text-black">{translation?.t('montant')}</label>
+                            <input
+                                placeholder={translation?.t('montant')}
+                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                type="number"
+                                min="1"
+                                value={formValues.prixParNuit || ''}
+                                onChange={(e) => handleInputChange('prixParNuit', parseFloat(e.target.value))}
+                            />
+                        </div>
                         <div className="w-full">
                             <label
                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('description')}</label>

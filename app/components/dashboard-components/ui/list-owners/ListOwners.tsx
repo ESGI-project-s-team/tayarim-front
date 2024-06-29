@@ -169,7 +169,7 @@ const ListOwners: React.FC = () => {
                                             </svg>
                                         </div>
                                         <div
-                                            className="col-span-1 items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-10
+                                            className="col-span-1 items-center flex text-sm text-red-600 hover:underline cursor-pointer ml-14
                                             w-fit"
                                             onClick={() =>
                                                 openModalDelete(

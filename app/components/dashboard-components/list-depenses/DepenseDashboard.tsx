@@ -213,7 +213,7 @@ const DepenseDashboard: React.FC = () => {
                                                     fill=""
                                                 ></path>
                                             </svg>
-                                            {translation?.t('form_add_reservation')}
+                                            {translation?.t('form_add_depense')}
                                         </button>
                                     )}
                                 </div>

@@ -1,4 +1,6 @@
 {
+  "Images": "Images (optionnel)",
+  "filter_by": "Filtrer par",
   "candidate_desc": "Vous souhaitez bénéficier de nos services ?",
   "start_now": "Commencez dès maintenant !",
   "montant": "Montant",
@@ -150,7 +152,7 @@
   "minimum_nights_label": "Nombre de nuits minimum ",
   "merci": "Merci pour votre réservation !",
   "merci_description": "Vous recevrez un email de confirmation dans quelques instants.",
-  "merci_reclamation": "Pour toute réclamation, vous pouvez vous rendre sur la page \"Ma réservation\" avec votre code de réservation.",
+  "merci_reclamation": "Pour toute réclamation, vous pouvez vous rendre sur la page \"Modifier ma réservation\" avec votre code de réservation.",
   "retour_home": "Retour à l'accueil",
   "no_action": "Aucune action possible",
   "end_date": "Date de fin",
