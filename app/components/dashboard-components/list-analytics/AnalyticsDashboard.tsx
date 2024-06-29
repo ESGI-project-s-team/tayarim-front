@@ -163,30 +163,73 @@ export const AnalyticsDashboard: React.FC = () => {
         }
     };
     const optionsDonut: ApexOptions = {
+
         chart: {
-            width: 500,
-            type: 'donut',
+            type: 'bar',
+            height: 440,
+            stacked: true
+        },
+        colors: ['#FF4560', '#3c50e0'],
+        plotOptions: {
+            bar: {
+                borderRadius: 5,
+                borderRadiusApplication: 'end', // 'around', 'end'
+                borderRadiusWhenStacked: 'all', // 'all', 'last'
+                horizontal: true,
+                barHeight: '80%',
+            },
         },
         dataLabels: {
             enabled: false
         },
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
+        stroke: {
+            width: 1,
+            colors: ["#fff"]
+        },
+
+        grid: {
+            xaxis: {
+                lines: {
                     show: false
                 }
             }
-        }],
-        // titre logements
-        labels: ["Comedy", "Action", "SciFi", "Drama"],
+        },
+        yaxis: {
+            seriesName: month_complete,
+            stepSize: 1,
+
+            //set name of the series
+            labels: {
+                show: true,
+                formatter: function () {
+                    return month_complete
+                }
+            }
+        },
+        tooltip: {
+            shared: false,
+            x: {
+                formatter: function (val) {
+                    return Math.abs(val) + "%"
+                }
+            },
+            y: {
+                formatter: function (val) {
+                    return Math.abs(val) + "%"
+                }
+            }
+        },
+        title: {
+            text: 'Mauritius population pyramid 2011'
+        },
+
+        xaxis: {
+            labels: {
+                show: false
+            }
+        },
         legend: {
-            position: 'right',
-            offsetY: 0,
-            height: 230,
+            show: false
         }
     };
     const optionsRadialBar = {
@@ -195,6 +238,7 @@ export const AnalyticsDashboard: React.FC = () => {
             type: 'radialBar',
         },
         plotOptions: {
+
             radialBar: {
                 size: undefined, // Utilisation de la taille par défaut
                 hollow: {
@@ -217,6 +261,16 @@ export const AnalyticsDashboard: React.FC = () => {
         },
         legend: {
             show: true,
+            colors: ["#3c50e0"],
+            fontSize: '12px',
+            labels: {
+                colors: "#3c50e0",
+                useSeriesColors: false
+            },
+            markers: {
+                width: 10,
+                color: '#3c50e0',
+            },
 
         },
         labels: month_complete,
@@ -237,7 +291,16 @@ export const AnalyticsDashboard: React.FC = () => {
         }
     ];
     //reservation by housing
-    const seriesDonut = [10, 41, 10, 41, 10, 41, 10, 41, 10, 41, 10, 41];
+    const seriesDonut = [
+        {
+            name: 'Males',
+            data: [-1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12]
+        },
+        {
+            name: 'Females',
+            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        }
+    ]
 
     return (
         <div className="bg-[#f1f5f9] h-screen overflow-y-auto   ">
@@ -275,11 +338,11 @@ export const AnalyticsDashboard: React.FC = () => {
                         <ReactApexChart options={options} series={series} type="line" height={200}/>
                     </div>
                     <div className={"flex justify-evenly mt-10 gap-x-10 "}>
-                        <div className={" py-5 rounded-lg bg-white shadow-xl mb-10 max-h-[300px]"}>
-                            <ReactApexChart options={optionsDonut} series={seriesDonut} type="donut" height={250}
+                        <div className={" py-5 rounded-lg bg-white shadow-xl mb-10 max-h-[400px]"}>
+                            <ReactApexChart options={optionsDonut} series={seriesDonut} type="bar" height={350}
                                             width={500}/>
                         </div>
-                        <div className={" py-5 rounded-lg bg-white shadow-xl mb-10"}>
+                        <div className={"py-5 rounded-lg bg-white shadow-xl mb-10"}>
                             <ReactApexChart options={optionsRadialBar} series={seriesDonut} type="radialBar"
                                             height={400}
                                             width={500}/>
