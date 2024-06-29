@@ -22,7 +22,7 @@ const DepenseDashboard: React.FC = () => {
     const {translation} = useTranslationContext();
     const {theLanguage} = useNavbarContext();
     const month_complete = translation?.t('month_complete', {returnObjects: true}) ?? [];
-    const [data, setData] = useState<any>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const [data, setData] = useState<any>({});
     const [depenses, setDepenses] = useState<any>([]);
     const [filteredDepenses, setFilteredDepenses] = useState<any>([]);
     const [depenseCurrent, setDepenseCurrent] = useState<any>(null);
@@ -35,23 +35,34 @@ const DepenseDashboard: React.FC = () => {
     const {isAdmin} = useAdminContext();
     const [isLoading, setLoading] = useState(false);
     const [isFilterActive, setIsFilterActive] = useState(false);
-    const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
+    const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
+    const [selectedYear, setSelectedYear] = useState<number | null>(new Date().getFullYear());
+    const [availableYears, setAvailableYears] = useState<number[]>([]);
+
     const getAllDep = useCallback(() => {
         setLoading(true);
         getAllDepensesInFun()
             .then((response) => {
-                let depensesMonth = Array(12).fill(0);
+                let depensesByMonthYear: any = {};
+                let years = new Set<number>();
                 if (response.errors) {
                     return;
                 }
-                response.map((response: any) => {
-                    let date = new Date(response.date);
+                response.forEach((depense: any) => {
+                    let date = new Date(depense.date);
+                    let year = date.getFullYear();
                     let month = date.getMonth();
-                    depensesMonth[month] += response.prix;
+                    let key = `${year}-${month}`;
+                    if (!depensesByMonthYear[key]) {
+                        depensesByMonthYear[key] = 0;
+                    }
+                    depensesByMonthYear[key] += depense.prix;
+                    years.add(year);
                 });
-                setData(depensesMonth);
+                setData(depensesByMonthYear);
                 setDepenses(response);
                 setFilteredDepenses(response);
+                setAvailableYears(Array.from(years));
                 setLoading(false);
             });
     }, []);
@@ -95,10 +106,11 @@ const DepenseDashboard: React.FC = () => {
         setIsOpenDelete(false);
     }
 
-    const filterDepensesByMonth = (month: number) => {
+    const filterDepensesByMonthYear = (key: string) => {
+        const [year, month] = key.split('-').map(Number);
         const filtered = depenses.filter((depense: any) => {
             let date = new Date(depense.date);
-            return date.getMonth() === month;
+            return date.getFullYear() === year && date.getMonth() === month;
         });
         setFilteredDepenses(filtered);
         setIsFilterActive(true);
@@ -107,6 +119,23 @@ const DepenseDashboard: React.FC = () => {
     const resetFilter = () => {
         setFilteredDepenses(depenses);
         setIsFilterActive(false);
+    };
+
+    const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedYear(Number(event.target.value));
+    };
+
+    const getMonthlyDataForSelectedYear = () => {
+        const monthlyData = Array(12).fill(0);
+        if (selectedYear !== null) {
+            for (let month = 0; month < 12; month++) {
+                const key = `${selectedYear}-${month}`;
+                if (data[key]) {
+                    monthlyData[month] = data[key];
+                }
+            }
+        }
+        return monthlyData;
     };
 
     const options: ApexOptions = {
@@ -125,14 +154,13 @@ const DepenseDashboard: React.FC = () => {
             type: 'bar',
             events: {
                 dataPointSelection: (event, chartContext, config) => {
-                    const month = config.dataPointIndex;
-                    if (selectedMonth === month) {
+                    const selectedKey = `${selectedYear}-${config.dataPointIndex}`;
+                    if (selectedMonth === selectedKey) {
                         resetFilter();
                         setSelectedMonth(null);
                     } else {
-                        // If a new month is clicked, apply the filter
-                        filterDepensesByMonth(month);
-                        setSelectedMonth(month)
+                        filterDepensesByMonthYear(selectedKey);
+                        setSelectedMonth(selectedKey);
                     }
                 }
             }
@@ -164,7 +192,7 @@ const DepenseDashboard: React.FC = () => {
     const series = [
         {
             name: translation?.t('Depense'),
-            data: data
+            data: getMonthlyDataForSelectedYear()
         }
     ];
 
@@ -176,6 +204,14 @@ const DepenseDashboard: React.FC = () => {
                         <h2 className="text-2xl font-semibold text-black ml-2">
                             {translation?.t('Depense')}
                         </h2>
+                    </div>
+                    <div className="mb-4 relative top-32">
+                        <select onChange={handleYearChange} value={selectedYear ?? ''}
+                                className="p-2 bg-white border border-gray-300 rounded min-w-32">
+                            {availableYears.map(year => (
+                                <option key={year} value={year}>{year}</option>
+                            ))}
+                        </select>
                     </div>
                     <div className="mb-10 relative top-32">
                         <ReactApexChart options={options} series={series} type="bar" height={200}/>
@@ -218,7 +254,7 @@ const DepenseDashboard: React.FC = () => {
                                     )}
                                 </div>
                                 <div
-                                    className="relative border bg-white top-32 rounded-[10px] stroke-2 max-h-[40vh] overflow-auto">
+                                    className="relative border bg-white top-32 rounded-[10px] stroke-2 max-h-[30vh] overflow-auto">
                                     <div className="max-w-full">
                                         <div className="min-w-[1170px]">
                                             <div className="grid grid-cols-12 bg-[#F9FAFB] px-5 py-4">
