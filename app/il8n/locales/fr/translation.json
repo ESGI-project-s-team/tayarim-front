@@ -1,4 +1,5 @@
 {
+  "Invoice": "Facturation",
   "Images": "Images (optionnel)",
   "filter_by": "Filtrer par",
   "candidate_desc": "Vous souhaitez bénéficier de nos services ?",
@@ -196,6 +197,8 @@
   "form_edit_reservation": "Modifier la réservation",
   "form_edit_owner": "Modifier le propriétaire",
   "form_edit_housing": "Modifier le logement",
+  "month_invoice": "Mois de la facture",
+  "form_add_invoice": "Générer une facture",
   "form_add_owner": "Ajouter un propriétaire",
   "form_add_housing": "Ajouter un logement",
   "form_add_reservation": "Ajouter une réservation",

@@ -1,4 +1,5 @@
 {
+  "Invoice": "Invoice",
   "Images": "Images (optional)",
   "filter_by": "Filter by",
   "candidate_desc": "Would you like to benefit from our services ?",
@@ -172,6 +173,8 @@
   "form_edit_reservation": "Edit reservation",
   "form_edit_owner": "Edit owner",
   "form_edit_housing": "Edit housing",
+  "form_add_invoice": "Generate invoice",
+  "month_invoice": "Month of the invoice",
   "form_add_reservation": "Add reservation",
   "form_add_owner": "Add owner",
   "form_add_housing": "Add housing",
