@@ -14,7 +14,7 @@ export const AnalyticsDashboard: React.FC = () => {
     const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
     const [availableYears] = useState<number[]>([new Date().getFullYear() - 1, new Date().getFullYear(), new Date().getFullYear() + 1]);
     const [loading, setLoading] = useState(true);
-    const {setErrors} = useIsErrorContext();
+    const {setError} = useIsErrorContext();
     const [dataStat, setDataStat] = useState<any>({});
     const [negativePositive, setNegativePositive] = useState<any>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const [sumMontantReservation, setSumMontantReservation] = useState<number>(0);
@@ -28,7 +28,7 @@ export const AnalyticsDashboard: React.FC = () => {
         setLoading(true);
         getAllStatistiqueInFun(selectedYear).then((data) => {
             if (data.errors) {
-                setErrors(data.errors);
+                setError(data.errors);
                 return;
             }
             setDataStat(data);
@@ -41,7 +41,7 @@ export const AnalyticsDashboard: React.FC = () => {
         }).finally(() => {
             setLoading(false);
         });
-    }, [selectedYear, setErrors]);
+    }, [selectedYear, setError]);
 
     const optionsLineExpense: ApexOptions = useMemo(() => ({
         title: {
