@@ -1,4 +1,8 @@
 {
+  "reservation_by_month": "Réservations par mois",
+  "expense_and_reservation": "Dépenses et réservations par mois",
+  "occupation_rate_by_month": "Taux d'occupation par mois",
+  "average": "Total différence",
   "Analytics": "Statistiques",
   "Invoice": "Facturation",
   "Images": "Images (optionnel)",

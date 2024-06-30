@@ -1,5 +1,5 @@
 const icon_menu: string[] = [
-    "/dashboard/analytics",
+    "/dashboard",
     "/dashboard/planning",
     "/dashboard/invoice",
 ]

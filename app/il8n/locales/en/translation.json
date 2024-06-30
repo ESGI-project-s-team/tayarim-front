@@ -205,6 +205,10 @@
     "Reservations",
     "Expenses"
   ],
+  "reservation_by_month": "Reservation by month",
+  "expense_and_reservation": "Expenses and reservations by month",
+  "occupation_rate_by_month": "Occupation rate by month",
+  "average": "Total difference",
   "email_placeholder_form": "Enter email address",
   "first_name_placeholder_form": "Enter first name",
   "housing_type_placeholder": "Select a housing type",
