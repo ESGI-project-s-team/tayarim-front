@@ -112,20 +112,19 @@ export default function ModalAddInvoice({isOpen, onClose, getAllOwners}: {
             return fullName.toLowerCase().includes(query.toLowerCase());
         });
 
-    const handleActionCreateOwner = async () => {
+    const handleActionCreateInvoice = async () => {
         setLoading(true);
-        console.log(formValues)
         try {
             createInvoiceInFun(formValues).then((response) => {
-                if (response.errors) {
-                    setError(response.errors);
-                } else {
-                    //getAllOwners();
-                    setError(null);
-                    onClose(); // Close the modal
-                    setSuccess(true);
-                }
                 setLoading(false);
+                if (typeof response !== "boolean" && response?.errors) {
+                    setError(response.errors);
+                    return;
+                }
+                setError(null);
+                onClose(); // Close the modal
+                setSuccess(true);
+
             }); // Pass the updated form values
         } catch (error) {
             setLoading(false);
@@ -252,7 +251,7 @@ export default function ModalAddInvoice({isOpen, onClose, getAllOwners}: {
                                                     <button
                                                         type="button"
                                                         ref={focusElementRef}
-                                                        onClick={handleActionCreateOwner}
+                                                        onClick={handleActionCreateInvoice}
                                                         disabled={isButtonDisabled}
                                                         className={`flex w-full justify-center rounded p-3 font-medium text-white ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3c50e0] hover:bg-opacity-90'}`}
                                                     >

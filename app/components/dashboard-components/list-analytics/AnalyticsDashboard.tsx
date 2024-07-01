@@ -476,10 +476,13 @@ export const AnalyticsDashboard: React.FC = () => {
                         fontSize: '20px',
                         formatter: function () {
                             const listData = dataStat.tauxOccupationParMois;
-                            //sum of all percentage values for each month
-                            const total = listData.reduce((a: number, b: number) => a + b, 0) / listData.length;
-                            // arround the total value
-                            return Math.round(total) + '%';
+                            const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // pour une année non bissextile
+
+                            const totalWeighted = listData.reduce((sum: any, rate: any, index: any) => sum + (rate * daysInMonth[index]), 0);
+                            const totalDays = daysInMonth.reduce((sum, days) => sum + days, 0);
+
+                            const averageRate = totalWeighted / totalDays;
+                            return Math.round(averageRate) + '%';
                         }
                     }
                 }
@@ -501,6 +504,7 @@ export const AnalyticsDashboard: React.FC = () => {
     }), [dataStat.tauxOccupationParMois, month_complete, translation]);
 
     const seriesLineReservation = useMemo(() => [{
+        name: translation?.t('Reservation'),
         data: dataStat.montantReservationsParMois
     }], [dataStat.montantReservationsParMois]);
 
