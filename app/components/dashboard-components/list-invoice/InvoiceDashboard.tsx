@@ -11,6 +11,7 @@ import ModalSendInvoice from "@/app/components/modal/modal-send-invoice/ModalSen
 import {getByIdOwner} from "@/utils/apiOwner";
 import {ProprietaireDTO} from "@/app/model/Owner";
 import ModalInfoOwner from "@/app/components/modal/modal-info-owner/ModalInfoOwner";
+import ModalDeleteInvoice from "@/app/components/modal/modal-delete-invoice/ModalDeleteInvoice";
 
 export const InvoiceDashboard: React.FC = () => {
     const {translation} = useTranslationContext();
@@ -18,6 +19,7 @@ export const InvoiceDashboard: React.FC = () => {
     const [isOpenCreate, setIsOpenCreate] = React.useState(false);
     const [isOpenSend, setIsOpenSend] = React.useState(false);
     const [isOpenInfoOwner, setIsOpenInfoOwner] = React.useState(false);
+    const [isOpenDelete, setIsOpenDelete] = React.useState(false);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [dataAllInvoice, setDataAllInvoice] = useState([] as any);
@@ -64,6 +66,7 @@ export const InvoiceDashboard: React.FC = () => {
         setIsOpenCreate(false);
         setIsOpenSend(false);
         setIsOpenInfoOwner(false);
+        setIsOpenDelete(false);
     }
 
     function openModalInfoOwner(id: number) {
@@ -233,7 +236,13 @@ export const InvoiceDashboard: React.FC = () => {
                                                                         <p className="font-medium ml-2">{translation?.t('send')}</p>
                                                                     </div>
                                                                     <div
-                                                                        className={" text-red-600 flex ml-10 hover:underline cursor-pointer"}>
+                                                                        className={" text-red-600 flex ml-10 hover:underline cursor-pointer"}
+                                                                        onClick={
+                                                                            () => {
+                                                                                setIsOpenDelete(true);
+                                                                                setIdInvoiceSelected(invoice.id);
+                                                                            }
+                                                                        }>
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                              fill="none" viewBox="0 0 24 24"
                                                                              strokeWidth={1.5} stroke="currentColor"
@@ -269,6 +278,11 @@ export const InvoiceDashboard: React.FC = () => {
             {
                 isOpenInfoOwner &&
                 <ModalInfoOwner isOpen={isOpenInfoOwner} onClose={closeModal} user={ownerSlected}/>
+            }
+            {
+                isOpenDelete &&
+                <ModalDeleteInvoice isOpen={isOpenDelete} onClose={closeModal} id={idInvoiceSleected ?? ''}
+                                    getAllInvoice={getAllInv}/>
             }
         </>
     );
