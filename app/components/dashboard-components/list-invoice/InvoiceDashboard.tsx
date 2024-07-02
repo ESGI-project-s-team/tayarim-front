@@ -67,6 +67,7 @@ export const InvoiceDashboard: React.FC = () => {
         setOpenStates((prev: any) => ({
             ...prev,
             [date]: !prev[date],
+            [date]: !prev[date],
         }));
     };
 
@@ -179,12 +180,13 @@ export const InvoiceDashboard: React.FC = () => {
                                 className=" w-full max-w-3xl divide-y divide-gray-200 rounded-xl max-h-[60vh] overflow-y-auto ">
                                 {Object.keys(groupedInvoices).map((date) => (
                                     <Disclosure as="div" className="p-6" key={date}>
-                                        <DisclosureButton className="group flex w-full items-center ">
+                                        <DisclosureButton className="group flex w-full items-center "
+                                                          onClick={() => toggleOpen(date)}
+                                        >
                                             <p className="text-lg font-medium  group-hover:text-gray-700">
                                                 {months[dayjs(date).month()]}, {dayjs(date).year()}
                                             </p>
                                             <ChevronDownIcon
-                                                onClick={() => toggleOpen(date)}
                                                 className={`size-5 fill-gray-600 group-hover:fill-gray-500 ml-5 transition-transform duration-300 ${
                                                     openStates[date] ? 'transform rotate-180' : 'rotate-0'
                                                 }`}
