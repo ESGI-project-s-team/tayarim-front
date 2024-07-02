@@ -1,11 +1,19 @@
 "use server";
-import {getAllInvoice} from "@/utils/apiInvoice";
+import {getAllInvoice, sendInvoice} from "@/utils/apiInvoice";
 
 
 export async function getAllInvoiceInFun() {
     try {
         return await getAllInvoice();
     } catch (error: any) {
-        throw new Error(error);
+        return {errors: ["error_occurred"]};
+    }
+}
+
+export async function sendInvoiceInFun(id: number) {
+    try {
+        return await sendInvoice(id);
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
     }
 }

@@ -66,7 +66,6 @@ export default function ModalAddInvoice({isOpen, onClose, getAllInvoice}: {
     };
     useEffect(() => {
         const allFieldsFilled = Object.values(formValues).every(value => value !== "" && value !== null && value !== undefined);
-        console.log('allFieldsFilled', allFieldsFilled, formValues)
         setButtonDisabled(!(allFieldsFilled));
     }, [formValues]);
     useEffect(() => {

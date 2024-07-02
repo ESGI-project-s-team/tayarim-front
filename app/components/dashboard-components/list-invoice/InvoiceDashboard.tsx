@@ -7,13 +7,17 @@ import DatePicker from "react-datepicker";
 import {getAllInvoiceInFun} from "@/app/components/dashboard-components/list-invoice/actions";
 import SpinnerDashboard from "@/app/components/ui/SpinnerDashboard";
 import dayjs from "dayjs";
-import DateFormaterEnFr from "@/app/components/dashboard-components/ui/DateFormaterEnFr";
-import {getAllDepensesInFun} from "@/app/components/dashboard-components/list-depenses/actions";
+import ModalSendInvoice from "@/app/components/modal/modal-send-invoice/ModalSendInvoice";
+import {getByIdOwner} from "@/utils/apiOwner";
+import {ProprietaireDTO} from "@/app/model/Owner";
+import ModalInfoOwner from "@/app/components/modal/modal-info-owner/ModalInfoOwner";
 
 export const InvoiceDashboard: React.FC = () => {
     const {translation} = useTranslationContext();
     const {isAdmin} = useAdminContext();
     const [isOpenCreate, setIsOpenCreate] = React.useState(false);
+    const [isOpenSend, setIsOpenSend] = React.useState(false);
+    const [isOpenInfoOwner, setIsOpenInfoOwner] = React.useState(false);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [dataAllInvoice, setDataAllInvoice] = useState([] as any);
@@ -34,7 +38,8 @@ export const InvoiceDashboard: React.FC = () => {
             }
         ).finally(() => setIsLoading(false));
     }, [setError]);
-
+    const [idInvoiceSleected, setIdInvoiceSelected] = useState(null);
+    const [ownerSlected, setOwnerSelected] = useState<ProprietaireDTO>({} as ProprietaireDTO);
     useEffect(() => {
         getAllInv();
     }, [getAllInv]);
@@ -57,6 +62,20 @@ export const InvoiceDashboard: React.FC = () => {
 
     function closeModal() {
         setIsOpenCreate(false);
+        setIsOpenSend(false);
+        setIsOpenInfoOwner(false);
+    }
+
+    function openModalInfoOwner(id: number) {
+        getByIdOwner(id.toString()).then((response) => {
+            if (response.errors) {
+                setError(response.errors);
+                return;
+            } else {
+                setOwnerSelected(response);
+                setIsOpenInfoOwner(true);
+            }
+        });
     }
 
     const handleChangeDate = (date: any) => {
@@ -165,7 +184,12 @@ export const InvoiceDashboard: React.FC = () => {
                                                             <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                                                                 <div className="flex gap-x-10 items-center">
                                                                     <div className=" max-w-36 overflow-auto no-scrollbar flex
-                                                                    text-[#3c50e0] hover:underline cursor-pointer text-nowrap">
+                                                                    text-[#3c50e0] hover:underline cursor-pointer text-nowrap"
+                                                                         onClick={
+                                                                             () => {
+                                                                                 openModalInfoOwner(invoice.idProprietaire);
+                                                                             }
+                                                                         }>
                                                                         <p className="text-sm ">
                                                                             {invoice.prenomProprietaire} {invoice.nomProprietaire}
                                                                         </p>
@@ -192,7 +216,11 @@ export const InvoiceDashboard: React.FC = () => {
                                                                 </div>
                                                                 <div className="flex">
                                                                     <div
-                                                                        className={" text-[#3c50e0] flex hover:underline cursor-pointer"}>
+                                                                        className={" text-[#3c50e0] flex hover:underline cursor-pointer"}
+                                                                        onClick={() => {
+                                                                            setIsOpenSend(true);
+                                                                            setIdInvoiceSelected(invoice.id);
+                                                                        }}>
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                              fill="none"
                                                                              viewBox="0 0 24 24" strokeWidth={1.5}
@@ -233,6 +261,14 @@ export const InvoiceDashboard: React.FC = () => {
             {
                 isOpenCreate &&
                 <ModalAddInvoice isOpen={isOpenCreate} onClose={closeModal} getAllInvoice={getAllInv}/>
+            }
+            {
+                isOpenSend &&
+                <ModalSendInvoice isOpen={isOpenSend} onClose={closeModal} id={idInvoiceSleected}/>
+            }
+            {
+                isOpenInfoOwner &&
+                <ModalInfoOwner isOpen={isOpenInfoOwner} onClose={closeModal} user={ownerSlected}/>
             }
         </>
     );

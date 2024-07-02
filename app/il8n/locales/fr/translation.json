@@ -5,6 +5,8 @@
   "average": "Total différence",
   "select_month": "Sélectionner un mois",
   "clear_filter": "Effacer le filtre",
+  "send_invoice": "Envoyer la facture",
+  "warn_send_invoice": "Êtes-vous sûr de vouloir envoyer cette facture ? Cette action ne peut pas être annulée.",
   "Analytics": "Statistiques",
   "Invoice": "Facturation",
   "Images": "Images (optionnel)",

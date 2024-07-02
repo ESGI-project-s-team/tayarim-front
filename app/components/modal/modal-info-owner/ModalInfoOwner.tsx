@@ -1,6 +1,5 @@
 import React, {Fragment} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
-import TooltipPersonalized from "@/app/components/ui/TooltipPersonalized";
 import {useTranslationContext} from "@/app/[lng]/hooks";
 import {ProprietaireDTO} from "@/app/model/Owner";
 

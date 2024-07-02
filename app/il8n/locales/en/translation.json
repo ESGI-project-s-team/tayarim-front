@@ -210,6 +210,8 @@
   "occupation_rate_by_month": "Occupation rate by month",
   "select_month": "Select a month",
   "clear_filter": "Clear filter",
+  "send_invoice": "Send invoice",
+  "warn_send_invoice": "Are you sure you want to send the invoice to the owner ? This action cannot be undone.",
   "average": "Total difference",
   "email_placeholder_form": "Enter email address",
   "first_name_placeholder_form": "Enter first name",
