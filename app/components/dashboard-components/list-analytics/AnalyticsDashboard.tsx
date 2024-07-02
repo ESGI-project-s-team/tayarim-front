@@ -10,7 +10,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {ssr: false});
 
 export const AnalyticsDashboard: React.FC = () => {
     const {translation} = useTranslationContext();
-    const month_complete = translation?.t('month_complete', {returnObjects: true}) ?? [];
+    const month_complete = useMemo(() => translation?.t('month_complete', {returnObjects: true}) ?? [], [translation]);
     const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
     const [availableYears] = useState<number[]>([new Date().getFullYear() - 1, new Date().getFullYear(), new Date().getFullYear() + 1]);
     const [loading, setLoading] = useState(true);
@@ -25,7 +25,6 @@ export const AnalyticsDashboard: React.FC = () => {
     };
 
     useEffect(() => {
-        setLoading(true);
         getAllStatistiqueInFun(selectedYear).then((data) => {
             if (data.errors) {
                 setError(data.errors);
@@ -506,7 +505,7 @@ export const AnalyticsDashboard: React.FC = () => {
     const seriesLineReservation = useMemo(() => [{
         name: translation?.t('Reservation'),
         data: dataStat.montantReservationsParMois
-    }], [dataStat.montantReservationsParMois]);
+    }], [dataStat.montantReservationsParMois, translation]);
 
     const seriesLineExpense = useMemo(() => [{
         name: translation?.t('Depense'),
