@@ -125,28 +125,29 @@ export const InvoiceDashboard: React.FC = () => {
                     </div>
                     <div className=" relative my-auto top-32 ">
                         <div className="relative  w-full flex justify-end mb-2 mt-10 px-4">
-                            {
-                                isAdmin &&
-                                <div className={"flex justify-between w-full gap-x-10  items-center"}>
-                                    <div className="flex items-center gap-2">
-                                        <DatePicker
-                                            id="datePicker"
-                                            selected={selectedDate}
-                                            showMonthYearPicker
-                                            dateFormat="MMM, yyyy"
-                                            onChange={handleChangeDate}
-                                            onChangeRaw={handleFocus}
-                                            onFocus={handleFocus}
-                                            locale={locale}
-                                            className="border-1 border-solid border-gray-300 rounded-md cursor-pointer"
-                                            placeholderText={translation?.t('select_month')}
-                                        />
-                                        <button
-                                            onClick={clearFilter}
-                                            className="flex items-center gap-2 rounded bg-gray-300 px-4 py-2 font-medium text-sm text-black hover:bg-opacity-80 text-nowrap">
-                                            {translation?.t('clear_filter')}
-                                        </button>
-                                    </div>
+
+                            <div className={"flex justify-between w-full gap-x-10  items-center"}>
+                                <div className="flex items-center gap-2">
+                                    <DatePicker
+                                        id="datePicker"
+                                        selected={selectedDate}
+                                        showMonthYearPicker
+                                        dateFormat="MMM, yyyy"
+                                        onChange={handleChangeDate}
+                                        onChangeRaw={handleFocus}
+                                        onFocus={handleFocus}
+                                        locale={locale}
+                                        className="border-1 border-solid border-gray-300 rounded-md cursor-pointer"
+                                        placeholderText={translation?.t('select_month')}
+                                    />
+                                    <button
+                                        onClick={clearFilter}
+                                        className="flex items-center gap-2 rounded bg-gray-300 px-4 py-2 font-medium text-sm text-black hover:bg-opacity-80 text-nowrap">
+                                        {translation?.t('clear_filter')}
+                                    </button>
+                                </div>
+                                {
+                                    isAdmin &&
                                     <button
                                         onClick={() => setIsOpenCreate(true)}
                                         className="flex items-center gap-2 rounded bg-[#3c50e0] px-4 py-2 font-medium text-sm text-white hover:bg-opacity-80 text-nowrap">
@@ -160,8 +161,8 @@ export const InvoiceDashboard: React.FC = () => {
                                         </svg>
                                         {translation?.t('form_add_invoice')}
                                     </button>
-                                </div>
-                            }
+                                }
+                            </div>
                         </div>
                         {isLoading ?
                             <SpinnerDashboard/>
