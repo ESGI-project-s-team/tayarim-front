@@ -3,6 +3,8 @@
   "expense_and_reservation": "Dépenses et réservations par mois",
   "occupation_rate_by_month": "Taux d'occupation par mois",
   "average": "Total différence",
+  "select_month": "Sélectionner un mois",
+  "clear_filter": "Effacer le filtre",
   "Analytics": "Statistiques",
   "Invoice": "Facturation",
   "Images": "Images (optionnel)",

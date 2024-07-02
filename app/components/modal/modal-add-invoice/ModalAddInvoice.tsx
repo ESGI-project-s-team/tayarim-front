@@ -9,7 +9,6 @@ import {
     Transition
 } from '@headlessui/react';
 import {useIsErrorContext, useNavbarContext, useSuccessContext, useTranslationContext} from "@/app/[lng]/hooks";
-import {createOwnerInFun} from "@/app/components/modal/modal-create-owner/actions";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -21,7 +20,7 @@ import {createInvoiceInFun} from "@/app/components/modal/modal-add-invoice/actio
 interface FormValues {
     month: number;
     year: number;
-    idProprietaire: number;
+    idProprietaire: number | null;
 }
 
 interface OwnerType {
@@ -31,17 +30,17 @@ interface OwnerType {
     email: string;
 }
 
-export default function ModalAddInvoice({isOpen, onClose, getAllOwners}: {
+export default function ModalAddInvoice({isOpen, onClose, getAllInvoice}: {
     isOpen: boolean;
     onClose: () => void;
-    getAllOwners: any
+    getAllInvoice: any
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [formValues, setFormValues] = useState<FormValues>({
         month: new Date().getMonth() + 1,
         year: new Date().getFullYear(),
-        idProprietaire: 1
+        idProprietaire: null
     });
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext();
@@ -65,6 +64,11 @@ export default function ModalAddInvoice({isOpen, onClose, getAllOwners}: {
         },
         code: theLanguage,
     };
+    useEffect(() => {
+        const allFieldsFilled = Object.values(formValues).every(value => value !== "" && value !== null && value !== undefined);
+        console.log('allFieldsFilled', allFieldsFilled, formValues)
+        setButtonDisabled(!(allFieldsFilled));
+    }, [formValues]);
     useEffect(() => {
         if (focusElementRef.current) {
             focusElementRef.current.focus();
@@ -121,8 +125,9 @@ export default function ModalAddInvoice({isOpen, onClose, getAllOwners}: {
                     setError(response.errors);
                     return;
                 }
+                getAllInvoice();
                 setError(null);
-                onClose(); // Close the modal
+                onClose();
                 setSuccess(true);
 
             }); // Pass the updated form values

@@ -4,6 +4,7 @@ import {cookies} from "next/headers";
 
 
 const createInvoiceUrl = `${BACKEND_API}/factures`
+const getAllInvoiceUrl = `${BACKEND_API}/factures`
 
 export async function createInvoice(body: any) {
     const token = cookies().get("token")?.value;
@@ -24,6 +25,29 @@ export async function createInvoice(body: any) {
             return {errors: ["error_occurred"]};
         }
         return true;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
+
+export async function getAllInvoice() {
+    const token = cookies().get("token")?.value;
+    try {
+        const response = await fetch(getAllInvoiceUrl, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!response.ok) {
+            const data = await response.json();
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: ["error_occurred"]};
+        }
+        return await response.json();
     } catch (error: any) {
         return {errors: ["error_occurred"]};
     }
