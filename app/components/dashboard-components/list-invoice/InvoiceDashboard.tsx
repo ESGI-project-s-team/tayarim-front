@@ -42,6 +42,8 @@ export const InvoiceDashboard: React.FC = () => {
     }, [setError]);
     const [idInvoiceSleected, setIdInvoiceSelected] = useState(null);
     const [ownerSlected, setOwnerSelected] = useState<ProprietaireDTO>({} as ProprietaireDTO);
+    const [openStates, setOpenStates] = useState<any>({});
+
     useEffect(() => {
         getAllInv();
     }, [getAllInv]);
@@ -61,6 +63,12 @@ export const InvoiceDashboard: React.FC = () => {
         }
     }, [selectedDate, dataAllInvoice]);
 
+    const toggleOpen = (date: any) => {
+        setOpenStates((prev: any) => ({
+            ...prev,
+            [date]: !prev[date],
+        }));
+    };
 
     function closeModal() {
         setIsOpenCreate(false);
@@ -176,7 +184,10 @@ export const InvoiceDashboard: React.FC = () => {
                                                 {months[dayjs(date).month()]}, {dayjs(date).year()}
                                             </p>
                                             <ChevronDownIcon
-                                                className="size-5 fill-gray-600 group-hover:fill-gray-500 group-open:rotate-180 ml-5"
+                                                onClick={() => toggleOpen(date)}
+                                                className={`size-5 fill-gray-600 group-hover:fill-gray-500 ml-5 transition-transform duration-300 ${
+                                                    openStates[date] ? 'transform rotate-180' : 'rotate-0'
+                                                }`}
                                             />
                                         </DisclosureButton>
                                         <DisclosurePanel className="mt-2 text-sm text-gray-500">
