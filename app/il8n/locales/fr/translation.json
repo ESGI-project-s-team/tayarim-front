@@ -197,6 +197,7 @@
   "alert_notify_description_indispo": "De nouvelles dates indisponibles ont été ajoutées à votre logement.",
   "alert_notify_description_reservation": "Une nouvelle reservation a été ajoutée à votre logement.",
   "alert_notify_description_depense": "Une nouvelle dépense a été ajoutée à votre logement.",
+  "alert_notify_description_facture": "Une nouvelle facture a été ajoutée.",
   "indispo_dates": "Date début - Date fin",
   "owner_name": "Nom du propriétaire",
   "phone": "Téléphone",

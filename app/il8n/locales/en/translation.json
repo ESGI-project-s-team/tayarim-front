@@ -165,6 +165,7 @@
   "alert_notify_description_indispo": "New unavailable dates have been added to your accommodation.",
   "alert_notify_description_reservation": "A new reservation has been made for your accommodation.",
   "alert_notify_description_depense": "A new expense has been added to your accommodation.",
+  "alert_notify_description_facture": "A new invoice has been generated.",
   "indispo_dates": "Start and - End dates",
   "owner_name": "Owner Name",
   "phone": "Phone",

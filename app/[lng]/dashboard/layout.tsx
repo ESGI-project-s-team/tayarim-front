@@ -113,9 +113,7 @@ export default function RootLayout({children}: { children: React.ReactNode; para
                     setItems([]);
                     return;
                 }
-                data.sort((a: any, b: any) => {
-                    return new Date(b.date).getTime() - new Date(a.date).getTime();
-                });
+                data.sort((a: any, b: any) => b.id - a.id);
                 setItems(data);
             });
         }

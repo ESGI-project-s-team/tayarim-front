@@ -26,7 +26,8 @@ const NotifyManagement: React.FC = () => {
                                 {popupNotify == "Indisponibilite" ? translation?.t('alert_notify_description_indispo') :
                                     popupNotify == "Reservation" ? translation?.t('alert_notify_description_reservation') :
                                         popupNotify == "Depense" ? translation?.t('alert_notify_description_depense') :
-                                            null
+                                            popupNotify == "facture" ? translation?.t('alert_notify_description_facture') :
+                                                null
                                 }
                             </div>
                         </div>
