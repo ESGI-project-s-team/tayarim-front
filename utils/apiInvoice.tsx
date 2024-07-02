@@ -7,7 +7,6 @@ const createInvoiceUrl = `${BACKEND_API}/factures`
 
 export async function createInvoice(body: any) {
     const token = cookies().get("token")?.value;
-    console.log(body)
     try {
         const response = await fetch(createInvoiceUrl, {
             method: "POST",
@@ -19,7 +18,6 @@ export async function createInvoice(body: any) {
         });
         if (!response.ok) {
             const data = await response.json();
-            console.log("iciii")
             if (data.errors) {
                 return {errors: data.errors};
             }
@@ -27,7 +25,6 @@ export async function createInvoice(body: any) {
         }
         return true;
     } catch (error: any) {
-        console.log("error", error)
         return {errors: ["error_occurred"]};
     }
 }
