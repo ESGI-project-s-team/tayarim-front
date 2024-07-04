@@ -26,10 +26,10 @@ RUN cat .env.production
 ENV NODE_ENV production
 
 RUN --mount=type=secret,id=BACKEND_API \
-    sh -c 'BACKEND_API=$(cat /run/secrets/BACKEND_API) && sed -i "s|BACKEND_API=|BACKEND_API=BACKEND_API|" .env.production'
+    sh -c 'BACKEND_API=$(cat /run/secrets/BACKEND_API) && sed -i "s|BACKEND_API=|BACKEND_API=$BACKEND_API|" .env.production'
 
 RUN --mount=type=secret,id=NEXT_PUBLIC_URL_SOCKET \
-    sh -c 'NEXT_PUBLIC_URL_SOCKET=$(cat /run/secrets/NEXT_PUBLIC_URL_SOCKET) && sed -i "s|NEXT_PUBLIC_URL_SOCKET=|NEXT_PUBLIC_URL_SOCKET=NEXT_PUBLIC_URL_SOCKET|" .env.production'
+    sh -c 'NEXT_PUBLIC_URL_SOCKET=$(cat /run/secrets/NEXT_PUBLIC_URL_SOCKET) && sed -i "s|NEXT_PUBLIC_URL_SOCKET=|NEXT_PUBLIC_URL_SOCKET=$NEXT_PUBLIC_URL_SOCKET|" .env.production'
 
 RUN cat .env.production
 
