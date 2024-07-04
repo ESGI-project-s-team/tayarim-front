@@ -21,6 +21,7 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN ls -las
 
 RUN --mount=type=secret,id=BACKEND_API \
     sh -c 'BACKEND_API=$(cat /run/secrets/BACKEND_API) && sed -i "s@BACKEND_API=@BACKEND_API=BACKEND_API@" .env.production'
