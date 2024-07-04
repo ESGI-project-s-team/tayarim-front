@@ -24,10 +24,10 @@ COPY . .
 ENV NODE_ENV production
 
 RUN --mount=type=secret,id=BACKEND_API \
-    sh -c 'BACKEND_API=$(cat /run/secrets/BACKEND_API) && sed -i "s@BACKEND_API=@BACKEND_API=BACKEND_API@" .env.production'
+    sh -c 'BACKEND_API=$(cat /run/secrets/BACKEND_API) && sed -i "s|BACKEND_API=|BACKEND_API=BACKEND_API|" .env.production'
 
 RUN --mount=type=secret,id=NEXT_PUBLIC_URL_SOCKET \
-    sh -c 'NEXT_PUBLIC_URL_SOCKET=$(cat /run/secrets/NEXT_PUBLIC_URL_SOCKET) && sed -i "s@NEXT_PUBLIC_URL_SOCKET=@NEXT_PUBLIC_URL_SOCKET=NEXT_PUBLIC_URL_SOCKET@" .env.production'
+    sh -c 'NEXT_PUBLIC_URL_SOCKET=$(cat /run/secrets/NEXT_PUBLIC_URL_SOCKET) && sed -i "s|NEXT_PUBLIC_URL_SOCKET=|NEXT_PUBLIC_URL_SOCKET=NEXT_PUBLIC_URL_SOCKET|" .env.production'
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
@@ -45,8 +45,6 @@ WORKDIR /app
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
-
-RUN pwd
 
 COPY --from=builder /app/public ./public
 
