@@ -22,6 +22,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN ls -las
+RUN pwd
 
 RUN --mount=type=secret,id=BACKEND_API \
     sh -c 'BACKEND_API=$(cat /run/secrets/BACKEND_API) && sed -i "s@BACKEND_API=@BACKEND_API=BACKEND_API@" .env.production'
@@ -47,10 +48,10 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-RUN ls -la
+RUN pwd
 
 COPY --from=builder /app/public ./public
-COPY --from=builder ../.env.production .
+COPY --from=builder .env.production ../
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
