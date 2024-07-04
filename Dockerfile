@@ -50,7 +50,7 @@ RUN adduser --system --uid 1001 nextjs
 RUN ls -la
 
 COPY --from=builder /app/public ./public
-COPY --from=builder .env.production .
+COPY --from=builder ../.env.production .
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
