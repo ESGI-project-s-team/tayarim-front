@@ -21,8 +21,7 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN ls -las
-RUN pwd
+ENV NODE_ENV production
 
 RUN --mount=type=secret,id=BACKEND_API \
     sh -c 'BACKEND_API=$(cat /run/secrets/BACKEND_API) && sed -i "s@BACKEND_API=@BACKEND_API=BACKEND_API@" .env.production'
@@ -41,7 +40,6 @@ RUN \
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
@@ -51,7 +49,6 @@ RUN adduser --system --uid 1001 nextjs
 RUN pwd
 
 COPY --from=builder /app/public ./public
-COPY --from=builder .env.production ../
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
