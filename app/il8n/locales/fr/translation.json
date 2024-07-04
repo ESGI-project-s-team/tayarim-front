@@ -1,4 +1,14 @@
 {
+  "reservation_by_month": "Réservations par mois",
+  "expense_and_reservation": "Dépenses et réservations par mois",
+  "occupation_rate_by_month": "Taux d'occupation par mois",
+  "average": "Total différence",
+  "select_month": "Sélectionner un mois",
+  "clear_filter": "Effacer le filtre",
+  "send_invoice": "Envoyer la facture",
+  "warn_send_invoice": "Êtes-vous sûr de vouloir envoyer cette facture ? Cette action ne peut pas être annulée.",
+  "Analytics": "Statistiques",
+  "Invoice": "Facturation",
   "Images": "Images (optionnel)",
   "filter_by": "Filtrer par",
   "candidate_desc": "Vous souhaitez bénéficier de nos services ?",
@@ -187,6 +197,7 @@
   "alert_notify_description_indispo": "De nouvelles dates indisponibles ont été ajoutées à votre logement.",
   "alert_notify_description_reservation": "Une nouvelle reservation a été ajoutée à votre logement.",
   "alert_notify_description_depense": "Une nouvelle dépense a été ajoutée à votre logement.",
+  "alert_notify_description_facture": "Une nouvelle facture a été ajoutée.",
   "indispo_dates": "Date début - Date fin",
   "owner_name": "Nom du propriétaire",
   "phone": "Téléphone",
@@ -196,6 +207,8 @@
   "form_edit_reservation": "Modifier la réservation",
   "form_edit_owner": "Modifier le propriétaire",
   "form_edit_housing": "Modifier le logement",
+  "month_invoice": "Mois de la facture",
+  "form_add_invoice": "Générer une facture",
   "form_add_owner": "Ajouter un propriétaire",
   "form_add_housing": "Ajouter un logement",
   "form_add_reservation": "Ajouter une réservation",
@@ -217,14 +230,11 @@
   "management_placeholder": "GESTION",
   "management_sidenav": [
     "Propriétaires",
-    "Logements",
-    "Annonces",
-    "Tâches"
+    "Logements"
   ],
   "others_placeholder": "AUTRES",
   "others_sidenav": [
     "Réservations",
-    "Virement Bancaire",
     "Dépenses"
   ],
   "email_placeholder_form": "Entrez adresse email",

@@ -160,7 +160,7 @@ export default function ModalCalendar({isOpen, onClose, reservations, datesIndis
                                             onChange={handleChangeDate}
                                             onChangeRaw={handleFocus}
                                             onFocus={handleFocus}
-                                            locale="fr"
+                                            locale={locale}
                                             className="ml-6 border-1 border-solid border-gray-300 rounded-md cursor-pointer mt-5"
                                         />
                                         <div className="absolute mt-5 ml-48"

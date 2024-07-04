@@ -15,7 +15,6 @@ const ListHousings: React.FC = () => {
     const [isOpenEdit, setIsOpenEdit] = useState(false)
     const [isOpenDelete, setIsOpenDelete] = useState(false)
     const [isOpenCreate, setIsOpenCreate] = useState(false)
-    const [isOpenCalendar, setIsOpenCalendar] = useState(false)
     const [isOpenInfoOwner, setIsOpenInfoOwner] = useState(false)
     const [ownerDetailsList, setOwnerDetailsList] = useState<any>([{nom: ""}])
     const [ownerDetails, setOwnerDetails] = useState<any>({});
@@ -43,7 +42,6 @@ const ListHousings: React.FC = () => {
         setIsOpenEdit(false)
         setIsOpenDelete(false)
         setIsOpenCreate(false)
-        setIsOpenCalendar(false)
         setIsOpenInfoOwner(false)
     }
 
@@ -78,7 +76,6 @@ const ListHousings: React.FC = () => {
                             ownerDetailsList.push(ownerDetailsUnique);
                         }
                     }
-
                     setOwnerDetailsList(ownerDetailsList);
                     setLoading(false)
                 }

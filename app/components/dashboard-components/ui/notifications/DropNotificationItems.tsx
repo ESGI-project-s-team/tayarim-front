@@ -45,16 +45,22 @@ const DropProfileItems: React.FC<any> = ({isLoading}: {
                                         item.type == "Indisponibilite" ? "/dashboard/planning" :
                                             item.type == "Reservation" ? "/dashboard/reservation" :
                                                 item.type == "Depense" ? "/dashboard/depense" :
-                                                    "#"
+                                                    item.type == "facture" ? "/dashboard/invoice" :
+                                                        "#"
                                     }
                                     onMouseEnter={() => handleMouseEnter(index, item.id)}>
                                     <p className="text-sm">
-                                        <span className="text-black font-medium">{translation?.t(item.type)}</span>
+                                        <p
+                                            className="text-black font-medium"
+                                        >
+                                            {translation?.t(item.type)?.charAt(0).toUpperCase() + translation?.t(item.type)?.slice(1)}
+                                        </p>
                                         <p className={"mt-2"}>
                                             {item.type == "Indisponibilite" ? translation?.t('alert_notify_description_indispo') :
                                                 item.type == "Reservation" ? translation?.t('alert_notify_description_reservation') :
                                                     item.type == "Depense" ? translation?.t('alert_notify_description_depense') :
-                                                        null
+                                                        item.type == "facture" ? translation?.t('alert_notify_description_facture') :
+                                                            null
                                             }
                                         </p>
                                     </p>

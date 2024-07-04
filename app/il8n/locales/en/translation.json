@@ -1,4 +1,6 @@
 {
+  "Analytics": "Analytics",
+  "Invoice": "Invoice",
   "Images": "Images (optional)",
   "filter_by": "Filter by",
   "candidate_desc": "Would you like to benefit from our services ?",
@@ -163,6 +165,7 @@
   "alert_notify_description_indispo": "New unavailable dates have been added to your accommodation.",
   "alert_notify_description_reservation": "A new reservation has been made for your accommodation.",
   "alert_notify_description_depense": "A new expense has been added to your accommodation.",
+  "alert_notify_description_facture": "A new invoice has been generated.",
   "indispo_dates": "Start and - End dates",
   "owner_name": "Owner Name",
   "phone": "Phone",
@@ -172,6 +175,8 @@
   "form_edit_reservation": "Edit reservation",
   "form_edit_owner": "Edit owner",
   "form_edit_housing": "Edit housing",
+  "form_add_invoice": "Generate invoice",
+  "month_invoice": "Month of the invoice",
   "form_add_reservation": "Add reservation",
   "form_add_owner": "Add owner",
   "form_add_housing": "Add housing",
@@ -194,16 +199,21 @@
   "management_placeholder": "MANAGEMENT",
   "management_sidenav": [
     "Owners",
-    "Housing",
-    "Announcements",
-    "Tasks"
+    "Housing"
   ],
   "others_placeholder": "OTHERS",
   "others_sidenav": [
     "Reservations",
-    "Bank Transfer",
     "Expenses"
   ],
+  "reservation_by_month": "Reservation by month",
+  "expense_and_reservation": "Expenses and reservations by month",
+  "occupation_rate_by_month": "Occupation rate by month",
+  "select_month": "Select a month",
+  "clear_filter": "Clear filter",
+  "send_invoice": "Send invoice",
+  "warn_send_invoice": "Are you sure you want to send the invoice to the owner ? This action cannot be undone.",
+  "average": "Total difference",
   "email_placeholder_form": "Enter email address",
   "first_name_placeholder_form": "Enter first name",
   "housing_type_placeholder": "Select a housing type",

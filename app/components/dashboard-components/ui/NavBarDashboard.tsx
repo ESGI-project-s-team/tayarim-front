@@ -35,6 +35,8 @@ const NavBarDashboard: React.FC = () => {
         setIsLoading(true);
         getAllNotificationsInFun().then((response) => {
             if (response) {
+                //sort by id desc
+                response.sort((a: any, b: any) => b.id - a.id);
                 setItems(response);
             }
             setIsLoading(false);
