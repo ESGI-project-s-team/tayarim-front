@@ -37,6 +37,9 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: eu.gcr.io/tayarim-project/tayarim_front:${{ github.sha }}, eu.gcr.io/tayarim-project/tayarim_front:latest
+          secrets: |
+            "BACKEND_API=${{ secrets.BACKEND_API }}"
+            "NEXT_PUBLIC_URL_SOCKET=${{ secrets.NEXT_PUBLIC_URL_SOCKET }}"
 
   trigger_deploy_workflow:
     runs-on: ubuntu-latest
