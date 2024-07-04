@@ -31,6 +31,8 @@ RUN --mount=type=secret,id=BACKEND_API \
 RUN --mount=type=secret,id=NEXT_PUBLIC_URL_SOCKET \
     sh -c 'NEXT_PUBLIC_URL_SOCKET=$(cat /run/secrets/NEXT_PUBLIC_URL_SOCKET) && sed -i "s|NEXT_PUBLIC_URL_SOCKET=|NEXT_PUBLIC_URL_SOCKET=NEXT_PUBLIC_URL_SOCKET|" .env.production'
 
+RUN cat .env.production
+
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
