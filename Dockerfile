@@ -46,6 +46,8 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+RUN ls -la
+
 COPY --from=builder /app/public ./public
 COPY --from=builder .env.production .
 
