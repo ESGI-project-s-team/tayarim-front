@@ -22,6 +22,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN ls -la
+RUN cat .env.production
 ENV NODE_ENV production
 
 RUN --mount=type=secret,id=BACKEND_API \
