@@ -10,14 +10,12 @@ export const config = {
 };
 
 export async function middleware(req) {
-
     // Get the language from the cookie or Accept-Language header
     let lng
     if (req.cookies.has(cookieName)) lng = acceptLanguage.get(req.cookies.get(cookieName).value)
     if (!lng) lng = acceptLanguage.get(req.headers.get('Accept-Language'))
     if (!lng) lng = fallbackLng
-
-
+    
     // Handle requests for images in the public directory
     if (req.nextUrl.pathname.startsWith('/public')) {
         return NextResponse.next()
