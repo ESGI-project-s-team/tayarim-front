@@ -193,17 +193,17 @@
   "menu_placeholder": "MENU",
   "menu_sidenav": [
     "Analytics",
-    "Planning",
-    "Invoices"
+    "Planning"
   ],
   "management_placeholder": "MANAGEMENT",
   "management_sidenav": [
     "Owners",
-    "Houses"
+    "Houses",
+    "Reservations"
   ],
   "others_placeholder": "OTHERS",
   "others_sidenav": [
-    "Reservations",
+    "Invoices",
     "Expenses"
   ],
   "reservation_by_month": "Reservation by month",
