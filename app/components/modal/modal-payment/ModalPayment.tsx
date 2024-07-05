@@ -192,7 +192,7 @@ export const ModalPayment = ({onClose, housing, startDate, endDate, nbPersonnes}
                 </div>
                 <div className="w-1/2 p-4 border-l border-gray-300 pl-10 ">
                     <div className="my-4">
-                        <img src={housing.images[0].url} alt={housing.titre}
+                        <img src={housing?.images[0]?.url} alt={housing.titre}
                              className="rounded-lg w-full h-48 object-cover"/>
                     </div>
                     <p className="text-lg font-semibold">{housing.titre}</p>

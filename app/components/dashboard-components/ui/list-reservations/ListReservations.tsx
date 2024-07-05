@@ -170,6 +170,14 @@ const ListReservations: React.FC = () => {
                     router.push("/dashboard");
                 } else {
                     setError(null);
+                    // met les reservation avec statut 'reserved' en premier
+                    response.sort((a: any, b: any) => {
+                        if (a.statut === 'reserved') {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    });
                     setReservations(response);
                 }
                 setLoading(false)

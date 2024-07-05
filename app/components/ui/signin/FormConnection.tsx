@@ -21,7 +21,7 @@ const FormConnection: React.FC = () => {
                 async (response) => {
                     if (!response.errors) {
                         if (response.isPasswordUpdated === true) {
-                            router.push("/dashboard/analytics")
+                            router.push("/dashboard")
                         } else if (response.isPasswordUpdated === false) {
                             router.push("/dashboard/first-connection")
                         }

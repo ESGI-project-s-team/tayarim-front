@@ -8,7 +8,7 @@
   "send_invoice": "Envoyer la facture",
   "warn_send_invoice": "Êtes-vous sûr de vouloir envoyer cette facture ? Cette action ne peut pas être annulée.",
   "Analytics": "Statistiques",
-  "Invoice": "Facturation",
+  "Invoice": "Facturations",
   "Images": "Images (optionnel)",
   "filter_by": "Filtrer par",
   "candidate_desc": "Vous souhaitez bénéficier de nos services ?",
@@ -136,7 +136,7 @@
   "suffixe_numero": "Complement d'adresse (optionnel)",
   "etage": "Etage (optionnel)",
   "Indisponibilite": "Indisponibilité",
-  "Reservation": "Reservation",
+  "Reservation": "Réservations",
   "no_notifications": "Aucune notification...",
   "Depense": "Dépenses",
   "numero_de_porte": "Numero de Porte (optionnel)",
@@ -201,7 +201,7 @@
   "indispo_dates": "Date début - Date fin",
   "owner_name": "Nom du propriétaire",
   "phone": "Téléphone",
-  "house": "Logement",
+  "house": "Logements",
   "edit": "Modifier",
   "delete": "Supprimer",
   "form_edit_reservation": "Modifier la réservation",
@@ -224,17 +224,17 @@
   "menu_placeholder": "MENU",
   "menu_sidenav": [
     "Analyses",
-    "Planning",
-    "Facturation"
+    "Planning"
   ],
   "management_placeholder": "GESTION",
   "management_sidenav": [
     "Propriétaires",
-    "Logements"
+    "Logements",
+    "Réservations"
   ],
-  "others_placeholder": "AUTRES",
+  "others_placeholder": "COMPTABILITÉ",
   "others_sidenav": [
-    "Réservations",
+    "Facturations",
     "Dépenses"
   ],
   "email_placeholder_form": "Entrez adresse email",
@@ -279,7 +279,7 @@
   "guest": "Nombre de personnes",
   "bedrooms": "Chambres",
   "search": "Rechercher",
-  "owner": "Propriétaire",
+  "owner": "Propriétaires",
   "owner-description": "Nous garantissons une gestion locative complète de votre bien afin de vous offrir sérénité et profits",
   "btn_profile_airbnb": "Voir le profil Airbnb",
   "traveler": "Voyageurs",

@@ -74,23 +74,7 @@ const SideNavDashboard: React.FC = () => {
                             ))}
                         </ul>
                     </div>
-                    {isAdminState &&
-                        <div><h3
-                            className="mb-4 ml-4 text-sm font-semibold text-[#8a99af]">{translation?.t('management_placeholder')}</h3>
 
-                            <ul className="mb-6 flex flex-col gap-1.5">
-                                {management_sidenav.map((page: string, index: number) => (
-                                    <li key={index}><a
-                                        className=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-[#2b334a]"
-                                        href={getHrefManagement(index)}>
-                                        {getIconManagement(index)}
-                                        {page}
-                                    </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    }
                     <div><h3
                         className="mb-4 ml-4 text-sm font-semibold text-[#8a99af]">{translation?.t('others_placeholder')}</h3>
                         <ul className="mb-6 flex flex-col gap-1.5">
@@ -102,6 +86,39 @@ const SideNavDashboard: React.FC = () => {
                                     {page}
                                 </a>
                                 </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div><h3
+                        className="mb-4 ml-4 text-sm font-semibold text-[#8a99af]">{translation?.t('management_placeholder')}</h3>
+
+                        <ul className="mb-6 flex flex-col gap-1.5">
+                            {management_sidenav.map((page: string, index: number) => (
+                                isAdminState ?
+                                    (
+                                        <li key={index}>
+                                            <a
+                                                className="relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-[#2b334a]"
+                                                href={getHrefManagement(index)}
+                                            >
+                                                {getIconManagement(index)}
+                                                {page}
+                                            </a>
+                                        </li>
+                                    )
+                                    :
+                                    index === 2 && (
+                                        <li key={index}>
+                                            <a
+                                                className="relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-[#2b334a]"
+                                                href={getHrefManagement(index)}
+                                            >
+                                                {getIconManagement(index)}
+                                                {page}
+                                            </a>
+                                        </li>
+                                    )
                             ))}
                         </ul>
                     </div>
