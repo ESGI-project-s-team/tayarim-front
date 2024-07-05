@@ -578,7 +578,8 @@ export const AnalyticsDashboard: React.FC = () => {
                                                 width={300}/>
                             </div>
                         </div>
-                        <div className=" rounded-lg bg-white shadow-xl mb-10 max-h-[400px]">
+                        <div
+                            className=" rounded-lg bg-white overflow-x-auto no-scrollbar shadow-xl mb-10 max-h-[400px]">
                             <ReactApexChart options={optionsLineReservationByMonth} series={series} type="line"
                                             height={200}/>
                         </div>
