@@ -29,7 +29,8 @@
     "react-icons": "^5.2.1",
     "react-select-country-list": "^2.2.3",
     "react-weekview": "^0.0.12",
-    "reconnecting-websocket": "^4.4.0"
+    "reconnecting-websocket": "^4.4.0",
+    "braces": ">=3.0.3"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
