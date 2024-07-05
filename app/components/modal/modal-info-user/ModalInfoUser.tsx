@@ -1,31 +1,42 @@
 import React, {Fragment, useEffect, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import {
-    useAdminContext,
     useIsErrorContext,
     useSuccessContext,
     useTranslationContext,
-    useUserInfoContext
 } from "@/app/[lng]/hooks";
 import {updateAdminInFun, updateOwnerInFun} from "@/app/components/modal/modal-info-user/action";
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import TooltipPersonalized from "@/app/components/ui/TooltipPersonalized";
+import {isAdminByToken} from "@/utils/apiAuth";
 
-export default function ModalInfoUser({isOpen, onClose}: {
+export default function ModalInfoUser({isOpen, onClose, setData, data}: {
     isOpen: boolean;
     onClose: () => void;
+    setData: any;
+    data: any;
 }) {
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
     const {setError} = useIsErrorContext();
     const {setSuccess} = useSuccessContext();
     const [isLoading, setLoading] = useState(false)
     const {translation} = useTranslationContext();
-    let {userInfos} = useUserInfoContext();
-    const {setIsAdmin, isAdmin} = useAdminContext();
-    const [formValues, setFormValues] = useState<any>(userInfos); // Initial state from `owner`
+    const [formValues, setFormValues] = useState<any>(data); // Initial state from `owner`
     const [showPassword, setShowPassword] = useState(false);
     const [isButtonDisabled, setButtonDisabled] = useState(false);
-
+    const [isAdmin, setIsAdmin] = useState<any>(undefined);
+    useEffect(() => {
+        isAdminByToken().then(
+            (response) => {
+                if (!response.error && response !== false && response !== undefined) {
+                    setIsAdmin(response.admin);
+                } else {
+                    setIsAdmin(false)
+                }
+                setLoading(false)
+            }
+        );
+    });
     useEffect(() => {
         if (focusElementRef.current) {
             focusElementRef.current.focus();
@@ -60,8 +71,8 @@ export default function ModalInfoUser({isOpen, onClose}: {
     const handleActionUpdate = async () => {
         setLoading(true)
         try {
-            Object.keys(userInfos).forEach((key) => {
-                if (userInfos[key] === formValues[key]) {
+            Object.keys(data).forEach((key) => {
+                if (data[key] === formValues[key]) {
                     if (key === 'motDePasse' && (formValues[key] === '' || formValues[key] === undefined)) {
                         delete formValues[key]
                     }
@@ -73,7 +84,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                 updateAdminInFun(formValues).then((response) => {
                     if (response.errors) {
                         setError(response.errors)
-                        setFormValues({...userInfos})
+                        setFormValues({...data})
                     } else {
                         setSuccess(true)
                         setIsAdmin(response.admin)
@@ -82,6 +93,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                         localStorage.setItem("prenom", response.prenom)
                         localStorage.setItem("email", response.email)
                         localStorage.setItem("numTel", response.numTel)
+                        setData(response)
                         onClose();
                     }
                     setLoading(false)
@@ -98,6 +110,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
                         localStorage.setItem("prenom", response.prenom)
                         localStorage.setItem("email", response.email)
                         localStorage.setItem("numTel", response.numTel)
+                        setData(response)
                         onClose();
                     }
                     setLoading(false)
@@ -106,6 +119,7 @@ export default function ModalInfoUser({isOpen, onClose}: {
         } catch (error) {
             setLoading(false)
             setError(error)
+            setFormValues({...data})
         }
     };
 
