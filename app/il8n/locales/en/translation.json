@@ -1,6 +1,6 @@
 {
   "Analytics": "Analytics",
-  "Invoice": "Invoice",
+  "Invoice": "Invoices",
   "Images": "Images (optional)",
   "filter_by": "Filter by",
   "candidate_desc": "Would you like to benefit from our services ?",
@@ -169,7 +169,7 @@
   "indispo_dates": "Start and - End dates",
   "owner_name": "Owner Name",
   "phone": "Phone",
-  "house": "House",
+  "house": "Houses",
   "edit": "Edit",
   "delete": "Delete",
   "form_edit_reservation": "Edit reservation",
@@ -194,12 +194,12 @@
   "menu_sidenav": [
     "Analytics",
     "Planning",
-    "Billing"
+    "Invoices"
   ],
   "management_placeholder": "MANAGEMENT",
   "management_sidenav": [
     "Owners",
-    "Housing"
+    "Houses"
   ],
   "others_placeholder": "OTHERS",
   "others_sidenav": [

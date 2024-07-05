@@ -1,14 +1,14 @@
 const icon_menu: string[] = [
     "/dashboard",
     "/dashboard/planning",
-    "/dashboard/invoice",
 ]
 const icon_management: string[] = [
     "/dashboard/owner-management",
     "/dashboard/housing-management",
+    "/dashboard/reservation",
 ]
 const icon_others: string[] = [
-    "/dashboard/reservation",
+    "/dashboard/invoice",
     "/dashboard/expense",
 ]
 
