@@ -8,7 +8,6 @@ const OwnerConnection: React.FC = () => {
     const [isOpenCreate, setIsOpenCreate] = React.useState(false);
     const {translation} = useTranslationContext();
     const [isModalEmailSend, setIsModalEmailSend] = useState(false);
-    const [owner, setOwner] = useState<any>(null);
 
     function closeModal() {
         setIsOpenCreate(false)

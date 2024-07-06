@@ -55,11 +55,13 @@ export default function ModalAddCandidate({isOpen, onClose, setIsModalEmailSend}
             .then((res) => {
                 if (!res.errors) {
                     setIsModalEmailSend(true);
-                    onClose();
                 } else {
                     setError(res.errors);
                 }
+            })
+            .finally(() => {
                 setIsLoading(false);
+                onClose();
             });
     };
 
