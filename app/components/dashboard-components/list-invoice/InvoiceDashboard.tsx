@@ -178,7 +178,7 @@ export const InvoiceDashboard: React.FC = () => {
                             :
                             <div
                                 className=" w-full max-w-3xl divide-y divide-gray-200 rounded-xl max-h-[60vh] overflow-y-auto ">
-                                {Object.keys(groupedInvoices).map((date) => (
+                                {Object.keys(groupedInvoices)?.map((date) => (
                                     <Disclosure as="div" className="p-6" key={date}>
                                         <DisclosureButton className="group flex w-full items-center "
                                                           onClick={() => toggleOpen(date)}
@@ -193,7 +193,7 @@ export const InvoiceDashboard: React.FC = () => {
                                             />
                                         </DisclosureButton>
                                         <DisclosurePanel className="mt-2 text-sm text-gray-500">
-                                            {groupedInvoices[date].map((invoice: any) => (
+                                            {groupedInvoices[date]?.map((invoice: any) => (
                                                 <div className="py-2" key={invoice.id}>
                                                     <dd className="mt-2 text-sm text-gray-900">
                                                         <ul role="list"

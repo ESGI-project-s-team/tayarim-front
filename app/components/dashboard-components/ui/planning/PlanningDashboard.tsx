@@ -40,7 +40,9 @@ const PlanningDashboard: React.FC = () => {
         setCurrentWeekStart(startOfWeek(new Date(), {weekStartsOn: 1}));
     };
 
-    function openModal(date: any, reservation: any) {
+    function openModal(date: any, reservation: any, color: any) {
+        if (color === undefined || color === "#f87171")
+            return;
         if (isDateInReservations(date)) {
             setInfoReservationIsOpen(true);
             setReservationDate(reservation);
@@ -279,7 +281,7 @@ const PlanningDashboard: React.FC = () => {
                                                                          return reservations.find((reservation: {
                                                                              id: number;
                                                                          }) => reservation.id === block?.reservationId);
-                                                                     })}
+                                                                     }, block?.color)}
                                                                      style={{backgroundColor: block?.color ?? 'white'}}>
                                                                     {block && displayDayCount
                                                                         ? <span
