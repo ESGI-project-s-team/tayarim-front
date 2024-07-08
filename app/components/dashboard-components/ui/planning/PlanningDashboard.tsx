@@ -41,7 +41,7 @@ const PlanningDashboard: React.FC = () => {
     };
 
     function openModal(date: any, reservation: any, color: any) {
-        if (color === undefined)
+        if (color === undefined || color === "#f87171")
             return;
         if (isDateInReservations(date)) {
             setInfoReservationIsOpen(true);
