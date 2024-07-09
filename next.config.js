@@ -4,6 +4,3 @@ module.exports = {
     output: "standalone",
     reactStrictMode: false,
 };
-module.exports = {
-    reactStrictMode: false,
-};

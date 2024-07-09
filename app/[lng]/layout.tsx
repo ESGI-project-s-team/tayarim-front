@@ -17,6 +17,7 @@ import "../globals.css";
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from "@stripe/stripe-js";
 import NotifyManagement from "@/utils/alertNotify";
+import {setLanguaeCookie} from "@/utils/languageManager";
 
 
 const stripePromise = loadStripe('pk_test_51MV0btCKT0mt6g5QYamT5yDfyrku9XATDC3xSYgq4GBGTJopMZYKX5wSGlkGwhFjOYXy306hucFP8psxjtBQsxHk008MgdE8cx');
@@ -76,6 +77,7 @@ export default function RootLayout({children, params: {lng}}: { children: React.
         async function fetchTranslation() {
             const t = await doTranslation(theLanguage);
             setTranslation(t);
+            await setLanguaeCookie(theLanguage);
         }
 
         fetchTranslation().then(

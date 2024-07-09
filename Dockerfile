@@ -21,11 +21,17 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN ls -la
+RUN cat .env.production
+ENV NODE_ENV production
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
+RUN --mount=type=secret,id=BACKEND_API \
+    sh -c 'BACKEND_API=$(cat /run/secrets/BACKEND_API) && sed -i "s|BACKEND_API=|BACKEND_API=$BACKEND_API|" .env.production'
+
+RUN --mount=type=secret,id=NEXT_PUBLIC_URL_SOCKET \
+    sh -c 'NEXT_PUBLIC_URL_SOCKET=$(cat /run/secrets/NEXT_PUBLIC_URL_SOCKET) && sed -i "s|NEXT_PUBLIC_URL_SOCKET=|NEXT_PUBLIC_URL_SOCKET=$NEXT_PUBLIC_URL_SOCKET|" .env.production'
+
+RUN cat .env.production
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
@@ -38,7 +44,6 @@ RUN \
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
@@ -50,6 +55,11 @@ COPY --from=builder /app/public ./public
 # Set the correct permission for prerender cache
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 

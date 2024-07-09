@@ -57,6 +57,22 @@ export default function RootLayout({children}: { children: React.ReactNode; para
             socketRef.current.send(message);
         }
     };
+    useEffect(() => {
+        async function isAdmin() {
+            isAdminByToken().then(
+                (response) => {
+                    if (!response.error && response !== false && response !== undefined) {
+                        setIsAdmin(response.admin);
+                    } else {
+                        setIsAdmin(false)
+                    }
+                    setLoading(false)
+                }
+            );
+        }
+
+        isAdmin().then(() => setIsLoading(false));
+    }, []);
 
     useEffect(() => {
         console.log('RootLayoutDashboard');
@@ -80,19 +96,6 @@ export default function RootLayout({children}: { children: React.ReactNode; para
             }
         );
 
-        async function isAdmin() {
-            isAdminByToken().then(
-                (response) => {
-                    if (!response.error && response !== false && response !== undefined) {
-                        setIsAdmin(response.admin);
-                    } else {
-                        setIsAdmin(false)
-                    }
-                    setLoading(false)
-                }
-            );
-        }
-
         async function fetchInfoUser() {
             const user = {
                 id: localStorage.getItem("id"),
@@ -110,13 +113,13 @@ export default function RootLayout({children}: { children: React.ReactNode; para
                     setItems([]);
                     return;
                 }
+                data.sort((a: any, b: any) => b.id - a.id);
                 setItems(data);
             });
         }
 
         getAllNotifications().then();
-        fetchInfoUser().then();
-        isAdmin().then(() => setIsLoading(false));
+        fetchInfoUser().then(() => setIsLoading(false));
     }, [router]);
 
     return (

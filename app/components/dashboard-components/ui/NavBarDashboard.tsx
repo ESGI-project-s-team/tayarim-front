@@ -5,8 +5,7 @@ import {
     useAdminContext,
     useNotificationContext,
     usePopupNotify,
-    useTranslationContext,
-    useUserInfoContext
+    useTranslationContext
 } from "@/app/[lng]/hooks";
 import LanguageDropdown from "@/app/components/ui/LanguageDropdown";
 import ModalInfoUser from "@/app/components/modal/modal-info-user/ModalInfoUser";
@@ -20,11 +19,11 @@ const NavBarDashboard: React.FC = () => {
     const profileRef = useRef<HTMLDivElement>(null);
     const notificationRef = useRef<HTMLDivElement>(null);
     const {translation} = useTranslationContext();
-    const {isAdmin} = useAdminContext();
-    const {userInfos} = useUserInfoContext();
     const [isOpenInfo, setIsOpenInfo] = useState(false);
     const {popupNotify} = usePopupNotify();
     const [isLoading, setIsLoading] = useState(false);
+    const [data, setData] = useState<any>(null);
+    const {isAdmin} = useAdminContext();
 
     const handleOpenProfile = () => {
         setIsOpenProfile(!isOpenProfile);
@@ -35,6 +34,8 @@ const NavBarDashboard: React.FC = () => {
         setIsLoading(true);
         getAllNotificationsInFun().then((response) => {
             if (response) {
+                //sort by id desc
+                response.sort((a: any, b: any) => b.id - a.id);
                 setItems(response);
             }
             setIsLoading(false);
@@ -53,6 +54,16 @@ const NavBarDashboard: React.FC = () => {
         setIsOpenInfo(false);
     }
 
+    useEffect(() => {
+        let user = {
+            id: localStorage.getItem("id"),
+            nom: localStorage.getItem("nom"),
+            prenom: localStorage.getItem("prenom"),
+            email: localStorage.getItem("email"),
+            numTel: localStorage.getItem("numTel"),
+        };
+        setData(user);
+    }, []);
     useEffect(() => {
         if (popupNotify) {
             setIsLoading(true);
@@ -89,13 +100,13 @@ const NavBarDashboard: React.FC = () => {
 
     return (
         <div className="fixed bg-white w-screen top-0 drop-shadow-xl z-10">
-            {isOpenInfo && <ModalInfoUser isOpen={isOpenInfo} onClose={closeModal}/>}
+            {isOpenInfo && <ModalInfoUser isOpen={isOpenInfo} onClose={closeModal} setData={setData} data={data}/>}
             <div className="flex flex-row-reverse px-10 py-5 gap-10">
                 <div className="relative" ref={profileRef}>
                     <a className="flex items-center gap-4" href="#" onClick={handleOpenProfile}>
                         <span className="text-right block">
                             <span className="block text-sm font-medium text-black ">
-                                {userInfos?.prenom} {userInfos?.nom}
+                                {data?.prenom} {data?.nom}
                             </span>
                             <span className="block text-xs text-[#64748b]">
                                 {isAdmin ? translation?.t('admin') : translation?.t('owner')}

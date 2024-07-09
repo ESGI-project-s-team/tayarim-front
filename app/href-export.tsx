@@ -1,15 +1,15 @@
 const icon_menu: string[] = [
-    "/dashboard/analytics",
+    "/dashboard",
     "/dashboard/planning",
 ]
 const icon_management: string[] = [
     "/dashboard/owner-management",
     "/dashboard/housing-management",
+    "/dashboard/reservation",
 ]
 const icon_others: string[] = [
-    "/dashboard/reservation",
-    "",
-    "/dashboard/depense",
+    "/dashboard/invoice",
+    "/dashboard/expense",
 ]
 
 export function getHrefMenu(index: number): string | undefined {
