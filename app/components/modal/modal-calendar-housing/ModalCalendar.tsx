@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
@@ -15,15 +15,17 @@ interface ModalCalendarProps {
     onClose: () => void;
     reservations: Reservation[];
     datesIndispo: any;
+    id: any
 }
 
-export default function ModalCalendar({isOpen, onClose, reservations, datesIndispo}: ModalCalendarProps) {
+export default function ModalCalendar({isOpen, onClose, reservations, datesIndispo, id}: ModalCalendarProps) {
     const {translation} = useTranslationContext();
     const menu_days_all = translation?.t('days_all', {returnObjects: true}) ?? [];
     const menu_days = translation?.t('days_calendar', {returnObjects: true}) ?? [];
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [modalInfoReservationIsOpen, setInfoReservationIsOpen] = useState(false);
     const [reservationData, setReservation] = useState({});
+    const [dateIndispoFiltered, setDateIndispoFiltered] = useState([])
 
     const generateMonthDays = (date: Date) => {
         const year = date.getFullYear();
@@ -56,7 +58,9 @@ export default function ModalCalendar({isOpen, onClose, reservations, datesIndis
     const {theLanguage} = useNavbarContext();
     const days = translation?.t('days_calendar', {returnObjects: true}) ?? [];
     const months = translation?.t('months', {returnObjects: true}) ?? [];
-
+    useEffect(() => {
+        setDateIndispoFiltered(datesIndispo.filter((indispo: any) => indispo.idLogement == id))
+    }, [datesIndispo, id]);
     const handleChangeDate = (date: any) => {
         setSelectedDate(date);
         setMonthDays(generateMonthDays(date));
@@ -102,7 +106,7 @@ export default function ModalCalendar({isOpen, onClose, reservations, datesIndis
     };
 
     const isDateInIndispo = (date: Date) => {
-        return datesIndispo.some((indispo: any) => {
+        return dateIndispoFiltered.some((indispo: any) => {
             //date debut - 1
             const dateDebut = new Date(new Date(indispo.dateDebut).setDate(
                 new Date(indispo.dateDebut).getDate() - 1
