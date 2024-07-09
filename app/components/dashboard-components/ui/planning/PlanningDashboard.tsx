@@ -26,6 +26,7 @@ const PlanningDashboard: React.FC = () => {
     const month_complete = translation?.t('month_complete', {returnObjects: true}) ?? [];
     const [loading, setLoading] = useState(false);
     const [reservationDate, setReservationDate] = useState<any>([]);
+    const [houseId, setHouseId] = useState(null)
     const [indispo, setIndispo] = useState<any>([]);
 
     const nextWeek = () => {
@@ -61,8 +62,9 @@ const PlanningDashboard: React.FC = () => {
         });
     };
 
-    function openCalendar(reservation: any) {
+    function openCalendar(reservation: any, id: any) {
         setReservationDate(reservation);
+        setHouseId(id)
         setIsOpenCalendar(true);
     }
 
@@ -225,7 +227,9 @@ const PlanningDashboard: React.FC = () => {
                                                     <div className={"flex"}>
                                                         <div
                                                             className="border border-[#DDDDDD] p-1 rounded-full cursor-pointer w-fit hover:border-black bg-gray-100 mb-4"
-                                                            onClick={() => openDateIndispo(house.id)}>
+                                                            onClick={() => {
+                                                                openDateIndispo(house.id)
+                                                            }}>
                                                             <LuCalendarX2/>
                                                         </div>
                                                         <div
@@ -234,6 +238,8 @@ const PlanningDashboard: React.FC = () => {
                                                                 reservations.filter((reservation: {
                                                                     idLogement: number;
                                                                 }) => reservation.idLogement === house.id)
+                                                                ,
+                                                                house.id
                                                             )}>
                                                             <LuCalendarRange/>
                                                         </div>
@@ -310,7 +316,7 @@ const PlanningDashboard: React.FC = () => {
             )}
             {isOpenCalendar &&
                 <ModalCalendar isOpen={isOpenCalendar} onClose={closeModal} reservations={reservationDate}
-                               datesIndispo={indispo}/>
+                               datesIndispo={indispo} id={houseId}/>
             }
             {isOpenDateIndispo &&
                 <ModalAddIndispo isOpen={isOpenDateIndispo} onClose={closeModal}
