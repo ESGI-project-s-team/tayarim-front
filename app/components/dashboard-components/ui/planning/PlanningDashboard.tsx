@@ -225,7 +225,9 @@ const PlanningDashboard: React.FC = () => {
                                                     <div className={"flex"}>
                                                         <div
                                                             className="border border-[#DDDDDD] p-1 rounded-full cursor-pointer w-fit hover:border-black bg-gray-100 mb-4"
-                                                            onClick={() => openDateIndispo(house.id)}>
+                                                            onClick={() => {
+                                                                openDateIndispo(house.id)
+                                                            }}>
                                                             <LuCalendarX2/>
                                                         </div>
                                                         <div

@@ -9,7 +9,7 @@ import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import DateFormaterEnFr from "@/app/components/dashboard-components/ui/DateFormaterEnFr";
 import {FaTrash} from "react-icons/fa";
 
-export default function ModalAddIndispo({isOpen, onClose, id, getAllIndispo, datesBloquer}: {
+export default function ModalAddIndispo({datesBloquer, isOpen, onClose, id, getAllIndispo}: {
     datesBloquer: any;
     isOpen: boolean;
     onClose: () => void;
@@ -24,18 +24,19 @@ export default function ModalAddIndispo({isOpen, onClose, id, getAllIndispo, dat
     const {setSuccess} = useSuccessContext()
     const {setError} = useIsErrorContext()
     const {theLanguage} = useNavbarContext()
+    const [dateBloquerFiltered, setDateBloquerFiltered] = useState([])
 
     useEffect(() => {
         if (id) {
-
             getDatesIndispoByIdHousingInFun(parseInt(id.toString()))
                 .then((res) => {
                     if (!res?.errors) {
                         setDatesIndispo(res)
+                        setDateBloquerFiltered(datesBloquer.filter((bloquer: any) => bloquer.idLogement == parseInt(id.toString())))
                     }
                 });
         }
-    }, [id]);
+    }, [datesBloquer, id]);
     const handleInputChange = (field: string, value: React.SetStateAction<any>) => {
         if (value !== null) {
             if (field === 'dateArrivee') {
@@ -135,10 +136,10 @@ export default function ModalAddIndispo({isOpen, onClose, id, getAllIndispo, dat
                                             <div className="p-7">
                                                 <h5 className={"mb-2 text-sm font-medium text-gray-950 mt-2"}>{translation?.t('add_indispo')}</h5>
                                                 <div>
-                                                    {datesBloquer?.length > 0 ? (
+                                                    {dateBloquerFiltered?.length > 0 ? (
                                                         <div
                                                             className="flex flex-wrap gap-2 text-sm max-h-32 overflow-y-auto no-scrollbar p-2 bg-gray-50 rounded-lg ">
-                                                            {datesBloquer.map((date: any, index: number) => (
+                                                            {dateBloquerFiltered.map((date: any, index: number) => (
                                                                 <div
                                                                     key={index}
                                                                     className="flex items-center bg-white p-2 rounded-md shadow-sm border cursor-pointer hover:bg-red-50 transition duration-300 ease-in-out"
