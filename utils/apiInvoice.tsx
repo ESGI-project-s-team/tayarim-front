@@ -7,6 +7,7 @@ const createInvoiceUrl = `${BACKEND_API}/factures`
 const getAllInvoiceUrl = `${BACKEND_API}/factures`
 const sendInvoiceUrl = `${BACKEND_API}/factures/send`
 const deleteInvoiceUrl = `${BACKEND_API}/factures`
+const downloadInvoiceUrl = `${BACKEND_API}/factures/link`
 
 export async function createInvoice(body: any) {
     const token = cookies().get("token")?.value;
@@ -92,6 +93,7 @@ export async function deleteInvoice(id: number) {
             },
         });
         const data = await response.json();
+
         if (!response.ok) {
             const data = await response.json();
             if (data.errors) {
@@ -105,3 +107,26 @@ export async function deleteInvoice(id: number) {
     }
 }
 
+export async function downloadInvoice(id: any) {
+    const token = cookies().get("token")?.value;
+    const url = `${downloadInvoiceUrl}/${id.toString()}`
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: ["error_occurred"]};
+        }
+        return data;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
