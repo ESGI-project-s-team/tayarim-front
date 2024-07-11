@@ -21,7 +21,7 @@ const NavBarDetails: React.FC = () => {
                         />
                     </div>
 
-                    <Link className="p-2 rounded " href="/public">
+                    <Link className="p-2 rounded " href="/">
                         <div className="hover:font-medium ">{translation?.t('nav_home')}</div>
                     </Link>
                 </div>

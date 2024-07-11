@@ -219,8 +219,11 @@ export const InvoiceDashboard: React.FC = () => {
                                                                                  openModalInfoOwner(invoice.idProprietaire);
                                                                              }
                                                                          }>
-                                                                        <p className="text-sm ">
-                                                                            {invoice.prenomProprietaire} {invoice.nomProprietaire}
+                                                                        <p className="text-sm">
+                                                                            {(invoice.prenomProprietaire.length + invoice.nomProprietaire.length) > 10
+                                                                                ? `${invoice.prenomProprietaire.substring(0, 9)} ${invoice.nomProprietaire.substring(0, Math.max(0, 9 - invoice.prenomProprietaire.substring(0, 9).length))}...`
+                                                                                : `${invoice.prenomProprietaire} ${invoice.nomProprietaire}`
+                                                                            }
                                                                         </p>
                                                                     </div>
                                                                     <div className={"flex"}>

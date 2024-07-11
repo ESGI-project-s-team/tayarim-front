@@ -38,7 +38,7 @@ const SideNavDashboard: React.FC = () => {
     };
     return (
         <div style={{scrollbarWidth: "none"}}
-             className={`absolute w-72  inset-y-0 left-0 transition-all duration-300 ease-in-out bg-[#1c2434] z-10  ${
+             className={`absolute w-72  inset-y-0 left-0 transition-all duration-300 ease-in-out bg-[#1c2434] z-20  ${
                  isOpenSideBar ? '' : '-translate-x-60'
              }`}
         >
