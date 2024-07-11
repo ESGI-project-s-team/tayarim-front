@@ -1,7 +1,7 @@
 {
   "reservation_by_month": "Réservations par mois",
   "expense_and_reservation": "Dépenses et réservations par mois",
-  "occupation_rate_by_month": "Taux d'occupation par mois",
+  "occupation_rate_by_month": "Taux d'occupation par mois pour l'année",
   "average": "Total différence",
   "select_month": "Sélectionner un mois",
   "clear_filter": "Effacer le filtre",
