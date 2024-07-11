@@ -116,7 +116,7 @@ const ListHousings: React.FC = () => {
                     <div className="relative border bg-white top-32 rounded-[10px] stroke-2 max-h-[70vh] overflow-auto">
                         <div className="max-w-full">
                             <div className="min-w-[1170px]">
-                                <div className="grid bg-[#F9FAFB] px-5 py-4"
+                                <div className="grid bg-[#F9FAFB] px-5 py-4 sticky top-0 z-10"
                                      style={{gridTemplateColumns: "repeat(14, minmax(0, 1fr))"}}>
                                     <div className="col-span-2 items-center">
                                         <p className="font-medium">{translation?.t('housing_titre')}</p>

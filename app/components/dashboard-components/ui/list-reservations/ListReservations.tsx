@@ -252,10 +252,10 @@ const ListReservations: React.FC = () => {
                             <div
                                 className="relative border rounded-[10px] stroke-2 bg-white max-h-[60vh]  overflow-auto"
                             >
-                                <div className="max-w-full">
+                                <div className="max-w-full ">
                                     <div className="min-w-[1170px]">
                                         <div
-                                            className="grid grid-cols-20 bg-[#F9FAFB] px-5 py-4 gap-x-20 min-w-fit ">
+                                            className="grid grid-cols-20 bg-[#F9FAFB] px-5 py-4 gap-x-20 min-w-fit sticky top-0 z-10">
                                             <div
                                                 className="col-span-3 flex items-center justify-center">
                                                 <p
