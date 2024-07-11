@@ -389,6 +389,7 @@ const ReservationRow = ({
         <div className="grid grid-cols-20 border-t px-5 py-4 gap-x-20 min-w-fit ">
             {
                 reservation.statut === 'reserved' && isAdmin ?
+
                     <div className={"col-span-3 flex flex-row justify-center"}>
                         <Popover className="relative">
                             <PopoverButton
@@ -439,9 +440,14 @@ const ReservationRow = ({
                 <p className="text-sm text-black text-nowrap">{translation?.t(reservation.statut)}</p>
             </div>
             <div
-                className="col-span-2 flex items-center justify-center max-w-36 overflow-auto no-scrollbar text-[#3c50e0] hover:underline cursor-pointer text-nowrap"
+                className="col-span-2 flex items-center pl-2  text-[#3c50e0] hover:underline cursor-pointer text-nowrap"
                 onClick={() => openModalInfoClient(reservation.nom, reservation.prenom, reservation.email, reservation.numTel)}>
-                <p className="text-sm">{reservation.prenom} {reservation.nom}</p>
+                <p className="text-sm">
+                    {(reservation.prenom.length + reservation.nom.length) > 10
+                        ? `${reservation.prenom.substring(0, 9)} ${reservation.nom.substring(0, Math.max(0, 9 - reservation.prenom.substring(0, 9).length))}...`
+                        : `${reservation.prenom} ${reservation.nom}`
+                    }
+                </p>
             </div>
             <div className="col-span-2 flex items-center justify-center text-nowrap">
                 <p className="text-sm text-black"><DateFormaterEnFr date={reservation.dateArrivee}
