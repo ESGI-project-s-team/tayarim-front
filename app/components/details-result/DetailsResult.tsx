@@ -33,11 +33,12 @@ const DetailsResult = () => {
     const [isModalPayment, setIsModalPayment] = useState(false);
     const [initialImage, setInitialImage] = useState<any>();
     const [minDayMessage, setMinDayMessage] = useState("");
+    const [containsDateIndispoMessage, setContainsDateIndispoMessage] = useState("");
     const {translation} = useTranslationContext();
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [guests, setGuests] = useState(1);
-    const [datesIndispo, setDatesIndispo] = useState([]);
+    const [datesIndispo, setDatesIndispo] = useState<any>([]);
     const [housing, setHousing] = useState<any>(null);
 
     const handleOpenModal = (image: string | null) => {
@@ -96,19 +97,39 @@ const DetailsResult = () => {
         }
     }, [id]);
 
+    function checkDateRangeForIndispo(startDate: any, endDate: any) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        for (let date of datesIndispo) {
+            let checkDate = new Date(date);
+            if (checkDate >= start && checkDate <= end) {
+                return true; // Une date indisponible est incluse dans la plage de dates
+            }
+        }
+        return false; // Aucune date indisponible n'est incluse dans la plage de dates
+    }
+
     const handleInputChange = (field: string, value: React.SetStateAction<any>) => {
         if (value !== null) {
             if (field === 'dateArrivee') {
                 setStartDate(value);
             } else if (field === 'dateDepart') {
                 setEndDate(value);
-                if (housing)
+                if (housing) {
                     if (getDaysDifference(startDate, value) < housing.nombresNuitsMin) {
                         setMinDayMessage(`${translation?.t('minimum_nights_label')} ${housing.nombresNuitsMin}`);
-                        return;
                     } else {
                         setMinDayMessage("");
                     }
+                    if (datesIndispo.length > 0) {
+                        if (checkDateRangeForIndispo(startDate, value)) {
+                            setContainsDateIndispoMessage(translation?.t('contains_date_indispo'));
+                        } else {
+                            setContainsDateIndispoMessage("");
+                        }
+                    }
+                }
             }
         }
     };
@@ -218,7 +239,10 @@ const DetailsResult = () => {
                                         months={translation?.t('months', {returnObjects: true})}
                                         handleInputChange={handleInputChange}
                                     />
-                                    <p className={"text-red-600"}>{minDayMessage}</p>
+                                    <div className={"flex-col"}>
+                                        <p className={"text-red-600"}>{minDayMessage}</p>
+                                        <p className={"text-red-600"}>{containsDateIndispoMessage}</p>
+                                    </div>
                                     <div>
                                         <h5 className={"mb-2 text-sm font-medium text-gray-950 mt-10"}>{translation?.t('guest')}</h5>
                                         <select
@@ -232,8 +256,9 @@ const DetailsResult = () => {
                                         </select>
                                     </div>
                                     <button
-                                        className={`w-full py-3 rounded-lg mt-10 ${!startDate || !endDate || !guests || minDayMessage !== "" ? 'bg-gray-300 cursor-not-allowed' : 'bg-green-600 text-white'}`}
-                                        disabled={!startDate || !endDate || !guests || minDayMessage !== ""}
+                                        className={`w-full py-3 rounded-lg mt-10 ${!startDate || !endDate || !guests || minDayMessage !== ""
+                                        || containsDateIndispoMessage !== "" ? 'bg-gray-300 cursor-not-allowed' : 'bg-green-600 text-white'}`}
+                                        disabled={!startDate || !endDate || !guests || minDayMessage !== "" || containsDateIndispoMessage !== ""}
                                         onClick={() => setIsModalPayment(true)}
                                     >
                                         {translation?.t('book_now')}

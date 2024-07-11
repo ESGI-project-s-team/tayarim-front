@@ -257,7 +257,7 @@ const DepenseDashboard: React.FC = () => {
                                     className="relative border bg-white top-32 rounded-[10px] stroke-2 max-h-[30vh] overflow-auto">
                                     <div className="max-w-full">
                                         <div className="min-w-[1170px]">
-                                            <div className="grid grid-cols-12 bg-[#F9FAFB] px-5 py-4">
+                                            <div className="grid grid-cols-12 bg-[#F9FAFB] px-5 py-4 sticky top-0 z-10">
                                                 <div className="col-span-2 items-center">
                                                     <p className="font-medium">
                                                         {translation?.t('housing_titre')}
