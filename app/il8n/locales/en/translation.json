@@ -208,7 +208,7 @@
   ],
   "reservation_by_month": "Reservation by month",
   "expense_and_reservation": "Expenses and reservations by month",
-  "occupation_rate_by_month": "Occupation rate by month",
+  "occupation_rate_by_month": "Occupation rate by month for the year",
   "select_month": "Select a month",
   "clear_filter": "Clear filter",
   "send_invoice": "Send invoice",

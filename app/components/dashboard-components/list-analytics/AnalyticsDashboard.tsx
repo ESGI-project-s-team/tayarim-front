@@ -454,7 +454,7 @@ export const AnalyticsDashboard: React.FC = () => {
             type: 'radialBar',
         },
         title: {
-            text: translation?.t('occupation_rate_by_month'),
+            text: translation?.t('occupation_rate_by_month') + " " + new Date().getFullYear(),
             align: 'left',
         },
         plotOptions: {
