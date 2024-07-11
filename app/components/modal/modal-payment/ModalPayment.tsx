@@ -33,7 +33,8 @@ export const ModalPayment = ({onClose, housing, startDate, endDate, nbPersonnes}
         name: '',
         lastname: '',
         email: '',
-        phone: ''
+        phone: '',
+        lang: theLanguage
     });
 
     const isFormComplete = Object.values(formData).every((field) => field.trim() !== '');
@@ -75,6 +76,7 @@ export const ModalPayment = ({onClose, housing, startDate, endDate, nbPersonnes}
                                     numTel: formData.phone,
                                     nom: formData.lastname,
                                     prenom: formData.name,
+                                    lang: formData.lang,
                                     nbPersonnes: nbPersonnes,
                                     montant: amount,
                                     dateArrivee: startDate,
