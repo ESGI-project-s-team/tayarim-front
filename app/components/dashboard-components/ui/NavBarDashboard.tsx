@@ -61,6 +61,7 @@ const NavBarDashboard: React.FC = () => {
             prenom: localStorage.getItem("prenom"),
             email: localStorage.getItem("email"),
             numTel: localStorage.getItem("numTel"),
+            lang: localStorage.getItem("lang")
         };
         setData(user);
     }, []);

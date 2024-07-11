@@ -156,7 +156,8 @@ const ListOwners: React.FC = () => {
                                                     logements: owner.logements,
                                                     commission: owner.commission,
                                                     adresse: owner.adresse,
-                                                    isValidated: owner.isValidated
+                                                    isValidated: owner.isValidated,
+                                                    lang: owner.lang
                                                 })
                                             }
                                         >
@@ -183,7 +184,8 @@ const ListOwners: React.FC = () => {
                                                         logements: owner.logements,
                                                         commission: owner.commission,
                                                         adresse: owner.adresse,
-                                                        isValidated: owner.isValidated
+                                                        isValidated: owner.isValidated,
+                                                        lang: owner.lang
                                                     }
                                                 )
                                             }
