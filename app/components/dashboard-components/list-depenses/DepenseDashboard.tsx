@@ -206,7 +206,7 @@ const DepenseDashboard: React.FC = () => {
                         </h2>
                     </div>
                     <div className="mb-4 relative top-32">
-                        <select onChange={handleYearChange} value={selectedYear ?? ''}
+                        <select onChange={handleYearChange} value={selectedYear ?? new Date().getFullYear()}
                                 className="p-2 bg-white border border-gray-300 rounded min-w-32">
                             {availableYears.map(year => (
                                 <option key={year} value={year}>{year}</option>

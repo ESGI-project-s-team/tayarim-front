@@ -161,11 +161,14 @@ export const InvoiceDashboard: React.FC = () => {
                                         className="border-1 border-solid border-gray-300 rounded-md cursor-pointer"
                                         placeholderText={translation?.t('select_month')}
                                     />
-                                    <button
-                                        onClick={clearFilter}
-                                        className="flex items-center gap-2 rounded bg-gray-300 px-4 py-2 font-medium text-sm text-black hover:bg-opacity-80 text-nowrap">
-                                        {translation?.t('clear_filter')}
-                                    </button>
+                                    {
+                                        selectedDate &&
+                                        <button
+                                            onClick={clearFilter}
+                                            className="flex items-center gap-2 rounded bg-gray-300 px-4 py-2 font-medium text-sm text-black hover:bg-opacity-80 text-nowrap">
+                                            {translation?.t('clear_filter')}
+                                        </button>
+                                    }
                                 </div>
                                 {
                                     isAdmin &&
