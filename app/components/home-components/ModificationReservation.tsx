@@ -5,7 +5,6 @@ import FormModificationReservation from "@/app/components/ui/modification-reserv
 const OwnerConnection: React.FC = () => {
     return (
         <div className="overflow-hidden">
-            <BackgroundImageDark/>
             <FormModificationReservation/>
         </div>
     );

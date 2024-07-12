@@ -152,6 +152,9 @@
   "previous": "Précédent",
   "next": "Suivant",
   "step": "Étape",
+  "claim": "Réclamation",
+  "create_at": "Réservation faite le",
+  "placeholder_claim": "Ecrivez votre réclamation...",
   "of": "à",
   "housing_titre": "Titre",
   "housing_type": "Type de logement",
@@ -240,6 +243,7 @@
     "Facturations",
     "Dépenses"
   ],
+  "personne": "voyageur",
   "email_placeholder_form": "Entrez adresse email",
   "first_name_placeholder_form": "Entrez prénom",
   "housing_type_placeholder": "Sélectionnez le type de logement",
