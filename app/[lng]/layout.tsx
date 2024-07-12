@@ -54,7 +54,6 @@ export default function RootLayout({children, params: {lng}}: { children: React.
                 }
             }
 
-            // Ajout de la logique pour popupNotify
             if (popupNotify != null) {
                 if (popupNotify) {
                     pile.push('popup');

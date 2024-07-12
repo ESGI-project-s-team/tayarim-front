@@ -18,7 +18,6 @@ export default function SearchRoomReservation({
     const {translation} = useTranslationContext();
     const [location, setLocation] = useState(localStorage.getItem('location') || '');
     const [guest, setGuest] = useState(localStorage.getItem('guest') || '');
-    const [housing, setHousing] = useState([]);
     const [villes, setVilles] = useState([]);
     const [guestMax, setGuestMax] = useState<any>([]);
     const [checkin, setCheckin] = useState<Date | null>(

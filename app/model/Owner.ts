@@ -9,4 +9,5 @@ export interface ProprietaireDTO {
     logements: any[];
     adresse: string;
     isValidated: boolean;
+    lang: string;
 }

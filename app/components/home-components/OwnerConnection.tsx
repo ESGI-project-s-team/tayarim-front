@@ -22,7 +22,7 @@ const OwnerConnection: React.FC = () => {
         <div className="overflow-hidden ">
             <div
                 className=" absolute w-full h-screen  bg-image flex lg:justify-around justify-center items-center ">
-                <div className={"z-30"}>
+                <div className={"z-10"}>
                     <FormConnection/>
                 </div>
                 <div className={"bg-white min-w-0.5 min-h-[70vh] hidden lg:block top-36 absolute z-30"}>

@@ -52,12 +52,14 @@ const FormConnection: React.FC = () => {
                         prenom: response.prenom,
                         email: response.email,
                         numTel: response.numTel,
+                        lang: response.lang
                     };
                     localStorage.setItem("id", user.id);
                     localStorage.setItem("nom", user.nom);
                     localStorage.setItem("prenom", user.prenom);
                     localStorage.setItem("email", user.email);
                     localStorage.setItem("numTel", user.numTel);
+                    localStorage.setItem("lang", user.lang);
 
                     if (response.isPasswordUpdated === true) {
                         router.push("/dashboard");

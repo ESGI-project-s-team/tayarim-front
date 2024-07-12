@@ -8,6 +8,8 @@ const createReservationsUrl = `${BACKEND_API}/reservations`
 const updateReservationsUrl = `${BACKEND_API}/reservations`
 const deleteReservationsUrl = `${BACKEND_API}/reservations/cancel`
 const updatePaymentIntentReservationsUrl = `${BACKEND_API}/reservations/paymentIntent`
+const findReservationsUrl = `${BACKEND_API}/reservations/find`
+const claimReservationsUrl = `${BACKEND_API}/reservations/message`
 
 
 export async function getAllReservations(): Promise<any> {
@@ -147,6 +149,51 @@ export async function updatePaymentIntentReservation(credential: any): Promise<a
             return {errors: ["error_occurred"]};
         }
         return data;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
+
+export async function findReservation(credential: any): Promise<any> {
+    try {
+        const response = await fetch(findReservationsUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(credential),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: ["error_occurred"]};
+        }
+        return data;
+    } catch (error: any) {
+        return {errors: ["error_occurred"]};
+    }
+}
+
+export async function claimReservation(credential: any): Promise<any> {
+    let url = `${claimReservationsUrl}/${credential.id.toString()}`;
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(credential),
+        });
+        if (!response.ok) {
+            const data = await response.json();
+            if (data.errors) {
+                return {errors: data.errors};
+            }
+            return {errors: ["error_occurred"]};
+        }
+        return true;
     } catch (error: any) {
         return {errors: ["error_occurred"]};
     }
