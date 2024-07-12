@@ -13,6 +13,7 @@ import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import DateFormatterEnFr from "@/app/components/dashboard-components/ui/DateFormaterEnFr";
 import {HiOutlineCalendar, HiOutlineClock, HiOutlineUserGroup} from "react-icons/hi";
 import {claimReservationFun} from "@/app/components/modal/modal-add-claim/actions";
+import {FaCalendarCheck, FaDollarSign, FaUmbrellaBeach, FaCheckCircle} from 'react-icons/fa';
 
 export default function ModalAddClaim({isOpen, onClose, dataReservation}: {
     isOpen: boolean;
@@ -24,6 +25,25 @@ export default function ModalAddClaim({isOpen, onClose, dataReservation}: {
     const [isLoading, setLoading] = useState(false)
     const {translation} = useTranslationContext();
     const {theLanguage} = useNavbarContext();
+
+    const statusSteps = ['reserved', 'payed', 'in_progress', 'done'];
+    const getStatusIndex = (status: any) => statusSteps.indexOf(status);
+    const currentStatusIndex = getStatusIndex(dataReservation.statut);
+
+    const getIconForStep = (step: string) => {
+        switch (step) {
+            case 'reserved':
+                return <FaDollarSign/>;
+            case 'payed':
+                return <FaCalendarCheck/>;
+            case 'in_progress':
+                return <FaUmbrellaBeach/>;
+            case 'done':
+                return <FaCheckCircle/>;
+            default:
+                return null;
+        }
+    };
 
     async function handleSubmitClaim(event: FormEvent<HTMLFormElement>) {
         setLoading(true)
@@ -77,7 +97,7 @@ export default function ModalAddClaim({isOpen, onClose, dataReservation}: {
                                     <div className="flex flex-col gap-9">
                                         <div className="rounded-sm border stroke-1 bg-white shadow">
                                             <div className=" border-[#dee4ee] pt-2 flex justify-end px-7">
-                                                <button onClick={onClose} className="text-[#3c50e0] font-medium">
+                                                <button onClick={onClose} className="text-[#3c50e0] font-medium mt-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"
                                                          className="w-6 h-6 text-[#3c50e0]">
@@ -98,6 +118,46 @@ export default function ModalAddClaim({isOpen, onClose, dataReservation}: {
                                                                     theLanguage={theLanguage}/>
                                                             </p>
                                                         </div>
+                                                        {dataReservation.statut === 'cancelled' ? (
+                                                                <div className="flex justify-center mt-4">
+                                                                    <div className="flex items-center">
+                                                                        <div
+                                                                            className="flex items-center justify-center w-8 h-8 rounded-full bg-red-500">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                 fill="none" viewBox="0 0 24 24"
+                                                                                 strokeWidth="2" stroke="currentColor"
+                                                                                 className="w-5 h-5 text-white">
+                                                                                <path strokeLinecap="round"
+                                                                                      strokeLinejoin="round"
+                                                                                      d="M6 18L18 6M6 6l12 12"/>
+                                                                            </svg>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ) :
+                                                            <div className="flex justify-center mt-4">
+                                                                {statusSteps.map((step, index) => (
+                                                                    <div key={step} className="flex items-center">
+                                                                        <div
+                                                                            className={`flex items-center justify-center w-8 h-8 rounded-full p-4 ${index <= currentStatusIndex ? 'bg-green-500' : 'bg-gray-300'}`}>
+                                                                            {index <= currentStatusIndex ? (
+                                                                                <span className="text-sm text-gray-700">
+                                                                                {getIconForStep(step)}
+                                                                                     </span>
+                                                                            ) : (
+                                                                                <span className="text-white text-xs">
+                                                                                {getIconForStep(step)}
+                                                                                            </span>
+                                                                            )}
+                                                                        </div>
+                                                                        {index < statusSteps.length - 1 && (
+                                                                            <div
+                                                                                className={`h-1 w-8 ${index < currentStatusIndex ? 'bg-green-500' : 'bg-gray-300'}`}/>
+                                                                        )}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        }
                                                     </div>
                                                     <hr/>
                                                     <div className={"flex text-sm"}>
