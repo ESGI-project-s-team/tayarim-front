@@ -170,6 +170,7 @@
   "owner_name": "Owner Name",
   "phone": "Phone",
   "house": "Houses",
+  "owner_house": "House",
   "edit": "Edit",
   "delete": "Delete",
   "form_edit_reservation": "Edit reservation",
