@@ -31,6 +31,7 @@ interface FormValues {
     dateArrivee: string;
     dateDepart: string;
     idLogement: number | null;
+    lang: string;
 }
 
 interface HouseType {
@@ -46,7 +47,8 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
     const focusElementRef = useRef<HTMLButtonElement | null>(null);
     const [formValues, setFormValues] = useState<FormValues>({
         prenom: '', nom: '', email: '', numTel: '',
-        nbPersonnes: null, montant: null, dateArrivee: '', dateDepart: '', idLogement: null
+        nbPersonnes: null, montant: null, dateArrivee: '', dateDepart: '', idLogement: null,
+        lang: 'en'
     });
     const [step, setStep] = useState(1);
     const {setError} = useIsErrorContext();
@@ -93,9 +95,9 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
         const phoneRegex = /^[+]?[(]?\d{3}[)]?[-\s.]?\d{3}[-\s.]?\d{4,6}$/;
 
         if (step === 1) {
-            const allFieldsFilled = [formValues.prenom, formValues.nom, formValues.email, formValues.numTel].every(value => value.trim() !== '');
-            const emailValid = emailRegex.test(formValues.email);
-            const phoneValid = phoneRegex.test(formValues.numTel);
+            const allFieldsFilled = [formValues.prenom, formValues.nom].every(value => value.trim() !== '');
+            const emailValid = formValues.email.trim() === '' || emailRegex.test(formValues.email);
+            const phoneValid = formValues.numTel.trim() === '' || phoneRegex.test(formValues.numTel);
             setButtonDisabled(!(allFieldsFilled && emailValid && phoneValid));
         } else {
             const allFieldsFilled = [formValues.nbPersonnes, formValues.montant, formValues.dateArrivee, formValues.dateDepart, formValues.idLogement].every(value => value !== '' && value !== 0 &&
@@ -221,7 +223,7 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
                                                 {step === 1 ? (
                                                     <>
                                                         <div className="mb-5 flex  gap-6 flex-row">
-                                                            <div className="w-full xl:w-1/2">
+                                                            <div className="w-1/2">
                                                                 <label
                                                                     className="mb-3 block text-sm font-medium text-black text-nowrap">
                                                                     {translation?.t('form_firstname_client')}
@@ -235,7 +237,7 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
                                                                 />
                                                             </div>
 
-                                                            <div className="w-full xl:w-1/2">
+                                                            <div className="w-1/2">
                                                                 <label
                                                                     className="mb-3 block text-sm font-medium text-black text-nowrap">
                                                                     {translation?.t('form_lastname_client')}</label>
@@ -248,7 +250,19 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
                                                                 />
                                                             </div>
                                                         </div>
-
+                                                        <div className="mb-5">
+                                                            <label
+                                                                className="mb-3 block text-sm font-medium text-black">{translation?.t('langue_owner')}</label>
+                                                            <select
+                                                                className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                                                defaultValue={'en'}
+                                                                onChange={(e) => handleInputChange('lang', e.target.value)}
+                                                            >
+                                                                <option value="fr">{translation?.t('french')}</option>
+                                                                <option
+                                                                    value="en">{translation?.t('english')}</option>
+                                                            </select>
+                                                        </div>
                                                         <div className="mb-5">
                                                             <label
                                                                 className="mb-3 block text-sm font-medium text-black">{translation?.t('form_email_client')}</label>

@@ -93,6 +93,7 @@ export default function ModalInfoUser({isOpen, onClose, setData, data}: {
                         localStorage.setItem("prenom", response.prenom)
                         localStorage.setItem("email", response.email)
                         localStorage.setItem("numTel", response.numTel)
+                        localStorage.setItem("lang", response.lang)
                         setData(response)
                         onClose();
                     }
@@ -110,6 +111,7 @@ export default function ModalInfoUser({isOpen, onClose, setData, data}: {
                         localStorage.setItem("prenom", response.prenom)
                         localStorage.setItem("email", response.email)
                         localStorage.setItem("numTel", response.numTel)
+                        localStorage.setItem("lang", response.lang)
                         setData(response)
                         onClose();
                     }
@@ -171,8 +173,8 @@ export default function ModalInfoUser({isOpen, onClose, setData, data}: {
                                             </div>
 
                                             <div className="p-7">
-                                                <div className="mb-5 flex flex-col gap-6 xl:flex-row">
-                                                    <div className="w-full xl:w-1/2">
+                                                <div className="mb-5 flex  gap-6 flex-row">
+                                                    <div className="w-1/2">
                                                         <label
                                                             className="mb-3 block text-sm font-medium text-black">
                                                             {translation?.t('form_firstname')}
@@ -186,7 +188,7 @@ export default function ModalInfoUser({isOpen, onClose, setData, data}: {
                                                         />
                                                     </div>
 
-                                                    <div className="w-full xl:w-1/2 ">
+                                                    <div className="w-1/2 ">
                                                         <label
                                                             className="mb-3 block text-sm font-medium text-black">
                                                             {translation?.t('form_lastname')}</label>
@@ -199,7 +201,19 @@ export default function ModalInfoUser({isOpen, onClose, setData, data}: {
                                                         />
                                                     </div>
                                                 </div>
-
+                                                <div className="mb-5">
+                                                    <label
+                                                        className="mb-3 block text-sm font-medium text-black">{translation?.t('langue_owner')}</label>
+                                                    <select
+                                                        className="text-sm w-full rounded border-[1.5px] border-[#dee4ee] bg-transparent px-5 py-3 text-black outline-none transition"
+                                                        defaultValue={formValues.lang}
+                                                        onChange={(e) => handleInputChange('lang', e.target.value)}
+                                                    >
+                                                        <option value="fr">{translation?.t('french')}</option>
+                                                        <option
+                                                            value="en">{translation?.t('english')}</option>
+                                                    </select>
+                                                </div>
                                                 <div className="mb-5">
                                                     <label
                                                         className="mb-3 block text-sm font-medium text-black">Email</label>
