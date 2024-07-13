@@ -137,8 +137,29 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
     }, [formValues.dateArrivee, formValues.dateDepart, datesIndispo, setError, translation]);
     const handleActionCreateReservation = async () => {
         setLoading(true);
+        let credentialsTmp = {
+            prenom: formValues.prenom,
+            nom: formValues.nom,
+            nbPersonnes: formValues.nbPersonnes,
+            montant: formValues.montant,
+            dateArrivee: formValues.dateArrivee,
+            dateDepart: formValues.dateDepart,
+            idLogement: formValues.idLogement,
+            lang: formValues.lang
+        };
+        let credentials;
+        if (formValues.numTel.trim() !== '' && formValues.email.trim() !== '') {
+            credentials = {
+                ...credentialsTmp,
+                numTel: formValues.numTel,
+                email: formValues.email
+            };
+        } else {
+            credentials = credentialsTmp;
+        }
+        
         try {
-            createReservationInFun(formValues).then((response) => {
+            createReservationInFun(credentials).then((response) => {
                 if (response.errors) {
                     setError(response.errors);
                 } else {
