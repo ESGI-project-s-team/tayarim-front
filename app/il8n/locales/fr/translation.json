@@ -185,6 +185,8 @@
   "error": "Erreur !",
   "admin": "Administrateur",
   "error_occurred": "Une erreur est survenue",
+  "error_not_same_password": "Les mots de passe ne sont pas identiques",
+  "email_placeholder_reset": "Veuillez entrer votre e-mail",
   "cancelled": "Annulée",
   "cancel": "Annuler",
   "delete_owner": "Supprimer le propriétaire",
@@ -393,7 +395,6 @@
     "Samedi",
     "Dimanche"
   ],
-
   "error_owner_invalid_name": "Le nom est invalide (ex: 'Doe')",
   "error_owner_invalid_firstName": "Le prenom est invalide (ex: 'Jhon')",
   "error_owner_invalid_mail": "L'adresse e-mail est invalide (ex: 'test@gmail.com')",

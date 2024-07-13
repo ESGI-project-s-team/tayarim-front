@@ -1,13 +1,12 @@
 import React from "react";
 import BackgroundImageDark from "@/app/components/ui/BackgroundImageDark";
-import FormModificationReservation from "@/app/components/ui/modification-reservation/FormModificationReservation";
-import FormResetPassword from "@/app/components/ui/reset-password/FormResetPassword";
+import FormSendEmailResetPassword from "@/app/components/ui/reset-password/FormSendEmailResetPassword";
 
 const OwnerConnection: React.FC = () => {
     return (
         <div className="overflow-hidden">
             <BackgroundImageDark/>
-            <FormResetPassword/>
+            <FormSendEmailResetPassword/>
         </div>
     );
 }
