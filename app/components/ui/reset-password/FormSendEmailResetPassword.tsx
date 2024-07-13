@@ -1,26 +1,38 @@
-import React, {FormEvent, useEffect, useState} from "react";
+import React, {FormEvent, useState} from "react";
 import {
-    useIsErrorContext,
+    useIsErrorContext, useSuccessContext,
     useTranslationContext,
 } from "@/app/[lng]/hooks";
-import {useRouter} from 'next/navigation'
 import SpinnerUI from "@/app/components/ui/SpinnerUI";
+import {sendEmailPasswordResetFun} from "@/app/components/ui/reset-password/actions";
+import {useRouter} from 'next/navigation'
+import ModalEmailSend from "@/app/components/modal/modal-email-send/ModalEmailSend";
 
-const FormResetPassword: React.FC = () => {
+const FormSendEmailResetPassword: React.FC = () => {
     const {translation} = useTranslationContext();
     const [isLoading, setLoading] = useState(false)
     const {setError} = useIsErrorContext();
-    const router = useRouter()
+    const router = useRouter();
+    const [isOpenModalSendEmail, setIsOpenModalSendEmail] = useState(false);
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        setLoading(true)
         event.preventDefault()
         const formData = new FormData(event.currentTarget)
         const email = formData.get('email')
-        const password = formData.get('password')
-        const credentials = {"email": email, "motDePasse": password}
+        const credentials = {"email": email}
 
-        setLoading(true)
+        const response = await sendEmailPasswordResetFun(credentials).finally(() => setLoading(false))
+        if (typeof response !== "boolean" && response.errors) {
+            setError(response.errors)
+            return
+        }
+        setIsOpenModalSendEmail(true)
+    }
 
+    function onCloseModalSendEmail() {
+        setIsOpenModalSendEmail(false)
+        router.push("/owner-connection")
     }
 
     return (
@@ -40,7 +52,7 @@ const FormResetPassword: React.FC = () => {
                         <div>
                             <label htmlFor="email"
                                    className="block text-sm font-medium leading-6 text-gray-900">
-                                {translation?.t('email_or_numTel')}
+                                {translation?.t('email_placeholder_reset')}
                             </label>
                             <div className="mt-2">
                                 <input
@@ -67,8 +79,11 @@ const FormResetPassword: React.FC = () => {
                     </form>
                 </div>
             </div>
+            {isOpenModalSendEmail &&
+                <ModalEmailSend isOpen={isOpenModalSendEmail} onClose={onCloseModalSendEmail}/>
+            }
         </div>
     );
 }
 
-export default FormResetPassword;
+export default FormSendEmailResetPassword;
