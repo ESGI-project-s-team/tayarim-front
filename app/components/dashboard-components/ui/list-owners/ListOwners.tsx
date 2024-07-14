@@ -116,8 +116,11 @@ const ListOwners: React.FC = () => {
                                                 <p className="text-sm text-black">{owner.prenom} {owner.nom}</p></div>
                                         </div>
                                         <div
+                                            title={owner.email}
                                             className="col-span-2 items-center flex max-w-36 overflow-auto no-scrollbar">
-                                            <p className="text-sm text-black ">{owner.email}</p>
+                                            <p className="text-sm text-black ">
+                                                {owner.email.length > 15 ? owner.email.substring(0, 15) + '...' : owner.email}
+                                            </p>
                                         </div>
                                         <div className="col-span-2 flex items-center"><p
                                             className="text-sm text-black">{owner.numTel}</p>

@@ -139,7 +139,6 @@ export async function sendEmailPasswordReset(credentials: any) {
             },
             body: JSON.stringify(credentials),
         });
-        console.log(response)
         if (!response.ok) {
             const data = await response.json();
             if (data.errors) {

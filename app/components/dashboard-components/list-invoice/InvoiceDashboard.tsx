@@ -192,7 +192,7 @@ export const InvoiceDashboard: React.FC = () => {
                             <SpinnerDashboard/>
                             :
                             <div
-                                className=" w-full max-w-3xl divide-y divide-gray-200 rounded-xl max-h-[60vh] overflow-y-auto ">
+                                className=" w-full divide-y divide-gray-200 rounded-xl max-h-[60vh] overflow-y-auto ">
                                 {Object.keys(groupedInvoices)?.map((date) => (
                                     <Disclosure as="div" className="p-6" key={date}>
                                         <DisclosureButton className="group flex w-full items-center "
@@ -223,8 +223,8 @@ export const InvoiceDashboard: React.FC = () => {
                                                                              }
                                                                          }>
                                                                         <p className="text-sm">
-                                                                            {(invoice.prenomProprietaire.length + invoice.nomProprietaire.length) > 10
-                                                                                ? `${invoice.prenomProprietaire.substring(0, 9)} ${invoice.nomProprietaire.substring(0, Math.max(0, 9 - invoice.prenomProprietaire.substring(0, 9).length))}...`
+                                                                            {(invoice.prenomProprietaire.length + invoice.nomProprietaire.length) > 30
+                                                                                ? `${invoice.prenomProprietaire.substring(0, 30)} ${invoice.nomProprietaire.substring(0, Math.max(0, 30 - invoice.prenomProprietaire.substring(0, 30).length))}...`
                                                                                 : `${invoice.prenomProprietaire} ${invoice.nomProprietaire}`
                                                                             }
                                                                         </p>
