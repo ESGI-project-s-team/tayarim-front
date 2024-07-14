@@ -314,6 +314,7 @@
   "evaluation": "évaluations",
   "overall-ratings": "en notes globale",
   "experience": "années d'expérience",
+  "see_all_picture": "Voir toutes les photos",
   "superhost": "Superhôte",
   "text-1": "Salut !",
   "text-2": "Chez Tayarim, nous aimons s'assurer que les invités aient la meilleure expérience possible lors de leur séjour dans mes lieux.",
@@ -399,7 +400,7 @@
   "error_owner_invalid_firstName": "Le prenom est invalide (ex: 'Jhon')",
   "error_owner_invalid_mail": "L'adresse e-mail est invalide (ex: 'test@gmail.com')",
   "error_owner_invalid_phone": "Le numéro de téléphone est invalide (ex: '+33612345678')",
-  "error_owner_invalid_password": "Le mot de passe est invalide, Un mot de passe doit contenir: Au moins 8 charactere, Au moins 1 majuscule et 1 minuscule, Au moins 1 chiffre, Au moins 1 charactere special ($,*,?,!, ...)",
+  "error_owner_invalid_password": "Le mot de passe est invalide, Un mot de passe doit contenir: Au moins 8 charactere,Au moins 1 majuscule et 1 minuscule, Au moins 1 chiffre, Au moins 1 charactere special ($,*,?,!, ...)",
   "error_owner_alreadyExist_email": "Un proprietaire possède déjà cette email",
   "error_owner_alreadyExist_numTel": "Un proprietaire possède déjà ce numéro de téléphone",
   "error_owner_notExist": "Ce proprietaire n'existe pas",
@@ -436,6 +437,7 @@
   "error_home_invalid_title": "Le titre saisie est invalide",
   "error_home_notExist": "Ce logement n'existe pas",
   "error_home_invalid_updateBody": "Donnée invalide ou manquante pour la mise à jour du logement",
+  "error_home_invalid_createBody": "Donnée invalide ou manquante pour la création du logement",
   "error_home_invalid_rules": "Les regles saisies sont invalides",
   "error_unsupported_method_path": "Méthode et/ou chemin non supporté",
   "error_home_invalid_facilities": "Les amenagements saisies sont invalides",
@@ -485,5 +487,8 @@
   "error_reservation_invalid_code": "Le code de réservation est invalide",
   "error_reservation_invalid_identifier": "L'identifiant de réservation est invalide",
   "error_reservation_invalid_message": "Le message est invalide",
-  "error_reservation_notExist": "Cette réservation n'existe pas"
+  "error_reservation_notExist": "Cette réservation n'existe pas",
+  "error_user_invalid_token": "Le token est invalide",
+  "error_user_invalid_password": "Le mot de passe est invalide",
+  "error_reservation_creation_invalid": "Donnée invalide ou manquante pour la création de la réservation"
 }

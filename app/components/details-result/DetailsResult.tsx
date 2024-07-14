@@ -167,7 +167,7 @@ const DetailsResult = () => {
                         <input
                             className="bg-white px-7 py-2 pl-8 rounded-lg font-bold text-sm cursor-pointer border border-black"
                             type="button"
-                            value="Voir toutes les photos"
+                            value={translation?.t('see_all_picture')}
                             onClick={() => handleOpenModal(null)}
                         />
                         <div className="absolute top-2.5 left-2">

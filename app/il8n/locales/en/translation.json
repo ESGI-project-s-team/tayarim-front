@@ -270,6 +270,7 @@
   "form_validate_owner": "Validate owner",
   "send_email": "Your request has been successfully processed",
   "send_email_confirmation": "You will be informed by email of the follow-up given to your request",
+  "see_all_picture": "See all pictures",
   "btn_modification_reservation": "Modify my reservation",
   "code_reservation": "Reservation code",
   "validate": "Validate",
@@ -398,6 +399,7 @@
   "error_owner_invalid_phone": "The phone number is invalid (ex: '+33612345678')",
   "error_owner_invalid_password": "The password is invalid, password require : At least 8 character At least 1 upper and 1 lower letter At least 1 digit At least 1 special charachter ($,*,?,!, ...) ",
   "error_owner_alreadyExist_email": "An owner with this email already exist",
+  "error_owner_alreadyExist_numTel": "An owner with this phone number already exist",
   "error_owner_notExist": "This owner does not exist",
   "error_hash_password_impossible": "Impossible to hash user password",
   "error_token_missing": "Token is missing in request headers",
@@ -408,7 +410,7 @@
   "error_admin_invalid_firstName": "The first name is invalid (ex: 'Jhon')",
   "error_admin_invalid_mail": "This email is invalid (ex: 'test@gmail.com')",
   "error_admin_invalid_phone": "The phone number is invalid (ex: '+33612345678')",
-  "error_admin_invalid_password": "The password is invalid, password require : At least 8 character At least 1 upper letter At least 1 digit At least 1 special charachter ($,*,?,!, ...) ",
+  "error_admin_invalid_password": "The password is invalid, password require : At least 8 character, At least 1 upper letter, At least 1 digit, At least 1 special charachter ($,*,?,!, ...) ",
   "error_admin_notExist": "This administrator doesn't exist",
   "error_user_notExist": "This user doesn't exist",
   "error_home_invalid_owner_id": "The owner id is invalid",
@@ -482,5 +484,8 @@
   "error_reservation_invalid_code": "The code entered is invalid",
   "error_reservation_invalid_identifier": "The identifier entered is invalid",
   "error_reservation_invalid_message": "The message entered is invalid",
-  "error_reservation_notExist": "This reservation does not exist"
+  "error_reservation_notExist": "This reservation does not exist",
+  "error_user_invalid_token": "The token is invalid",
+  "error_user_invalid_password": "The password is invalid",
+  "error_reservation_creation_invalid": "Invalid or missing data to create a reservation"
 }
