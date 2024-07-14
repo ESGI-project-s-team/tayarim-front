@@ -186,9 +186,9 @@ const PlanningDashboard: React.FC = () => {
 
     return (
         <div>
-            <div className="h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0 overflow-auto bg-gray-100">
-                <div className="relative top-20 w-full mb-2">
-                    <div className="container mx-auto mt-8">
+            <div className="max-h-screen lg:ml-80 lg:mr-7 mr-2 ml-14 z-0  bg-gray-100 ">
+                <div className="relative top-20 w-full mb-2 ">
+                    <div className="container mx-auto mt-8 ">
                         <div className="flex justify-around mb-4 items-center space-x-2 bg-white p-4 shadow rounded">
                             <button onClick={previousWeek} className="text-[#3c50e0] hover:underline px-2 py-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -213,7 +213,7 @@ const PlanningDashboard: React.FC = () => {
                                 </svg>
                             </button>
                         </div>
-                        <div className="overflow-x-auto">
+                        <div className="overflow-x-auto max-h-[70vh] overflow-auto">
                             {!loading ? (
                                 <div className="inline-block min-w-full">
                                     <div className="grid grid-cols-10 gap-0 bg-white shadow rounded">
