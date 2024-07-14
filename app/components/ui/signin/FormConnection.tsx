@@ -42,7 +42,9 @@ const FormConnection: React.FC = () => {
         try {
             const response = await signInFun(credentials);
             if (response !== false) {
-                if (response.errors) {
+                if (response.error) {
+                    setError(response.error);
+                } else if (response.errors) {
                     setError(response.errors);
                 } else {
                     setError(null);
