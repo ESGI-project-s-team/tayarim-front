@@ -42,8 +42,8 @@ const FormConnection: React.FC = () => {
         try {
             const response = await signInFun(credentials);
             if (response !== false) {
-                if (response.error) {
-                    setError(response.error);
+                if (response.errors) {
+                    setError(response.errors);
                 } else {
                     setError(null);
                     const user = {
@@ -63,7 +63,7 @@ const FormConnection: React.FC = () => {
 
                     if (response.isPasswordUpdated === true) {
                         router.push("/dashboard");
-                    } else {
+                    } else if (response.isPasswordUpdated === false) {
                         router.push("/dashboard/first-connection");
                     }
                 }

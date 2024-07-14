@@ -59,7 +59,10 @@ export default function SearchRoomReservation({
                 if (!response)
                     return;
                 if (!response?.errors) {
-                    let villes = response.map((item: any) => item.ville.toLowerCase());
+                    let villes = response.map((item: any) => {
+                        let ville = item.ville.toLowerCase();
+                        return ville.charAt(0).toUpperCase() + ville.slice(1);
+                    });
                     const villesFiltre = villes.filter((item: any, index: any) => villes.indexOf(item) === index);
                     const villesFiltre2 = villesFiltre.map((item: any, index: any) => {
                         return {id: index + 1, name: item}
