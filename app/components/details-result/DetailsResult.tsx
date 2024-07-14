@@ -227,7 +227,7 @@ const DetailsResult = () => {
                     </div>
                     <div className="lg:col-span-1">
                         <div className="bg-white p-10 shadow-2xl rounded-xl">
-                            <p className="text-sm font-semibold mb-2"> {housing.prixParNuit}€ {translation?.t('price')}</p>
+                            <p className="text-sm font-semibold mb-2"> {translation?.t('price')} : {housing.prixParNuit}€ </p>
                             <hr/>
                             <div>
                                 <div>

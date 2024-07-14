@@ -5,7 +5,7 @@ import SpinnerUI from "@/app/components/ui/SpinnerUI";
 import {updateStatusNotificationsInFun} from "@/app/components/dashboard-components/ui/notifications/actions";
 
 
-const DropProfileItems: React.FC<any> = ({isLoading}: {
+const DropNotificationItems: React.FC<any> = ({isLoading}: {
     isLoading: boolean;
 }) => {
     const {items, setItems} = useNotificationContext();
@@ -81,4 +81,4 @@ const DropProfileItems: React.FC<any> = ({isLoading}: {
     );
 };
 
-export default DropProfileItems;
+export default DropNotificationItems;
