@@ -10,6 +10,7 @@ interface DatePickerRangeCustomProps {
     months: { [key: string]: string };
     handleInputChange: (field: any, value: any) => void;
     datesIndispo?: string[];
+    noMin?: boolean;
 }
 
 const DatePickerRangerCustomForm: React.FC<DatePickerRangeCustomProps> = ({
@@ -18,7 +19,8 @@ const DatePickerRangerCustomForm: React.FC<DatePickerRangeCustomProps> = ({
                                                                               days,
                                                                               months,
                                                                               handleInputChange,
-                                                                              datesIndispo
+                                                                              datesIndispo,
+                                                                              noMin
                                                                           }: DatePickerRangeCustomProps) => {
     const {theLanguage} = useNavbarContext();
 
@@ -86,7 +88,7 @@ const DatePickerRangerCustomForm: React.FC<DatePickerRangeCustomProps> = ({
                 startDate={startDateCurrent}
                 endDate={endDateCurrent}
                 onChange={handleDateChange}
-                minDate={new Date(new Date().getTime() + 3 * 24 * 60 * 60 * 1000)}
+                minDate={noMin ? null : new Date()}
                 placeholderText={placeholder}
                 locale={locale}
                 dateFormat="dd MMM yyyy"

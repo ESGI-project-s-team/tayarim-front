@@ -59,7 +59,6 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
     const [housing, setHousing] = useState([]);
     const [query, setQuery] = useState('');
     const [selectedHousing, setSelectedHousing] = useState<HouseType | null>(null);
-    const [datesIndispo, setDatesIndispo] = useState<any>([]);
 
     useEffect(() => {
         if (focusElementRef.current) {
@@ -111,30 +110,7 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
         setFormValues(prev => ({...prev, [field]: value}));
     };
 
-    useEffect(() => {
-        const id = formValues.idLogement;
-        if (id === null) return;
-        getDatesIndispoByIdHousingInFun(parseInt(id.toString()))
-            .then((res) => {
-                if (!res.errors) {
-                    setDatesIndispo(res);
-                }
-            });
-    }, [formValues.idLogement]);
 
-    useEffect(() => {
-        if (formValues.dateArrivee !== '' && formValues.dateDepart !== '') {
-            const dateArrivee = new Date(formValues.dateArrivee);
-            const dateDepart = new Date(formValues.dateDepart);
-            const dateArriveeStr = dateArrivee.toISOString().split('T')[0];
-            const dateDepartStr = dateDepart.toISOString().split('T')[0];
-            if (datesIndispo.includes(dateArriveeStr) || datesIndispo.includes(dateDepartStr)) {
-                setError([translation?.t('error_reservation_date_conflict')]);
-            } else {
-                setError(null); // Clear error if no conflict
-            }
-        }
-    }, [formValues.dateArrivee, formValues.dateDepart, datesIndispo, setError, translation]);
     const handleActionCreateReservation = async () => {
         setLoading(true);
         let credentialsTmp = {
@@ -157,7 +133,7 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
         } else {
             credentials = credentialsTmp;
         }
-        
+
         try {
             createReservationInFun(credentials).then((response) => {
                 if (response.errors) {
@@ -383,7 +359,7 @@ export default function ModalAddReservation({isOpen, onClose, getAllReservations
                                                                 days={translation?.t('days', {returnObjects: true})}
                                                                 months={translation?.t('months', {returnObjects: true})}
                                                                 handleInputChange={handleInputChange}
-                                                                datesIndispo={datesIndispo}
+                                                                noMin={true}
                                                             />
                                                         </div>
                                                         <div className="mb-5">
