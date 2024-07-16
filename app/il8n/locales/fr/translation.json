@@ -281,6 +281,7 @@
   "form_validate_owner": "Valider le propriétaire",
   "btn_owner_log_out": "Se déconnecter",
   "btn_location": "Choisissez votre emplacement",
+  "statut_reservation": "Statut de la réservation",
   "btn_date": "Date d'arrivée et de départ",
   "btn_guest": "Combien de personnes ?",
   "location": "Emplacement",
