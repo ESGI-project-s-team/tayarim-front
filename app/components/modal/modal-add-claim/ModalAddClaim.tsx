@@ -107,9 +107,11 @@ export default function ModalAddClaim({isOpen, onClose, dataReservation}: {
                                                 </button>
                                             </div>
                                             <div className={"p-7"}>
-                                                <div className="space-y-4 ">
-                                                    <div className="text-center">
-                                                        <p className="text-xl font-bold">{dataReservation.prenom} {dataReservation.nom}</p>
+                                                <div className="  space-y-6">
+                                                    <div className="text-center flex-col space-y-6 ">
+                                                        <div>
+                                                            <p className="text-xl font-bold">{dataReservation.prenom} {dataReservation.nom}</p>
+                                                        </div>
                                                         <div className="flex justify-center">
                                                             <p className="text-sm text-gray-500 mt-1">{translation?.t('create_at')}</p>
                                                             <p className="text-sm text-gray-500 mt-1 ml-1">
@@ -118,46 +120,58 @@ export default function ModalAddClaim({isOpen, onClose, dataReservation}: {
                                                                     theLanguage={theLanguage}/>
                                                             </p>
                                                         </div>
-                                                        {dataReservation.statut === 'cancelled' ? (
-                                                                <div className="flex justify-center mt-4">
-                                                                    <div className="flex items-center">
-                                                                        <div
-                                                                            className="flex items-center justify-center w-8 h-8 rounded-full bg-red-500">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                 fill="none" viewBox="0 0 24 24"
-                                                                                 strokeWidth="2" stroke="currentColor"
-                                                                                 className="w-5 h-5 text-white">
-                                                                                <path strokeLinecap="round"
-                                                                                      strokeLinejoin="round"
-                                                                                      d="M6 18L18 6M6 6l12 12"/>
-                                                                            </svg>
+                                                        <div className={"flex-col justify-center"}>
+                                                            <div>
+                                                                <p className={"text-sm text-black mt-1 ml-1 "}>{translation?.t('statut_reservation')}</p>
+                                                            </div>
+                                                            <div>
+                                                                {dataReservation.statut === 'cancelled' ? (
+                                                                        <div className="flex justify-center mt-4 ">
+                                                                            <div className="flex items-center">
+                                                                                <div
+                                                                                    className="flex items-center justify-center w-8 h-8 rounded-full bg-red-500">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                         fill="none" viewBox="0 0 24 24"
+                                                                                         strokeWidth="2"
+                                                                                         stroke="currentColor"
+                                                                                         className="w-5 h-5 text-white">
+                                                                                        <path strokeLinecap="round"
+                                                                                              strokeLinejoin="round"
+                                                                                              d="M6 18L18 6M6 6l12 12"/>
+                                                                                    </svg>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                            ) :
-                                                            <div className="flex justify-center mt-4">
-                                                                {statusSteps.map((step, index) => (
-                                                                    <div key={step} className="flex items-center">
-                                                                        <div
-                                                                            className={`flex items-center justify-center w-8 h-8 rounded-full p-4 ${index <= currentStatusIndex ? 'bg-green-500' : 'bg-gray-300'}`}>
-                                                                            {index <= currentStatusIndex ? (
-                                                                                <span className="text-sm text-gray-700">
+                                                                    ) :
+                                                                    <div className="flex justify-center mt-4">
+                                                                        {statusSteps.map((step, index) => (
+                                                                            <div key={step}
+                                                                                 className="flex items-center">
+                                                                                <div
+                                                                                    className={`flex items-center justify-center w-8 h-8 rounded-full p-4 ${index <= currentStatusIndex ? 'bg-green-500' : 'bg-gray-300'}`}>
+                                                                                    {index <= currentStatusIndex ? (
+                                                                                        <span
+                                                                                            className="text-sm text-gray-700">
                                                                                 {getIconForStep(step)}
                                                                                      </span>
-                                                                            ) : (
-                                                                                <span className="text-white text-xs">
+                                                                                    ) : (
+                                                                                        <span
+                                                                                            className="text-white text-xs">
                                                                                 {getIconForStep(step)}
                                                                                             </span>
-                                                                            )}
-                                                                        </div>
-                                                                        {index < statusSteps.length - 1 && (
-                                                                            <div
-                                                                                className={`h-1 w-8 ${index < currentStatusIndex ? 'bg-green-500' : 'bg-gray-300'}`}/>
-                                                                        )}
+                                                                                    )}
+                                                                                </div>
+                                                                                {index < statusSteps.length - 1 && (
+                                                                                    <div
+                                                                                        className={`h-1 w-8 ${index < currentStatusIndex ? 'bg-green-500' : 'bg-gray-300'}`}/>
+                                                                                )}
+                                                                            </div>
+                                                                        ))}
                                                                     </div>
-                                                                ))}
+                                                                }
                                                             </div>
-                                                        }
+                                                        </div>
+
                                                     </div>
                                                     <hr/>
                                                     <div className={"flex text-sm"}>
